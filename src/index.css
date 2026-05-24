@@ -1,0 +1,370 @@
+:root {
+  --black: #212121;
+
+  --accent-green: #AED581; /* AED581 */
+  --accent-orange: #FFCCBC;
+
+  --bg: #E8F5E9; /* F1F8E9 E8F5E9 */
+  --primary-color: #81C784;
+  --secondary-color: #BBDEFB;
+  /* --accent-color: ; */
+  
+  --border-color: #989898;
+  --typewriter-color: #0A58CA;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  background: var(--bg);
+}
+
+html {
+  font-size: 30px;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: var(--black);
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+}
+
+.df {
+  display: flex;
+  align-items: center;
+}
+
+.jcsb {
+  justify-content: space-between;
+}
+
+.aic {
+  align-items: center;
+}
+
+header, footer {
+  background: var(--primary-color);
+  padding: 0.5em 0;
+}
+
+header h1, footer h2 {
+  font-size: 2em;
+  margin: 0;
+}
+
+.header__user-profile {
+  gap: 0.5em;
+  font-size: 1.5em;
+}
+
+.sign-up-or-login {
+  font-size: 1.2em;
+  display: flex;
+  gap: 0.5em;
+}
+
+input {
+  margin: 0.2em 0 0.5em;
+  font-size: 1em;
+}
+
+input::placeholder {
+    font-size: inherit;
+}
+
+
+
+/* GENERAL */
+  .content-block {
+    background: var(--secondary-color);
+    border-radius: 0.35em;
+    padding: 1.5em 1em;
+  }
+
+  .toggle-container {
+    position: relative;
+  }
+
+  .togglePassword {
+    position: absolute;
+    top: 50%;
+    right: 1em;
+    translate: 0 -50%;
+    width: 1.25em;
+    text-align: center;
+  }
+/* GENERAL */
+
+
+.register-block {
+  display: block;
+  width: 600px;
+  margin: 0 auto;
+
+  form {
+    width: 500px;
+    margin: 0 auto;
+  }
+}
+
+
+
+
+
+.word-set-card-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.word-set-card {
+  background: #E8EAF6 !important;
+}
+
+.word-set-card__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 2em;
+  margin-bottom: 1em;
+}
+
+.word-set-card__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1em;
+}
+
+.my-progress-bar {
+  width: 100%;
+  height: 2.2em;
+  background-color: var(--bg);
+  border: 1px solid var(--border-color);
+  border-radius: 100em;
+  overflow: hidden;
+  position: relative;
+}
+
+.my-progress-bar__filled {
+  max-width: 100%;
+  height: 100%;
+  background-color: var(--accent-green);
+  transition: width 0.3s ease-in-out;
+  position: relative;
+}
+
+.my-progress-bar__percent {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+  color: var(--black);
+}
+
+.word-set-page .my-progress-bar {
+  margin-bottom: 1em;
+}
+
+.mark-for-studing.big {
+  width: 2.2em;
+  height: 2.2em;
+}
+
+.mui-btn {
+  width: 1.3em !important;
+  height: 1.3em !important;
+}
+
+.table-limit {
+  max-height: 80vh;
+  overflow: auto;
+}
+
+.word-set-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  tbody {
+    border: 4px solid var(--border-color);
+  }
+  
+  td {
+    border: 1px solid var(--border-color);
+    padding: 1em 0.75em;
+    text-align: left;
+  }
+  
+  td.max-width-fit-content {
+    width: 0px;
+    white-space: nowrap;
+  }
+}
+
+.mark-for-studing {
+  cursor: pointer;
+  width: 1.25em;
+  height: 1em;
+}
+
+.exercise-card {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 100%;
+  background: var(--accent-orange);
+  padding: 1em;
+  gap: 0.5em;
+}
+
+.exercise-card h4 {
+  margin-bottom: 0;
+}
+
+.exercise-logo {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.word-set-page-header {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  margin-bottom: 1em;
+}
+
+.word-set-page-header form {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1em;
+  width: 100%;
+
+  .css-1fw0kwd-MuiFormControl-root-MuiTextField-root {
+    margin-bottom: 0;
+  }
+}
+
+.word-set-page-header__right {
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+}
+
+.word-set-page-header__right .mark-for-studing.big {
+  margin-right: 12px;
+}
+
+.word-set-title {
+  margin: 0;
+}
+
+.word-set-title pre {
+  font: inherit;
+  margin: 0;
+}
+
+.word-set-name-input {
+  margin-right: 0.5em !important;
+}
+
+
+
+
+/* FOOTER */
+  footer .container {
+    justify-content: space-between;
+  }
+
+  .footer__right {
+    gap: 1em;
+  }
+
+  .footer__about, .footer__terms-of-service {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+  }
+
+  .footer__icon {
+    width: 1.8em;
+    height: 1.8em;
+  }
+/* FOOTER */
+
+
+/* UTILS */
+
+
+
+
+
+
+
+
+
+/* Cursor animation */
+.typewriter-animation {
+  color: var(--black);
+  position: relative;
+  white-space: nowrap;
+  overflow: hidden;
+  font-family: consolas, monaco, monospace;
+  animation: typewriter 1.5s steps(12) 0.2s 1 normal both;
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: block;
+    width: 2px;
+    height: 100%;
+    background-color: currentColor;
+    animation: blinkingCursor 0.53s infinite 1.8s alternate both linear;
+  }
+
+  &:hover:after {
+    background-color: var(--typewriter-color);
+  }
+}
+
+@keyframes typewriter {
+  from { width: 0; }
+  to { width: calc(33.28px * 12) } /* 33.28px - width of one character, 12 - length of the website name */
+}
+
+@keyframes blinkingCursor{
+  0%, 49% {
+    display: block;
+  }
+  50%, 100% {
+    display: none;
+  }
+}

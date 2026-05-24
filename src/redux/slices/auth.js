@@ -1,0 +1,87 @@
+import { createSlice, createAsyncThunk, isAnyOf } from '@reduxjs/toolkit';
+import axios from '../../axios';
+
+export const fetchLogin = createAsyncThunk('auth/fetchLogin', async (params, { rejectWithValue }) => {
+  try {
+    const { data } = await axios.post('/auth/login', params);
+    return data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      return rejectWithValue(error.response.data);
+    }
+    return rejectWithValue({ message: 'Сервер недоступний або сталася помилка мережі' });
+  }
+});
+
+export const fetchAuthMe = createAsyncThunk('auth/fetchAuthMe', async (params, { rejectWithValue }) => {
+  try {
+    const { data } = await axios.get('/userinfo');
+    return data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      return rejectWithValue(error.response.data);
+    }
+    return rejectWithValue({ message: 'Сервер недоступний або сталася помилка мережі' });
+  }
+});
+
+export const fetchRegister = createAsyncThunk('auth/fetchRegister', async (params, { rejectWithValue }) => {
+  try {
+    const { data } = await axios.post('/auth/register', params);
+    return data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      return rejectWithValue(error.response.data);
+    }
+    return rejectWithValue({ message: 'Сервер недоступний або сталася помилка мережі' });
+  }
+});
+
+const initialState = {
+  data: null,
+  status: 'error',
+};
+
+const authSlice = createSlice({
+  name: 'auth',
+  initialState,
+  reducers: {
+    logout: (state) => {
+      state.data = null;
+      state.status = 'error';
+    }
+  },
+  extraReducers: (builder) => {
+    builder
+      .addMatcher(
+        isAnyOf(fetchLogin.fulfilled, fetchAuthMe.fulfilled, fetchRegister.fulfilled),
+        (state, action) => {
+          state.data = action.payload;
+          state.status = 'loaded';
+        }
+      )
+      .addMatcher(
+        isAnyOf(fetchLogin.pending, fetchAuthMe.pending, fetchRegister.pending),
+        (state) => {
+          state.data = null;
+          state.status = 'loading';
+        }
+      )
+      .addMatcher(
+        isAnyOf(fetchLogin.rejected, fetchAuthMe.rejected, fetchRegister.rejected),
+        (state) => {
+          state.data = null;
+          state.status = 'error';
+        }
+      );
+  },
+});
+
+export const selectIsAuth = (state) => Boolean(state.auth.data);
+export const selectUserData = (state) => state.auth.data?.userData;
+export const selectAuthStatus = (state) => state.auth.status;
+
+export const authReducer = authSlice.reducer;
+
+export const { logout } = authSlice.actions;
+
