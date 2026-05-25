@@ -9,7 +9,8 @@ const store = configureStore({
     auth: authReducer,
     wordSets: wordSetsReducer,
     words: wordsReducer,
-  }
+  },
+  devTools: process.env.NODE_ENV !== 'production',
 });
 
 export default store;
