@@ -39,7 +39,7 @@ export default function CreateNewWordSetForm({ className }) {
       reset();
       navigate(`/word-set/${payload.id}`);
     } catch (error) {
-      setToast({ open: true, message: error?.message || 'Виникла помилка при створенні набору', severity: 'error' });
+      setToast({ open: true, message: error?.message?.message || error?.message || 'Виникла помилка при створенні набору', severity: 'error' });
     }
   };
 

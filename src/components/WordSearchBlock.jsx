@@ -21,7 +21,7 @@ export default function WordSearchBlock({ title, count: pageCount, page, onChang
       await dispatch(updateWord({ id: wordId, ...updatedData })).unwrap();
       setToast({ open: true, message: 'Слово оновлено', severity: 'success' });
     } catch (error) {
-      setToast({ open: true, message: error?.message || 'Помилка під час оновлення слова', severity: 'error' });
+      setToast({ open: true, message: error?.message?.message || error?.message || 'Помилка під час оновлення слова', severity: 'error' });
     }
   };
 

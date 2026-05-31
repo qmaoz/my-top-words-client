@@ -21,9 +21,9 @@ export default function WordSetCard({ id, totalWords, isSavedForLearning, link, 
 
   const handleToggleSave = async () => {
     try {
-      dispatch(toggleWordSetSave({ id })).unwrap();
+      await dispatch(toggleWordSetSave({ id })).unwrap();
     } catch (error) {
-      setToast({ open: true, message: error?.message || 'Помилка під час збереження або скасування збереження набору', severity: 'error' });
+      setToast({ open: true, message: error?.message?.message || error?.message || 'Помилка під час збереження або скасування збереження набору', severity: 'error' });
     }
   };
 

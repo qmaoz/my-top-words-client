@@ -40,7 +40,7 @@ export default function SignupFormPage() {
         throw new Error();
       }
     } catch (error) {      
-      return setToast({ open: true, message: error.message || 'Невідома помилка при реєстрації', severity: 'error' });
+      return setToast({ open: true, message: error?.message?.message || error?.message || 'Невідома помилка при реєстрації', severity: 'error' });
     }
   };
 

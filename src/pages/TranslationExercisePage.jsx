@@ -11,7 +11,6 @@ import { speakText } from '../components/utils/functions';
 import CircularLoading from '../components/wrappers/CircularLoading';
 import { ErrorMessage } from '../components/utils/messages';
 
-// HERE: there are some warnings in useEffects, but it works
 export default function TranslationExercisePage() {
   const isDebug = false;
   const { id } = useParams();
@@ -45,7 +44,7 @@ export default function TranslationExercisePage() {
     // first word with minimal "repeatAfter" value
     let nextWord = wordsQueue[0];
     for (let i = 0; i < wordsQueue?.length; i++) {
-      // HERE: check for getting out of range
+      getNextWordIndex
       const wordInList = wordsQueue[i];
 
       if (nextWord.repeatAfter > wordInList.repeatAfter || nextWord.repeatAfter == null) {

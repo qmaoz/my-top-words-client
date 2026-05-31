@@ -24,9 +24,8 @@ import ExerciseLayout from './components/blocks/ExerciseLayout.jsx';
 
 export default function App() {
   const dispatch = useDispatch();
-  // HERE
-  // const [toast, setToast] = useState({ open: false, message: '', severity: 'info' });
-  // const handleCloseToast = () => setToast({ ...toast, open: false });
+  const [toast, setToast] = useState({ open: false, message: '', severity: 'info' });
+  const handleCloseToast = () => setToast({ ...toast, open: false });
 
   useEffect(() => {
     (async () => {
@@ -34,9 +33,7 @@ export default function App() {
         try {
           await dispatch(fetchAuthMe()).unwrap();
         } catch (error) {
-          console.error(error.message || 'Невідома помилка при отриманні даних користувача');
-          // HERE: useState is not possible
-          // setToast({ open: true, message: error?.message || 'Невідома помилка при отриманні даних користувача', severity: 'error' });
+          setToast({ open: true, message: error?.message?.message || error?.message || 'Невідома помилка при отриманні даних користувача', severity: 'error' });
         }
       } else {
         dispatch(setAuthStatusError());
@@ -57,7 +54,7 @@ export default function App() {
     <>
       <BrowserRouter>
         <ScrollToTop />         
-        {/* <Toast {...toast} handleClose={handleCloseToast} /> */}
+        <Toast {...toast} handleClose={handleCloseToast} />
         <Routes>
           <Route element={<DefaultLayout />}>
             <Route path="/" element={<><HomePage /></>} />

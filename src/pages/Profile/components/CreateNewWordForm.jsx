@@ -36,11 +36,7 @@ export default function CreateNewWordForm() {
       setToast({ open: true, message: 'Слово успішно додано', severity: 'success' });
       reset();
     } catch (error) {
-      setToast({ 
-        open: true, 
-        message: error.message || 'Виникла помилка при додаванні нового слова', 
-        severity: 'error' 
-      });
+      return setToast({ open: true, message: error?.message?.message || error?.message || 'Виникла помилка при додаванні нового слова', severity: 'error' });
     }
   };
   

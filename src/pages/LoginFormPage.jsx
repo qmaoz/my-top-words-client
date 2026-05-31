@@ -33,8 +33,8 @@ export default function LoginFormPage() {
       } else {
         throw new Error();
       }
-    } catch (error) {      
-      return setToast({ open: true, message: error.message || 'Невідома помилка при авторизації', severity: 'error' });
+    } catch (error) {
+      return setToast({ open: true, message: error?.message?.message || error?.message || 'Невідома помилка при авторизації', severity: 'error' });
     }
   };
 

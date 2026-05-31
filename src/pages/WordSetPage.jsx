@@ -46,11 +46,12 @@ export default function WordSetPage() {
   const handleToggleSave = async () => {
     try {
       const data = await dispatch(toggleWordSetSave({ id: wordSetId })).unwrap();
-      if (!data.payload) {
-        setToast({ open: true, message: 'Ймовірно, сталася помилка', severity: 'error' });
+      
+      if (!data) {
+        setToast({ open: true, message: 'Сталася помилка', severity: 'error' });
       }
     } catch (error) {
-      setToast({ open: true, message: error?.message || 'Ймовірно, сталася помилка', severity: 'error' });
+      setToast({ open: true, message: error?.message?.message || error?.message || 'Сталася помилка', severity: 'error' });
     }
   };
 
@@ -63,7 +64,7 @@ export default function WordSetPage() {
             setToast({ open: true, message: 'Не вдалося змінити статус набору. Ймовірно, сталася помилка', severity: 'error' });
           }
         } catch (error) {
-          setToast({ open: true, message: error?.message || 'Не вдалося змінити статус набору. Ймовірно, сталася помилка', severity: 'error' });
+          setToast({ open: true, message: error?.message?.message || error?.message || 'Не вдалося змінити статус набору. Ймовірно, сталася помилка', severity: 'error' });
         }
       }
     }
@@ -79,7 +80,7 @@ export default function WordSetPage() {
           }
           navigateBack();
         } catch (error) {
-          setToast({ open: true, message: error?.message || 'Не вдалося видалити набір. Ймовірно, сталася помилка', severity: 'error' });
+          setToast({ open: true, message: error?.message?.message || error?.message || 'Не вдалося видалити набір. Ймовірно, сталася помилка', severity: 'error' });
         }
       }
     }
@@ -124,7 +125,7 @@ export default function WordSetPage() {
           }
           reset();
         } catch (error) {
-          setToast({ open: true, message: error?.message || 'Не вдалося оновити набір. Ймовірно, сталася помилка', severity: 'error' });
+          setToast({ open: true, message: error?.message?.message || error?.message || 'Не вдалося оновити набір. Ймовірно, сталася помилка', severity: 'error' });
         }
       }
       setWordSetEditingFalse();
