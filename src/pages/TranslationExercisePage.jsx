@@ -1,27 +1,25 @@
 import { Fragment, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
-import { Alert, Box, Button, Container, Paper, Typography } from '@mui/material';
+import { Alert, Box, Button, Paper, Typography } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 
 import { fetchWordSet } from '../redux/slices/word-sets';
 import ProgressBar from '../components/ProgressBar';
 import PronounceButton from '../components/wrappers/PronounceButton';
-import { speakText } from '../components/functions';
+import { speakText } from '../components/utils/functions';
 import CircularLoading from '../components/wrappers/CircularLoading';
-import { ErrorMessage } from '../components/messages';
+import { ErrorMessage } from '../components/utils/messages';
 
-// HERE: check for:
-// - no words in the list
-// - one word in the list
+// HERE: there are some warnings in useEffects, but it works
 export default function TranslationExercisePage() {
-  // console.clear();
   const isDebug = false;
   const { id } = useParams();
   const dispatch = useDispatch();
   const { activeItem, activeItemStatus } = useSelector((state) => state.wordSets);
   const [answer, setAnswer] = useState(null); // null / 'yes' / 'no'
   const [wordsQueue, setWordsQueue] = useState([]);
+  // HERE: check and delete comment
   // first reload
   // const [wordsQueue, setWordsQueue] = useState(
   //   activeItem?.words.map(word => {
@@ -104,10 +102,6 @@ export default function TranslationExercisePage() {
         if (repeatNumber == 2) repeatAfter = 4;
         if (repeatNumber >= 3) {
           repeatAfter = null;
-          if (repeatNumber == 3) {
-            // update status in DataBase if needed
-            // ...
-          }
         }
 
         return {...word, repeatNumber: repeatNumber, repeatAfter: repeatAfter};
@@ -151,19 +145,23 @@ export default function TranslationExercisePage() {
     setCurrentWord(activeItem?.words.find(word => word.id == nextWordIndex));
   };
 
+  const onReturnButtonClick = () => {
+    window.speechSynthesis.cancel();
+  };
+
   return (
     <>
-      <Container className='app-container p-3'>
+      <Box className='app-container container p-3'>
         <CircularLoading isLoading={activeItemStatus === 'loading'}>
           {!activeItem ? (
-            <ErrorMessage message={'Набір не знайдено або доступ до нього заборонено'} />
+            <ErrorMessage message={'Набір не знайдено або доступ до нього заборонено, або стався збій'} />
           ) : <>
             {activeItem?.words && activeItem.words.length === 0 ? <>
               <ErrorMessage message={'Набір порожній'} />
             </> : <>
-              <Box className='df aic jcsb gap-3'>
+              <Box className='df gap-3'>
                 <span className='text-nowrap'>Кількість закріплених слів:</span>
-                <ProgressBar totalWords={wordsQueue?.length} numWordsLearned={wordsQueue?.filter(word => word.repeatNumber >= 3).length} />
+                <ProgressBar total={wordsQueue?.length} completed={wordsQueue?.filter(word => word.repeatNumber >= 3).length} />
               </Box>
               {isDebug && <>
                 <p style={{fontSize: '0.5em', margin: 0}}>
@@ -176,42 +174,47 @@ export default function TranslationExercisePage() {
                   </Fragment>;
                 })}
               </>}
-              <Paper elevation={2} className='main-content' sx={{ p: '1em', mt: '1em'}}>
-                {currentWord?.sentence_translation_uk &&
-                  <Typography variant='body1'>{currentWord?.sentence_translation_uk}</Typography>
+              <Paper elevation={2} className='main-content content-block' sx={{ p: '1em', mt: '1em'}}>
+                {currentWord?.sentence_translation_uk && <>
+                  <Box>
+                    <Typography variant='body1'>
+                      {currentWord?.sentence_translation_uk && <span>{currentWord?.sentence_translation_uk}</span>}
+                      {answer && currentWord?.sentence_text && <>
+                        <span className='me-1 ms-1'>—</span>
+                        <span>{currentWord?.sentence_text}</span>
+                        <span className='ms-1'><PronounceButton text={currentWord?.sentence_text} /></span>
+                      </>} 
+                    </Typography>
+                  </Box>
+                </>
                 }
                 {!answer &&
-                  <Box className='df aic gap-3 mt-3'>
+                  <Box className='df gap-3 mt-3'>
                     <Typography variant='body1' className='text-nowrap'>Чи легко відтворити це речення німецькою?</Typography>
                   </Box>
                 }
                 {answer &&
                   <>
-                    <Box className='mt-3 df aic gap-1'>
-                      <Typography variant='body1'>{currentWord?.sentence_text}</Typography>
-                      <PronounceButton text={currentWord?.sentence_text} />
-                    </Box>
-                    <Box className='df aic mt-3'>
-                      <Box className='df aic gap-1'>
-                        <Typography variant='body2'>{currentWord?.word_text}</Typography>
-                        <PronounceButton text={currentWord?.word_text} />
-                      </Box>
-                      <Typography variant='body2' className=''>— {currentWord?.word_translation_uk}</Typography>
-                    </Box>
+                    <Typography variant='body2'>
+                      <span>{currentWord?.word_text}</span>
+                      <span className='ms-1'><PronounceButton text={currentWord?.word_text} /></span>
+                      <span className='me-1'>—</span>
+                      <span className=''>{currentWord?.word_translation_uk}</span>
+                    </Typography>
                   </>
                 }
               </Paper>
-              <Box className='df aic gap-3 mt-3'>
+              <Box className='df gap-3 mt-3'>
                 {!answer ? <>
                   <Button variant='contained' fullWidth color='success' onClick={onYesButtonClick}>Так</Button>
                   <Button variant='contained' fullWidth color='error' onClick={onNoButtonClick}>Ні</Button>
                 </> : <>
                   {wordsQueue?.filter(word => word.repeatNumber < 3).length == 0 ? <>
-                    <Alert icon={<CheckIcon fontSize="inherit" />} severity="success" className='text-nowrap'>
-                      Вітаємо! Набір повністю пройдено!
-                    </Alert>
+                    <p className='text-nowrap m-0'>
+                      Тренажер успішно пройдено!
+                    </p>
                     <Link to={`/word-set/${id}`} className='w-100'>
-                      <Button onClick={onNextButtonClick} variant='contained' fullWidth color='primary'>
+                      <Button onClick={onReturnButtonClick} variant='contained' fullWidth color='primary'>
                         Повернутися до набору
                       </Button>
                     </Link>
@@ -223,7 +226,7 @@ export default function TranslationExercisePage() {
             </>}
           </>}
         </CircularLoading>
-      </Container>
+      </Box>
     </>
   );
 }

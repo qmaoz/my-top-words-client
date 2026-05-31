@@ -1,18 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Button, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 
 import { selectIsAuth, selectAuthStatus } from '../../../redux/slices/auth';
 import { createNewWord } from '../../../redux/slices/words';
+import { toggleIncludeWordInWordSet } from '../../../redux/slices/word-sets';
 import FormInput from '../../../components/form/FormInput';
-import { Toast } from '../../../components/messages';
+import { Toast } from '../../../components/utils/messages';
 import CircularLoading from '../../../components/wrappers/CircularLoading';
 
 export default function CreateNewWordForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { activeItem } = useSelector((state) => state.wordSets);
 
   const [toast, setToast] = useState({ open: false, message: '', severity: 'info' });
   const handleCloseToast = () => setToast({ ...toast, open: false });
@@ -23,17 +25,14 @@ export default function CreateNewWordForm() {
       word_translation_uk: '',
       sentence_text: '',
       sentence_translation_uk: '',
-      // word_text: 'groß',
-      // word_translation_uk: 'великий, -ка, -ке, -кі',
-      // sentence_text: 'Mein Haus ist groß.',
-      // sentence_translation_uk: 'У мене великий будинок.',
     },
     mode: 'onSubmit'
   });
 
   const onSubmitForm = async (values) => {
     try {
-      await dispatch(createNewWord(values)).unwrap();
+      const newWord = await dispatch(createNewWord(values)).unwrap();
+      await dispatch(toggleIncludeWordInWordSet({ wordSetId: activeItem.id, wordId: newWord.id})).unwrap();
       setToast({ open: true, message: 'Слово успішно додано', severity: 'success' });
       reset();
     } catch (error) {
@@ -48,14 +47,16 @@ export default function CreateNewWordForm() {
   const isAuth = useSelector(selectIsAuth);
   const authStatus = useSelector(selectAuthStatus);
   
-  if (!isAuth) {
-    navigate('/');
-  }
+  useEffect(() => {
+    if (!isAuth && authStatus !== 'loading') {
+      navigate('/');
+    }
+  }, [isAuth, authStatus, navigate]);
 
   return (
     <>
       <CircularLoading isLoading={authStatus === 'loading'}>
-        <h3>Додати нове слово в базу</h3>
+        <h3>Додати нове слово</h3>
         <form onSubmit={handleSubmit(onSubmitForm)} className="mb-3">
           <FormInput
             name="word_text"
@@ -64,8 +65,7 @@ export default function CreateNewWordForm() {
             errors={errors}
             required fullWidth
             maxLength={255}
-            disabled={!isAuth}
-          />
+            disabled={!isAuth} />
           <FormInput
             name="word_translation_uk"
             label="Переклад"
@@ -73,17 +73,15 @@ export default function CreateNewWordForm() {
             errors={errors}
             required fullWidth
             maxLength={255}
-            disabled={!isAuth}
-          />
+            disabled={!isAuth} />
           <FormInput
             name="sentence_text"
-            label="Речення"
+            label="Речення-приклад"
             register={register}
             errors={errors}
             required fullWidth
             maxLength={255}
-            disabled={!isAuth}
-          />
+            disabled={!isAuth} />
           <FormInput
             name="sentence_translation_uk"
             label="Переклад речення"
@@ -91,9 +89,8 @@ export default function CreateNewWordForm() {
             errors={errors}
             required fullWidth
             maxLength={255}
-            disabled={!isAuth}
-          />
-          <Button className="mt-2" color='primary' variant='contained' disabled={!isAuth} type='submit'>Додати</Button>
+            disabled={!isAuth} />
+          <Button type='submit' className="mt-2" color='primary' variant='contained' disabled={!isAuth}>Додати</Button>
         </form>
       </CircularLoading>
 

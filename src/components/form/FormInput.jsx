@@ -2,9 +2,9 @@ import { TextField } from '@mui/material';
 
 const FormInput = ({
   name, label, register, errors,
-  required = false, fullWidth = false, disabled=false,
+  required = false, fullWidth = false, disabled = false,
   maxLength = null,
-  type='text', placeholder = '', className = '', color='primary', autoComplete=''
+  type = 'text', placeholder = '', className = '', color = 'primary', autoComplete = ''
 }) => {
   const validationRules = {
     ...(required && {
@@ -27,12 +27,12 @@ const FormInput = ({
       id={name}
       label={label}
       type={type}
-      placeholder={placeholder}
+      placeholder={placeholder ? placeholder : undefined}
       className={className}
       fullWidth={fullWidth}
       color={color}
       disabled={disabled}
-      autoComplete={autoComplete}
+      autoComplete={autoComplete ? autoComplete : undefined}
 
       variant="outlined"
       margin="normal"

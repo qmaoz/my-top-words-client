@@ -1,16 +1,16 @@
 import { Link } from 'react-router';
-import { Menu, MenuItem, IconButton, Avatar, Paper } from '@mui/material';
+import { Menu, MenuItem, IconButton, Avatar, Paper, Box } from '@mui/material';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { logout, selectIsAuth, selectUserData } from '../../redux/slices/auth';
+import { logout, selectAuthStatus, selectIsAuth, selectUserData } from '../../redux/slices/auth';
 
 import userIcon from '/img/icons/user.svg';
-import { deepOrange, red } from '@mui/material/colors';
 
 export default function Header() {
   const dispatch = useDispatch();
   const isAuth = useSelector(selectIsAuth);
+  const authStatus = useSelector(selectAuthStatus);
   const userData = useSelector(selectUserData);
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -26,32 +26,27 @@ export default function Header() {
 
   const onClickLogout = () => {
     handleClose();
-    if (window.confirm('Ви дійсно хочете вийти з акаунту?')) {
+    if (window.confirm('Підтверджуєте вихід з акаунту?')) {
       dispatch(logout());
       window.localStorage.removeItem('token');
     }
   };
 
-  function stringAvatar(name) {
-    return {
-      children: `${name[0]}`,
-    };
-  }
-
   return (
     <>
       <Paper elevation={2} className='mb-3'>
         <header>
-          <div className="container df jcsb">
+          <Box className="container df">
             <h1 className="typewriter-animation"><Link to='/'>My Top Words</Link></h1>
             {isAuth ? (
-              <div className="header__user-profile df aic">
-                <div className="username" style={{ marginRight: '10px' }}>
-                  Hallo, {userData.username}!
-                </div>
+              <Box className="header__user-profile df">
+                {/* <Box className="username" style={{ marginRight: '10px' }}>
+                  {userData.username}
+                </Box> */}
 
-                {/* <Link to='/profile'>Профіль</Link>
-                <Link onClick={onClickLogout} sx={{ color: 'error.main' }}>Вийти</Link> */}
+                <Link to='/profile'>Профіль</Link>
+                <p className='m-0'>/</p>
+                <Link onClick={onClickLogout} className='logout-button'>Вийти</Link>
                 
                 {/* <MenuItem component={Link} to="/profile">
                   Профіль
@@ -60,10 +55,10 @@ export default function Header() {
                   Вийти
                 </MenuItem> */}
 
-                <IconButton onClick={handleClick} size="small" sx={{ p: 0 }}>
+                {/* <IconButton onClick={handleClick} size="small" sx={{ p: 0 }}> */}
                   {/* {...stringAvatar(userData.username)} */}
-                  <Avatar src={userIcon} alt={userData.username} sx={{ width: 40, height: 40 }} />
-                </IconButton>
+                  {/* <Avatar src={userIcon} alt={userData.username} sx={{ width: 40, height: 40 }} /> */}
+                {/* </IconButton> */}
 
                 <Menu
                   anchorEl={anchorEl}
@@ -80,12 +75,15 @@ export default function Header() {
                     Вийти
                   </MenuItem>
                 </Menu>
-              </div>
-            ) :
-              <div className="sign-up-or-login">
-                <Link to="/sign-up">Зареєструватися</Link> / <Link to='/login'>Увійти</Link>
-              </div>}
-          </div>
+              </Box>
+            ) : <>
+              {authStatus !== 'loading' && <>
+                <Box className="sign-up-or-login">
+                  <Link to="/sign-up">Зареєструватися</Link> / <Link to='/login'>Увійти</Link>
+                </Box>
+              </>}
+            </>}
+          </Box>
         </header>
       </Paper>
     </>

@@ -1,23 +1,20 @@
 import { useForm } from 'react-hook-form';
-import { IconButton, Checkbox, Tooltip } from '@mui/material';
+import { IconButton, Checkbox, Tooltip, Box } from '@mui/material';
 import { Edit, Delete, Save, Close, VolumeUp, DeleteSweep } from '@mui/icons-material';
 import { useState } from 'react';
-import SaveForLearningButton from './wrappers/SaveForLearningButton';
 import PronounceButton from './wrappers/PronounceButton';
 
 const WordTableRow = ({ 
   word, 
   isAuthorized,
   isEditing,
-  // isSavedForLearning,
   onUpdate,
   onRemoveFromSet,
   onFullDelete,
-  // handleToggleSave
 }) => {
   const [isLocalEdit, setIsLocalEdit] = useState(false);
   
-  const { register, handleSubmit, reset, formState: { errors } } = useForm({
+  const { register, handleSubmit, reset } = useForm({
     defaultValues: {
       word_text: word.word_text,
       word_translation_uk: word.word_translation_uk,
@@ -35,8 +32,6 @@ const WordTableRow = ({
     reset();
     setIsLocalEdit(false);
   };
-
-  // if (!isEditing) setIsLocalEdit(false);
 
   return (
     <tbody className={isLocalEdit ? 'editing-row' : ''}>
@@ -62,17 +57,11 @@ const WordTableRow = ({
             word.word_translation_uk
           )}
         </td>
-        
-        {/* 1. Користувач авторизований, але НЕ автор (або не в режимі редагування) */}
-        {/* {isAuthorized && !isEditing && (
-          <SaveForLearningButton isSavedForLearning={isSavedForLearning} handleToggleSave={handleToggleSave} big />
-        )} */}
  
         {isAuthorized && !isEditing || isEditing &&
           <td rowSpan="2" className="actions-cell max-width-fit-content">
-            {/* 2. Користувач у режимі редагування (Автор) */}
             {isEditing && (
-              <div className="edit-controls-vertical">
+              <Box className="edit-controls-vertical">
                 {isLocalEdit ? (
                   <>
                     <Tooltip title="Зберегти"><IconButton onClick={handleSubmit(onSubmit)} color="success"><Save /></IconButton></Tooltip>
@@ -81,11 +70,11 @@ const WordTableRow = ({
                 ) : (
                   <>
                     <Tooltip title="Редагувати текст"><IconButton onClick={() => setIsLocalEdit(true)}><Edit /></IconButton></Tooltip>
-                    <Tooltip title="Вилучити з цього набору"><IconButton onClick={() => onRemoveFromSet(word.id)} color="warning"><DeleteSweep /></IconButton></Tooltip>
+                    {/* <Tooltip title="Вилучити з цього набору"><IconButton onClick={() => onRemoveFromSet(word.id)} color="warning"><DeleteSweep /></IconButton></Tooltip> */}
                     <Tooltip title="Видалити слово повністю"><IconButton onClick={() => onFullDelete(word.id)} color="error"><Delete /></IconButton></Tooltip>
                   </>
                 )}
-              </div>
+              </Box>
             )}
           </td>}
       </tr>
@@ -93,7 +82,7 @@ const WordTableRow = ({
       <tr>
         <td>
           {isLocalEdit ? (
-            <input {...register('sentence_text')} className="table-input" placeholder="Речення..." />
+            <input {...register('sentence_text')} className="table-input" placeholder="Речення-приклад..." />
           ) : (
             <span className="sentence-text">{word.sentence_text}</span>
           )}

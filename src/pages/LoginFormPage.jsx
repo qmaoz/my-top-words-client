@@ -1,15 +1,16 @@
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchLogin, selectIsAuth } from '../redux/slices/auth.js';
-import { Navigate } from 'react-router-dom';
-import { Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { Box, Button, Paper } from '@mui/material';
 import FormInput from '../components/form/FormInput.jsx';
 import { useState } from 'react';
-import { Toast } from '../components/messages.jsx';
+import { Toast } from '../components/utils/messages.jsx';
 
 export default function LoginFormPage() {
   const isAuth = useSelector(selectIsAuth);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [toast, setToast] = useState({ open: false, message: '', severity: 'info' });
   const handleCloseToast = () => setToast({ ...toast, open: false });
 
@@ -38,13 +39,13 @@ export default function LoginFormPage() {
   };
 
   if (isAuth) {
-    return <Navigate to='/' />;
+    navigate('/');
   }
 
   return (
     <>
-      <div className="container">
-        <div className="register-block content-block">
+      <Box className="container">
+        <Paper elevation={3} className='form-block content-block'>
           <h2 className="text-center mb-3">Форма авторизації</h2>
           <form onSubmit={handleSubmit(onSubmitForm)}>
             <FormInput
@@ -67,8 +68,8 @@ export default function LoginFormPage() {
             />
             <Button color='primary' fullWidth={true} variant='contained' className="mt-3" type="submit">Увійти</Button>
           </form>
-        </div>
-      </div>
+        </Paper>
+      </Box>
 
       <Toast {...toast} handleClose={handleCloseToast} />
     </>

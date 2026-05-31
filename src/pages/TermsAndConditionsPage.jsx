@@ -1,9 +1,11 @@
+import { Box } from '@mui/material';
+
 export default function TermsAndConditionsPage() {
   return (
     <>
-      <div className="container">
+      <Box className="container">
         <h2>Умови використання інформації на сайті</h2>
-      </div>
+      </Box>
     </>
   );
 }

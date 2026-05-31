@@ -1,16 +1,17 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import { Navigate } from 'react-router-dom';
-import { Button, TextField } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { Box, Button, Paper, TextField } from '@mui/material';
 
 import { fetchRegister, selectIsAuth } from '../redux/slices/auth.js';
 import FormInput from '../components/form/FormInput.jsx';
-import { useState } from 'react';
-import { Toast } from '../components/messages.jsx';
+import { useEffect, useState } from 'react';
+import { Toast } from '../components/utils/messages.jsx';
 
 export default function SignupFormPage() {
   const isAuth = useSelector(selectIsAuth);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [toast, setToast] = useState({ open: false, message: '', severity: 'info' });
   const handleCloseToast = () => setToast({ ...toast, open: false });
 
@@ -24,7 +25,7 @@ export default function SignupFormPage() {
   });
 
   const onSubmitForm = async (values) => {
-    if (values && values.password && values.confirm_password && values.password !== values.confirm_password) {
+    if (values?.password && values?.confirm_password && values.password !== values.confirm_password) {
       return setToast({ open: true, message: 'Паролі не співпадають', severity: 'error' });
     }
     
@@ -43,14 +44,17 @@ export default function SignupFormPage() {
     }
   };
 
-  if (isAuth) {
-    return <Navigate to='/' />;
-  }
+  useEffect(() => {
+    if (isAuth) {
+      navigate('/');
+    }
+  }, [isAuth, navigate]);
+
 
   return (
     <>
-      <div className="container">
-        <div className="register-block content-block">
+      <Box className="container">
+        <Paper elevation={3} className='form-block content-block'>
           <h2 className="text-center mb-3">Форма реєстрації</h2>
           <form onSubmit={handleSubmit(onSubmitForm)}>
             <FormInput
@@ -86,8 +90,8 @@ export default function SignupFormPage() {
               autoComplete="new-password" />
             <Button color='primary' fullWidth variant='contained' className="mt-3" type="submit">Зареєструватися</Button>
           </form>
-        </div>
-      </div>
+        </Paper>
+      </Box>
 
       <Toast {...toast} handleClose={handleCloseToast} />
     </>

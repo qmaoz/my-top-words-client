@@ -1,16 +1,21 @@
+/* GENERAL */
 :root {
   --black: #212121;
+  --bg: #E8F5E9;
+  --primary-color: #C8E6C9;
+  --secondary-color: #E0F2F1;
 
-  --accent-green: #AED581; /* AED581 */
-  --accent-orange: #FFCCBC;
+  --accent-orange: #FFFDE7;
+  --accent-green: #A5D6A7;
+  --accent-green-dark: #8bca8e;
 
-  --bg: #E8F5E9; /* F1F8E9 E8F5E9 */
-  --primary-color: #81C784;
-  --secondary-color: #BBDEFB;
-  /* --accent-color: ; */
-  
-  --border-color: #989898;
+  --border-light-color: rgba(0, 0, 0, 0.11);
+  --border-dark-color: rgb(183, 183, 183);
   --typewriter-color: #0A58CA;
+
+  --gradient1: linear-gradient(135deg, var(--primary-color) 0%, var(--bg) 100%);
+  --gradient2: linear-gradient(135deg, var(--secondary-color) 0%, var(--bg) 100%);
+  --gradient3: linear-gradient(90deg, var(--accent-green) 0%, var(--accent-green-dark) 100%);
 }
 
 *, *::before, *::after {
@@ -54,20 +59,36 @@ body {
 
 .df {
   display: flex;
-  align-items: center;
-}
-
-.jcsb {
   justify-content: space-between;
+  align-items: center;
 }
 
 .aic {
   align-items: center;
 }
 
+.ais {
+  align-items: start;
+}
+
+.content-block {
+  background-color: var(--secondary-color) !important;
+  background-image: var(--gradient2) !important;
+  border-radius: 0.35em;
+  padding: 1.5em 1em;
+}
+
+
+
+/* HEADER, FOOTER */
 header, footer {
-  background: var(--primary-color);
+  background-color: var(--primary-color);
+  background-image: var(--gradient1);
   padding: 0.5em 0;
+}
+
+footer {
+  border-top: 1px solid var(--border-light-color);
 }
 
 header h1, footer h2 {
@@ -77,7 +98,11 @@ header h1, footer h2 {
 
 .header__user-profile {
   gap: 0.5em;
-  font-size: 1.5em;
+  font-size: 1.2em;
+}
+
+.logout-button {
+  color: #D32F2F;
 }
 
 .sign-up-or-login {
@@ -86,40 +111,33 @@ header h1, footer h2 {
   gap: 0.5em;
 }
 
-input {
-  margin: 0.2em 0 0.5em;
-  font-size: 1em;
+footer .container {
+  justify-content: space-between;
 }
 
-input::placeholder {
-    font-size: inherit;
+.footer__right {
+  gap: 1em;
+}
+
+.footer__about, .footer__terms-of-service {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.footer__icon {
+  width: 1.8em;
+  height: 1.8em;
+}
+
+.copyrating {
+  opacity: 0.8;
 }
 
 
 
-/* GENERAL */
-  .content-block {
-    background: var(--secondary-color);
-    border-radius: 0.35em;
-    padding: 1.5em 1em;
-  }
-
-  .toggle-container {
-    position: relative;
-  }
-
-  .togglePassword {
-    position: absolute;
-    top: 50%;
-    right: 1em;
-    translate: 0 -50%;
-    width: 1.25em;
-    text-align: center;
-  }
-/* GENERAL */
-
-
-.register-block {
+/* FORM */
+.form-block {
   display: block;
   width: 600px;
   margin: 0 auto;
@@ -130,10 +148,32 @@ input::placeholder {
   }
 }
 
+input {
+  margin: 0.2em 0 0.5em;
+  font-size: 1em;
+  background: inherit !important;
+}
+
+input::placeholder {
+    font-size: inherit;
+}
+
+.toggle-container {
+  position: relative;
+}
+
+.togglePassword {
+  position: absolute;
+  top: 50%;
+  right: 1em;
+  translate: 0 -50%;
+  width: 1.25em;
+  text-align: center;
+}
 
 
 
-
+/* WORD-SET CARDS */
 .word-set-card-group {
   display: flex;
   flex-direction: column;
@@ -143,14 +183,11 @@ input::placeholder {
 }
 
 .word-set-card {
-  background: #E8EAF6 !important;
+  background-color: var(--secondary-color) !important;
+  background-image: var(--gradient2) !important;
 }
 
 .word-set-card__top {
-  display: flex;
-  justify-content: space-between;
-  align-items: start;
-  gap: 2em;
   margin-bottom: 1em;
 }
 
@@ -161,11 +198,14 @@ input::placeholder {
   gap: 1em;
 }
 
+
+
+/* COMPONENTS */
 .my-progress-bar {
   width: 100%;
   height: 2.2em;
   background-color: var(--bg);
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border-light-color);
   border-radius: 100em;
   overflow: hidden;
   position: relative;
@@ -175,8 +215,12 @@ input::placeholder {
   max-width: 100%;
   height: 100%;
   background-color: var(--accent-green);
+  background-image: var(--gradient3);
   transition: width 0.3s ease-in-out;
   position: relative;
+  border-right-width: 2px;
+  border-right-style: solid;
+  border-right-color: var(--accent-green-dark);
 }
 
 .my-progress-bar__percent {
@@ -185,11 +229,12 @@ input::placeholder {
   left: 50%;
   transform: translate(-50%, -50%);
   font-weight: bold;
-  color: var(--black);
 }
 
-.word-set-page .my-progress-bar {
-  margin-bottom: 1em;
+.mark-for-studing {
+  cursor: pointer;
+  width: 1.25em;
+  height: 1em;
 }
 
 .mark-for-studing.big {
@@ -212,25 +257,19 @@ input::placeholder {
   border-collapse: collapse;
 
   tbody {
-    border: 4px solid var(--border-color);
+    border: 3px solid var(--border-dark-color);
   }
-  
+
   td {
-    border: 1px solid var(--border-color);
+    border: 2px solid var(--border-light-color);
     padding: 1em 0.75em;
     text-align: left;
   }
-  
+
   td.max-width-fit-content {
     width: 0px;
     white-space: nowrap;
   }
-}
-
-.mark-for-studing {
-  cursor: pointer;
-  width: 1.25em;
-  height: 1em;
 }
 
 .exercise-card {
@@ -238,7 +277,8 @@ input::placeholder {
   align-items: center;
   width: 100%;
   max-width: 100%;
-  background: var(--accent-orange);
+  background-color: var(--primary-color);
+  background-image: var(--gradient1);
   padding: 1em;
   gap: 0.5em;
 }
@@ -253,18 +293,8 @@ input::placeholder {
 }
 
 .word-set-page-header {
-  display: flex;
-  align-items: center;
-  gap: 1em;
-  margin-bottom: 1em;
-}
-
-.word-set-page-header form {
-  display: flex;
-  align-items: start;
-  justify-content: space-between;
-  gap: 1em;
   width: 100%;
+  margin-bottom: 1em;
 
   .css-1fw0kwd-MuiFormControl-root-MuiTextField-root {
     margin-bottom: 0;
@@ -277,8 +307,8 @@ input::placeholder {
   gap: 0.3em;
 }
 
-.word-set-page-header__right .mark-for-studing.big {
-  margin-right: 12px;
+.toggle-public-btn {
+  margin-left: 12px;
 }
 
 .word-set-title {
@@ -290,48 +320,14 @@ input::placeholder {
   margin: 0;
 }
 
-.word-set-name-input {
+/* .word-set-name-input {
   margin-right: 0.5em !important;
-}
+} */
 
 
 
-
-/* FOOTER */
-  footer .container {
-    justify-content: space-between;
-  }
-
-  .footer__right {
-    gap: 1em;
-  }
-
-  .footer__about, .footer__terms-of-service {
-    display: flex;
-    align-items: center;
-    gap: 0.5em;
-  }
-
-  .footer__icon {
-    width: 1.8em;
-    height: 1.8em;
-  }
-/* FOOTER */
-
-
-/* UTILS */
-
-
-
-
-
-
-
-
-
-/* Cursor animation */
+/* CURSOR ANIMATION */
 .typewriter-animation {
-  color: var(--black);
   position: relative;
   white-space: nowrap;
   overflow: hidden;
@@ -357,7 +353,7 @@ input::placeholder {
 
 @keyframes typewriter {
   from { width: 0; }
-  to { width: calc(33.28px * 12) } /* 33.28px - width of one character, 12 - length of the website name */
+  to { width: calc(33.28px * 12) } /* 33.28px - width of one character, 12 - length of the website name "My Top Words" */
 }
 
 @keyframes blinkingCursor{

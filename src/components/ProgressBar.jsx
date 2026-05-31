@@ -1,15 +1,15 @@
-import { Box } from "@mui/material";
+import { Box } from '@mui/material';
 
-export default function ProgressBar({ numWordsLearned, totalWords }) {
-  const procent = numWordsLearned == 0 ? 0 : Math.round((numWordsLearned / totalWords * 100));
+export default function ProgressBar({ completed, total }) {
+  const procent = completed == 0 ? 0 : Math.round((completed / total * 100));
   
-  const borderRightStyle = procent === 100 || !procent ? '' : '2px solid var(--accent-green-dark)';
+  const borderRightWidth = procent === 100 || !procent ? '0px' : '2px';
 
   return (
     <>
       <Box className="my-progress-bar" sx={{ boxShadow: 2 }}>
-        <div className="my-progress-bar__filled" style={{ width: `${procent}%`, borderRight: borderRightStyle }}></div>
-        <span className="my-progress-bar__percent text-nowrap">{numWordsLearned} / {totalWords}</span>
+        <Box className="my-progress-bar__filled" style={{ width: `${procent}%`, borderRightWidth: borderRightWidth }}></Box>
+        <span className="my-progress-bar__percent text-nowrap">{completed} / {total}</span>
       </Box>
     </>
   );

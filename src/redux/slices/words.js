@@ -8,43 +8,36 @@ export const createNewWord = createAsyncThunk('words/createNewWord',
       const { data } = await axios.post('/words', wordData);
       return data;
     } catch (error) {
-      if (error.response && error.response.data) {
-        return rejectWithValue(error.response.data);
-      }
-      return rejectWithValue({ message: 'Сервер недоступний або сталася помилка мережі' });
+      return rejectWithValue({ message: error?.response?.data || 'Сервер недоступний або сталася помилка' });
     }
   }
 );
 
+// HERE: add rejectWithValue
 export const fetchWords = createAsyncThunk(
   'words/fetchWords', 
   async ({ page, limit, filter }) => {
-    const url = filter 
-      ? `/words?page=${page}&limit=${limit}&filter=${filter}`
-      : `/words?page=${page}&limit=${limit}`;
+    let url = `/words?page=${page}&limit=${limit}`; 
+    if (filter) url = url + `&filter=${filter}`;
     const { data } = await axios.get(url);
     return { ...data, filter };
   }
 );
 
 export const updateWord = createAsyncThunk('words/updateWord',
-  async ({ id, word_text, word_translation_uk, sentence_text, sentence_translation_uk }) => {
+  async ({ id, word_text, word_translation_uk, sentence_text, sentence_translation_uk }, { rejectWithValue }) => {
     const updateBody = {};
     if (word_text != null) updateBody.word_text = word_text;
     if (word_translation_uk != null) updateBody.word_translation_uk = word_translation_uk;
     if (sentence_text != null) updateBody.sentence_text = sentence_text;
     if (sentence_translation_uk != null) updateBody.sentence_translation_uk = sentence_translation_uk;
 
-    const { data } = await axios.patch(`/words/${id}`, updateBody);
-    return data;
-  }
-);
-
-export const toggleWordSave = createAsyncThunk(
-  'words/toggleWordSave',
-  async ({ id }) => {
-    const { data } = await axios.patch(`/words/toggle-save/${id}`);
-    return { id, isSavedForLearning: data.isSavedForLearning };
+    try {
+      const { data } = await axios.patch(`/words/${id}`, updateBody);
+      return data;
+    } catch (error) {
+      return rejectWithValue({ message: error?.response?.data || 'Сервер недоступний або сталася помилка' });
+    }
   }
 );
 
@@ -55,7 +48,7 @@ export const deleteWord = createAsyncThunk(
       await axios.delete(`/words/${id}`);
       return id;
     } catch (error) {
-      return rejectWithValue(error.response?.data);
+      return rejectWithValue({ message: error?.response?.data || 'Сервер недоступний або сталася помилка' });
     }
   }
 );
@@ -69,10 +62,7 @@ const listInitialState = {
 };
 
 const initialState = {
-  top: { ...listInitialState },     // popular public words (homepage)
-  own: { ...listInitialState },     // my words (profile page)
-  saved: { ...listInitialState },   // saved words (profile page)
-  learned: { ...listInitialState }, // learned words (profile page)
+  own: { ...listInitialState },     // my words (profile page)  
   operationStatus: 'loading',       // status of the operation (example: creating a new word, deleting, updating)
 };
 
@@ -108,38 +98,22 @@ const wordsSlice = createSlice({
         state[filter].status = 'loaded';
       })
 
-      .addCase(toggleWordSave.fulfilled, (state, action) => {
-        const { id, isSavedForLearning } = action.payload;
-        
-        const updateInList = (listKey) => {
-          const item = state[listKey].items.find(obj => Number(obj.id) === Number(id));
-          if (item) item.isSavedForLearning = isSavedForLearning;
-        };
-
-        ['top', 'own', 'saved', 'learned'].forEach(updateInList);
-      })
       .addCase(updateWord.fulfilled, (state, action) => {
-        const { id, word_text, word_translation_uk, sentence_text, sentence_translation_uk } = action.payload;
-        
-        const updateInList = (listKey) => {
-          const word = state[listKey].items.find(obj => Number(obj.id) === Number(id));
+        const { id, word_text, word_translation_uk, sentence_text, sentence_translation_uk } = action.payload.updatedWord;
+        const word = state['own']?.items?.find(obj => Number(obj.id) === Number(id));
+        if (word) {
           if (word_text != null) word.word_text = word_text;
           if (word_translation_uk != null) word.word_translation_uk = word_translation_uk;
           if (sentence_text != null) word.sentence_text = sentence_text;
           if (sentence_translation_uk != null) word.sentence_translation_uk = sentence_translation_uk;
-        };
-
-        ['top', 'own', 'saved', 'learned'].forEach(updateInList);
+        }
       })
 
       .addCase(deleteWord.fulfilled, (state, action) => {
         const deletedId = action.payload;
-  
-        ['top', 'own', 'saved', 'learned'].forEach(listKey => {
-          if (state[listKey]?.items) {
-            state[listKey].items = state[listKey].items.filter(w => w.id !== deletedId);
-          }
-        });
+        if (state['own']?.items) {
+          state['own'].items = state['own'].items.filter(w => w.id !== deletedId);
+        }
       });
   },
 });

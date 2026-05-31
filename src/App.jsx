@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
-import { fetchAuthMe } from './redux/slices/auth';
-import { Toast } from './components/messages.jsx';
-import ScrollToTop from './components/ScrollToTop.jsx';
+import { fetchAuthMe, setAuthStatusError } from './redux/slices/auth';
+import { Toast } from './components/utils/messages.jsx';
+import ScrollToTop from './components/utils/ScrollToTop.jsx';
 import Header from './components/blocks/Header.jsx';
 import Footer from './components/blocks/Footer.jsx';
 
@@ -17,25 +17,31 @@ import TermsAndConditionsPage from './pages/TermsAndConditionsPage.jsx';
 import WordSetPage from './pages/WordSetPage.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
 import ProfileLayout from './pages/Profile/ProfileLayout.jsx';
-import ProfileWordSets from './pages/Profile/ProfileWordSets.jsx';
-import ProfileWords from './pages/Profile/ProfileWords.jsx';
-import ProfileDashboard from './pages/Profile/ProfileDashboard.jsx';
+import ProfileOwnWordSets from './pages/Profile/ProfileOwnWordSets.jsx';
+import ProfileSavedWordSets from './pages/Profile/ProfileSavedWordSets.jsx';
 import DefaultLayout from './components/blocks/DefaultLayout.jsx';
 import ExerciseLayout from './components/blocks/ExerciseLayout.jsx';
 
 export default function App() {
   const dispatch = useDispatch();
-  const [toast, setToast] = useState({ open: false, message: '', severity: 'info' });
-  const handleCloseToast = () => setToast({ ...toast, open: false });
+  // HERE
+  // const [toast, setToast] = useState({ open: false, message: '', severity: 'info' });
+  // const handleCloseToast = () => setToast({ ...toast, open: false });
 
   useEffect(() => {
-    if (window.localStorage.getItem('token')) {
-      try {
-        dispatch(fetchAuthMe()).unwrap();
-      } catch (error) {
-        console.error(error.message || 'Невідома помилка при отриманні даних користувача');
+    (async () => {
+      if (window.localStorage.getItem('token')) {
+        try {
+          await dispatch(fetchAuthMe()).unwrap();
+        } catch (error) {
+          console.error(error.message || 'Невідома помилка при отриманні даних користувача');
+          // HERE: useState is not possible
+          // setToast({ open: true, message: error?.message || 'Невідома помилка при отриманні даних користувача', severity: 'error' });
+        }
+      } else {
+        dispatch(setAuthStatusError());
       }
-    }
+    })();
   }, [dispatch]);
 
   useEffect(() => {
@@ -46,12 +52,12 @@ export default function App() {
     window.speechSynthesis.onvoiceschanged = loadVoices;
     loadVoices();
   }, []);
-
+  
   return (
     <>
       <BrowserRouter>
-        {/* Scroll to the top when the page is changed */}
         <ScrollToTop />         
+        {/* <Toast {...toast} handleClose={handleCloseToast} /> */}
         <Routes>
           <Route element={<DefaultLayout />}>
             <Route path="/" element={<><HomePage /></>} />
@@ -61,18 +67,16 @@ export default function App() {
             <Route path="/login" element={<><LoginFormPage /></>} />
             
             <Route path="/profile" element={<ProfileLayout />}>
-              <Route index element={<ProfileWordSets />} />
-              
-              <Route path='word-sets' element={<ProfileWordSets />} />
-              <Route path='words' element={<ProfileWords />} />
-              <Route path='dashboard' element={<ProfileDashboard />} />
-
-              <Route path='*' element={<ProfileWordSets />} />
+              <Route index element={<ProfileSavedWordSets />} />
+              <Route path='saved-word-sets' element={<ProfileSavedWordSets />} />
+              <Route path='own-word-sets' element={<ProfileOwnWordSets />} />
             </Route>
 
-            <Route path="/terms" element={<><TermsAndConditionsPage /></>} />
-            <Route path="/about" element={<><AboutPage /></>} />
             <Route path="/word-set/:id" element={<><WordSetPage /></>} />
+            
+            {/* <Route path="/terms" element={<><TermsAndConditionsPage /></>} /> */}
+            {/* <Route path="/about" element={<><AboutPage /></>} /> */}
+            
             <Route path='*' element={<NotFoundPage />} />
           </Route>
 
@@ -81,8 +85,6 @@ export default function App() {
           </Route>
         </Routes>
       </BrowserRouter>
-
-      <Toast {...toast} handleClose={handleCloseToast} />
     </>
   );
 }

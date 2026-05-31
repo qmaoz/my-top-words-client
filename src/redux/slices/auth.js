@@ -6,10 +6,7 @@ export const fetchLogin = createAsyncThunk('auth/fetchLogin', async (params, { r
     const { data } = await axios.post('/auth/login', params);
     return data;
   } catch (error) {
-    if (error.response && error.response.data) {
-      return rejectWithValue(error.response.data);
-    }
-    return rejectWithValue({ message: 'Сервер недоступний або сталася помилка мережі' });
+    return rejectWithValue({ message: error?.response?.data || 'Сервер недоступний або сталася помилка' });
   }
 });
 
@@ -18,10 +15,7 @@ export const fetchAuthMe = createAsyncThunk('auth/fetchAuthMe', async (params, {
     const { data } = await axios.get('/userinfo');
     return data;
   } catch (error) {
-    if (error.response && error.response.data) {
-      return rejectWithValue(error.response.data);
-    }
-    return rejectWithValue({ message: 'Сервер недоступний або сталася помилка мережі' });
+    return rejectWithValue({ message: error?.response?.data || 'Сервер недоступний або сталася помилка' });
   }
 });
 
@@ -30,16 +24,13 @@ export const fetchRegister = createAsyncThunk('auth/fetchRegister', async (param
     const { data } = await axios.post('/auth/register', params);
     return data;
   } catch (error) {
-    if (error.response && error.response.data) {
-      return rejectWithValue(error.response.data);
-    }
-    return rejectWithValue({ message: 'Сервер недоступний або сталася помилка мережі' });
+    return rejectWithValue({ message: error?.response?.data || 'Сервер недоступний або сталася помилка' });
   }
 });
 
 const initialState = {
   data: null,
-  status: 'error',
+  status: 'loading',
 };
 
 const authSlice = createSlice({
@@ -48,6 +39,9 @@ const authSlice = createSlice({
   reducers: {
     logout: (state) => {
       state.data = null;
+      state.status = 'error';
+    },
+    setAuthStatusError: (state) => {
       state.status = 'error';
     }
   },
@@ -83,5 +77,5 @@ export const selectAuthStatus = (state) => state.auth.status;
 
 export const authReducer = authSlice.reducer;
 
-export const { logout } = authSlice.actions;
+export const { logout, setAuthStatusError } = authSlice.actions;
 

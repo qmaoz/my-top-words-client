@@ -2,36 +2,36 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import axios from '../../axios';
 import { logout } from './auth'; 
-import { deleteWord } from './words';
+import { deleteWord, updateWord } from './words';
 
 export const createNewWordSet = createAsyncThunk('wordSets/createNewWordSet', async (name, { rejectWithValue }) => {
   try {
     const { data } = await axios.post('/word-sets', { name });
     return data;
   } catch (error) {
-    if (error.response && error.response.data) {
-      return rejectWithValue(error.response.data);
-    }
-    return rejectWithValue({ message: 'Сервер недоступний або сталася помилка мережі' });
+    return rejectWithValue({ message: error?.response?.data || 'Сервер недоступний або сталася помилка' });
   }
 });
 
+// HERE: add rejectWithValue
 export const fetchWordSets = createAsyncThunk(
   'wordSets/fetchWordSets', 
-  async ({ page, limit, filter }) => {
-    const url = filter 
-      ? `/word-sets?page=${page}&limit=${limit}&filter=${filter}`
-      : `/word-sets?page=${page}&limit=${limit}`;
+  async ({ page, limit, filter, partOfName }) => {
+    let url = `/word-sets?page=${page}&limit=${limit}`; 
+    if (filter) url = url + `&filter=${filter}`;
+    if (partOfName != null && partOfName.trim() != '') url = url + `&partOfName=${partOfName}`;
     const { data } = await axios.get(url);
     return { ...data, filter };
   }
 );
 
+// HERE: add rejectWithValue
 export const fetchWordSet = createAsyncThunk('wordSets/fetchWordSet', async (id) => {
   const { data } = await axios.get(`/word-sets/${id}`);
   return data;
 });
 
+// HERE: add rejectWithValue
 export const updateWordSet = createAsyncThunk('wordSets/updateWordSet', async ({ id, name, setIsPublic }) => {
   const newName = name?.trim();
 
@@ -45,15 +45,16 @@ export const updateWordSet = createAsyncThunk('wordSets/updateWordSet', async ({
   }
 });
 
-// export const addProgressToActiveItem = createAsyncThunk('wordSets/addProgressToActiveItem', async () => {
-//   return
-// });
-
 export const toggleWordSetSave = createAsyncThunk(
   'wordSets/toggleWordSetSave',
-  async ({ id }) => {
-    const { data } = await axios.patch(`/word-sets/toggle-save/${id}`);
-    return { id, isSavedForLearning: data.isSavedForLearning };
+  async ({ id }, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.patch(`/word-sets/toggle-save/${id}`);
+      return { id, isSavedForLearning: data.isSavedForLearning };
+    } catch (error) {
+      return rejectWithValue({ message: error?.response?.data || 'Сервер недоступний або сталася помилка' });
+    }
+    
   }
 );
 
@@ -64,23 +65,24 @@ export const updateWordSetWords = createAsyncThunk(
       const { data } = await axios.post(`/word-sets/${wordSetId}/words`, { wordIds });
       return data;
     } catch (error) {
-      return rejectWithValue(error.response?.data || { message: 'Помилка оновлення слів у наборі' });
+      return rejectWithValue({ message: error?.response?.data || 'Сервер недоступний або сталася помилка' });
     }
   }
 );
 
-export const removeWordFromSet = createAsyncThunk(
-  'wordSets/removeWordFromSet',
+export const toggleIncludeWordInWordSet = createAsyncThunk(
+  'wordSets/toggleIncludeWordInWordSet',
   async ({ wordSetId, wordId }, { rejectWithValue }) => {
     try {
-      await axios.delete(`/word-sets/${wordSetId}/words/${wordId}`);
-      return wordId;
+      const { data } = await axios.patch(`/word-sets/${wordSetId}/words/${wordId}`);
+      return { wordId, actionName: data.actionName, word: data.word };
     } catch (error) {
-      return rejectWithValue(error.response?.data || { message: 'Не вдалося вилучити слово з набору' });
+      return rejectWithValue({ message: error?.response?.data || 'Сервер недоступний або сталася помилка' });
     }
   }
 );
 
+// HERE: add rejectWithValue
 export const deleteWordSet = createAsyncThunk(
   'wordSets/deleteWordSet',
   async (id) => {
@@ -98,7 +100,7 @@ const listInitialState = {
 };
 
 const initialState = {
-  all: { ...listInitialState },   // popular wordSets (homepage)
+  top: { ...listInitialState },   // top popular wordSets (homepage)
   own: { ...listInitialState },   // my wordSets (profile page)
   saved: { ...listInitialState }, // saved wordSets (profile page)
   activeItem: null,               // for one wordSet page
@@ -137,15 +139,15 @@ const wordSetsSlice = createSlice({
       })
 
       .addCase(fetchWordSets.pending, (state, action) => {
-        const filter = action.meta.arg.filter || 'all';
+        const filter = action.meta.arg.filter || 'top';
         state[filter].status = 'loading';
       })
       .addCase(fetchWordSets.rejected, (state, action) => {
-        const filter = action.meta.arg.filter || 'all';
+        const filter = action.meta.arg.filter || 'top';
         state[filter].status = 'error';
       })
       .addCase(fetchWordSets.fulfilled, (state, action) => {
-        const filter = action.payload.filter || 'all';
+        const filter = action.payload.filter || 'top';
         state[filter].items = action.payload.items;
         state[filter].totalPages = action.payload.totalPages;
         state[filter].currentPage = action.payload.currentPage;
@@ -165,76 +167,68 @@ const wordSetsSlice = createSlice({
           if (item) item.isSavedForLearning = isSavedForLearning;
         };
 
-        ['all', 'own', 'saved'].forEach(updateInList);
+        ['top', 'own', 'saved'].forEach(updateInList);
       })
       .addCase(updateWordSet.fulfilled, (state, action) => {
         if (action.payload) {
           const { name, is_public: isPublic } = action.payload;
           if (isPublic != null) state.activeItem.is_public = isPublic;
           if (name != null) state.activeItem.name = name;
-          state.activeItemStatus = 'loaded';
-        } else {
-          state.activeItemStatus = 'error';
         }
       })
-      .addCase(logout, (state) => {
-        if (state.activeItem) {
-          delete state.activeItem.isSavedForLearning;
-          state.activeItem.words.forEach(word => {
-            delete word.isWordLearned;
-            delete word.word_learning_status_id;
-          });
-        }
 
-        const clearPersonalData = (listKey) => {
-          state[listKey].items.forEach(item => {
-            delete item.numWordsLearned;
-            delete item.isSavedForLearning;
-          });
-        };
-        ['all', 'own', 'saved'].forEach(clearPersonalData);
+      .addCase(logout, (state) => {
+        delete state?.activeItem?.isSavedForLearning;
       })
 
       .addCase(updateWordSetWords.fulfilled, (state, action) => {
-        if (state.activeItem) {
+        if (state?.activeItem) {
           state.activeItem.words = action.payload.words;
-          state.activeItemStatus = 'loaded';
-        } else {
-          state.activeItemStatus = 'error';
         }
       })
 
-      .addCase(removeWordFromSet.pending, (state) => {
-        state.activeItemStatus = 'loading';
-      })
-      .addCase(removeWordFromSet.fulfilled, (state, action) => {
-        const removedWordId = action.payload;
+      .addCase(toggleIncludeWordInWordSet.fulfilled, (state, action) => {
+        const toggledWordId = action.payload.wordId;
+        const actionName = action.payload.actionName;
+        const word = action.payload.word;
         
-        if (state.activeItem && state.activeItem.words) {
-          state.activeItem.words = state.activeItem.words.filter(
-            (word) => word.id != removedWordId
-          );
+        if (state?.activeItem?.words) {
+          if (actionName == 'remove') {
+            state.activeItem.words = state.activeItem.words.filter(
+              (word) => word.id != toggledWordId
+            );
+          } else if (actionName == 'include') {
+            state.activeItem.words.unshift(word);
+          }
         }
-
-        state.activeItemStatus = 'loaded';
-      })
-      .addCase(removeWordFromSet.rejected, (state) => {
-        state.activeItemStatus = 'error';
       })
 
       .addCase(deleteWord.fulfilled, (state, action) => {
         const deletedWordId = action.payload; 
 
-        if (state.activeItem && state.activeItem.words) {
+        if (state?.activeItem?.words) {
           state.activeItem.words = state.activeItem.words.filter(
             (word) => word.id !== deletedWordId
           );
         }
       })
+
+      .addCase(updateWord.fulfilled, (state, action) => {
+        const { id, word_text, word_translation_uk, sentence_text, sentence_translation_uk } = action.payload.updatedWord;
+
+        if (state?.activeItem?.words) {
+          const word = state.activeItem.words.find(obj => Number(obj.id) === Number(id));
+          if (word) {
+            if (word_text != null) word.word_text = word_text;
+            if (word_translation_uk != null) word.word_translation_uk = word_translation_uk;
+            if (sentence_text != null) word.sentence_text = sentence_text;
+            if (sentence_translation_uk != null) word.sentence_translation_uk = sentence_translation_uk;
+          }
+        }
+      })
       
       .addCase(deleteWordSet.fulfilled, (state) => {
-        state.activeItem = null; // selectedWordIds
-        state.activeItemStatus = 'loaded';
+        state.activeItem = null;
       });
   },
 });

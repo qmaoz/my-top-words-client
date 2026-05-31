@@ -6,7 +6,7 @@ export default function SaveForLearningButton({ isSavedForLearning, handleToggle
     <>
       <img
         className={'mark-for-studing ' + (big ? 'big' : '')}
-        title={isSavedForLearning ? 'Відмінити позначку' : 'Позначити набір для вивчення'}
+        title={isSavedForLearning ? 'Відмінити позначку' : 'Зберегти набір'}
         src={isSavedForLearning ? graduationCapSolidIcon : graduationCapOutlineIcon}
         onClick={handleToggleSave}
         alt="graduation cap"></img>

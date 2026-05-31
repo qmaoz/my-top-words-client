@@ -1,3 +1,4 @@
+import { Box } from '@mui/material';
 import React, { forwardRef } from 'react';
 import { useState } from 'react';
 
@@ -17,7 +18,7 @@ const PasswordInput = forwardRef((props, ref) => {
 
   return (
     <>
-      <div className="toggle-container">
+      <Box className="toggle-container">
         <input
           onChange={props.onChange}
           onBlur={props.onBlur}
@@ -31,7 +32,7 @@ const PasswordInput = forwardRef((props, ref) => {
           autoComplete="on"
         />
         <i className="fa fa-eye-slash togglePassword" onClick={(e) => {onEyeClick(e);}}></i>
-      </div>
+      </Box>
       {props.helperText && (
         <span style={{ color: props.error ? 'red' : 'inherit' }}>
           {props.helperText}

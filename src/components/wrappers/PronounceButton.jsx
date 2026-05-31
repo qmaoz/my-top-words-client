@@ -1,6 +1,6 @@
 import { IconButton } from '@mui/material';
 import { VolumeUp } from '@mui/icons-material';
-import { speakText } from '../functions';
+import { speakText } from '../utils/functions';
 
 export default function PronounceButton({ text }) {
   return (

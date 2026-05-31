@@ -1,112 +1,65 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box, Button, Pagination, Stack } from '@mui/material';
 
-import { WarningMessage, Toast } from './messages';
+import { WarningMessage, Toast } from './utils/messages';
 import WordSetTable from './WordSetTable';
-import AddWordsDialog from './AddWordsDialog';
-import { selectIsAuth, selectUserData } from '../redux/slices/auth';
-import { deleteWord, fetchWords, updateWord } from '../redux/slices/words';
-import { removeWordFromSet, updateWordSetWords } from '../redux/slices/word-sets';
+import { selectIsAuth } from '../redux/slices/auth';
+import { deleteWord, updateWord } from '../redux/slices/words';
+import { toggleIncludeWordInWordSet } from '../redux/slices/word-sets';
 
 // HERE: isEditing is not passed
-export default function WordSearchBlock({ title, count, page, onChange, words, isEditing }) {
+export default function WordSearchBlock({ title, count: pageCount, page, onChange, words, isEditing }) {
   const dispatch = useDispatch();
   const [toast, setToast] = useState({ open: false, message: '', severity: 'info' });
   const handleCloseToast = () => setToast({ ...toast, open: false });
-
   const isAuth = useSelector(selectIsAuth);
-  const userData = useSelector(selectUserData);
-  
-  const { items: ownWords, totalPages: ownWordsTotalPages} = useSelector(state => state.words.own);
-  const [ownWordsPage, setOwnWordsPage] = useState(1);
-  const wordLimitPerPage = 25;
-  
   const { activeItem, activeItemStatus } = useSelector((state) => state.wordSets);
-  const isOwnWordSet = activeItem && userData && activeItem?.owner_user_id == userData?.id;
-
-  useEffect(() => {
-    if (isOwnWordSet) {
-      dispatch(fetchWords({ page: ownWordsPage, limit: wordLimitPerPage, filter: 'own' }));
-    }
-  }, [dispatch, ownWordsPage, isOwnWordSet]);
-
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [selectedWordIds, setSelectedWordIds] = useState([]);
-
-  const toggleDialog = () => {
-    if (!isDialogOpen) {
-      const initialIds = activeItem?.words?.map(word => word.id) || [];
-      setSelectedWordIds(initialIds);
-      setIsDialogOpen(true);
-    } else {
-      setIsDialogOpen(false);
-      setSelectedWordIds([]);
-    }
-  };
-  
-  const handleSave = async () => {
-    try {
-      await dispatch(updateWordSetWords({ 
-        wordSetId: activeItem.id, 
-        wordIds: selectedWordIds 
-      })).unwrap();
-      
-      setToast({ open: true, message: 'Склад набору оновлено', severity: 'success' });
-      toggleDialog();
-    } catch (error) {
-      setToast({ open: true, message: error?.message || 'Не вдалося оновити набір', severity: 'error' });
-    }
-  };
-
-  const handleToggleWord = (id) => {
-    setSelectedWordIds((prev) =>
-      prev.includes(id) 
-        ? prev.filter((wordId) => wordId !== id) 
-        : [...prev, id]
-    );
-  };
 
   const handleUpdateWord = async (wordId, updatedData) => {
     try {
       await dispatch(updateWord({ id: wordId, ...updatedData })).unwrap();
       setToast({ open: true, message: 'Слово оновлено', severity: 'success' });
-    } catch (err) {
-      setToast({ open: true, message: 'Помилка оновлення', severity: 'error' });
+    } catch (error) {
+      setToast({ open: true, message: error?.message || 'Помилка під час оновлення слова', severity: 'error' });
     }
   };
 
   const handleRemoveFromSet = async (wordId) => {
-    try {
-      await dispatch(removeWordFromSet({ 
-        wordSetId: activeItem.id, 
-        wordId 
-      })).unwrap();
-      setToast({ open: true, message: 'Слово вилучено з набору', severity: 'info' });
-    } catch (err) {
-      setToast({ open: true, message: 'Не вдалося вилучити слово', severity: 'error' });
+    if (window.confirm('Підтверджуєте вилучення слова з набору?')) {
+      try {
+        await dispatch(toggleIncludeWordInWordSet({ 
+          wordSetId: activeItem.id, 
+          wordId 
+        })).unwrap();
+        setToast({ open: true, message: 'Слово вилучено з набору', severity: 'success' });
+      } catch {
+        setToast({ open: true, message: 'Не вдалося вилучити слово', severity: 'error' });
+      }
     }
   };
 
   const handleFullDelete = async (wordId) => {
-    if (window.confirm('Ви впевнені? Слово буде видалено назавжди з усіх ваших наборів!')) {
+    // HERE: later add to message "повне видалення ... з усіх ваших наборів"
+    if (window.confirm('Підтверджуєте видалення слова?')) {
       try {
         await dispatch(deleteWord(wordId)).unwrap();
         setToast({ open: true, message: 'Слово успішно видалено', severity: 'success' });
-      } catch (err) {
-        setToast({ open: true, message: 'Помилка при видаленні', severity: 'error' });
+      } catch {
+        setToast({ open: true, message: 'Не вдалося видалити слово', severity: 'error' });
       }
     }
   };
 
   return (
     <>
-      <h3>{title}</h3>
+      {title && title.trim() != '' && <h3>{title}</h3>}
 
-      {count > 1 && (
+      {/* HERE: add pagination */}
+      {/* {pageCount > 1 && (
         <Stack spacing={2} sx={{ mt: 2, mb: 4, alignItems: 'center' }}>
           <Pagination
-            count={count}
+            count={pageCount}
             page={page}
             onChange={onChange}
             color="primary"
@@ -115,32 +68,20 @@ export default function WordSearchBlock({ title, count, page, onChange, words, i
             disabled={activeItemStatus !== 'loaded'}
           />
         </Stack>
-      )}
-
-      <AddWordsDialog
-        open={isDialogOpen}
-        handleClose={toggleDialog}
-        handleSave={handleSave}
-        words={ownWords}
-        selectedWordIds={selectedWordIds}
-        onToggleWord={handleToggleWord} />
+      )} */}
 
       <Box className='content-block' sx={{ boxShadow: 2 }}>
         {words?.length > 0 && <> {
-          count > 1
+          pageCount > 1
             ? <h4>Кількість слів та виразів на поточній сторінці: {words?.length || 0}</h4>
             : <h4>Кількість слів та виразів: {words?.length || 0}</h4>
         }</>}
         
         {words?.length > 0 ? <>
-          {isEditing && <>
-            <Button variant='contained' color='primary' onClick={toggleDialog}>Редагувати вміст набору</Button>
-          </>}
           <WordSetTable
             className='mt-2'
             words={words}
             isEditing={isEditing}
-            // isProfilePage={isProfilePage} 
             isAuthorized={isAuth}
             isEditing={isEditing}
             onUpdate={handleUpdateWord}
@@ -149,9 +90,6 @@ export default function WordSearchBlock({ title, count, page, onChange, words, i
           />
         </> : <>
           <WarningMessage message={'Немає лексики'} />
-          {isEditing && <>
-            <Button variant='contained' color='primary' onClick={toggleDialog} className='mt-2'>Додати слова в набір</Button>
-          </>}
         </>}
       </Box>
 

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Box, Tab, Tabs } from '@mui/material';
@@ -11,30 +12,30 @@ export default function ProfileLayout() {
   const isAuth = useSelector(selectIsAuth);
   const authStatus = useSelector(selectAuthStatus);
   
-  if (!isAuth) {
-    navigate('/');
-  }
+  useEffect(() => {
+    if (!isAuth && authStatus !== 'loading') {
+      navigate('/');
+    }
+  }, [isAuth, authStatus, navigate]);
   
-  const currentTab = location.pathname === '/profile' ? '/profile/word-sets' : location.pathname;
+  const currentTab = location.pathname === '/profile' ? '/profile/saved-word-sets' : location.pathname;
 
   return (
     <>
-      <div className="container">
+      <Box className='container'>
         <CircularLoading isLoading={authStatus === 'loading'}>
-          <div className="df jcsb">
+          <Box className="df">
             <h2>Профіль</h2>
             <Tabs value={currentTab}>
-              <Tab label="Набори" value="/profile/word-sets" component={Link} to="word-sets" />
-              <Tab label="Лексика" value="/profile/words" component={Link} to="words" />
-              <Tab label="Керування" value="/profile/dashboard" component={Link} to="dashboard" />
+              <Tab label="Збережені набори" value="/profile/saved-word-sets" component={Link} to="saved-word-sets" />
+              <Tab label="Власні набори" value="/profile/own-word-sets" component={Link} to="own-word-sets" />
             </Tabs>
-          </div>
-
+          </Box>
           <Box sx={{ mt: 3 }}>
             <Outlet />
           </Box>
         </CircularLoading>
-      </div>
+      </Box>
     </>
   );
 }

@@ -1,34 +1,47 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Pagination from '@mui/material/Pagination';
-import Stack from '@mui/material/Stack';
-
-import WordSearchBlock from '../components/WordSearchBlock';
-import WordSetCard from '../components/WordSetCard';
-import WordSetCardGroup from '../components/WordSetCardGroup';
-
-import { fetchWordSets } from '../redux/slices/word-sets';
 import { useState } from 'react';
+import { Box } from '@mui/material';
+
+import WordSetCardGroup from '../components/WordSetCardGroup';
+import { fetchWordSets } from '../redux/slices/word-sets';
+import { useForm } from 'react-hook-form';
+import { isStateUpdateNeeded } from '../components/utils/functions';
 
 export default function HomePage() {
-  const { items: wordSets, totalPages, status } = useSelector(state => state.wordSets.all);
-  
+  const { items: wordSets, totalPages, status } = useSelector(state => state.wordSets.top);
   const dispatch = useDispatch();
 
+  const [topWordSetNameToSearch, setTopWordSetNameToSearch] = useState('');
   const [page, setPage] = useState(1);
   const limit = 8;
 
+  const { register, handleSubmit, formState: { errors } } = useForm({
+    defaultValues: {
+      topWordSetNameToSearch: '',
+    },
+    mode: 'onSubmit'
+  });
+
   useEffect(() => {
-    dispatch(fetchWordSets({ page, limit }));
-  }, [dispatch, page]);
+    const partOfName = topWordSetNameToSearch != '' ? topWordSetNameToSearch : null;
+    dispatch(fetchWordSets({ page, limit, filter: 'top', partOfName: partOfName }));
+  }, [dispatch, page, limit, topWordSetNameToSearch]);
 
   const handlePageChange = (event, value) => {
     setPage(value);
   };
 
+  const onSubmitSearchTopWordSetsForm = async (values) => {
+    if (isStateUpdateNeeded(values?.topWordSetNameToSearch, topWordSetNameToSearch)) {
+      setPage(1);
+      setTopWordSetNameToSearch(values.topWordSetNameToSearch.trim());
+    }
+  };
+
   return (
     <>
-      <div className="container">
+      <Box className="container">
         <h2>Топ спільних наборів лексики</h2>
 
         <WordSetCardGroup
@@ -37,11 +50,14 @@ export default function HomePage() {
           count={totalPages}
           page={page}
           onChange={handlePageChange}
-          limit={limit} />
-
-        {/* <h2>Знайдіть лексику, яка Вас цікавить</h2> */}
-        {/* <WordSearchBlock /> */}
-      </div>
+          limit={limit}
+          searchInputName={'topWordSetNameToSearch'}
+          className='mt-4'
+          register={register}
+          handleSubmit={handleSubmit}
+          onSubmitForm={onSubmitSearchTopWordSetsForm}
+          errors={errors}/>
+      </Box>
     </>
   );
 }
