@@ -9,7 +9,6 @@ const WordTableRow = ({
   isAuthorized,
   isEditing,
   onUpdate,
-  onRemoveFromSet,
   onFullDelete,
 }) => {
   const [isLocalEdit, setIsLocalEdit] = useState(false);
@@ -70,7 +69,6 @@ const WordTableRow = ({
                 ) : (
                   <>
                     <Tooltip title="Редагувати текст"><IconButton onClick={() => setIsLocalEdit(true)}><Edit /></IconButton></Tooltip>
-                    {/* <Tooltip title="Вилучити з цього набору"><IconButton onClick={() => onRemoveFromSet(word.id)} color="warning"><DeleteSweep /></IconButton></Tooltip> */}
                     <Tooltip title="Видалити слово повністю"><IconButton onClick={() => onFullDelete(word.id)} color="error"><Delete /></IconButton></Tooltip>
                   </>
                 )}

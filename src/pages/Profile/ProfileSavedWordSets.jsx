@@ -10,6 +10,7 @@ import WordSetCardGroup from '../../components/WordSetCardGroup';
 import CircularLoading from '../../components/wrappers/CircularLoading';
 import CreateNewWordSetForm from './components/CreateNewWordSetForm';
 import { isStateUpdateNeeded } from '../../components/utils/functions';
+import { Toast } from '../../components/utils/messages';
 
 export default function ProfileSavedWordSets() {
   const dispatch = useDispatch();
@@ -37,10 +38,16 @@ export default function ProfileSavedWordSets() {
   const { items: savedWordSets, totalPages: savedWordSetsTotalPages, status: savedWordSetsStatus } = useSelector(state => state.wordSets.saved);
 
   useEffect(() => {
-    if (isAuth) {
-      const partOfName = savedWordSetNameToSearch != '' ? savedWordSetNameToSearch : null;
-      dispatch(fetchWordSets({ page: savedWordSetsPage, limit: wordSetLimitPerPage, filter: 'saved', partOfName: partOfName }));
-    }
+    (async () => {
+      if (isAuth) {
+        const partOfName = savedWordSetNameToSearch != '' ? savedWordSetNameToSearch : null;
+        try {
+          await dispatch(fetchWordSets({ page: savedWordSetsPage, limit: wordSetLimitPerPage, filter: 'saved', partOfName: partOfName })).unwrap();
+        } catch (error) {
+          setToast({ open: true, message: error?.message?.message || error?.message || 'Помилка під час завантаження наборів', severity: 'error' });
+        }
+      }
+    })();
   }, [dispatch, savedWordSetsPage, wordSetLimitPerPage, isAuth, savedWordSetNameToSearch]);
 
   const { register: registerSavedWordSetToSearch, handleSubmit: handleSubmitSavedWordSetToSearch, formState: { errors: errorsSavedWordSetToSearch } } = useForm({
@@ -79,6 +86,7 @@ export default function ProfileSavedWordSets() {
           </>
         )}
       </CircularLoading>
+      <Toast {...toast} handleClose={handleCloseToast} />
     </>
   );
 }

@@ -59,8 +59,8 @@ export default function WordSetPage() {
     if (isOwnWordSet) {
       if (window.confirm('Підтверджуєте зміну публічного статусу свого набору?')) {
         try {
-          const data = await dispatch(updateWordSet({ id: wordSetId, setIsPublic: !activeItem?.is_public }));
-          if (!data.payload) {
+          const data = await dispatch(updateWordSet({ id: wordSetId, setIsPublic: !activeItem?.is_public })).unwrap();
+          if (!data) {
             setToast({ open: true, message: 'Не вдалося змінити статус набору. Ймовірно, сталася помилка', severity: 'error' });
           }
         } catch (error) {
@@ -74,8 +74,8 @@ export default function WordSetPage() {
     if (isOwnWordSet) {
       if (window.confirm('Підтверджуєте видалення свого набору?')) {
         try {
-          const data = await dispatch(deleteWordSet(wordSetId));
-          if (!data.payload) {
+          const data = await dispatch(deleteWordSet(wordSetId)).unwrap();
+          if (!data) {
             return setToast({ open: true, message: 'Не вдалося видалити набір. Ймовірно, сталася помилка', severity: 'error' });
           }
           navigateBack();
@@ -119,8 +119,8 @@ export default function WordSetPage() {
     if (isOwnWordSet) {
       if (values.word_set_name.trim() != activeItem.name) {
         try {
-          const data = await dispatch(updateWordSet({ id: wordSetId, name: values.word_set_name.trim() }));
-          if (!data.payload) {
+          const data = await dispatch(updateWordSet({ id: wordSetId, name: values.word_set_name.trim() })).unwrap();
+          if (!data) {
             return setToast({ open: true, message: 'Не вдалося оновити набір. Ймовірно, сталася помилка', severity: 'error' });
           }
           reset();
@@ -133,7 +133,13 @@ export default function WordSetPage() {
   };
 
   useEffect(() => {
-    dispatch(fetchWordSet(wordSetId));
+    (async () => {
+      try {
+        await dispatch(fetchWordSet(wordSetId)).unwrap();
+      } catch (error) {
+        setToast({ open: true, message: error?.message?.message || error?.message || 'Помилка під час завантаження набору', severity: 'error' });
+      }
+    })();
   }, [dispatch, wordSetId]);
   
   return (
@@ -202,7 +208,6 @@ export default function WordSetPage() {
                   </Box>
                 </form>
               }
-              {/* HERE: check for error state */}
               {!isEditing && activeItemStatus === 'loaded' && totalWords > 0 && <>
                 <Box sx={{ boxShadow: 2 }} className='mb-3 rounded'>
                   <Link to={`/translate-exercise/${wordSetId}`} className="exercise-card rounded">
@@ -216,7 +221,7 @@ export default function WordSetPage() {
                 {isEditing &&
                   <CreateNewWordForm />
                 }
-                <WordSearchBlock words={activeItem?.words} isAuth={isAuth} isEditing={isEditing} />
+                <WordSearchBlock words={activeItem?.words} isEditing={isEditing} />
               </>}
             </>}
         </CircularLoading>

@@ -10,12 +10,15 @@ import WordSetCardGroup from '../../components/WordSetCardGroup';
 import CircularLoading from '../../components/wrappers/CircularLoading';
 import CreateNewWordSetForm from './components/CreateNewWordSetForm';
 import { isStateUpdateNeeded } from '../../components/utils/functions';
+import { Toast } from '../../components/utils/messages';
 
 export default function ProfileOwnWordSets() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isAuth = useSelector(selectIsAuth);
   const authStatus = useSelector(selectAuthStatus);
+  const [toast, setToast] = useState({ open: false, message: '', severity: 'info' });
+  const handleCloseToast = () => setToast({ ...toast, open: false });
 
   useEffect(() => {
     if (!isAuth && authStatus !== 'loading') {
@@ -35,10 +38,16 @@ export default function ProfileOwnWordSets() {
   const { items: ownWordSets, totalPages: ownWordSetsTotalPages, status: ownWordSetsStatus } = useSelector(state => state.wordSets.own);
 
   useEffect(() => {
-    if (isAuth) {
-      const partOfName = ownWordSetNameToSearch != '' ? ownWordSetNameToSearch : null;
-      dispatch(fetchWordSets({ page: ownWordSetsPage, limit: wordSetLimitPerPage, filter: 'own', partOfName: partOfName }));
-    }
+    (async () => {
+      if (isAuth) {
+        const partOfName = ownWordSetNameToSearch != '' ? ownWordSetNameToSearch : null;
+        try {
+          await dispatch(fetchWordSets({ page: ownWordSetsPage, limit: wordSetLimitPerPage, filter: 'own', partOfName: partOfName })).unwrap();
+        } catch (error) {
+          setToast({ open: true, message: error?.message?.message || error?.message || 'Помилка під час завантаження наборів', severity: 'error' });
+        }
+      }
+    })();
   }, [dispatch, ownWordSetsPage, wordSetLimitPerPage, isAuth, ownWordSetNameToSearch]);
 
   const { register: registerOwnWordSetToSearch, handleSubmit: handleSubmitOwnWordSetToSearch, formState: { errors: errorsOwnWordSetToSearch } } = useForm({
@@ -79,6 +88,7 @@ export default function ProfileOwnWordSets() {
           </>
         )}
       </CircularLoading>
+      <Toast {...toast} handleClose={handleCloseToast} />
     </>
   );
 }

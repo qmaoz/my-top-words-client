@@ -10,7 +10,7 @@ export const fetchLogin = createAsyncThunk('auth/fetchLogin', async (params, { r
   }
 });
 
-export const fetchAuthMe = createAsyncThunk('auth/fetchAuthMe', async (params, { rejectWithValue }) => {
+export const fetchUserInfo = createAsyncThunk('auth/fetchUserInfo', async (params, { rejectWithValue }) => {
   try {
     const { data } = await axios.get('/userinfo');
     return data;
@@ -40,6 +40,7 @@ const authSlice = createSlice({
     logout: (state) => {
       state.data = null;
       state.status = 'error';
+      window.localStorage.removeItem('token');
     },
     setAuthStatusError: (state) => {
       state.status = 'error';
@@ -48,21 +49,21 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addMatcher(
-        isAnyOf(fetchLogin.fulfilled, fetchAuthMe.fulfilled, fetchRegister.fulfilled),
+        isAnyOf(fetchLogin.fulfilled, fetchUserInfo.fulfilled, fetchRegister.fulfilled),
         (state, action) => {
           state.data = action.payload;
           state.status = 'loaded';
         }
       )
       .addMatcher(
-        isAnyOf(fetchLogin.pending, fetchAuthMe.pending, fetchRegister.pending),
+        isAnyOf(fetchLogin.pending, fetchUserInfo.pending, fetchRegister.pending),
         (state) => {
           state.data = null;
           state.status = 'loading';
         }
       )
       .addMatcher(
-        isAnyOf(fetchLogin.rejected, fetchAuthMe.rejected, fetchRegister.rejected),
+        isAnyOf(fetchLogin.rejected, fetchUserInfo.rejected, fetchRegister.rejected),
         (state) => {
           state.data = null;
           state.status = 'error';

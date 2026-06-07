@@ -13,14 +13,18 @@ export const createNewWord = createAsyncThunk('words/createNewWord',
   }
 );
 
-// HERE: add rejectWithValue
 export const fetchWords = createAsyncThunk(
   'words/fetchWords', 
-  async ({ page, limit, filter }) => {
+  async ({ page, limit, filter }, { rejectWithValue }) => {
     let url = `/words?page=${page}&limit=${limit}`; 
     if (filter) url = url + `&filter=${filter}`;
-    const { data } = await axios.get(url);
-    return { ...data, filter };
+
+    try {
+      const { data } = await axios.get(url);
+      return { ...data, filter };
+    } catch (error) {
+      return rejectWithValue({ message: error?.response?.data || 'Сервер недоступний або сталася помилка' });
+    }
   }
 );
 

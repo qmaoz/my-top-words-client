@@ -28,7 +28,6 @@ export default function Header() {
     handleClose();
     if (window.confirm('Підтверджуєте вихід з акаунту?')) {
       dispatch(logout());
-      window.localStorage.removeItem('token');
     }
   };
 

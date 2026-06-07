@@ -13,26 +13,32 @@ export const createNewWordSet = createAsyncThunk('wordSets/createNewWordSet', as
   }
 });
 
-// HERE: add rejectWithValue
 export const fetchWordSets = createAsyncThunk(
   'wordSets/fetchWordSets', 
-  async ({ page, limit, filter, partOfName }) => {
+  async ({ page, limit, filter, partOfName }, { rejectWithValue }) => {
     let url = `/word-sets?page=${page}&limit=${limit}`; 
     if (filter) url = url + `&filter=${filter}`;
     if (partOfName != null && partOfName.trim() != '') url = url + `&partOfName=${partOfName}`;
-    const { data } = await axios.get(url);
-    return { ...data, filter };
+
+    try {
+      const { data } = await axios.get(url);
+      return { ...data, filter };
+    } catch (error) {
+      return rejectWithValue({ message: error?.response?.data || 'Сервер недоступний або сталася помилка' });
+    }
   }
 );
 
-// HERE: add rejectWithValue
-export const fetchWordSet = createAsyncThunk('wordSets/fetchWordSet', async (id) => {
-  const { data } = await axios.get(`/word-sets/${id}`);
-  return data;
+export const fetchWordSet = createAsyncThunk('wordSets/fetchWordSet', async (id, { rejectWithValue }) => {
+  try {
+    const { data } = await axios.get(`/word-sets/${id}`);
+    return data;
+  } catch (error) {
+    return rejectWithValue({ message: error?.response?.data || 'Сервер недоступний або сталася помилка' });
+  }
 });
 
-// HERE: add rejectWithValue
-export const updateWordSet = createAsyncThunk('wordSets/updateWordSet', async ({ id, name, setIsPublic }) => {
+export const updateWordSet = createAsyncThunk('wordSets/updateWordSet', async ({ id, name, setIsPublic }, { rejectWithValue }) => {
   const newName = name?.trim();
 
   const updateBody = {};
@@ -40,8 +46,12 @@ export const updateWordSet = createAsyncThunk('wordSets/updateWordSet', async ({
   if (setIsPublic != null) updateBody.setIsPublic = setIsPublic;
 
   if (Object.keys(updateBody).length > 0) {
-    const { data } = await axios.patch(`/word-sets/${id}`, updateBody);
-    return data;
+    try {
+      const { data } = await axios.patch(`/word-sets/${id}`, updateBody);
+      return data;
+    } catch (error) {
+      return rejectWithValue({ message: error?.response?.data || 'Сервер недоступний або сталася помилка' });
+    }
   }
 });
 
@@ -58,18 +68,6 @@ export const toggleWordSetSave = createAsyncThunk(
   }
 );
 
-export const updateWordSetWords = createAsyncThunk(
-  'wordSets/updateWordSetWords',
-  async ({ wordSetId, wordIds }, { rejectWithValue }) => {
-    try {
-      const { data } = await axios.post(`/word-sets/${wordSetId}/words`, { wordIds });
-      return data;
-    } catch (error) {
-      return rejectWithValue({ message: error?.response?.data || 'Сервер недоступний або сталася помилка' });
-    }
-  }
-);
-
 export const toggleIncludeWordInWordSet = createAsyncThunk(
   'wordSets/toggleIncludeWordInWordSet',
   async ({ wordSetId, wordId }, { rejectWithValue }) => {
@@ -82,12 +80,15 @@ export const toggleIncludeWordInWordSet = createAsyncThunk(
   }
 );
 
-// HERE: add rejectWithValue
 export const deleteWordSet = createAsyncThunk(
   'wordSets/deleteWordSet',
-  async (id) => {
-    const { data } = await axios.delete(`/word-sets/${id}`);
-    return data;
+  async (id, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.delete(`/word-sets/${id}`);
+      return data;
+    } catch (error) {
+      return rejectWithValue({ message: error?.response?.data || 'Сервер недоступний або сталася помилка' });
+    }
   }
 );
 
@@ -179,12 +180,6 @@ const wordSetsSlice = createSlice({
 
       .addCase(logout, (state) => {
         delete state?.activeItem?.isSavedForLearning;
-      })
-
-      .addCase(updateWordSetWords.fulfilled, (state, action) => {
-        if (state?.activeItem) {
-          state.activeItem.words = action.payload.words;
-        }
       })
 
       .addCase(toggleIncludeWordInWordSet.fulfilled, (state, action) => {

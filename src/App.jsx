@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
-import { fetchAuthMe, setAuthStatusError } from './redux/slices/auth';
+import { fetchUserInfo, setAuthStatusError } from './redux/slices/auth';
 import { Toast } from './components/utils/messages.jsx';
 import ScrollToTop from './components/utils/ScrollToTop.jsx';
 import Header from './components/blocks/Header.jsx';
@@ -31,9 +31,14 @@ export default function App() {
     (async () => {
       if (window.localStorage.getItem('token')) {
         try {
-          await dispatch(fetchAuthMe()).unwrap();
+          await dispatch(fetchUserInfo()).unwrap();
         } catch (error) {
-          setToast({ open: true, message: error?.message?.message || error?.message || 'Невідома помилка при отриманні даних користувача', severity: 'error' });
+          const message = error?.message?.message || error?.message;
+          if (message !== 'jwt expired') {
+            setToast({ open: true, message: message || 'Невідома помилка при завантаженні даних користувача', severity: 'error' });
+          } else {
+            window.localStorage.removeItem('token');
+          }
         }
       } else {
         dispatch(setAuthStatusError());

@@ -9,45 +9,38 @@ import ProgressBar from '../components/ProgressBar';
 import PronounceButton from '../components/wrappers/PronounceButton';
 import { speakText } from '../components/utils/functions';
 import CircularLoading from '../components/wrappers/CircularLoading';
-import { ErrorMessage } from '../components/utils/messages';
+import { ErrorMessage, Toast } from '../components/utils/messages';
 
 export default function TranslationExercisePage() {
   const isDebug = false;
   const { id } = useParams();
   const dispatch = useDispatch();
+  const [toast, setToast] = useState({ open: false, message: '', severity: 'info' });
+  const handleCloseToast = () => setToast({ ...toast, open: false });
   const { activeItem, activeItemStatus } = useSelector((state) => state.wordSets);
   const [answer, setAnswer] = useState(null); // null / 'yes' / 'no'
   const [wordsQueue, setWordsQueue] = useState([]);
-  // HERE: check and delete comment
-  // first reload
-  // const [wordsQueue, setWordsQueue] = useState(
-  //   activeItem?.words.map(word => {
-  //     return { id: word.id, repeatNumber: 0, repeatAfter: 0 };
-  //   })
-  // );
 
   useEffect(() => {
     if (activeItem?.words && wordsQueue.length === 0) {
       const initialQueue = activeItem.words.map(word => ({
         id: word.id, 
-        repeatNumber: 0, 
-        repeatAfter: 0 
+        correctRepeatNumber: 0,
+        totalRepeatNumber: 0,
+        repeatAfter: 0,
       }));
       setWordsQueue(initialQueue);
     }
   }, [activeItem, wordsQueue.length]);
 
-  // console.log('wordsQueue: ', wordsQueue);
-  // console.log('activeItem?.words: ', activeItem?.words);
 
   const getNextWordIndex = () => {
-    // first word with minimal "repeatAfter" value
+    // get the first word with the minimal "repeatAfter" value
     let nextWord = wordsQueue[0];
     for (let i = 0; i < wordsQueue?.length; i++) {
-      getNextWordIndex
       const wordInList = wordsQueue[i];
 
-      if (nextWord.repeatAfter > wordInList.repeatAfter || nextWord.repeatAfter == null) {
+      if (nextWord.repeatAfter == null || nextWord.repeatAfter > wordInList.repeatAfter && wordInList.repeatAfter != null) {
         nextWord = wordInList;
       }
     }
@@ -61,7 +54,6 @@ export default function TranslationExercisePage() {
       setCurrentWordIndex(wordsQueue[0]?.id);
     }
   }, [wordsQueue, currentWordIndex]);
-  // console.log('currentWordIndex: ', currentWordIndex);
   
   const [currentWord, setCurrentWord] = useState(null);
   useEffect(() => {
@@ -69,45 +61,57 @@ export default function TranslationExercisePage() {
       setCurrentWord(activeItem?.words.find(word => word.id == currentWordIndex));
     }
   }, [activeItem, currentWord, currentWordIndex]);
-  // console.log('currentWord: ', currentWord);
 
   useEffect(() => {
-    // if the data is already in `activeItem` and it's the same set, there's no need to load it again
-    if (!activeItem || activeItem.id !== Number(id)) {
-      dispatch(fetchWordSet(id));
-    }
+    (async () => {
+      // if the data is already in `activeItem` and it's the same wordSet, there's no need to load it again
+      if (!activeItem || activeItem.id !== Number(id)) {
+        try {
+          await dispatch(fetchWordSet(id)).unwrap();
+        } catch (error) {
+          setToast({ open: true, message: error?.message?.message || error?.message || 'Помилка під час завантаження набору', severity: 'error' });
+        }
+        
+      }
+    })();
   }, [id, dispatch, activeItem]);
 
   
 
   // if okay:
-  // - increase repeatNumber of the curent element by one;
-  // - (repeatNumber is already increased) set repeatAfter value:
-  //   - 1 if repeatNumber == 1;
-  //   - 4 if repeatNumber == 2;
-  //   - null if repeatNumber >= 3;
+  // - increase correctRepeatNumber of the curent element by one;
+  // - (correctRepeatNumber is already increased) set repeatAfter value:
+  //   - 1 if correctRepeatNumber == 1;
+  //   - 4 if correctRepeatNumber == 2;
+  //   - null if correctRepeatNumber >= 3 or word is repeated correct for the first time (no need to repeat again);
   // - decrease the "repeatAfter" value by one for all other elements;
   const onYesButtonClick = () => {
     setAnswer('yes');
     speakText(currentWord?.sentence_text);
 
-    // increase the repeatNumber value of the curent element by one
+    // increase the correctRepeatNumber value of the curent element by one
     // update the repeatAfter value
     const newWordsQueue = wordsQueue.map(word => {
       if (word.id == currentWordIndex) {
-        let repeatNumber = word.repeatNumber + 1;
-        let repeatAfter;
-        if (repeatNumber == 1) repeatAfter = 1;
-        if (repeatNumber == 2) repeatAfter = 4;
-        if (repeatNumber >= 3) {
-          repeatAfter = null;
+        if (word.totalRepeatNumber == 1 && word.repeatAfter == null) {
+          return { ...word };
         }
 
-        return {...word, repeatNumber: repeatNumber, repeatAfter: repeatAfter};
+        let totalRepeatNumber = word.totalRepeatNumber + 1;
+        let correctRepeatNumber = word.correctRepeatNumber + 1;
+        let repeatAfter;
+        if (correctRepeatNumber >= 3 || totalRepeatNumber == 1) {
+          repeatAfter = null;
+        } else {
+          if (correctRepeatNumber == 1) repeatAfter = 1;
+          if (correctRepeatNumber == 2) repeatAfter = 4;
+        }
+
+        return { ...word, correctRepeatNumber: correctRepeatNumber, repeatAfter: repeatAfter, totalRepeatNumber: totalRepeatNumber };
       } else {
         // decrease the "repeatAfter" value by one for all other elements;
         let repeatAfter = word.repeatAfter > 0 ? word.repeatAfter - 1 : word.repeatAfter;
-        return {...word, repeatAfter: repeatAfter};
+        return { ...word, repeatAfter: repeatAfter };
       }
     });
 
@@ -115,20 +119,18 @@ export default function TranslationExercisePage() {
   };
 
   // if error:
-  // - repeatNumber of the current element = 0;
+  // - correctRepeatNumber of the current element = 0;
   // - do not update the "repeatAfter" value for other elements; 
   const onNoButtonClick = () => {
     setAnswer('no');
     speakText(currentWord?.sentence_text);
-    // console.log('wordsQueue: ', wordsQueue);
-    // console.log('activeItem?.words: ', activeItem?.words);
-    // console.log('currentWord: ', currentWord);
     
     const newWordsQueue = wordsQueue.map(word => {
       if (word.id == currentWordIndex) {
-        return {...word, repeatNumber: 0};
+        let totalRepeatNumber = word.totalRepeatNumber + 1;
+        return { ...word, correctRepeatNumber: 0, totalRepeatNumber: totalRepeatNumber };
       } else {
-        return {...word};
+        return { ...word };
       }
     });
     
@@ -136,7 +138,6 @@ export default function TranslationExercisePage() {
   };
 
   const onNextButtonClick = () => {
-    // console.log('wordsQueue: ', wordsQueue);
     window.speechSynthesis.cancel();
     setAnswer(null);
     const nextWordIndex = getNextWordIndex();
@@ -160,7 +161,7 @@ export default function TranslationExercisePage() {
             </> : <>
               <Box className='df gap-3'>
                 <span className='text-nowrap'>Кількість закріплених слів:</span>
-                <ProgressBar total={wordsQueue?.length} completed={wordsQueue?.filter(word => word.repeatNumber >= 3).length} />
+                <ProgressBar total={wordsQueue?.length} completed={wordsQueue?.filter(word => word.repeatAfter == null).length} />
               </Box>
               {isDebug && <>
                 <p style={{fontSize: '0.5em', margin: 0}}>
@@ -169,7 +170,7 @@ export default function TranslationExercisePage() {
                 </p>
                 {wordsQueue?.map(word => {
                   return <Fragment key={word.id}>
-                    <p style={{fontSize: '0.5em', margin: 0}}>id: {word.id} | repeatNumber: {word.repeatNumber} | repeatAfter: {word.repeatAfter} | {activeItem?.words.find(wordData => wordData.id == word.id).sentence_text}</p>
+                    <p style={{fontSize: '0.5em', margin: 0}}>id: {word.id} | correctRepeatNumber: {word.correctRepeatNumber} | repeatAfter: {word.repeatAfter} | totalRepeatNumber: {word.totalRepeatNumber} | {activeItem?.words.find(wordData => wordData.id == word.id).sentence_text}</p>
                   </Fragment>;
                 })}
               </>}
@@ -208,7 +209,7 @@ export default function TranslationExercisePage() {
                   <Button variant='contained' fullWidth color='success' onClick={onYesButtonClick}>Так</Button>
                   <Button variant='contained' fullWidth color='error' onClick={onNoButtonClick}>Ні</Button>
                 </> : <>
-                  {wordsQueue?.filter(word => word.repeatNumber < 3).length == 0 ? <>
+                  {wordsQueue?.filter(word => word.repeatAfter != null).length == 0 ? <>
                     <p className='text-nowrap m-0'>
                       Тренажер успішно пройдено!
                     </p>
@@ -225,6 +226,8 @@ export default function TranslationExercisePage() {
             </>}
           </>}
         </CircularLoading>
+
+        <Toast {...toast} handleClose={handleCloseToast} />
       </Box>
     </>
   );

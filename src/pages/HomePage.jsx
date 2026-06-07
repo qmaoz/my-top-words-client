@@ -7,10 +7,13 @@ import WordSetCardGroup from '../components/WordSetCardGroup';
 import { fetchWordSets } from '../redux/slices/word-sets';
 import { useForm } from 'react-hook-form';
 import { isStateUpdateNeeded } from '../components/utils/functions';
+import { Toast } from '../components/utils/messages';
 
 export default function HomePage() {
   const { items: wordSets, totalPages, status } = useSelector(state => state.wordSets.top);
   const dispatch = useDispatch();
+  const [toast, setToast] = useState({ open: false, message: '', severity: 'info' });
+  const handleCloseToast = () => setToast({ ...toast, open: false });
 
   const [topWordSetNameToSearch, setTopWordSetNameToSearch] = useState('');
   const [page, setPage] = useState(1);
@@ -24,8 +27,14 @@ export default function HomePage() {
   });
 
   useEffect(() => {
-    const partOfName = topWordSetNameToSearch != '' ? topWordSetNameToSearch : null;
-    dispatch(fetchWordSets({ page, limit, filter: 'top', partOfName: partOfName }));
+    (async () => {
+      const partOfName = topWordSetNameToSearch != '' ? topWordSetNameToSearch : null;
+      try {
+        await dispatch(fetchWordSets({ page, limit, filter: 'top', partOfName: partOfName })).unwrap();
+      } catch (error) {
+        setToast({ open: true, message: error?.message?.message || error?.message || 'Помилка під час завантаження наборів', severity: 'error' });
+      }
+    })();
   }, [dispatch, page, limit, topWordSetNameToSearch]);
 
   const handlePageChange = (event, value) => {
@@ -57,6 +66,8 @@ export default function HomePage() {
           handleSubmit={handleSubmit}
           onSubmitForm={onSubmitSearchTopWordSetsForm}
           errors={errors}/>
+
+        <Toast {...toast} handleClose={handleCloseToast} />
       </Box>
     </>
   );
