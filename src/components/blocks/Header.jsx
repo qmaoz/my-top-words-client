@@ -1,6 +1,6 @@
 import { Link } from 'react-router';
 import { Menu, MenuItem, IconButton, Avatar, Paper, Box } from '@mui/material';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { logout, selectAuthStatus, selectIsAuth, selectUserData } from '../../redux/slices/auth';
@@ -15,6 +15,18 @@ export default function Header() {
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const logoRef = useRef(null);
+  const [logoWidth, setLogoWidth] = useState(null);
+
+  useEffect(() => {
+    if (logoRef.current) {
+      const width = logoRef.current.scrollWidth;
+      const text = logoRef.current.textContent || '';
+      const charCount = text.length;
+      setLogoWidth(width);
+      logoRef.current.style.setProperty('--typewriter-steps', charCount);
+    }
+  }, []);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -36,7 +48,13 @@ export default function Header() {
       <Paper elevation={2} className='mb-3'>
         <header>
           <Box className="container df">
-            <h1 className="typewriter-animation"><Link to='/'>My Top Words</Link></h1>
+            <h1 
+              ref={logoRef} 
+              className="typewriter-animation"
+              style={logoWidth ? { '--typewriter-width': `${logoWidth}px` } : {}}
+            >
+              <Link to='/'>My Top Words</Link>
+            </h1>
             {isAuth ? (
               <Box className="header__user-profile df">
                 {/* <Box className="username" style={{ marginRight: '10px' }}>

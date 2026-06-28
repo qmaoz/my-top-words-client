@@ -5,8 +5,8 @@ import { speakText } from '../utils/functions';
 export default function PronounceButton({ text }) {
   return (
     <>
-      <IconButton size="small" onClick={() => speakText(text)}>
-        <VolumeUp fontSize="small" />
+      <IconButton className='pronounce-btn' onClick={() => speakText(text)}>
+        <VolumeUp />
       </IconButton>
     </>
   );

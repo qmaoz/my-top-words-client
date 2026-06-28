@@ -10,6 +10,7 @@ import PronounceButton from '../components/wrappers/PronounceButton';
 import { speakText } from '../components/utils/functions';
 import CircularLoading from '../components/wrappers/CircularLoading';
 import { ErrorMessage, Toast } from '../components/utils/messages';
+import useFitText from '../components/utils/useFitText';
 
 export default function TranslationExercisePage() {
   const isDebug = false;
@@ -20,6 +21,7 @@ export default function TranslationExercisePage() {
   const { activeItem, activeItemStatus } = useSelector((state) => state.wordSets);
   const [answer, setAnswer] = useState(null); // null / 'yes' / 'no'
   const [wordsQueue, setWordsQueue] = useState([]);
+  const [wordsQueueSnapshot, setWordsQueueSnapshot] = useState(null); // for undo
 
   useEffect(() => {
     if (activeItem?.words && wordsQueue.length === 0) {
@@ -89,6 +91,9 @@ export default function TranslationExercisePage() {
     setAnswer('yes');
     speakText(currentWord?.sentence_text);
 
+    // save snapshot for undo
+    setWordsQueueSnapshot([...wordsQueue]);
+
     // increase the correctRepeatNumber value of the curent element by one
     // update the repeatAfter value
     const newWordsQueue = wordsQueue.map(word => {
@@ -137,9 +142,19 @@ export default function TranslationExercisePage() {
     setWordsQueue(newWordsQueue);
   };
 
+  const onUndoButtonClick = () => {
+    if (wordsQueueSnapshot) {
+      setWordsQueue(wordsQueueSnapshot);
+      setWordsQueueSnapshot(null);
+    }
+    setAnswer(null);
+    window.speechSynthesis.cancel();
+  };
+
   const onNextButtonClick = () => {
     window.speechSynthesis.cancel();
     setAnswer(null);
+    setWordsQueueSnapshot(null);
     const nextWordIndex = getNextWordIndex();
     setCurrentWordIndex(nextWordIndex);
     setCurrentWord(activeItem?.words.find(word => word.id == nextWordIndex));
@@ -149,9 +164,11 @@ export default function TranslationExercisePage() {
     window.speechSynthesis.cancel();
   };
 
+  const { ref: cardRef } = useFitText({ currentWord, answer }, { max: 2.5, min: 0.6 });
+
   return (
     <>
-      <Box className='app-container container p-3'>
+      <Box className='app-container container p-3 exercise-page-content'>
         <CircularLoading isLoading={activeItemStatus === 'loading'}>
           {!activeItem ? (
             <ErrorMessage message={'Набір не знайдено або доступ до нього заборонено, або стався збій'} />
@@ -174,36 +191,71 @@ export default function TranslationExercisePage() {
                   </Fragment>;
                 })}
               </>}
-              <Paper elevation={2} className='main-content content-block' sx={{ p: '1em', mt: '1em'}}>
-                {currentWord?.sentence_translation_uk && <>
-                  <Box>
-                    <Typography variant='body1'>
-                      {currentWord?.sentence_translation_uk && <span>{currentWord?.sentence_translation_uk}</span>}
-                      {answer && currentWord?.sentence_text && <>
-                        <span className='me-1 ms-1'>—</span>
-                        <span>{currentWord?.sentence_text}</span>
-                        <span className='ms-1'><PronounceButton text={currentWord?.sentence_text} /></span>
-                      </>} 
-                    </Typography>
-                  </Box>
-                </>
-                }
-                {!answer &&
-                  <Box className='df gap-3 mt-3'>
-                    <Typography variant='body1' className='text-nowrap'>Чи легко відтворити це речення німецькою?</Typography>
-                  </Box>
-                }
-                {answer &&
-                  <>
-                    <Typography variant='body2'>
-                      <span>{currentWord?.word_text}</span>
-                      <span className='ms-1'><PronounceButton text={currentWord?.word_text} /></span>
-                      <span className='me-1'>—</span>
-                      <span className=''>{currentWord?.word_translation_uk}</span>
-                    </Typography>
-                  </>
-                }
+              <Paper elevation={2} className='main-content content-block' sx={{ p: '1em', mt: '1em', display: 'flex', flexDirection: 'column' }}>
+                <Box ref={cardRef} sx={{ flex: 1, minHeight: 0, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+                  {/* Row 1: Ukrainian sentence */}
+                  {currentWord?.sentence_translation_uk && (
+                    <Box>
+                      <Typography sx={{ fontSize: 'inherit' }}>
+                        {currentWord?.sentence_translation_uk}
+                      </Typography>
+                    </Box>
+                  )}
+
+                  {/* Row 2: German sentence (appears after answer) */}
+                  {answer && currentWord?.sentence_text && (() => {
+                    const words = currentWord.sentence_text.split(' ');
+                    const lastWord = words.pop();
+                    return (
+                      <Box sx={{ mt: 2 }}>
+                        <Typography sx={{ fontSize: 'inherit' }}>
+                          {words.join(' ')}{words.length > 0 && ' '}
+                          <span style={{ whiteSpace: 'nowrap' }}>
+                            {lastWord}
+                            <span className='ms-1'><PronounceButton text={currentWord?.sentence_text} /></span>
+                          </span>
+                        </Typography>
+                      </Box>
+                    );
+                  })()}
+
+                  {/* Row 3: German word (appears after answer) */}
+                  {answer && currentWord?.word_text && (() => {
+                    const words = currentWord.word_text.split(' ');
+                    const lastWord = words.pop();
+                    return (
+                      <Box sx={{ mt: 2 }}>
+                        <Typography sx={{ fontSize: 'inherit' }}>
+                          {words.join(' ')}{words.length > 0 && ' '}
+                          <span style={{ whiteSpace: 'nowrap' }}>
+                            {lastWord}
+                            <span className='ms-1'><PronounceButton text={currentWord?.word_text} /></span>
+                          </span>
+                        </Typography>
+                      </Box>
+                    );
+                  })()}
+
+                  {/* Row 4: Ukrainian translation (appears after answer) */}
+                  {answer && currentWord?.word_translation_uk && (
+                    <Box sx={{ mt: 2 }}>
+                      <Typography sx={{ fontSize: 'inherit' }}>
+                        {currentWord?.word_translation_uk}
+                      </Typography>
+                    </Box>
+                  )}
+                </Box>
               </Paper>
+
+              {/* Query phrase - below the card, near buttons */}
+              {!answer && (
+                <Box className='df mt-3'>
+                  <Typography variant='body1'>
+                    Чи легко відтворити це речення німецькою?
+                  </Typography>
+                </Box>
+              )}
+
               <Box className='df gap-3 mt-3'>
                 {!answer ? <>
                   <Button variant='contained' fullWidth color='success' onClick={onYesButtonClick}>Так</Button>
@@ -218,8 +270,15 @@ export default function TranslationExercisePage() {
                         Повернутися до набору
                       </Button>
                     </Link>
-                  </>: <>
-                    <Button onClick={onNextButtonClick} variant='contained' fullWidth color='primary'>Далі</Button>
+                  </> : <>
+                    <Box className='w-100 exercise-buttons-stack' sx={{ display: 'flex', gap: 1 }}>
+                      {answer === 'yes' && (
+                        <Button fullWidth variant='outlined' color='warning' onClick={onUndoButtonClick} className='exercise-btn-cancel'>
+                          Скасувати
+                        </Button>
+                      )}
+                      <Button onClick={onNextButtonClick} variant='contained' fullWidth color='primary' className='exercise-btn-next'>Далі</Button>
+                    </Box>
                   </>}
                 </>}
               </Box>
