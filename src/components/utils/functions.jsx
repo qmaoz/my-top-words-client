@@ -1,29 +1,65 @@
-export const speakText = (text) => {
+let speakGeneration = 0;
+
+const cancelSpeechNow = () => {
   if (!window.speechSynthesis) {
-    return alert('Ваш браузер не підтримує синтез мовлення');
+    return;
   }
 
+  window.speechSynthesis.cancel();
+};
+
+export const stopSpeech = () => {
+  speakGeneration += 1;
+  cancelSpeechNow();
+};
+
+function getGermanVoice() {
   const voices = window.speechSynthesis.getVoices();
-  const germanVoices = voices.filter(voice => voice.lang.startsWith('de'));
+  const germanVoices = voices.filter((voice) => voice.lang.startsWith('de'));
+
+  if (germanVoices.length === 0) {
+    return null;
+  }
 
   // Source - https://stackoverflow.com/a/5915122
   // Posted by Kelly, modified by community. See post 'Timeline' for change history
   // Retrieved 2026-05-23, License - CC BY-SA 4.0
   const randomIndex = Math.floor(Math.random() * germanVoices.length);
-  
-  const germanVoice = germanVoices[randomIndex];
-  
+  return germanVoices[randomIndex];
+}
+
+export const speakText = (text) => {
+  if (!text?.trim()) {
+    return;
+  }
+
+  if (!window.speechSynthesis) {
+    return alert('Ваш браузер не підтримує синтез мовлення');
+  }
+
+  stopSpeech();
+  const generation = speakGeneration;
+
+  const germanVoice = getGermanVoice();
+
   if (!germanVoice) {
     return alert('Не знайдено підходящого голосу для озвучування. Ймовірно, німецька мова не встановлена. Будь ласка, додайте німецький пакет у налаштуваннях мови вашого пристрою (Synthesis Speech), щоб почути вимову.');
   }
-  
-  window.speechSynthesis.cancel();
+
   const utterance = new SpeechSynthesisUtterance(text);
-  utterance.voice = germanVoice; 
+  utterance.voice = germanVoice;
   utterance.lang = 'de-DE';
   utterance.rate = 1;
-  
-  window.speechSynthesis.speak(utterance);
+
+  // Chrome queues speak() even after cancel(); defer and drop stale requests.
+  window.setTimeout(() => {
+    if (generation !== speakGeneration) {
+      return;
+    }
+
+    cancelSpeechNow();
+    window.speechSynthesis.speak(utterance);
+  }, 0);
 };
 
 export const correctNounCase = (number, one, few, many) => {

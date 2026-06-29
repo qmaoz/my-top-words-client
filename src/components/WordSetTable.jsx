@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import WordTableRow from './WordTableRow';
 
-export default function WordSetTable({ words, isAuthorized, className, isEditing, onUpdate, onFullDelete }) {
+export default function WordSetTable({ words, isAuthorized, className, isEditing, showLearnedToggle, onToggleLearned, onUpdate, onFullDelete }) {
   return (
     <Box className={'table-limit ' + (className ?? '')}>
       <table className="word-set-table">
@@ -11,6 +11,8 @@ export default function WordSetTable({ words, isAuthorized, className, isEditing
             word={word}
             isAuthorized={isAuthorized}
             isEditing={isEditing}
+            showLearnedToggle={showLearnedToggle}
+            onToggleLearned={onToggleLearned}
             onUpdate={onUpdate}
             onFullDelete={onFullDelete}
           />

@@ -6,6 +6,7 @@ import { WarningMessage, Toast } from './utils/messages';
 import WordSetTable from './WordSetTable';
 import { selectIsAuth } from '../redux/slices/auth';
 import { deleteWord, updateWord } from '../redux/slices/words';
+import { toggleWordLearned } from '../redux/slices/word-sets';
 
 export default function WordSearchBlock({ title, count: pageCount, words, isEditing }) {
   const dispatch = useDispatch();
@@ -33,6 +34,14 @@ export default function WordSearchBlock({ title, count: pageCount, words, isEdit
     }
   };
 
+  const handleToggleLearned = async (wordId) => {
+    try {
+      await dispatch(toggleWordLearned({ wordId })).unwrap();
+    } catch (error) {
+      setToast({ open: true, message: error?.message?.message || error?.message || 'Помилка при зміні статусу слова', severity: 'error' });
+    }
+  };
+
   return (
     <>
       {title && title.trim() != '' && <h3>{title}</h3>}
@@ -50,6 +59,8 @@ export default function WordSearchBlock({ title, count: pageCount, words, isEdit
             words={words}
             isEditing={isEditing}
             isAuthorized={isAuth}
+            showLearnedToggle={isAuth && !isEditing}
+            onToggleLearned={handleToggleLearned}
             onUpdate={handleUpdateWord}
             onFullDelete={handleFullDelete}
           />

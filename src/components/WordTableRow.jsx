@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { IconButton, Checkbox, Tooltip, Box } from '@mui/material';
-import { Edit, Delete, Save, Close, VolumeUp, DeleteSweep } from '@mui/icons-material';
+import { Edit, Delete, Save, Close } from '@mui/icons-material';
 import { useState } from 'react';
 import PronounceButton from './wrappers/PronounceButton';
 
@@ -8,6 +8,8 @@ const WordTableRow = ({
   word, 
   isAuthorized,
   isEditing,
+  showLearnedToggle,
+  onToggleLearned,
   onUpdate,
   onFullDelete,
 }) => {
@@ -35,6 +37,18 @@ const WordTableRow = ({
   return (
     <tbody className={isLocalEdit ? 'editing-row' : ''}>
       <tr>
+        {showLearnedToggle && !isLocalEdit &&
+          <td rowSpan="2" className="actions-cell max-width-fit-content">
+            <Tooltip title={word.isLearned ? 'Зняти позначку «вивчено»' : 'Позначити як вивчене'}>
+              <Checkbox
+                checked={Boolean(word.isLearned)}
+                onChange={() => onToggleLearned(word.id)}
+                color="success"
+                inputProps={{ 'aria-label': word.isLearned ? 'Вивчено' : 'Не вивчено' }}
+              />
+            </Tooltip>
+          </td>}
+
         <td>
           {isLocalEdit ? (
             <input {...register('word_text', { required: true })} className="table-input" />

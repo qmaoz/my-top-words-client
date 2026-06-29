@@ -80,6 +80,18 @@ export const toggleIncludeWordInWordSet = createAsyncThunk(
   }
 );
 
+export const toggleWordLearned = createAsyncThunk(
+  'wordSets/toggleWordLearned',
+  async ({ wordId }, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.patch(`/words/toggle-learned/${wordId}`);
+      return { wordId, isLearned: data.isLearned };
+    } catch (error) {
+      return rejectWithValue({ message: error?.response?.data || 'Сервер недоступний або сталася помилка' });
+    }
+  }
+);
+
 export const deleteWordSet = createAsyncThunk(
   'wordSets/deleteWordSet',
   async (id, { rejectWithValue }) => {
@@ -170,6 +182,14 @@ const wordSetsSlice = createSlice({
 
         ['top', 'own', 'saved'].forEach(updateInList);
       })
+      .addCase(toggleWordLearned.fulfilled, (state, action) => {
+        const { wordId, isLearned } = action.payload;
+
+        if (state?.activeItem?.words) {
+          const word = state.activeItem.words.find(obj => Number(obj.id) === Number(wordId));
+          if (word) word.isLearned = isLearned;
+        }
+      })
       .addCase(updateWordSet.fulfilled, (state, action) => {
         if (action.payload) {
           const { name, is_public: isPublic } = action.payload;
@@ -180,6 +200,11 @@ const wordSetsSlice = createSlice({
 
       .addCase(logout, (state) => {
         delete state?.activeItem?.isSavedForLearning;
+        if (state?.activeItem?.words) {
+          state.activeItem.words.forEach((word) => {
+            delete word.isLearned;
+          });
+        }
       })
 
       .addCase(toggleIncludeWordInWordSet.fulfilled, (state, action) => {

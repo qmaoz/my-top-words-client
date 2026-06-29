@@ -521,6 +521,10 @@ input::placeholder {
   }
 }
 
+.exercise-page-actions.exercise-buttons-stack {
+  flex-direction: column;
+}
+
 
 
 /* EXERCISE PAGE (TranslationExercisePage) */
@@ -529,6 +533,31 @@ input::placeholder {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+}
+
+.exercise-page-body {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.exercise-page-main {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.exercise-page-actions {
+  flex-shrink: 0;
+  width: 100%;
+}
+
+.exercise-page-back {
+  width: 100%;
 }
 
 .exercise-page-content .df.gap-3:first-of-type {
