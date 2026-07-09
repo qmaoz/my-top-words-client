@@ -70,6 +70,16 @@ export const correctNounCase = (number, one, few, many) => {
   else return many;
 };
 
+export const formatLocaleCount = (value) => {
+  if (value == null) return '—';
+  return Number(value).toLocaleString('uk-UA');
+};
+
+export const nounCase = (count, one, few, many) => {
+  if (count == null) return many;
+  return correctNounCase(Number(count), one, few, many);
+};
+
 // the new string is not empty and different from the previous string
 // or
 // the previous string was not empty and the new one is different ("empty" is possible in this case)

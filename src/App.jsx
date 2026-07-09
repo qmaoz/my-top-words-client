@@ -5,9 +5,6 @@ import { useDispatch } from 'react-redux';
 import { fetchUserInfo, setAuthStatusError } from './redux/slices/auth';
 import { Toast } from './components/utils/messages.jsx';
 import ScrollToTop from './components/utils/ScrollToTop.jsx';
-import Header from './components/blocks/Header.jsx';
-import Footer from './components/blocks/Footer.jsx';
-
 import HomePage from './pages/HomePage.jsx';
 import AboutPage from './pages/AboutPage.jsx';
 import LoginFormPage from './pages/LoginFormPage.jsx';
@@ -21,6 +18,10 @@ import ProfileOwnWordSets from './pages/Profile/ProfileOwnWordSets.jsx';
 import ProfileSavedWordSets from './pages/Profile/ProfileSavedWordSets.jsx';
 import DefaultLayout from './components/blocks/DefaultLayout.jsx';
 import ExerciseLayout from './components/blocks/ExerciseLayout.jsx';
+import AdminLayout from './pages/Admin/AdminLayout.jsx';
+import AdminOverviewPage from './pages/Admin/AdminOverviewPage.jsx';
+import AdminFeedbackPage from './pages/Admin/AdminFeedbackPage.jsx';
+import AdminUsersPage from './pages/Admin/AdminUsersPage.jsx';
 
 export default function App() {
   const dispatch = useDispatch();
@@ -75,9 +76,15 @@ export default function App() {
             </Route>
 
             <Route path="/word-set/:id" element={<><WordSetPage /></>} />
-            
-            {/* <Route path="/terms" element={<><TermsAndConditionsPage /></>} /> */}
-            {/* <Route path="/about" element={<><AboutPage /></>} /> */}
+            <Route path="/terms" element={<><TermsAndConditionsPage /></>} />
+            <Route path="/about" element={<><AboutPage /></>} />
+
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route index element={<AdminOverviewPage />} />
+              <Route path="overview" element={<AdminOverviewPage />} />
+              <Route path="feedback" element={<AdminFeedbackPage />} />
+              <Route path="users" element={<AdminUsersPage />} />
+            </Route>
             
             <Route path='*' element={<NotFoundPage />} />
           </Route>

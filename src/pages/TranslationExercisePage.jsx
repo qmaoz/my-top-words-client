@@ -4,6 +4,8 @@ import { Link, useParams } from 'react-router-dom';
 import { Box, Button, Paper, Typography } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CheckIcon from '@mui/icons-material/Check';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 import { fetchWordSet, toggleWordLearned } from '../redux/slices/word-sets';
 import { selectIsAuth } from '../redux/slices/auth';
@@ -14,13 +16,31 @@ import CircularLoading from '../components/wrappers/CircularLoading';
 import { ErrorMessage, Toast } from '../components/utils/messages';
 import useFitText from '../components/utils/useFitText';
 
-function getWordsForTrainer(words) {
+function getInitialTrainerWords(words) {
   if (!words?.length) return [];
 
   const allLearned = words.every((word) => word.isLearned);
-  const filteredWords = allLearned ? words : words.filter((word) => !word.isLearned);
+  return allLearned ? [...words] : words.filter((word) => !word.isLearned);
+}
 
-  return filteredWords;
+function shuffleArray(array) {
+  const result = [...array];
+
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+
+  return result;
+}
+
+function createQueueItem(word) {
+  return {
+    id: word.id,
+    correctRepeatNumber: 0,
+    totalRepeatNumber: 0,
+    repeatAfter: 0,
+  };
 }
 
 function getNextWordIndex(queue) {
@@ -42,6 +62,10 @@ function getPendingWordsCount(queue) {
   return queue?.filter((word) => word.repeatAfter != null).length ?? 0;
 }
 
+function isSessionFinished(queue) {
+  return queue.length === 0 || getPendingWordsCount(queue) === 0;
+}
+
 export default function TranslationExercisePage() {
   const isDebug = false;
   const { id } = useParams();
@@ -50,149 +74,128 @@ export default function TranslationExercisePage() {
   const handleCloseToast = () => setToast({ ...toast, open: false });
   const { activeItem, activeItemStatus } = useSelector((state) => state.wordSets);
   const isAuth = useSelector(selectIsAuth);
-  const [answer, setAnswer] = useState(null); // null / 'yes' / 'no'
+  const [isRevealed, setIsRevealed] = useState(false);
   const [wordsQueue, setWordsQueue] = useState([]);
-  const [wordsQueueSnapshot, setWordsQueueSnapshot] = useState(null); // for undo
+  const [queueInitialized, setQueueInitialized] = useState(false);
+  const [sessionComplete, setSessionComplete] = useState(false);
   const [isMarkingLearned, setIsMarkingLearned] = useState(false);
-
-  useEffect(() => {
-    if (activeItem?.words && wordsQueue.length === 0) {
-      const trainerWords = getWordsForTrainer(activeItem.words);
-      const initialQueue = trainerWords.map(word => ({
-        id: word.id, 
-        correctRepeatNumber: 0,
-        totalRepeatNumber: 0,
-        repeatAfter: 0,
-      }));
-      setWordsQueue(initialQueue);
-    }
-  }, [activeItem, wordsQueue.length]);
-
   const [currentWordIndex, setCurrentWordIndex] = useState(null);
-  useEffect(() => {
-    if (wordsQueue && currentWordIndex == null) {
-      setCurrentWordIndex(wordsQueue[0]?.id);
-    }
-  }, [wordsQueue, currentWordIndex]);
-  
   const [currentWord, setCurrentWord] = useState(null);
-  const trainerWords = getWordsForTrainer(activeItem?.words);
 
   useEffect(() => {
-    if (trainerWords.length && currentWord == null) {
-      setCurrentWord(trainerWords.find(word => word.id == currentWordIndex));
+    setWordsQueue([]);
+    setQueueInitialized(false);
+    setSessionComplete(false);
+    setCurrentWordIndex(null);
+    setCurrentWord(null);
+    setIsRevealed(false);
+  }, [id]);
+
+  useEffect(() => {
+    if (!activeItem?.words?.length || queueInitialized || sessionComplete) {
+      return;
     }
-  }, [trainerWords, currentWord, currentWordIndex]);
+
+    const trainerWords = getInitialTrainerWords(activeItem.words);
+    const initialQueue = shuffleArray(trainerWords.map(createQueueItem));
+
+    if (initialQueue.length === 0) {
+      setQueueInitialized(true);
+      return;
+    }
+
+    const firstWordId = initialQueue[0].id;
+    setWordsQueue(initialQueue);
+    setCurrentWordIndex(firstWordId);
+    setCurrentWord(activeItem.words.find((word) => word.id == firstWordId) ?? null);
+    setQueueInitialized(true);
+  }, [activeItem, queueInitialized, sessionComplete]);
 
   useEffect(() => {
     (async () => {
-      // if the data is already in `activeItem` and it's the same wordSet, there's no need to load it again
       if (!activeItem || activeItem.id !== Number(id)) {
         try {
           await dispatch(fetchWordSet(id)).unwrap();
         } catch (error) {
           setToast({ open: true, message: error?.message?.message || error?.message || 'Помилка під час завантаження набору', severity: 'error' });
         }
-        
       }
     })();
   }, [id, dispatch, activeItem]);
 
-  
+  const findWordById = (wordId) => activeItem?.words?.find((word) => word.id == wordId) ?? null;
 
-  // if okay:
-  // - increase correctRepeatNumber of the curent element by one;
-  // - (correctRepeatNumber is already increased) set repeatAfter value:
-  //   - 1 if correctRepeatNumber == 1;
-  //   - 4 if correctRepeatNumber == 2;
-  //   - null if correctRepeatNumber >= 3 or word is repeated correct for the first time (no need to repeat again);
-  // - decrease the "repeatAfter" value by one for all other elements;
-  const onYesButtonClick = () => {
-    setAnswer('yes');
+  const finishSession = () => {
+    setSessionComplete(true);
+    setCurrentWordIndex(null);
+    setCurrentWord(null);
+    setIsRevealed(false);
+  };
+
+  const goToNextWord = (newQueue) => {
+    stopSpeech();
+    setIsRevealed(false);
+
+    if (isSessionFinished(newQueue)) {
+      setWordsQueue(newQueue);
+      finishSession();
+      return;
+    }
+
+    const nextWordId = getNextWordIndex(newQueue);
+    setWordsQueue(newQueue);
+    setCurrentWordIndex(nextWordId);
+    setCurrentWord(findWordById(nextWordId));
+  };
+
+  const onShowAnswerClick = () => {
+    setIsRevealed(true);
     speakText(currentWord?.sentence_text);
+  };
 
-    // save snapshot for undo
-    setWordsQueueSnapshot([...wordsQueue]);
-
-    // increase the correctRepeatNumber value of the curent element by one
-    // update the repeatAfter value
-    const newWordsQueue = wordsQueue.map(word => {
+  const onYesButtonClick = () => {
+    const newWordsQueue = wordsQueue.map((word) => {
       if (word.id == currentWordIndex) {
         if (word.totalRepeatNumber == 1 && word.repeatAfter == null) {
           return { ...word };
         }
 
-        let totalRepeatNumber = word.totalRepeatNumber + 1;
-        let correctRepeatNumber = word.correctRepeatNumber + 1;
+        const totalRepeatNumber = word.totalRepeatNumber + 1;
+        const correctRepeatNumber = word.correctRepeatNumber + 1;
         let repeatAfter;
+
         if (correctRepeatNumber >= 3 || totalRepeatNumber == 1) {
           repeatAfter = null;
-        } else {
-          if (correctRepeatNumber == 1) repeatAfter = 1;
-          if (correctRepeatNumber == 2) repeatAfter = 4;
+        } else if (correctRepeatNumber == 1) {
+          repeatAfter = 1;
+        } else if (correctRepeatNumber == 2) {
+          repeatAfter = 4;
         }
 
-        return { ...word, correctRepeatNumber: correctRepeatNumber, repeatAfter: repeatAfter, totalRepeatNumber: totalRepeatNumber };
-      } else {
-        // decrease the "repeatAfter" value by one for all other elements;
-        let repeatAfter = word.repeatAfter > 0 ? word.repeatAfter - 1 : word.repeatAfter;
-        return { ...word, repeatAfter: repeatAfter };
+        return { ...word, correctRepeatNumber, repeatAfter, totalRepeatNumber };
       }
+
+      const repeatAfter = word.repeatAfter > 0 ? word.repeatAfter - 1 : word.repeatAfter;
+      return { ...word, repeatAfter };
     });
 
-    setWordsQueue(newWordsQueue);
+    goToNextWord(newWordsQueue);
   };
 
-  // if error:
-  // - correctRepeatNumber of the current element = 0;
-  // - do not update the "repeatAfter" value for other elements; 
   const onNoButtonClick = () => {
-    setAnswer('no');
-    speakText(currentWord?.sentence_text);
-    
-    const newWordsQueue = wordsQueue.map(word => {
+    const newWordsQueue = wordsQueue.map((word) => {
       if (word.id == currentWordIndex) {
-        let totalRepeatNumber = word.totalRepeatNumber + 1;
-        return { ...word, correctRepeatNumber: 0, totalRepeatNumber: totalRepeatNumber };
-      } else {
-        return { ...word };
+        return {
+          ...word,
+          correctRepeatNumber: 0,
+          totalRepeatNumber: word.totalRepeatNumber + 1,
+        };
       }
+
+      return { ...word };
     });
-    
-    setWordsQueue(newWordsQueue);
-  };
 
-  const onUndoButtonClick = () => {
-    if (wordsQueueSnapshot) {
-      setWordsQueue(wordsQueueSnapshot);
-      setWordsQueueSnapshot(null);
-    }
-    setAnswer(null);
-    stopSpeech();
-  };
-
-  const onNextButtonClick = () => {
-    stopSpeech();
-    setAnswer(null);
-    setWordsQueueSnapshot(null);
-    const nextWordIndex = getNextWordIndex(wordsQueue);
-    setCurrentWordIndex(nextWordIndex);
-    setCurrentWord(activeItem?.words.find(word => word.id == nextWordIndex));
-  };
-
-  const finishOrContinueAfterQueueChange = (newQueue) => {
-    setWordsQueue(newQueue);
-
-    if (newQueue.length === 0 || getPendingWordsCount(newQueue) === 0) {
-      setCurrentWordIndex(null);
-      setCurrentWord(null);
-      return;
-    }
-
-    const nextWordIndex = getNextWordIndex(newQueue);
-    setCurrentWordIndex(nextWordIndex);
-    setCurrentWord(activeItem?.words.find(word => word.id == nextWordIndex));
-    setAnswer(null);
+    goToNextWord(newWordsQueue);
   };
 
   const onMarkLearnedClick = async () => {
@@ -214,11 +217,8 @@ export default function TranslationExercisePage() {
       }
     }
 
-    stopSpeech();
-    setWordsQueueSnapshot(null);
-
     const newQueue = wordsQueue.filter((word) => word.id != currentWordIndex);
-    finishOrContinueAfterQueueChange(newQueue);
+    goToNextWord(newQueue);
   };
 
   const onReturnButtonClick = () => {
@@ -227,7 +227,30 @@ export default function TranslationExercisePage() {
 
   useEffect(() => () => stopSpeech(), []);
 
-  const { ref: cardRef } = useFitText({ currentWord, answer }, { max: 2.5, min: 0.6 });
+  const { containerRef: fitContainerRef, textRef: fitTextRef } = useFitText(
+    [
+      currentWord?.id,
+      isRevealed,
+      currentWord?.sentence_translation_uk,
+      currentWord?.sentence_text,
+      currentWord?.word_text,
+      currentWord?.word_translation_uk,
+    ],
+    { max: 2.5, min: 0.5, step: 0.05 },
+  );
+
+  const exerciseCompleteBlock = (
+    <Paper elevation={2} className='exercise-complete-block content-block'>
+      <CheckCircleIcon className='exercise-complete-block__icon' />
+      <Typography variant='h4' component='p' className='exercise-complete-block__title'>
+        Тренажер успішно пройдено!
+      </Typography>
+    </Paper>
+  );
+
+  const hasWordsInSet = (activeItem?.words?.length ?? 0) > 0;
+  const hasTrainerWords = wordsQueue.length > 0;
+  const showTrainer = hasWordsInSet && hasTrainerWords && !sessionComplete;
 
   return (
     <>
@@ -238,135 +261,118 @@ export default function TranslationExercisePage() {
           {!activeItem ? (
             <ErrorMessage message={'Набір не знайдено або доступ до нього заборонено, або стався збій'} />
           ) : <>
-            {activeItem?.words && activeItem.words.length === 0 ? <>
+            {!hasWordsInSet ? (
               <ErrorMessage message={'Набір порожній'} />
-            </> : <>
+            ) : sessionComplete ? (
+              exerciseCompleteBlock
+            ) : showTrainer ? <>
+              <Box className="exercise-page-trainer">
               <Box className='df gap-3'>
                 <span className='text-nowrap'>Кількість закріплених слів:</span>
-                <ProgressBar total={wordsQueue?.length} completed={wordsQueue?.filter(word => word.repeatAfter == null).length} />
+                <ProgressBar total={wordsQueue.length} completed={wordsQueue.filter((word) => word.repeatAfter == null).length} />
               </Box>
               {isDebug && <>
                 <p style={{fontSize: '0.5em', margin: 0}}>
-                  Answer: {answer}; | currentWordIndex: {currentWordIndex};<br />
+                  isRevealed: {String(isRevealed)}; | currentWordIndex: {currentWordIndex};<br />
                   currentWord.id: {currentWord?.id};
                 </p>
-                {wordsQueue?.map(word => {
-                  return <Fragment key={word.id}>
-                    <p style={{fontSize: '0.5em', margin: 0}}>id: {word.id} | correctRepeatNumber: {word.correctRepeatNumber} | repeatAfter: {word.repeatAfter} | totalRepeatNumber: {word.totalRepeatNumber} | {activeItem?.words.find(wordData => wordData.id == word.id).sentence_text}</p>
-                  </Fragment>;
-                })}
+                {wordsQueue.map((word) => (
+                  <Fragment key={word.id}>
+                    <p style={{fontSize: '0.5em', margin: 0}}>id: {word.id} | correctRepeatNumber: {word.correctRepeatNumber} | repeatAfter: {word.repeatAfter} | totalRepeatNumber: {word.totalRepeatNumber} | {findWordById(word.id)?.sentence_text}</p>
+                  </Fragment>
+                ))}
               </>}
-              <Paper elevation={2} className='main-content content-block' sx={{ p: '1em', mt: '1em', display: 'flex', flexDirection: 'column' }}>
-                <Box ref={cardRef} sx={{ flex: 1, minHeight: 0, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-                  {/* Row 1: Ukrainian sentence */}
+              <Paper elevation={2} className='main-content content-block exercise-card-paper' sx={{ mt: '1em' }}>
+                <Box ref={fitContainerRef} className="exercise-fit-text-slot">
+                  <Box ref={fitTextRef} className="exercise-fit-text">
                   {currentWord?.sentence_translation_uk && (
-                    <Box>
-                      <Typography sx={{ fontSize: 'inherit' }}>
-                        {currentWord?.sentence_translation_uk}
+                    <Box className="exercise-fit-text__block">
+                      <Typography className="exercise-fit-text__line">
+                        {currentWord.sentence_translation_uk}
                       </Typography>
                     </Box>
                   )}
 
-                  {/* Row 2: German sentence (appears after answer) */}
-                  {answer && currentWord?.sentence_text && (() => {
+                  {isRevealed && currentWord?.sentence_text && (() => {
                     const words = currentWord.sentence_text.split(' ');
                     const lastWord = words.pop();
                     return (
-                      <Box sx={{ mt: 2 }}>
-                        <Typography sx={{ fontSize: 'inherit' }}>
+                      <Box className="exercise-fit-text__block">
+                        <Typography className="exercise-fit-text__line">
                           {words.join(' ')}{words.length > 0 && ' '}
-                          <span style={{ whiteSpace: 'nowrap' }}>
+                          <span className="exercise-fit-text__nowrap">
                             {lastWord}
-                            <span className='ms-1'><PronounceButton text={currentWord?.sentence_text} /></span>
+                            <span className="ms-1"><PronounceButton text={currentWord.sentence_text} /></span>
                           </span>
                         </Typography>
                       </Box>
                     );
                   })()}
 
-                  {/* Row 3: German word (appears after answer) */}
-                  {answer && currentWord?.word_text && (() => {
+                  {isRevealed && currentWord?.word_text && (() => {
                     const words = currentWord.word_text.split(' ');
                     const lastWord = words.pop();
                     return (
-                      <Box sx={{ mt: 2 }}>
-                        <Typography sx={{ fontSize: 'inherit' }}>
+                      <Box className="exercise-fit-text__block">
+                        <Typography className="exercise-fit-text__line">
                           {words.join(' ')}{words.length > 0 && ' '}
-                          <span style={{ whiteSpace: 'nowrap' }}>
+                          <span className="exercise-fit-text__nowrap">
                             {lastWord}
-                            <span className='ms-1'><PronounceButton text={currentWord?.word_text} /></span>
+                            <span className="ms-1"><PronounceButton text={currentWord.word_text} /></span>
                           </span>
                         </Typography>
                       </Box>
                     );
                   })()}
 
-                  {/* Row 4: Ukrainian translation (appears after answer) */}
-                  {answer && currentWord?.word_translation_uk && (
-                    <Box sx={{ mt: 2 }}>
-                      <Typography sx={{ fontSize: 'inherit' }}>
-                        {currentWord?.word_translation_uk}
+                  {isRevealed && currentWord?.word_translation_uk && (
+                    <Box className="exercise-fit-text__block">
+                      <Typography className="exercise-fit-text__line">
+                        {currentWord.word_translation_uk}
                       </Typography>
                     </Box>
                   )}
+                  </Box>
                 </Box>
               </Paper>
-
-              {!answer && activeItem?.words?.length > 0 && (
-                <Box className='df mt-3'>
-                  <Typography variant='body1'>
-                    Чи легко відтворити це речення іноземною мовою?
-                  </Typography>
-                </Box>
-              )}
-            </>}
+              </Box>
+            </> : null}
           </>}
         </CircularLoading>
         </Box>
 
         <Box className='exercise-page-actions exercise-buttons-stack w-100 mt-3'>
-          {activeItem?.words && activeItem.words.length > 0 && (
+          {showTrainer && (
             <>
-              {!answer ? (
-                <Box className='df gap-3' sx={{ width: '100%' }}>
-                  <Button variant='contained' fullWidth color='success' onClick={onYesButtonClick}>Так</Button>
-                  <Button variant='contained' fullWidth color='error' onClick={onNoButtonClick}>Ні</Button>
-                </Box>
-              ) : getPendingWordsCount(wordsQueue) === 0 ? (
-                <p className='text-nowrap m-0'>
-                  Тренажер успішно пройдено!
-                </p>
+              {!isRevealed ? (
+                <Button
+                  variant='contained'
+                  fullWidth
+                  color='primary'
+                  startIcon={<VisibilityIcon />}
+                  onClick={onShowAnswerClick}
+                >
+                  Показати переклад
+                </Button>
               ) : (
                 <>
-                  {answer === 'yes' && (
-                    <Box sx={{ display: 'flex', gap: 1, width: '100%' }}>
-                      <Button
-                        fullWidth
-                        variant='outlined'
-                        color='warning'
-                        onClick={onUndoButtonClick}
-                        className='exercise-btn-cancel'
-                      >
-                        Скасувати відповідь
-                      </Button>
-                      {isAuth && (
-                        <Button
-                          fullWidth
-                          variant='contained'
-                          color='success'
-                          startIcon={<CheckIcon />}
-                          onClick={onMarkLearnedClick}
-                          disabled={isMarkingLearned}
-                          className='exercise-btn-learned'
-                        >
-                          Позначити вивченим
-                        </Button>
-                      )}
-                    </Box>
+                  {isAuth && !currentWord?.isLearned && (
+                    <Button
+                      fullWidth
+                      variant='contained'
+                      color='success'
+                      startIcon={<CheckIcon />}
+                      onClick={onMarkLearnedClick}
+                      disabled={isMarkingLearned}
+                      className='exercise-btn-learned'
+                    >
+                      Позначити вивченим
+                    </Button>
                   )}
-                  <Button onClick={onNextButtonClick} variant='contained' fullWidth color='primary' className='exercise-btn-next'>
-                    Далі
-                  </Button>
+                  <Box className='df gap-1' sx={{ width: '100%' }}>
+                    <Button variant='contained' fullWidth color='success' onClick={onYesButtonClick}>Мій переклад правильний</Button>
+                    <Button variant='contained' fullWidth color='error' onClick={onNoButtonClick}>Мій переклад неправильний</Button>
+                  </Box>
                 </>
               )}
             </>

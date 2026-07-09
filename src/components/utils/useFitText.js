@@ -1,66 +1,123 @@
 import { useLayoutEffect, useRef, useCallback } from 'react';
 
-/**
- * Dynamically adjusts font-size of `ref` so content fits within the element's height.
- * Uses clientHeight (fixed container height) as target, binary-searches for best size.
- *
- * @param {object} deps - triggers recalculation
- * @param {number} max - max font-size in rem (default 2.5)
- * @param {number} min - min font-size in rem (default 0.6)
- * @param {number} step - precision (default 0.05)
- */
-export default function useFitText(deps = {}, { max = 2.5, min = 0.6, step = 0.05 } = {}) {
-  const ref = useRef(null);
+function getContentHeight(textEl) {
+  const style = getComputedStyle(textEl);
+  const gap = parseFloat(style.rowGap) || 0;
+  const { children } = textEl;
+  if (!children.length) return 0;
+
+  let height = 0;
+  for (let i = 0; i < children.length; i++) {
+    height += children[i].offsetHeight;
+    if (i > 0) height += gap;
+  }
+  return height;
+}
+
+function overflows(textEl, containerEl, sizeRem) {
+  textEl.style.fontSize = `${sizeRem}rem`;
+  void textEl.offsetHeight;
+
+  const limitH = containerEl.clientHeight;
+  const limitW = containerEl.clientWidth;
+  if (limitH <= 0 || limitW <= 0) return true;
+
+  if (getContentHeight(textEl) > limitH + 1) return true;
+
+  const lines = textEl.querySelectorAll('.exercise-fit-text__line');
+  for (const line of lines) {
+    if (line.scrollWidth > limitW + 1) return true;
+  }
+
+  return false;
+}
+
+export default function useFitText(deps = [], { max = 2.5, min = 0.5, step = 0.05 } = {}) {
+  const containerRef = useRef(null);
+  const textRef = useRef(null);
+  const timersRef = useRef([]);
+
+  const setRevealed = useCallback((revealed) => {
+    const text = textRef.current;
+    if (!text) return;
+    text.classList.toggle('exercise-fit-text--ready', revealed);
+  }, []);
 
   const fit = useCallback(() => {
-    const el = ref.current;
-    if (!el) return;
+    const container = containerRef.current;
+    const text = textRef.current;
+    if (!container || !text || !text.children.length) return;
 
-    const origOverflow = el.style.overflow;
-    el.style.overflow = 'hidden';
+    const limitH = container.clientHeight;
+    const limitW = container.clientWidth;
+    if (limitH <= 0 || limitW <= 0) return;
 
-    // Target: the actual visible height of the container (fixed by flexbox)
-    const targetHeight = el.clientHeight;
-
-    // Try max first
-    el.style.fontSize = `${max}rem`;
-    if (el.scrollHeight <= targetHeight) {
-      el.style.overflow = origOverflow;
-      return;
-    }
-
-    // Binary search downwards
-    let lo = min;
-    let hi = max;
     let best = min;
 
-    for (let i = 0; i < 15; i++) {
-      const mid = (lo + hi) / 2;
-      el.style.fontSize = `${mid}rem`;
-      if (el.scrollHeight <= targetHeight) {
-        best = mid;
-        lo = mid + step;
-      } else {
-        hi = mid - step;
+    if (!overflows(text, container, min)) {
+      for (let size = min + step; size <= max + step / 2; size += step) {
+        const candidate = Math.round(size / step) * step;
+        if (candidate > max) break;
+        if (overflows(text, container, candidate)) break;
+        best = candidate;
       }
     }
 
-    const rounded = Math.floor(best / step) * step;
-    el.style.fontSize = `${rounded}rem`;
-    el.style.overflow = origOverflow;
+    text.style.fontSize = `${best}rem`;
   }, [max, min, step]);
 
-  useLayoutEffect(() => {
+  const runFitPasses = useCallback((onDone) => {
     fit();
-  }, [fit, deps]);
-
-  useLayoutEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new ResizeObserver(() => fit());
-    observer.observe(el);
-    return () => observer.disconnect();
+    requestAnimationFrame(() => {
+      fit();
+      requestAnimationFrame(() => {
+        fit();
+        onDone?.();
+      });
+    });
   }, [fit]);
 
-  return { ref };
+  const scheduleFit = useCallback((revealWhenDone = true) => {
+    setRevealed(false);
+    runFitPasses(() => {
+      if (revealWhenDone) setRevealed(true);
+    });
+  }, [runFitPasses, setRevealed]);
+
+  useLayoutEffect(() => {
+    setRevealed(false);
+    runFitPasses();
+
+    timersRef.current.forEach(clearTimeout);
+    timersRef.current = [50, 150, 300].map((ms) => setTimeout(() => {
+      if (ms === 300) {
+        runFitPasses(() => setRevealed(true));
+      } else {
+        runFitPasses();
+      }
+    }, ms));
+
+    return () => {
+      timersRef.current.forEach(clearTimeout);
+    };
+  }, [runFitPasses, setRevealed, ...deps]);
+
+  useLayoutEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const observer = new ResizeObserver(() => scheduleFit(true));
+    observer.observe(container);
+
+    let parent = container.parentElement;
+    while (parent) {
+      observer.observe(parent);
+      if (parent.classList.contains('exercise-page-content')) break;
+      parent = parent.parentElement;
+    }
+
+    return () => observer.disconnect();
+  }, [scheduleFit]);
+
+  return { containerRef, textRef };
 }

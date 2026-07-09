@@ -13,7 +13,7 @@ import { useState } from 'react';
 import { Toast } from './utils/messages';
 
 
-export default function WordSetCard({ id, totalWords, isSavedForLearning, link, title, isLoading }) {
+export default function WordSetCard({ id, totalWords, learnedWordsCount, isSavedForLearning, link, title, isLoading }) {
   const dispatch = useDispatch();
   const isAuth = useSelector(selectIsAuth);
   const [toast, setToast] = useState({ open: false, message: '', severity: 'info' });
@@ -30,7 +30,9 @@ export default function WordSetCard({ id, totalWords, isSavedForLearning, link, 
   const numberOfWords = `${totalWords} ${correctNounCase(totalWords, 'слово', 'слова', 'слів')} в наборі`;
 
   const wordSetCardBottomContent = isAuth ? <>
-    <p className='m-0'>{numberOfWords}</p>
+    <Box sx={{ flex: 1, minWidth: 0 }}>
+      <ProgressBar total={totalWords || 0} completed={learnedWordsCount || 0} />
+    </Box>
     <SaveForLearningButton isSavedForLearning={isSavedForLearning} handleToggleSave={handleToggleSave} big />
   </> : <>
     <p className='m-0'>{numberOfWords}</p>

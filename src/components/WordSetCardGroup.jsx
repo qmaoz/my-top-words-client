@@ -60,6 +60,7 @@ export default function WordSetCardGroup({ title, wordSets, status, limit, count
                   title={obj.name}
                   link={`/word-set/${obj.id}`}
                   totalWords={obj.totalWords}
+                  learnedWordsCount={obj.learnedWordsCount}
                   isSavedForLearning={obj.isSavedForLearning}
                 />
               ) : ''

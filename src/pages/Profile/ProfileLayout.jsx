@@ -22,20 +22,20 @@ export default function ProfileLayout() {
 
   return (
     <>
-      <Box className='container'>
-        <CircularLoading isLoading={authStatus === 'loading'}>
-          <Box className="df">
-            <h2>Профіль</h2>
-            <Tabs value={currentTab}>
-              <Tab label="Збережені набори" value="/profile/saved-word-sets" component={Link} to="saved-word-sets" />
-              <Tab label="Власні набори" value="/profile/own-word-sets" component={Link} to="own-word-sets" />
-            </Tabs>
-          </Box>
-          <Box sx={{ mt: 3 }}>
-            <Outlet />
-          </Box>
-        </CircularLoading>
-      </Box>
+        <Box className="container profile-page">
+          <CircularLoading isLoading={authStatus === 'loading'}>
+            <Box className="df">
+              <h2>Профіль</h2>
+              <Tabs value={currentTab}>
+                <Tab label="Збережені набори" value="/profile/saved-word-sets" component={Link} to="saved-word-sets" />
+                <Tab label="Власні набори" value="/profile/own-word-sets" component={Link} to="own-word-sets" />
+              </Tabs>
+            </Box>
+            <Box className="profile-page__content">
+              <Outlet />
+            </Box>
+          </CircularLoading>
+        </Box>
     </>
   );
 }

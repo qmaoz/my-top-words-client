@@ -3,7 +3,7 @@ import WordTableRow from './WordTableRow';
 
 export default function WordSetTable({ words, isAuthorized, className, isEditing, showLearnedToggle, onToggleLearned, onUpdate, onFullDelete }) {
   return (
-    <Box className={'table-limit ' + (className ?? '')}>
+    <Box className={className ?? ''}>
       <table className="word-set-table">
         {words?.map((word) => (
           <WordTableRow

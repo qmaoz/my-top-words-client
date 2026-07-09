@@ -1,15 +1,19 @@
-import graduationCapSolidIcon from '/img/icons/graduation-cap-solid.svg';
-import graduationCapOutlineIcon from '/img/icons/graduation-cap-outline.svg';
+import { IconButton } from '@mui/material';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 export default function SaveForLearningButton({ isSavedForLearning, handleToggleSave, big }) {
+  const label = isSavedForLearning ? 'Прибрати зі збережених' : 'Зберегти для навчання';
+
   return (
-    <>
-      <img
-        className={'mark-for-studing ' + (big ? 'big' : '')}
-        title={isSavedForLearning ? 'Відмінити позначку' : 'Зберегти набір'}
-        src={isSavedForLearning ? graduationCapSolidIcon : graduationCapOutlineIcon}
-        onClick={handleToggleSave}
-        alt="graduation cap"></img>
-    </>
+    <IconButton
+      onClick={handleToggleSave}
+      title={label}
+      aria-label={label}
+      color={isSavedForLearning ? 'error' : 'default'}
+      className={'save-for-learning-btn ' + (big ? 'big' : '')}
+    >
+      {isSavedForLearning ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+    </IconButton>
   );
 }

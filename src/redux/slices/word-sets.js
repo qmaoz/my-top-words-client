@@ -188,6 +188,18 @@ const wordSetsSlice = createSlice({
         if (state?.activeItem?.words) {
           const word = state.activeItem.words.find(obj => Number(obj.id) === Number(wordId));
           if (word) word.isLearned = isLearned;
+          state.activeItem.learnedWordsCount = state.activeItem.words.filter((w) => w.isLearned).length;
+        }
+
+        const wordSetId = state.activeItem?.id;
+        if (wordSetId != null && state.activeItem?.learnedWordsCount != null) {
+          const count = state.activeItem.learnedWordsCount;
+          const updateInList = (listKey) => {
+            const item = state[listKey].items.find(obj => Number(obj.id) === Number(wordSetId));
+            if (item) item.learnedWordsCount = count;
+          };
+
+          ['top', 'own', 'saved'].forEach(updateInList);
         }
       })
       .addCase(updateWordSet.fulfilled, (state, action) => {
@@ -200,11 +212,18 @@ const wordSetsSlice = createSlice({
 
       .addCase(logout, (state) => {
         delete state?.activeItem?.isSavedForLearning;
+        delete state?.activeItem?.learnedWordsCount;
         if (state?.activeItem?.words) {
           state.activeItem.words.forEach((word) => {
             delete word.isLearned;
           });
         }
+
+        ['top', 'own', 'saved'].forEach((listKey) => {
+          state[listKey].items.forEach((item) => {
+            delete item.learnedWordsCount;
+          });
+        });
       })
 
       .addCase(toggleIncludeWordInWordSet.fulfilled, (state, action) => {

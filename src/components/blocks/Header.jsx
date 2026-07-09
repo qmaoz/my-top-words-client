@@ -3,13 +3,12 @@ import { Menu, MenuItem, IconButton, Avatar, Paper, Box } from '@mui/material';
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { logout, selectAuthStatus, selectIsAuth, selectUserData } from '../../redux/slices/auth';
-
-import userIcon from '/img/icons/user.svg';
+import { logout, selectAuthStatus, selectIsAdmin, selectIsAuth, selectUserData } from '../../redux/slices/auth';
 
 export default function Header() {
   const dispatch = useDispatch();
   const isAuth = useSelector(selectIsAuth);
+  const isAdmin = useSelector(selectIsAdmin);
   const authStatus = useSelector(selectAuthStatus);
   const userData = useSelector(selectUserData);
 
@@ -57,11 +56,13 @@ export default function Header() {
             </h1>
             {isAuth ? (
               <Box className="header__user-profile df">
-                {/* <Box className="username" style={{ marginRight: '10px' }}>
-                  {userData.username}
-                </Box> */}
-
+                <span className="header__username">{userData?.username}</span>
+                <p className='m-0'>/</p>
                 <Link to='/profile'>Профіль</Link>
+                {isAdmin && <>
+                  <p className='m-0'>/</p>
+                  <Link to='/admin'>Адмін</Link>
+                </>}
                 <p className='m-0'>/</p>
                 <Link onClick={onClickLogout} className='logout-button'>Вийти</Link>
                 

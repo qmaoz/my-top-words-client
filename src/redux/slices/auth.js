@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk, isAnyOf } from '@reduxjs/toolkit';
 import axios from '../../axios';
+import { ADMIN_USER_ID } from '../../components/utils/admin.js';
 
 export const fetchLogin = createAsyncThunk('auth/fetchLogin', async (params, { rejectWithValue }) => {
   try {
@@ -75,6 +76,7 @@ const authSlice = createSlice({
 export const selectIsAuth = (state) => Boolean(state.auth.data);
 export const selectUserData = (state) => state.auth.data?.userData;
 export const selectAuthStatus = (state) => state.auth.status;
+export const selectIsAdmin = (state) => state.auth.data?.userData?.id === ADMIN_USER_ID;
 
 export const authReducer = authSlice.reducer;
 

@@ -17,6 +17,7 @@ import FormInput from '../components/form/FormInput';
 import WordSetName from '../components/wrappers/WordSetName';
 import CircularLoading from '../components/wrappers/CircularLoading';
 import SaveForLearningButton from '../components/wrappers/SaveForLearningButton';
+import ProgressBar from '../components/ProgressBar';
 import { Box, Typography } from '@mui/material';
 import CreateNewWordForm from './Profile/components/CreateNewWordForm';
 
@@ -32,6 +33,9 @@ export default function WordSetPage() {
   const { activeItem , activeItemStatus } = useSelector((state) => state.wordSets);
   const isOwnWordSet = activeItem && userData && activeItem?.owner_user_id == userData?.id;
   const totalWords = activeItem?.words?.length || 0;
+  const learnedWordsCount = activeItem?.learnedWordsCount
+    ?? activeItem?.words?.filter((word) => word.isLearned).length
+    ?? 0;
 
   const isSavedForLearning = activeItem?.isSavedForLearning || false;
   
@@ -208,6 +212,12 @@ export default function WordSetPage() {
                   </Box>
                 </form>
               }
+              {isAuth && !isEditing && activeItemStatus === 'loaded' && totalWords > 0 && (
+                <Box className='df gap-3 mb-3'>
+                  <span className='text-nowrap'>Вивчено слів:</span>
+                  <ProgressBar total={totalWords} completed={learnedWordsCount} />
+                </Box>
+              )}
               {!isEditing && activeItemStatus === 'loaded' && totalWords > 0 && <>
                 <Box sx={{ boxShadow: 2 }} className='mb-3 rounded'>
                   <Link to={`/translate-exercise/${wordSetId}`} className="exercise-card rounded">
