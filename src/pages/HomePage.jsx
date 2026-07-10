@@ -32,7 +32,7 @@ export default function HomePage() {
       try {
         await dispatch(fetchWordSets({ page, limit, filter: 'top', partOfName: partOfName })).unwrap();
       } catch (error) {
-        setToast({ open: true, message: error?.message?.message || error?.message || 'Помилка під час завантаження наборів', severity: 'error' });
+        setToast({ open: true, message: error?.message?.message || error?.message || 'Не вдалося завантажити набори. Оновіть сторінку.', severity: 'error' });
       }
     })();
   }, [dispatch, page, limit, topWordSetNameToSearch]);
@@ -51,7 +51,7 @@ export default function HomePage() {
   return (
     <>
       <Box className="container">
-        <h2>Топ спільних наборів лексики</h2>
+        <h2>Популярні публічні набори слів</h2>
 
         <WordSetCardGroup
           status={status}

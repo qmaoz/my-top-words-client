@@ -34,7 +34,7 @@ export default function LoginFormPage() {
         throw new Error();
       }
     } catch (error) {
-      return setToast({ open: true, message: error?.message?.message || error?.message || 'Невідома помилка при авторизації', severity: 'error' });
+      return setToast({ open: true, message: error?.message?.message || error?.message || 'Не вдалося увійти. Перевірте ім’я та пароль.', severity: 'error' });
     }
   };
 
@@ -46,7 +46,7 @@ export default function LoginFormPage() {
     <>
       <Box className="container">
         <Paper elevation={3} className='form-block content-block'>
-          <h2 className="text-center mb-3">Форма авторизації</h2>
+          <h2 className="text-center mb-3">Вхід</h2>
           <form onSubmit={handleSubmit(onSubmitForm)}>
             <FormInput
               name="username"

@@ -1,7 +1,7 @@
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
-import { Box, Button, Paper, Typography } from '@mui/material';
+import { Box, Button, Paper, Tooltip, Typography } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CheckIcon from '@mui/icons-material/Check';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -11,9 +11,9 @@ import { fetchWordSet, toggleWordLearned } from '../redux/slices/word-sets';
 import { selectIsAuth } from '../redux/slices/auth';
 import ProgressBar from '../components/ProgressBar';
 import PronounceButton from '../components/wrappers/PronounceButton';
-import { speakText, stopSpeech } from '../components/utils/functions';
+import { speakText, stopSpeech, isThunkSkipped } from '../components/utils/functions';
 import CircularLoading from '../components/wrappers/CircularLoading';
-import { ErrorMessage, Toast } from '../components/utils/messages';
+import { ErrorMessage, Toast, WORD_SET_LOAD_ERROR } from '../components/utils/messages';
 import useFitText from '../components/utils/useFitText';
 
 function getInitialTrainerWords(words) {
@@ -96,6 +96,10 @@ export default function TranslationExercisePage() {
       return;
     }
 
+    if (Number(activeItem.id) !== Number(id)) {
+      return;
+    }
+
     const trainerWords = getInitialTrainerWords(activeItem.words);
     const initialQueue = shuffleArray(trainerWords.map(createQueueItem));
 
@@ -111,17 +115,24 @@ export default function TranslationExercisePage() {
     setQueueInitialized(true);
   }, [activeItem, queueInitialized, sessionComplete]);
 
+  const prevAuthRef = useRef(isAuth);
+
   useEffect(() => {
-    (async () => {
-      if (!activeItem || activeItem.id !== Number(id)) {
-        try {
-          await dispatch(fetchWordSet(id)).unwrap();
-        } catch (error) {
-          setToast({ open: true, message: error?.message?.message || error?.message || 'Помилка під час завантаження набору', severity: 'error' });
-        }
-      }
-    })();
-  }, [id, dispatch, activeItem]);
+    const authChanged = prevAuthRef.current !== isAuth;
+    prevAuthRef.current = isAuth;
+
+    dispatch(fetchWordSet(
+      authChanged ? { id, force: true } : id,
+    )).unwrap().catch((error) => {
+      if (isThunkSkipped(error)) return;
+
+      setToast({
+        open: true,
+        message: error?.message?.message || error?.message || 'Не вдалося завантажити набір',
+        severity: 'error',
+      });
+    });
+  }, [id, dispatch, isAuth]);
 
   const findWordById = (wordId) => activeItem?.words?.find((word) => word.id == wordId) ?? null;
 
@@ -227,7 +238,7 @@ export default function TranslationExercisePage() {
 
   useEffect(() => () => stopSpeech(), []);
 
-  const { containerRef: fitContainerRef, textRef: fitTextRef } = useFitText(
+  const { containerRef: fitContainerRef, textRef: fitTextRef, isFitReady } = useFitText(
     [
       currentWord?.id,
       isRevealed,
@@ -240,7 +251,7 @@ export default function TranslationExercisePage() {
   );
 
   const exerciseCompleteBlock = (
-    <Paper elevation={2} className='exercise-complete-block content-block'>
+    <Paper elevation={0} className='exercise-complete-block content-block'>
       <CheckCircleIcon className='exercise-complete-block__icon' />
       <Typography variant='h4' component='p' className='exercise-complete-block__title'>
         Тренажер успішно пройдено!
@@ -248,28 +259,43 @@ export default function TranslationExercisePage() {
     </Paper>
   );
 
-  const hasWordsInSet = (activeItem?.words?.length ?? 0) > 0;
+  const isCurrentSetLoaded = activeItem
+    && Number(activeItem.id) === Number(id)
+    && activeItemStatus === 'loaded';
+
+  const isPageLoading = activeItemStatus === 'loading'
+    || Boolean(activeItem && Number(activeItem.id) !== Number(id));
+
+  const hasWordsInSet = isCurrentSetLoaded && (activeItem?.words?.length ?? 0) > 0;
   const hasTrainerWords = wordsQueue.length > 0;
   const showTrainer = hasWordsInSet && hasTrainerWords && !sessionComplete;
+  const showPageActions = isCurrentSetLoaded || activeItemStatus === 'error';
 
   return (
     <>
       <Box className='app-container container p-3 exercise-page-content'>
         <Box className='exercise-page-body'>
         <Box className='exercise-page-main'>
-        <CircularLoading isLoading={activeItemStatus === 'loading'}>
-          {!activeItem ? (
-            <ErrorMessage message={'Набір не знайдено або доступ до нього заборонено, або стався збій'} />
-          ) : <>
-            {!hasWordsInSet ? (
-              <ErrorMessage message={'Набір порожній'} />
-            ) : sessionComplete ? (
-              exerciseCompleteBlock
-            ) : showTrainer ? <>
+        <CircularLoading isLoading={isPageLoading}>
+          {activeItemStatus === 'error' ? (
+            <ErrorMessage message={WORD_SET_LOAD_ERROR} />
+          ) : isCurrentSetLoaded ? (
+            <>
+              {!hasWordsInSet ? (
+                <ErrorMessage message={'У наборі немає слів для тренажера'} />
+              ) : sessionComplete ? (
+                exerciseCompleteBlock
+              ) : showTrainer ? (
+                <>
               <Box className="exercise-page-trainer">
-              <Box className='df gap-3'>
-                <span className='text-nowrap'>Кількість закріплених слів:</span>
-                <ProgressBar total={wordsQueue.length} completed={wordsQueue.filter((word) => word.repeatAfter == null).length} />
+              <Box className='exercise-progress-row df gap-3'>
+                <Tooltip title="Скільки слів уже пройдено в цій сесії">
+                  <span className='text-nowrap'>Пройдено:</span>
+                </Tooltip>
+                <ProgressBar
+                  total={wordsQueue.length}
+                  completed={wordsQueue.filter((word) => word.repeatAfter == null).length}
+                />
               </Box>
               {isDebug && <>
                 <p style={{fontSize: '0.5em', margin: 0}}>
@@ -282,7 +308,7 @@ export default function TranslationExercisePage() {
                   </Fragment>
                 ))}
               </>}
-              <Paper elevation={2} className='main-content content-block exercise-card-paper' sx={{ mt: '1em' }}>
+              <Paper elevation={0} className='main-content content-block exercise-card-paper' sx={{ mt: '1em' }}>
                 <Box ref={fitContainerRef} className="exercise-fit-text-slot">
                   <Box ref={fitTextRef} className="exercise-fit-text">
                   {currentWord?.sentence_translation_uk && (
@@ -302,7 +328,13 @@ export default function TranslationExercisePage() {
                           {words.join(' ')}{words.length > 0 && ' '}
                           <span className="exercise-fit-text__nowrap">
                             {lastWord}
-                            <span className="ms-1"><PronounceButton text={currentWord.sentence_text} /></span>
+                            <span className="ms-1 exercise-fit-text__pronounce-slot">
+                              {isFitReady ? (
+                                <PronounceButton text={currentWord.sentence_text} />
+                              ) : (
+                                <span className="exercise-fit-text__pronounce-spacer" aria-hidden="true" />
+                              )}
+                            </span>
                           </span>
                         </Typography>
                       </Box>
@@ -318,7 +350,13 @@ export default function TranslationExercisePage() {
                           {words.join(' ')}{words.length > 0 && ' '}
                           <span className="exercise-fit-text__nowrap">
                             {lastWord}
-                            <span className="ms-1"><PronounceButton text={currentWord.word_text} /></span>
+                            <span className="ms-1 exercise-fit-text__pronounce-slot">
+                              {isFitReady ? (
+                                <PronounceButton text={currentWord.word_text} />
+                              ) : (
+                                <span className="exercise-fit-text__pronounce-spacer" aria-hidden="true" />
+                              )}
+                            </span>
                           </span>
                         </Typography>
                       </Box>
@@ -336,8 +374,10 @@ export default function TranslationExercisePage() {
                 </Box>
               </Paper>
               </Box>
-            </> : null}
-          </>}
+                </>
+              ) : null}
+            </>
+          ) : null}
         </CircularLoading>
         </Box>
 
@@ -366,30 +406,32 @@ export default function TranslationExercisePage() {
                       disabled={isMarkingLearned}
                       className='exercise-btn-learned'
                     >
-                      Позначити вивченим
+                      Позначити як вивчене
                     </Button>
                   )}
-                  <Box className='df gap-1' sx={{ width: '100%' }}>
-                    <Button variant='contained' fullWidth color='success' onClick={onYesButtonClick}>Мій переклад правильний</Button>
-                    <Button variant='contained' fullWidth color='error' onClick={onNoButtonClick}>Мій переклад неправильний</Button>
+                  <Box className='exercise-answer-buttons gap-1'>
+                    <Button variant='contained' color='success' onClick={onYesButtonClick}>Мій переклад був правильним</Button>
+                    <Button variant='contained' color='error' onClick={onNoButtonClick}>Мій переклад був неправильним</Button>
                   </Box>
                 </>
               )}
             </>
           )}
 
-          <Button
-            component={Link}
-            to={`/word-set/${id}`}
-            onClick={onReturnButtonClick}
-            variant='contained'
-            color='warning'
-            fullWidth
-            startIcon={<ArrowBackIcon />}
-            className='exercise-page-back'
-          >
-            Повернутися до набору
-          </Button>
+          {showPageActions && (
+            <Button
+              component={Link}
+              to={`/word-set/${id}`}
+              onClick={onReturnButtonClick}
+              variant='contained'
+              color='warning'
+              fullWidth
+              startIcon={<ArrowBackIcon />}
+              className='exercise-page-back'
+            >
+              Повернутися до набору
+            </Button>
+          )}
         </Box>
         </Box>
 

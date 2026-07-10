@@ -39,7 +39,7 @@ export default function CreateNewWordSetForm({ className }) {
       reset();
       navigate(`/word-set/${payload.id}`);
     } catch (error) {
-      setToast({ open: true, message: error?.message?.message || error?.message || 'Виникла помилка при створенні набору', severity: 'error' });
+      setToast({ open: true, message: error?.message?.message || error?.message || 'Не вдалося створити набір', severity: 'error' });
     }
   };
 
@@ -48,10 +48,10 @@ export default function CreateNewWordSetForm({ className }) {
       <Box className={className ? className : undefined}>
         <CircularLoading isLoading={authStatus === 'loading'}>
           <h3>Створити новий набір</h3>
-          <form onSubmit={handleSubmit(onSubmitForm)} className="mb-3 df ais gap-3">
+          <form onSubmit={handleSubmit(onSubmitForm)} className="inline-form-row mb-3 df ais gap-3">
             <FormInput
               name="newWordSetName"
-              label="Назва нового набору"
+              label="Назва набору"
               register={register}
               errors={errors}
               required fullWidth

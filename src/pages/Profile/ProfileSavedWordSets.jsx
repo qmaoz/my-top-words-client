@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { selectIsAuth, selectAuthStatus } from '../../redux/slices/auth';
 import { fetchWordSets } from '../../redux/slices/word-sets';
 
+import { Box, Typography } from '@mui/material';
 import WordSetCardGroup from '../../components/WordSetCardGroup';
 import CircularLoading from '../../components/wrappers/CircularLoading';
 import CreateNewWordSetForm from './components/CreateNewWordSetForm';
@@ -44,7 +45,7 @@ export default function ProfileSavedWordSets() {
         try {
           await dispatch(fetchWordSets({ page: savedWordSetsPage, limit: wordSetLimitPerPage, filter: 'saved', partOfName: partOfName })).unwrap();
         } catch (error) {
-          setToast({ open: true, message: error?.message?.message || error?.message || 'Помилка під час завантаження наборів', severity: 'error' });
+          setToast({ open: true, message: error?.message?.message || error?.message || 'Не вдалося завантажити Ваші набори', severity: 'error' });
         }
       }
     })();
@@ -69,6 +70,9 @@ export default function ProfileSavedWordSets() {
       <CircularLoading isLoading={authStatus === 'loading'}>
         {savedWordSets && (
           <>
+            <Typography className="profile-section-intro" color="text.secondary">
+              Набори інших авторів, які Ви зберегли до себе.
+            </Typography>
             <WordSetCardGroup
               title={'Збережені набори'}
               status={savedWordSetsStatus}

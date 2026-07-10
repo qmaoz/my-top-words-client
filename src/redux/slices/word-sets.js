@@ -29,21 +29,52 @@ export const fetchWordSets = createAsyncThunk(
   }
 );
 
-export const fetchWordSet = createAsyncThunk('wordSets/fetchWordSet', async (id, { rejectWithValue }) => {
-  try {
-    const { data } = await axios.get(`/word-sets/${id}`);
-    return data;
-  } catch (error) {
-    return rejectWithValue({ message: error?.response?.data || 'Сервер недоступний або сталася помилка' });
-  }
-});
+export const fetchWordSet = createAsyncThunk(
+  'wordSets/fetchWordSet',
+  async (arg, { rejectWithValue, getState }) => {
+    const id = typeof arg === 'object' ? arg.id : arg;
+    const force = typeof arg === 'object' ? Boolean(arg.force) : false;
+    const state = getState().wordSets;
 
-export const updateWordSet = createAsyncThunk('wordSets/updateWordSet', async ({ id, name, setIsPublic }, { rejectWithValue }) => {
+    if (
+      !force
+      && state.activeItem
+      && Number(state.activeItem.id) === Number(id)
+      && state.activeItemStatus === 'loaded'
+    ) {
+      return state.activeItem;
+    }
+
+    try {
+      const { data } = await axios.get(`/word-sets/${id}`);
+      return data;
+    } catch (error) {
+      return rejectWithValue({ message: error?.response?.data || 'Сервер недоступний або сталася помилка' });
+    }
+  },
+  {
+    condition: (arg, { getState }) => {
+      const id = typeof arg === 'object' ? arg.id : arg;
+      const force = typeof arg === 'object' ? Boolean(arg.force) : false;
+      if (force) return true;
+
+      const { activeItem, activeItemStatus } = getState().wordSets;
+      return !(
+        activeItem
+        && Number(activeItem.id) === Number(id)
+        && activeItemStatus === 'loaded'
+      );
+    },
+  },
+);
+
+export const updateWordSet = createAsyncThunk('wordSets/updateWordSet', async ({ id, name, visibility, setIsPublic }, { rejectWithValue }) => {
   const newName = name?.trim();
 
   const updateBody = {};
   if (newName != null && newName.length > 0 && newName.length < 128) updateBody.name = newName;
-  if (setIsPublic != null) updateBody.setIsPublic = setIsPublic;
+  if (visibility != null) updateBody.visibility = visibility;
+  else if (setIsPublic != null) updateBody.setIsPublic = setIsPublic;
 
   if (Object.keys(updateBody).length > 0) {
     try {
@@ -74,6 +105,18 @@ export const toggleIncludeWordInWordSet = createAsyncThunk(
     try {
       const { data } = await axios.patch(`/word-sets/${wordSetId}/words/${wordId}`);
       return { wordId, actionName: data.actionName, word: data.word };
+    } catch (error) {
+      return rejectWithValue({ message: error?.response?.data || 'Сервер недоступний або сталася помилка' });
+    }
+  }
+);
+
+export const bulkImportWords = createAsyncThunk(
+  'wordSets/bulkImportWords',
+  async ({ wordSetId, words }, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(`/word-sets/${wordSetId}/words/bulk`, { words });
+      return data;
     } catch (error) {
       return rejectWithValue({ message: error?.response?.data || 'Сервер недоступний або сталася помилка' });
     }
@@ -139,7 +182,6 @@ const wordSetsSlice = createSlice({
       })
 
       .addCase(fetchWordSet.pending, (state) => {
-        state.activeItem = null;
         state.activeItemStatus = 'loading';
       })
       .addCase(fetchWordSet.rejected, (state) => {
@@ -204,7 +246,8 @@ const wordSetsSlice = createSlice({
       })
       .addCase(updateWordSet.fulfilled, (state, action) => {
         if (action.payload) {
-          const { name, is_public: isPublic } = action.payload;
+          const { name, visibility, is_public: isPublic } = action.payload;
+          if (visibility != null) state.activeItem.visibility = visibility;
           if (isPublic != null) state.activeItem.is_public = isPublic;
           if (name != null) state.activeItem.name = name;
         }
@@ -230,7 +273,7 @@ const wordSetsSlice = createSlice({
         const toggledWordId = action.payload.wordId;
         const actionName = action.payload.actionName;
         const word = action.payload.word;
-        
+
         if (state?.activeItem?.words) {
           if (actionName == 'remove') {
             state.activeItem.words = state.activeItem.words.filter(
@@ -239,6 +282,14 @@ const wordSetsSlice = createSlice({
           } else if (actionName == 'include') {
             state.activeItem.words.unshift(word);
           }
+        }
+      })
+
+      .addCase(bulkImportWords.fulfilled, (state, action) => {
+        const importedWords = action.payload?.words ?? [];
+
+        if (state?.activeItem?.words && importedWords.length > 0) {
+          state.activeItem.words = [...importedWords, ...state.activeItem.words];
         }
       })
 

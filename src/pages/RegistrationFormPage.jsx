@@ -26,7 +26,7 @@ export default function SignupFormPage() {
 
   const onSubmitForm = async (values) => {
     if (values?.password && values?.confirm_password && values.password !== values.confirm_password) {
-      return setToast({ open: true, message: 'Паролі не співпадають', severity: 'error' });
+      return setToast({ open: true, message: 'Паролі не збігаються', severity: 'error' });
     }
     
     try {
@@ -40,7 +40,7 @@ export default function SignupFormPage() {
         throw new Error();
       }
     } catch (error) {      
-      return setToast({ open: true, message: error?.message?.message || error?.message || 'Невідома помилка при реєстрації', severity: 'error' });
+      return setToast({ open: true, message: error?.message?.message || error?.message || 'Не вдалося зареєструватися. Спробуйте інше ім’я.', severity: 'error' });
     }
   };
 
@@ -55,7 +55,7 @@ export default function SignupFormPage() {
     <>
       <Box className="container">
         <Paper elevation={3} className='form-block content-block'>
-          <h2 className="text-center mb-3">Форма реєстрації</h2>
+          <h2 className="text-center mb-3">Реєстрація</h2>
           <form onSubmit={handleSubmit(onSubmitForm)}>
             <FormInput
               name="username"

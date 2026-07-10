@@ -10,7 +10,7 @@ export default function WordSetName({ name: fullName, maxLength, link }) {
 
   return (
     <>
-      <h2 className='word-set-title' title={isNameVeryLong ? fullName : ''}>
+      <h2 className='word-set-title' title={isNameVeryLong ? fullName : undefined} aria-label={fullName}>
         <pre>{nameTextContent}</pre>
       </h2>
     </>

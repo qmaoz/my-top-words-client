@@ -10,9 +10,11 @@ import { deleteAdminUser, fetchAdminUsers } from '../../redux/slices/admin';
 import { selectUserData } from '../../redux/slices/auth';
 import CircularLoading from '../../components/wrappers/CircularLoading';
 import { Toast } from '../../components/utils/messages';
+import { useConfirm } from '../../components/utils/useConfirm';
 
 export default function AdminUsersPage() {
   const dispatch = useDispatch();
+  const confirm = useConfirm();
   const currentUser = useSelector(selectUserData);
   const { users } = useSelector((state) => state.admin);
   const [search, setSearch] = useState('');
@@ -37,7 +39,7 @@ export default function AdminUsersPage() {
 
   const onDelete = async (user) => {
     if (user.id === currentUser?.id) {
-      setToast({ open: true, message: 'Не можна видалити власний акаунт', severity: 'error' });
+      setToast({ open: true, message: 'Не можна видалити власний обліковий запис', severity: 'error' });
       return;
     }
 
@@ -46,7 +48,12 @@ export default function AdminUsersPage() {
       return;
     }
 
-    const confirmed = window.confirm(`Видалити користувача «${user.username}» (id: ${user.id})? Цю дію не можна скасувати.`);
+    const confirmed = await confirm({
+      message: `Видалити користувача «${user.username}»? Цю дію не можна скасувати.`,
+      confirmText: 'Видалити',
+      confirmColor: 'error',
+    });
+
     if (!confirmed) return;
 
     try {
@@ -94,16 +101,16 @@ export default function AdminUsersPage() {
                       <td>
                         {user.username}
                         {user.id === ADMIN_USER_ID && <span className="admin-badge">адмін</span>}
-                        {user.id === currentUser?.id && <span className="admin-badge admin-badge--self">ви</span>}
+                        {user.id === currentUser?.id && <span className="admin-badge admin-badge--self">Ви</span>}
                       </td>
                       <td className="admin-table__actions">
-                        <Tooltip title={canDelete(user) ? 'Видалити' : 'Видалення недоступне'}>
+                        <Tooltip title={canDelete(user) ? 'Видалити' : 'Неможливо видалити цього користувача'}>
                           <span>
                             <IconButton
                               color="error"
                               onClick={() => onDelete(user)}
                               disabled={!canDelete(user)}
-                              aria-label="delete user"
+                              aria-label="Видалити користувача"
                             >
                               <DeleteIcon />
                             </IconButton>

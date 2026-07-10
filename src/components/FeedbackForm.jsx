@@ -85,10 +85,10 @@ export default function FeedbackForm({ defaultPageUrl = '' }) {
           <TextField
             {...register('message', {
               required: 'Введіть текст повідомлення',
-              minLength: { value: 10, message: 'Мінімум 10 символів' },
+              minLength: { value: 1, message: 'Введіть текст повідомлення' },
               maxLength: { value: 2000, message: 'Максимум 2000 символів' },
               validate: {
-                notBlank: (v) => v.trim().length >= 10 || 'Мінімум 10 символів',
+                notBlank: (v) => v.trim().length >= 1 || 'Введіть текст повідомлення',
               },
             })}
             label="Текст повідомлення"
@@ -104,12 +104,12 @@ export default function FeedbackForm({ defaultPageUrl = '' }) {
             {...register('page_url', {
               maxLength: { value: 500, message: 'Максимум 500 символів' },
             })}
-            label="Адреса сторінки (необов'язково)"
-            placeholder="/word-set/12"
+            label="Сторінка з проблемою (необов'язково)"
+            placeholder="/about"
             fullWidth
             margin="normal"
             error={Boolean(errors.page_url)}
-            helperText={errors.page_url?.message || 'Наприклад: /about або /word-set/5'}
+            helperText={errors.page_url?.message || 'Шлях на сайті, наприклад /word-set/5'}
           />
 
           <Box className="feedback-form__actions">

@@ -4,9 +4,11 @@ import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { logout, selectAuthStatus, selectIsAdmin, selectIsAuth, selectUserData } from '../../redux/slices/auth';
+import { useConfirm } from '../utils/useConfirm';
 
 export default function Header() {
   const dispatch = useDispatch();
+  const confirm = useConfirm();
   const isAuth = useSelector(selectIsAuth);
   const isAdmin = useSelector(selectIsAdmin);
   const authStatus = useSelector(selectAuthStatus);
@@ -35,9 +37,15 @@ export default function Header() {
     setAnchorEl(null);
   };
 
-  const onClickLogout = () => {
+  const onClickLogout = async () => {
     handleClose();
-    if (window.confirm('Підтверджуєте вихід з акаунту?')) {
+    const confirmed = await confirm({
+      message: 'Вийти?',
+      confirmText: 'Вийти',
+      confirmColor: 'error',
+    });
+
+    if (confirmed) {
       dispatch(logout());
     }
   };
@@ -61,7 +69,7 @@ export default function Header() {
                 <Link to='/profile'>Профіль</Link>
                 {isAdmin && <>
                   <p className='m-0'>/</p>
-                  <Link to='/admin'>Адмін</Link>
+                  <Link to='/admin'>Адмінка</Link>
                 </>}
                 <p className='m-0'>/</p>
                 <Link onClick={onClickLogout} className='logout-button'>Вийти</Link>

@@ -70,7 +70,7 @@ export default function AdminFeedbackPage() {
         status: values.status,
         admin_note: values.admin_note,
       })).unwrap();
-      setToast({ open: true, message: 'Збережено', severity: 'success' });
+      setToast({ open: true, message: 'Зміни збережено', severity: 'success' });
       onCloseDialog();
     } catch (error) {
       const message = error?.message?.message || error?.message || 'Помилка збереження';
@@ -100,7 +100,7 @@ export default function AdminFeedbackPage() {
           </TextField>
 
           <TextField
-            label="Пошук"
+            label="Пошук у повідомленнях"
             value={searchInput}
             onChange={(event) => setSearchInput(event.target.value)}
             size="small"

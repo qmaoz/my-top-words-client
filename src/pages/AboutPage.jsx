@@ -47,7 +47,7 @@ function Reveal({ children, className = '', delay = 0 }) {
 const STAT_ITEMS = [
   { key: 'wordsCount', one: 'слово', few: 'слова', many: 'слів', suffix: 'у базі' },
   { key: 'usersCount', one: 'користувач', few: 'користувачі', many: 'користувачів' },
-  { key: 'wordSetsCount', one: 'набір', few: 'набори', many: 'наборів', suffix: 'лексики' },
+  { key: 'wordSetsCount', one: 'набір', few: 'набори', many: 'наборів', suffix: 'слів' },
 ];
 
 const FEATURES = [
@@ -64,7 +64,7 @@ const FEATURES = [
   {
     icon: FavoriteBorderIcon,
     title: 'Набори слів',
-    text: 'Можна створювати власні списки, зберігати публічні набори та відмічати вивчені слова.',
+    text: 'Можна створювати власні набори, зберігати чужі публічні набори та відмічати вивчені слова.',
   },
   {
     icon: RecordVoiceOverIcon,
@@ -112,7 +112,7 @@ export default function AboutPage() {
           </Typography>
           <Box className="about-hero__actions">
             <Button component={Link} to="/sign-up" variant="contained" className="about-hero__btn about-hero__btn--primary">
-              Реєстрація
+              Зареєструватися
             </Button>
             <Button component={Link} to="/" variant="outlined" className="about-hero__btn about-hero__btn--outline">
               Переглянути набори

@@ -23,17 +23,17 @@ export default function WordSetCard({ id, totalWords, learnedWordsCount, isSaved
     try {
       await dispatch(toggleWordSetSave({ id })).unwrap();
     } catch (error) {
-      setToast({ open: true, message: error?.message?.message || error?.message || 'Помилка під час збереження або скасування збереження набору', severity: 'error' });
+      setToast({ open: true, message: error?.message?.message || error?.message || 'Не вдалося змінити статус збереження набору', severity: 'error' });
     }
   };
 
   const numberOfWords = `${totalWords} ${correctNounCase(totalWords, 'слово', 'слова', 'слів')} в наборі`;
 
   const wordSetCardBottomContent = isAuth ? <>
-    <Box sx={{ flex: 1, minWidth: 0 }}>
+    <Box className="word-set-card__progress">
       <ProgressBar total={totalWords || 0} completed={learnedWordsCount || 0} />
     </Box>
-    <SaveForLearningButton isSavedForLearning={isSavedForLearning} handleToggleSave={handleToggleSave} big />
+    <SaveForLearningButton isSavedForLearning={isSavedForLearning} handleToggleSave={handleToggleSave} />
   </> : <>
     <p className='m-0'>{numberOfWords}</p>
   </>;

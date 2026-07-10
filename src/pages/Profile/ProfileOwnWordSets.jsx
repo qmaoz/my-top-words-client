@@ -44,7 +44,7 @@ export default function ProfileOwnWordSets() {
         try {
           await dispatch(fetchWordSets({ page: ownWordSetsPage, limit: wordSetLimitPerPage, filter: 'own', partOfName: partOfName })).unwrap();
         } catch (error) {
-          setToast({ open: true, message: error?.message?.message || error?.message || 'Помилка під час завантаження наборів', severity: 'error' });
+          setToast({ open: true, message: error?.message?.message || error?.message || 'Не вдалося завантажити Ваші набори', severity: 'error' });
         }
       }
     })();

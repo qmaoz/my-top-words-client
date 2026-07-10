@@ -4,6 +4,7 @@ import WordTableRow from './WordTableRow';
 export default function WordSetTable({ words, isAuthorized, className, isEditing, showLearnedToggle, onToggleLearned, onUpdate, onFullDelete }) {
   return (
     <Box className={className ?? ''}>
+      <Box className="word-set-table-wrap">
       <table className="word-set-table">
         {words?.map((word) => (
           <WordTableRow
@@ -18,6 +19,7 @@ export default function WordSetTable({ words, isAuthorized, className, isEditing
           />
         ))}
       </table>
+      </Box>
     </Box>
   );
 }

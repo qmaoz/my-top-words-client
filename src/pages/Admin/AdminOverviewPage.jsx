@@ -58,7 +58,7 @@ export default function AdminOverviewPage() {
             one="набір"
             few="набори"
             many="наборів"
-            suffix="лексики"
+            suffix="слів"
           />
         </Box>
 

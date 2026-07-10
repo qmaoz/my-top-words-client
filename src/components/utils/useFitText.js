@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useCallback } from 'react';
+import { useLayoutEffect, useRef, useCallback, useState } from 'react';
 
 function getContentHeight(textEl) {
   const style = getComputedStyle(textEl);
@@ -36,11 +36,14 @@ export default function useFitText(deps = [], { max = 2.5, min = 0.5, step = 0.0
   const containerRef = useRef(null);
   const textRef = useRef(null);
   const timersRef = useRef([]);
+  const [isFitReady, setIsFitReady] = useState(false);
 
   const setRevealed = useCallback((revealed) => {
-    const text = textRef.current;
-    if (!text) return;
-    text.classList.toggle('exercise-fit-text--ready', revealed);
+    setIsFitReady(revealed);
+    const container = containerRef.current;
+    if (container) {
+      container.classList.toggle('exercise-fit-text-slot--ready', revealed);
+    }
   }, []);
 
   const fit = useCallback(() => {
@@ -119,5 +122,5 @@ export default function useFitText(deps = [], { max = 2.5, min = 0.5, step = 0.0
     return () => observer.disconnect();
   }, [scheduleFit]);
 
-  return { containerRef, textRef };
+  return { containerRef, textRef, isFitReady };
 }

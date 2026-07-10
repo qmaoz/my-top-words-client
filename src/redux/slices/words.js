@@ -2,17 +2,6 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import axios from '../../axios'; 
 
-export const createNewWord = createAsyncThunk('words/createNewWord',
-  async (wordData, { rejectWithValue }) => {
-    try {
-      const { data } = await axios.post('/words', wordData);
-      return data;
-    } catch (error) {
-      return rejectWithValue({ message: error?.response?.data || 'Сервер недоступний або сталася помилка' });
-    }
-  }
-);
-
 export const fetchWords = createAsyncThunk(
   'words/fetchWords', 
   async ({ page, limit, filter }, { rejectWithValue }) => {
@@ -66,8 +55,7 @@ const listInitialState = {
 };
 
 const initialState = {
-  own: { ...listInitialState },     // my words (profile page)  
-  operationStatus: 'loading',       // status of the operation (example: creating a new word, deleting, updating)
+  own: { ...listInitialState },
 };
 
 const wordsSlice = createSlice({
@@ -75,16 +63,6 @@ const wordsSlice = createSlice({
   initialState,
   extraReducers: (builder) => {
     builder
-      .addCase(createNewWord.pending, (state) => {
-        state.operationStatus = 'loading';
-      })
-      .addCase(createNewWord.rejected, (state) => {
-        state.operationStatus = 'error';
-      })
-      .addCase(createNewWord.fulfilled, (state) => {
-        state.operationStatus = 'loaded';
-      })
-
       .addCase(fetchWords.pending, (state, action) => {
         const filter = action.meta.arg.filter || 'top';
         state[filter].status = 'loading';

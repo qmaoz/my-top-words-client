@@ -1,10 +1,13 @@
 import { Typography } from '@mui/material';
 import { Snackbar, Alert } from '@mui/material';
+import { getUserFacingError } from './functions';
+
+export const WORD_SET_LOAD_ERROR = 'Набір не знайдено, він приватний, або під час завантаження сталася помилка.';
 
 export function WarningMessage({ message, className = null }) {
   return (
     <Typography variant="body1" color="text.secondary" className={(className && className.trim() != '') ? className : undefined} sx={{ textAlign: 'left', width: '100%', mt: 2 }}>
-      ⚠️ {message}
+      {message}
     </Typography>
   );
 }
@@ -12,12 +15,16 @@ export function WarningMessage({ message, className = null }) {
 export function ErrorMessage({ message, className = null }) {
   return (
     <Typography variant="h6" color="error" className={(className && className.trim() != '') ? className : undefined} sx={{ textAlign: 'center', width: '100%', my: 4 }}>
-      ⚠️ {message}
+      {message}
     </Typography>
   );
 }
 
 export function Toast({ open, handleClose, message, severity = 'info', className = null }) {
+  const displayMessage = severity === 'error'
+    ? (getUserFacingError({ message }, 'Сталася помилка. Спробуйте ще раз.') || 'Сталася помилка. Спробуйте ще раз.')
+    : message;
+
   return (
     <Snackbar
       open={open}
@@ -28,11 +35,11 @@ export function Toast({ open, handleClose, message, severity = 'info', className
     >
       <Alert
         onClose={handleClose}
-        severity={severity} // 'error', 'warning', 'info', 'success'
+        severity={severity}
         variant="filled"
         sx={{ width: '100%' }}
       >
-        {message}
+        {displayMessage}
       </Alert>
     </Snackbar>
   );

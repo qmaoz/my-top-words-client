@@ -64,6 +64,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: var(--black);
+  overflow-x: hidden;
 }
 
 .app-container {
@@ -118,6 +119,13 @@ body {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
+.content-block.exercise-card-paper:hover,
+.content-block.exercise-complete-block:hover,
+.exercise-page-content .content-block.exercise-card-paper:hover,
+.exercise-page-content .content-block.exercise-complete-block:hover {
+  box-shadow: none !important;
+}
+
 
 
 /* HEADER, FOOTER */
@@ -158,6 +166,22 @@ header h1 {
 header .container {
   flex-wrap: wrap;
   gap: 0.5em;
+}
+
+header .container.df {
+  align-items: center;
+}
+
+@media (max-width: 600px) {
+  header .container.df {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .header__user-profile {
+    width: 100%;
+    justify-content: flex-start;
+  }
 }
 
 header .header__user-profile {
@@ -274,6 +298,32 @@ footer .container {
   }
 }
 
+/* Пошук / створення — поле і кнопка стовпчиком на всю ширину */
+.inline-form-row {
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  max-width: none;
+  gap: 0.65em;
+}
+
+.inline-form-row > .MuiFormControl-root,
+.inline-form-row > .word-set-name-input {
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: none;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.inline-form-row > .MuiFormControl-root .MuiInputBase-root {
+  min-height: 2.5em;
+}
+
+.inline-form-row > .MuiButton-root {
+  width: 100%;
+}
+
 input {
   margin: 0.2em 0 0.5em;
   font-size: 1em;
@@ -315,16 +365,17 @@ input::placeholder {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1em;
-  flex-wrap: wrap;
+  gap: 0.75em;
+  flex-wrap: nowrap;
 }
 
-@media (max-width: 480px) {
-  .word-set-card__bottom {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5em;
-  }
+.word-set-card__progress {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.word-set-card__bottom .MuiIconButton-root {
+  flex-shrink: 0;
 }
 
 /* WORD-SET PAGE HEADER */
@@ -344,11 +395,131 @@ input::placeholder {
   margin: 0 0 0.85em;
 }
 
+.bulk-import-words {
+  margin-bottom: 1em;
+  padding: 1.1em 1.2em !important;
+}
+
+.bulk-import-words__header {
+  display: flex;
+  align-items: center;
+  gap: 0.2em;
+  margin-bottom: 0.65em;
+}
+
+.bulk-import-words__title {
+  margin: 0 !important;
+  font-size: 0.9em !important;
+  font-weight: 600 !important;
+}
+
+.bulk-import-words__info-btn {
+  padding: 0.15em !important;
+  color: rgba(33, 33, 33, 0.5) !important;
+}
+
+.bulk-import-words__info-btn .MuiSvgIcon-root {
+  font-size: 1.05em;
+}
+
+.bulk-import-words__textarea {
+  margin-bottom: 0.65em !important;
+}
+
+.bulk-import-words__footer {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.75em;
+}
+
+.bulk-import-words__delimiter-wrap {
+  flex: 0 0 auto;
+  display: inline-flex;
+}
+
+.bulk-import-words__delimiter {
+  width: auto;
+  margin-bottom: 0 !important;
+}
+
+.bulk-import-words__delimiter .MuiOutlinedInput-root {
+  width: auto;
+}
+
+.bulk-import-words__delimiter .MuiInputLabel-root {
+  max-width: none;
+  white-space: nowrap;
+}
+
+.bulk-import-words__delimiter .MuiSelect-select {
+  width: auto;
+  min-width: 3.25em;
+  padding-right: 2.1em !important;
+  box-sizing: content-box;
+}
+
+.bulk-import-words__submit-wrap {
+  width: 100%;
+  display: block;
+}
+
+.bulk-import-words__textarea .MuiInputBase-input {
+  font-family: Consolas, 'Courier New', monospace;
+  font-size: 0.72em;
+  line-height: 1.45;
+}
+
+.bulk-import-words__errors {
+  margin-bottom: 0.75em;
+}
+
+.bulk-import-words__errors p {
+  margin: 0 0 0.35em;
+  font-size: 0.75em;
+  line-height: 1.45;
+  color: #c62828;
+}
+
+.bulk-import-words__skipped {
+  margin: 0 0 0.65em;
+  font-size: 0.8em;
+  line-height: 1.45;
+  color: rgba(33, 33, 33, 0.62);
+}
+
+.bulk-import-words__submit {
+  width: 100%;
+  text-transform: none !important;
+}
+
 .word-set-page-header {
   display: flex;
   align-items: center;
   gap: 0.85em;
   flex-wrap: wrap;
+}
+
+.word-set-page-header__title {
+  display: flex;
+  align-items: center;
+  gap: 0.2em;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.word-set-name-edit-form {
+  display: flex;
+  align-items: center;
+  gap: 0.35em;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.word-set-name-edit-form .word-set-name-input {
+  flex: 1 1 12em;
+  min-width: 10em;
+  margin-bottom: 0 !important;
 }
 
 @media (max-width: 600px) {
@@ -362,6 +533,15 @@ input::placeholder {
     justify-content: flex-start;
     flex-wrap: wrap;
   }
+
+  .word-set-name-edit-form {
+    width: 100%;
+  }
+
+  .word-set-name-edit-form .word-set-name-input {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
 }
 
 .word-set-page-header__right {
@@ -369,16 +549,6 @@ input::placeholder {
   align-items: center;
   gap: 0.3em;
   flex-wrap: wrap;
-}
-
-.toggle-public-btn {
-  margin-left: 12px;
-}
-
-@media (max-width: 600px) {
-  .toggle-public-btn {
-    margin-left: 0;
-  }
 }
 
 .word-set-title {
@@ -419,6 +589,8 @@ input::placeholder {
   transform: translate(-50%, -50%);
   font-weight: bold;
   color: #FFFFFF;
+  font-size: 0.72em;
+  white-space: nowrap;
   text-shadow: 
     0 0 3px rgba(0, 0, 0, 0.9),
     0 0 5px rgba(0, 0, 0, 0.7),
@@ -429,18 +601,28 @@ input::placeholder {
   z-index: 1;
 }
 
-.save-for-learning-btn {
-  padding: 0.25em;
+.exercise-progress-row,
+.word-set-progress-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 0.75em;
+  flex-shrink: 0;
+  width: 100%;
 }
 
-.save-for-learning-btn .MuiSvgIcon-root {
-  width: 1.25em;
-  height: 1.25em;
+.exercise-progress-row > .text-nowrap,
+.word-set-progress-row > .text-nowrap {
+  flex: 0 0 auto;
 }
 
-.save-for-learning-btn.big .MuiSvgIcon-root {
-  width: 1.6em;
-  height: 1.6em;
+.exercise-progress-row .my-progress-bar,
+.word-set-progress-row .my-progress-bar {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: auto;
+  height: 2.2em;
 }
 
 .mui-btn {
@@ -454,6 +636,13 @@ input::placeholder {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   border-radius: 0.5em;
   overflow: hidden;
+}
+
+.word-set-table-wrap {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .word-set-table thead {
@@ -482,6 +671,37 @@ input::placeholder {
   padding: 1em 0.75em;
   text-align: left;
   border-bottom: none;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.word-set-table .sentence-text,
+.word-set-table .sentence-translation {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.word-set-table .table-input {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  font-size: inherit;
+}
+
+.word-set-table .max-width-fit-content {
+  width: 1px;
+  white-space: nowrap;
+}
+
+.word-set-table .actions-cell {
+  vertical-align: middle;
+}
+
+.word-set-table .edit-controls-vertical {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15em;
 }
 
 .word-set-table tbody {
@@ -502,6 +722,7 @@ input::placeholder {
 
 .word-search-input {
   flex: 1 1 16em;
+  min-width: 0;
   margin: 0 !important;
 }
 
@@ -509,15 +730,29 @@ input::placeholder {
   background-color: var(--secondary-color);
 }
 
+.word-search-filter-wrap {
+  width: 100%;
+  max-width: 100%;
+}
+
 .word-search-filter {
   flex-shrink: 0;
+  max-width: 100%;
+}
+
+.word-search-filter .MuiToggleButton-root {
+  font-size: 0.85em;
+  line-height: 1.3;
+  padding: 0.45em 0.65em;
+  white-space: nowrap;
 }
 
 .word-search-summary {
   margin: 1em 0 0.75em;
-  font-size: 1rem;
+  font-size: 1em;
   font-weight: 500;
   line-height: 1.45;
+  word-break: break-word;
 }
 
 .word-search-pagination {
@@ -525,6 +760,31 @@ input::placeholder {
 }
 
 @media (max-width: 600px) {
+  .word-search-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75em;
+  }
+
+  .word-search-input {
+    flex: 0 0 auto;
+    width: 100%;
+  }
+
+  .word-search-filter-wrap,
+  .word-search-filter {
+    width: 100%;
+  }
+
+  .word-search-filter {
+    display: flex;
+  }
+
+  .word-search-filter .MuiToggleButton-root {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
   .word-set-table td {
     padding: 0.5em 0.3em;
     font-size: 0.85em;
@@ -540,32 +800,135 @@ input::placeholder {
   background-image: var(--gradient1);
   padding: 1.1em 1.15em;
   gap: 0.85em;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: none;
   border-radius: 0.5em;
   color: var(--on-primary);
-  transition: filter 0.2s ease, box-shadow 0.2s ease;
+  transition: filter 0.2s ease, border-color 0.2s ease;
 }
 
 .exercise-card:hover {
   filter: brightness(1.08);
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.16);
+  box-shadow: none;
+  border-color: rgba(255, 255, 255, 0.55);
 }
 
 @media (max-width: 480px) {
   .exercise-card {
     flex-direction: column;
     text-align: center;
-    padding: 0.75em;
+    padding: 0.85em;
   }
-  
+
   .exercise-card h3,
   .exercise-card .MuiTypography-h5 {
-    font-size: 0.9em !important;
+    font-size: 1em !important;
+  }
+
+  .exercise-card__subtitle {
+    font-size: 0.82em !important;
+  }
+
+  .word-set-page-header__right {
+    gap: 0.45em;
+  }
+
+  .header__user-profile {
+    flex-wrap: wrap;
+    gap: 0.25em;
+    justify-content: flex-start;
+  }
+
+  .container {
+    padding-left: 0.65em;
+    padding-right: 0.65em;
   }
 }
 
 .exercise-card h4 {
   margin-bottom: 0;
+}
+
+.exercise-card__subtitle {
+  display: block;
+  margin-top: 0.25em;
+  font-size: 0.78em !important;
+  line-height: 1.35;
+  opacity: 0.92;
+}
+
+.profile-section-intro {
+  margin: 0 0 0.85em;
+  font-size: 1em;
+  line-height: 1.45;
+}
+
+.exercise-page-trainer .df.gap-3 {
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.exercise-answer-buttons {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  gap: 0.35em;
+  width: 100%;
+}
+
+.exercise-answer-buttons .MuiButton-root {
+  min-height: 2.75em;
+  font-size: 0.95em;
+  line-height: 1.25;
+  white-space: normal !important;
+  flex: 1 1 0;
+  min-width: 0;
+  width: auto;
+  max-width: none;
+}
+
+@media (max-width: 480px) {
+  .exercise-answer-buttons .MuiButton-root {
+    font-size: 0.72em;
+    padding: 0.45em 0.35em !important;
+    line-height: 1.2;
+  }
+}
+
+.word-set-page .df.gap-3 {
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.word-set-visibility-menu .MuiMenuItem-root {
+  align-items: flex-start;
+  gap: 0;
+  padding-top: 0.55em;
+  padding-bottom: 0.55em;
+}
+
+.word-set-visibility-menu .MuiListItemIcon-root {
+  min-width: unset !important;
+  width: 1.35em;
+  margin-top: 0.12em;
+  margin-right: 0.55em;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.word-set-visibility-menu .MuiListItemIcon-root .MuiSvgIcon-root {
+  font-size: 1.15rem;
+}
+
+.word-set-visibility-menu .MuiListItemText-root {
+  margin: 0;
+  padding: 0;
+}
+
+.word-set-visibility-menu .MuiListItemText-secondary {
+  font-size: 0.85em;
+  line-height: 1.35;
 }
 
 .exercise-logo {
@@ -591,8 +954,8 @@ input::placeholder {
 }
 
 @media (max-width: 480px) {
-  .exercise-buttons-stack {
-    flex-direction: column-reverse;
+  .exercise-buttons-stack:not(.exercise-page-actions) {
+    flex-direction: column;
   }
 }
 
@@ -605,6 +968,7 @@ input::placeholder {
 /* EXERCISE PAGE (TranslationExercisePage) */
 .exercise-page-content {
   height: 100vh;
+  height: 100dvh;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -659,6 +1023,12 @@ input::placeholder {
   min-height: 0;
   overflow: hidden;
   padding: 0 !important;
+  box-shadow: none !important;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.exercise-card-paper:hover {
+  box-shadow: none !important;
 }
 
 /* Fixed area inside the card — always full card size, not content height */
@@ -669,6 +1039,15 @@ input::placeholder {
   display: flex;
   align-items: center;
   justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.exercise-fit-text-slot--ready {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }
 
 .exercise-fit-text {
@@ -680,11 +1059,6 @@ input::placeholder {
   gap: 0.6em;
   line-height: 1.35;
   box-sizing: border-box;
-  visibility: hidden;
-}
-
-.exercise-fit-text--ready {
-  visibility: visible;
 }
 
 .exercise-fit-text__block {
@@ -706,8 +1080,21 @@ input::placeholder {
   white-space: nowrap;
 }
 
-.exercise-page-content .content-block:hover {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+.exercise-fit-text__pronounce-slot {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+}
+
+.exercise-fit-text__pronounce-spacer {
+  display: inline-block;
+  width: 1.5em;
+  height: 1.2em;
+}
+
+.exercise-page-content .exercise-card-paper.content-block:hover {
+  box-shadow: none !important;
+  filter: none;
 }
 
 .exercise-page-content .MuiPaper-root.content-block {
@@ -724,6 +1111,8 @@ input::placeholder {
   gap: 0.75em;
   min-height: 12em;
   margin-top: 1em;
+  box-shadow: none !important;
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .exercise-complete-block__icon {
@@ -738,11 +1127,6 @@ input::placeholder {
 }
 
 @media (max-width: 480px) {
-  .exercise-page-content .df.gap-3 {
-    flex-direction: column;
-    gap: 0.75em !important;
-  }
-  
   .exercise-page-content .df.gap-3.mt-3 {
     flex-direction: row;
     flex-wrap: wrap;
@@ -757,7 +1141,7 @@ input::placeholder {
 
 /* Поле "Кількість закріплених слів" + прогресс-бар на мобільному */
 @media (max-width: 480px) {
-  .container .df.gap-3:first-of-type {
+  .container .df.gap-3:first-of-type:not(.word-set-progress-row):not(.exercise-progress-row) {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.5em;
@@ -843,6 +1227,30 @@ input::placeholder {
   }
 }
 
+/* CONFIRM DIALOG */
+.confirm-dialog .MuiDialogTitle-root {
+  padding: 1.15em 1.6em 0.7em !important;
+}
+
+.confirm-dialog .MuiDialogContent-root {
+  padding: 0.85em 1.6em 1.1em !important;
+}
+
+.confirm-dialog .MuiDialogContentText-root {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.confirm-dialog .MuiDialogActions-root {
+  padding: 0.75em 1.6em 1.35em !important;
+  flex-wrap: nowrap;
+  gap: 0.5em;
+}
+
+.confirm-dialog .MuiDialogActions-root .MuiButton-root {
+  flex-shrink: 0;
+}
+
 /* PRONOUNCE BUTTON - inline with text, scales with font-size */
 .pronounce-btn {
   display: inline-flex !important;
@@ -880,6 +1288,16 @@ button {
   transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
+.MuiButton-startIcon {
+  margin-right: 0.45em !important;
+  margin-left: -0.15em !important;
+}
+
+.MuiButton-endIcon {
+  margin-left: 0.45em !important;
+  margin-right: -0.15em !important;
+}
+
 .MuiButton-root:hover {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23) !important;
 }
@@ -913,6 +1331,28 @@ button {
   .MuiAlert-message {
     font-size: 0.85em;
   }
+
+  .MuiPagination-ul {
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 0.25em;
+  }
+
+  .MuiPaginationItem-root {
+    min-width: 2em;
+    height: 2em;
+    font-size: 0.8rem;
+  }
+
+  .about-hero__lead,
+  .about-block__intro,
+  .about-feature__text,
+  .about-step__text,
+  .about-highlight__text,
+  .terms-section__text,
+  .terms-page__intro {
+    font-size: 0.72em;
+  }
 }
 
 /* PROFILE PAGE */
@@ -931,6 +1371,30 @@ button {
 
 .profile-page h3 {
   margin: 0 0 0.85em;
+}
+
+.profile-page > .df {
+  flex-wrap: wrap;
+  gap: 0.75em;
+  align-items: center;
+}
+
+@media (max-width: 600px) {
+  .profile-page > .df {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .profile-page .MuiTabs-root {
+    width: 100%;
+  }
+
+  .profile-page .MuiTab-root {
+    flex: 1 1 0;
+    min-width: 0;
+    font-size: 0.78em !important;
+    padding: 0.55em 0.35em !important;
+  }
 }
 
 /* ABOUT PAGE */
@@ -1188,10 +1652,14 @@ button {
 }
 
 .about-feedback__intro {
-  margin: 0 0 1.25em;
-  font-size: 0.6em;
+  margin: 0.35em 0 1.5rem;
+  font-size: 0.85em;
   line-height: 1.6;
   color: rgba(33, 33, 33, 0.72);
+}
+
+.about-feedback .feedback-form {
+  margin-top: 0.25rem;
 }
 
 .feedback-form {
@@ -1236,7 +1704,6 @@ button {
   flex-direction: column;
   gap: 0.95em;
   padding-bottom: 1em;
-  max-width: 48em;
 }
 
 .terms-page > .content-block {
@@ -1427,6 +1894,25 @@ button {
   margin-bottom: 1.1em;
 }
 
+@media (max-width: 600px) {
+  .admin-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admin-toolbar__search,
+  .admin-toolbar__filter {
+    flex: 0 0 auto !important;
+    width: 100%;
+    max-width: none;
+    min-width: 0 !important;
+  }
+
+  .admin-toolbar .MuiButton-root {
+    width: 100%;
+  }
+}
+
 .admin-toolbar__filter {
   flex: 0 0 auto;
   min-width: 10em;
@@ -1443,8 +1929,9 @@ button {
 }
 
 .admin-toolbar__search {
-  flex: 1 1 14em;
-  min-width: 12em;
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: none;
 }
 
 .admin-table-wrap {
@@ -1554,5 +2041,16 @@ button {
   .admin-page__header {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .admin-page__header .MuiTabs-root {
+    width: 100%;
+  }
+
+  .admin-page__header .MuiTab-root {
+    flex: 1 1 0;
+    min-width: 0;
+    font-size: 0.78em !important;
+    padding: 0.55em 0.35em !important;
   }
 }

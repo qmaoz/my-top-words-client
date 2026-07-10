@@ -22,6 +22,7 @@ import AdminLayout from './pages/Admin/AdminLayout.jsx';
 import AdminOverviewPage from './pages/Admin/AdminOverviewPage.jsx';
 import AdminFeedbackPage from './pages/Admin/AdminFeedbackPage.jsx';
 import AdminUsersPage from './pages/Admin/AdminUsersPage.jsx';
+import { ConfirmProvider } from './components/utils/useConfirm.jsx';
 
 export default function App() {
   const dispatch = useDispatch();
@@ -36,7 +37,7 @@ export default function App() {
         } catch (error) {
           const message = error?.message?.message || error?.message;
           if (message !== 'jwt expired') {
-            setToast({ open: true, message: message || 'Невідома помилка при завантаженні даних користувача', severity: 'error' });
+            setToast({ open: true, message: message || 'Не вдалося завантажити профіль. Спробуйте оновити сторінку.', severity: 'error' });
           } else {
             window.localStorage.removeItem('token');
           }
@@ -59,6 +60,7 @@ export default function App() {
   return (
     <>
       <BrowserRouter>
+        <ConfirmProvider>
         <ScrollToTop />         
         <Toast {...toast} handleClose={handleCloseToast} />
         <Routes>
@@ -93,6 +95,7 @@ export default function App() {
             <Route path="/translate-exercise/:id" element={<><TranslationExercisePage /></>} />
           </Route>
         </Routes>
+        </ConfirmProvider>
       </BrowserRouter>
     </>
   );

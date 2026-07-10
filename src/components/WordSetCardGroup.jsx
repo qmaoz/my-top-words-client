@@ -13,10 +13,10 @@ export default function WordSetCardGroup({ title, wordSets, status, limit, count
       <Box className={className}>
         {title && title.trim() != '' && <h3>{title}</h3>}
 
-        <form onSubmit={handleSubmit(onSubmitForm)} className="mt-3 mb-3 df ais gap-3">
+        <form onSubmit={handleSubmit(onSubmitForm)} className="inline-form-row mt-3 mb-3 df ais gap-3">
           <FormInput
             name={searchInputName}
-            label="Назва шуканого набору"
+            label="Пошук за назвою набору"
             register={register}
             errors={errors}
             fullWidth
@@ -34,7 +34,7 @@ export default function WordSetCardGroup({ title, wordSets, status, limit, count
               onChange={onChange}
               color="primary"
               shape="rounded"
-              size="large"
+              size="medium"
               disabled={status !== 'loaded'}
             />
           </Stack>
@@ -46,7 +46,7 @@ export default function WordSetCardGroup({ title, wordSets, status, limit, count
           )}
 
           {status === 'loaded' && (!wordSets || wordSets?.length === 0) && (
-            <WarningMessage message={'Немає наборів'} className='m-0' />
+            <WarningMessage message={'Наборів не знайдено'} className='m-0' />
           )}
 
           {(status === 'loading' ? [...Array(limit)] : wordSets)?.map((obj, index) => (
@@ -76,7 +76,7 @@ export default function WordSetCardGroup({ title, wordSets, status, limit, count
               onChange={onChange}
               color="primary"
               shape="rounded"
-              size="large"
+              size="medium"
               disabled={status !== 'loaded'}
             />
           </Stack>

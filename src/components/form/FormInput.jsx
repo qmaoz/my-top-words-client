@@ -8,10 +8,13 @@ const FormInput = ({
 }) => {
   const validationRules = {
     ...(required && {
-      required: 'Поле не може бути порожнім',
+      required: label ? `«${label}» не може бути порожнім` : 'Поле не може бути порожнім',
       validate: {
-        notBlank: (v) => v.trim().length > 0 || 'Поле не може складатися лише з пробілів'
-      }
+        notBlank: (v) => (
+          v.trim().length > 0
+          || (label ? `«${label}» не може складатися лише з пробілів` : 'Поле не може складатися лише з пробілів')
+        ),
+      },
     }),
     ...(maxLength && {
       maxLength: {
@@ -35,7 +38,8 @@ const FormInput = ({
       autoComplete={autoComplete ? autoComplete : undefined}
 
       variant="outlined"
-      margin="normal"
+      margin="dense"
+      size="small"
       
       error={Boolean(errors[name])}
       helperText={errors[name]?.message}
