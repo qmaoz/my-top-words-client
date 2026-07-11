@@ -13,11 +13,13 @@ export default function AdminLayout() {
   const isAdmin = useSelector(selectIsAdmin);
   const authStatus = useSelector(selectAuthStatus);
 
+  const canAccessAdmin = authStatus === 'loaded' && isAuth && isAdmin;
+
   useEffect(() => {
-    if (authStatus !== 'loading' && (!isAuth || !isAdmin)) {
+    if (authStatus !== 'loading' && !canAccessAdmin) {
       navigate('/');
     }
-  }, [isAuth, isAdmin, authStatus, navigate]);
+  }, [canAccessAdmin, authStatus, navigate]);
 
   const currentTab = location.pathname === '/admin' ? '/admin/overview' : location.pathname;
 
@@ -33,7 +35,7 @@ export default function AdminLayout() {
           </Tabs>
         </Box>
         <Box className="admin-page__content">
-          <Outlet />
+          {canAccessAdmin ? <Outlet /> : null}
         </Box>
       </CircularLoading>
     </Box>

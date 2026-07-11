@@ -123,6 +123,18 @@ export const bulkImportWords = createAsyncThunk(
   }
 );
 
+export const clearWordSetWords = createAsyncThunk(
+  'wordSets/clearWordSetWords',
+  async (wordSetId, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.delete(`/word-sets/${wordSetId}/words`);
+      return data;
+    } catch (error) {
+      return rejectWithValue({ message: error?.response?.data || 'Сервер недоступний або сталася помилка' });
+    }
+  }
+);
+
 export const toggleWordLearned = createAsyncThunk(
   'wordSets/toggleWordLearned',
   async ({ wordId }, { rejectWithValue }) => {
@@ -290,6 +302,15 @@ const wordSetsSlice = createSlice({
 
         if (state?.activeItem?.words && importedWords.length > 0) {
           state.activeItem.words = [...importedWords, ...state.activeItem.words];
+        }
+      })
+
+      .addCase(clearWordSetWords.fulfilled, (state) => {
+        if (state?.activeItem?.words) {
+          state.activeItem.words = [];
+        }
+        if (state?.activeItem) {
+          state.activeItem.learnedWordsCount = 0;
         }
       })
 

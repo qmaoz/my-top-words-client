@@ -1,23 +1,51 @@
-/* GENERAL */
-:root {
-  --black: #212121;
-  --bg: #FAFAFA;
-  --primary-color: #1976D2;
-  --secondary-color: #FFFFFF;
-  --primary-light: #E3F2FD;
+/* GENERAL — кольори теми: src/theme/palette.js → applyCssVariables() */
 
-  --accent-teal: #009688;
-  --accent-teal-dark: #00796B;
+/* CUSTOM SCROLLBAR */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
 
-  --border-light-color: rgba(0, 0, 0, 0.08);
+*::-webkit-scrollbar {
+  width: 0.55em;
+  height: 0.55em;
+}
 
-  --gradient1: linear-gradient(135deg, #1976D2 0%, #2196F3 100%);
-  --gradient2: linear-gradient(135deg, #FFFFFF 0%, #F5F5F5 100%);
-  --gradient3: linear-gradient(90deg, #009688 0%, #00796B 100%);
+*::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+  border-radius: 100em;
+}
 
-  --on-primary: #FFFFFF;
-  --on-primary-muted: rgba(255, 255, 255, 0.88);
-  --on-primary-hover-bg: rgba(255, 255, 255, 0.14);
+*::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    var(--scrollbar-thumb-top) 0%,
+    var(--scrollbar-thumb) 45%,
+    var(--scrollbar-thumb-hover) 100%
+  );
+  border-radius: 100em;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  min-height: 2.5em;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    180deg,
+    var(--accent-teal-light) 0%,
+    var(--accent-teal) 50%,
+    var(--scrollbar-thumb-hover) 100%
+  );
+  background-clip: padding-box;
+}
+
+*::-webkit-scrollbar-thumb:active {
+  background: var(--scrollbar-thumb-active);
+  background-clip: padding-box;
+}
+
+*::-webkit-scrollbar-corner {
+  background: transparent;
 }
 
 *, *::before, *::after {
@@ -32,7 +60,7 @@ a {
 }
 
 a:hover {
-  color: #0D47A1;
+  color: var(--primary-darker);
 }
 
 html, body, #root {
@@ -134,11 +162,11 @@ header, footer {
   background-image: var(--gradient1);
   padding: 0.5em 0;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  color: #FFFFFF;
+  color: var(--on-primary);
 }
 
 header {
-  border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+  border-bottom: 2px solid var(--border-on-primary-subtle);
 }
 
 footer {
@@ -415,7 +443,7 @@ input::placeholder {
 
 .bulk-import-words__info-btn {
   padding: 0.15em !important;
-  color: rgba(33, 33, 33, 0.5) !important;
+  color: var(--text-placeholder) !important;
 }
 
 .bulk-import-words__info-btn .MuiSvgIcon-root {
@@ -431,6 +459,15 @@ input::placeholder {
   flex-direction: column;
   align-items: stretch;
   gap: 0.75em;
+}
+
+.bulk-import-words__clear-wrap,
+.bulk-import-words__clear {
+  width: 100%;
+}
+
+.bulk-import-words__clear {
+  text-transform: none !important;
 }
 
 .bulk-import-words__delimiter-wrap {
@@ -478,14 +515,14 @@ input::placeholder {
   margin: 0 0 0.35em;
   font-size: 0.75em;
   line-height: 1.45;
-  color: #c62828;
+  color: var(--semantic-error);
 }
 
 .bulk-import-words__skipped {
   margin: 0 0 0.65em;
   font-size: 0.8em;
   line-height: 1.45;
-  color: rgba(33, 33, 33, 0.62);
+  color: var(--text-disabled);
 }
 
 .bulk-import-words__submit {
@@ -588,7 +625,7 @@ input::placeholder {
   left: 50%;
   transform: translate(-50%, -50%);
   font-weight: bold;
-  color: #FFFFFF;
+  color: var(--on-primary);
   font-size: 0.72em;
   white-space: nowrap;
   text-shadow: 
@@ -647,7 +684,7 @@ input::placeholder {
 
 .word-set-table thead {
   background-color: var(--primary-color);
-  color: #FFFFFF;
+  color: var(--on-primary);
 }
 
 .word-set-table thead th {
@@ -664,7 +701,7 @@ input::placeholder {
 }
 
 .word-set-table tbody:hover tr {
-  background-color: rgba(25, 118, 210, 0.04);
+  background-color: var(--chrome-hover-bg);
 }
 
 .word-set-table tbody td {
@@ -868,34 +905,6 @@ input::placeholder {
   flex-wrap: wrap;
 }
 
-.exercise-answer-buttons {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  align-items: stretch;
-  gap: 0.35em;
-  width: 100%;
-}
-
-.exercise-answer-buttons .MuiButton-root {
-  min-height: 2.75em;
-  font-size: 0.95em;
-  line-height: 1.25;
-  white-space: normal !important;
-  flex: 1 1 0;
-  min-width: 0;
-  width: auto;
-  max-width: none;
-}
-
-@media (max-width: 480px) {
-  .exercise-answer-buttons .MuiButton-root {
-    font-size: 0.72em;
-    padding: 0.45em 0.35em !important;
-    line-height: 1.2;
-  }
-}
-
 .word-set-page .df.gap-3 {
   flex-wrap: wrap;
   align-items: center;
@@ -963,6 +972,32 @@ input::placeholder {
   flex-direction: column;
 }
 
+.exercise-page-actions .MuiButton-root {
+  font-size: 0.9em !important;
+  padding: 0.5em 0.75em !important;
+  line-height: 1.35 !important;
+  min-height: 2.5em;
+  box-sizing: border-box;
+}
+
+.exercise-answer-buttons {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  gap: 0.65em;
+  width: 100%;
+}
+
+.exercise-answer-buttons .MuiButton-root {
+  flex: 1 1 0;
+  min-width: 0;
+  height: auto;
+  white-space: normal !important;
+  text-align: center;
+  justify-content: center;
+}
+
 
 
 /* EXERCISE PAGE (TranslationExercisePage) */
@@ -972,6 +1007,47 @@ input::placeholder {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  padding: 0.45em 0.65em 0.4em !important;
+}
+
+.exercise-page-content .exercise-progress-row {
+  gap: 0.45em;
+}
+
+.exercise-page-content .exercise-progress-row .my-progress-bar {
+  height: 1.65em;
+}
+
+.exercise-page-content .exercise-card-paper {
+  margin-top: 0.4em;
+}
+
+.exercise-page-content .exercise-page-actions {
+  margin-top: 0.4em;
+}
+
+.exercise-page-content .exercise-buttons-stack {
+  gap: 0.4em;
+}
+
+.exercise-page-content .exercise-page-actions .MuiButton-root {
+  font-size: 0.85em !important;
+  padding: 0.35em 0.55em !important;
+  line-height: 1.25 !important;
+  min-height: 2.1em;
+}
+
+.exercise-page-content .exercise-answer-buttons {
+  gap: 0.4em;
+}
+
+.exercise-page-content .exercise-fit-text-slot {
+  inset: 0.6em;
+}
+
+.exercise-page-content .exercise-fit-text {
+  gap: 0.4em;
+  line-height: 1.3;
 }
 
 .exercise-page-body {
@@ -1313,6 +1389,21 @@ button {
     padding: 0.4em 0.8em !important;
     min-width: auto !important;
   }
+
+  .exercise-page-content .exercise-page-actions .MuiButton-root {
+    font-size: 0.8em !important;
+    padding: 0.3em 0.45em !important;
+    min-height: 2em;
+  }
+
+  .exercise-page-content {
+    padding-left: 0.5em !important;
+    padding-right: 0.5em !important;
+  }
+
+  .exercise-page-content .exercise-progress-row .my-progress-bar {
+    height: 1.5em;
+  }
 }
 
 /* General responsive fixes */
@@ -1443,7 +1534,7 @@ button {
   margin: 0 0 1.35em;
   font-size: 0.62em;
   line-height: 1.6;
-  color: rgba(33, 33, 33, 0.72);
+  color: var(--text-muted);
   max-width: 36em;
 }
 
@@ -1467,7 +1558,7 @@ button {
   margin: 0 0 1.6em;
   font-size: 0.62em;
   line-height: 1.65;
-  color: rgba(33, 33, 33, 0.78);
+  color: var(--text-body);
   max-width: 38em;
 }
 
@@ -1494,19 +1585,19 @@ button {
 }
 
 .about-hero__btn--primary:hover {
-  background: #1565C0 !important;
+  background: var(--primary-dark) !important;
   box-shadow: none !important;
 }
 
 .about-hero__btn--outline {
-  border-color: rgba(25, 118, 210, 0.55) !important;
+  border-color: var(--chrome-outline) !important;
   color: var(--primary-color) !important;
   background: transparent !important;
 }
 
 .about-hero__btn--outline:hover {
   border-color: var(--primary-color) !important;
-  background: rgba(25, 118, 210, 0.06) !important;
+  background: var(--chrome-focus-bg) !important;
   box-shadow: none !important;
 }
 
@@ -1534,7 +1625,7 @@ button {
   margin: 0.6em 0 0;
   font-size: 0.52em;
   line-height: 1.45;
-  color: rgba(33, 33, 33, 0.68);
+  color: var(--text-secondary);
 }
 
 .about-block > .about-features {
@@ -1579,7 +1670,7 @@ button {
   margin: 0;
   font-size: 0.56em;
   line-height: 1.6;
-  color: rgba(33, 33, 33, 0.72);
+  color: var(--text-muted);
 }
 
 .about-block > .about-reveal + .about-reveal {
@@ -1611,7 +1702,7 @@ button {
   margin: 0;
   font-size: 0.56em;
   line-height: 1.6;
-  color: rgba(33, 33, 33, 0.72);
+  color: var(--text-muted);
 }
 
 .about-highlight {
@@ -1644,7 +1735,7 @@ button {
   margin: 0;
   font-size: 0.56em;
   line-height: 1.6;
-  color: rgba(33, 33, 33, 0.72);
+  color: var(--text-muted);
 }
 
 .about-feedback {
@@ -1655,7 +1746,7 @@ button {
   margin: 0.35em 0 1.5rem;
   font-size: 0.85em;
   line-height: 1.6;
-  color: rgba(33, 33, 33, 0.72);
+  color: var(--text-muted);
 }
 
 .about-feedback .feedback-form {
@@ -1722,7 +1813,7 @@ button {
   margin: 0;
   font-size: 0.6em;
   line-height: 1.6;
-  color: rgba(33, 33, 33, 0.72);
+  color: var(--text-muted);
 }
 
 .terms-section {
@@ -1741,7 +1832,7 @@ button {
   margin: 0 0 0.7em;
   font-size: 0.56em;
   line-height: 1.6;
-  color: rgba(33, 33, 33, 0.85);
+  color: var(--text-strong);
 }
 
 .terms-section__text:last-of-type {
@@ -1764,7 +1855,7 @@ button {
   margin: 0.35em 0 0;
   padding-top: 0.35em;
   font-size: 0.52em;
-  color: rgba(33, 33, 33, 0.6);
+  color: var(--text-faint);
   text-align: center;
 }
 
@@ -1838,7 +1929,7 @@ button {
   margin: 0 0 0.85em;
   font-size: 0.62em;
   line-height: 1.55;
-  color: rgba(33, 33, 33, 0.72);
+  color: var(--text-muted);
 }
 
 .admin-block__title {
@@ -1884,7 +1975,7 @@ button {
 .admin-stat__label {
   margin: 0.35em 0 0;
   font-size: 0.52em;
-  color: rgba(33, 33, 33, 0.68);
+  color: var(--text-secondary);
 }
 
 .admin-toolbar {
@@ -1959,7 +2050,7 @@ button {
 }
 
 .admin-table tbody tr:hover {
-  background: rgba(25, 118, 210, 0.04);
+  background: var(--chrome-hover-bg);
 }
 
 .admin-table__message {
@@ -1982,18 +2073,18 @@ button {
 }
 
 .admin-status--queued {
-  background: #FFF3E0;
-  color: #E65100;
+  background: var(--semantic-warning-bg);
+  color: var(--semantic-warning-text);
 }
 
 .admin-status--in_progress {
-  background: #E3F2FD;
-  color: #1565C0;
+  background: var(--semantic-info-bg);
+  color: var(--semantic-info-text);
 }
 
 .admin-status--done {
-  background: #E8F5E9;
-  color: #2E7D32;
+  background: var(--semantic-success-bg);
+  color: var(--semantic-success-text);
 }
 
 .admin-badge {
@@ -2002,18 +2093,18 @@ button {
   padding: 0.1em 0.35em;
   border-radius: 0.25em;
   font-size: 0.85em;
-  background: rgba(25, 118, 210, 0.12);
+  background: var(--chrome-selected-bg);
   color: var(--primary-color);
 }
 
 .admin-badge--self {
-  background: rgba(0, 150, 136, 0.12);
+  background: var(--accent-selected-bg);
   color: var(--accent-teal-dark);
 }
 
 .admin-empty {
   font-size: 0.62em;
-  color: rgba(33, 33, 33, 0.65);
+  color: var(--text-tertiary);
   padding: 1em 0;
 }
 

@@ -5,21 +5,25 @@ import {
   Box, Button, IconButton, TextField, Tooltip, Typography,
 } from '@mui/material';
 
-import { bulkImportWords } from '../../../redux/slices/word-sets';
+import { bulkImportWords, clearWordSetWords } from '../../../redux/slices/word-sets';
 import { BULK_WORDS_PLACEHOLDER, parseBulkWords, partitionBulkWordsByExisting } from '../../../components/utils/parseBulkWords';
 import { Toast } from '../../../components/utils/messages';
 import { correctNounCase, formatLocaleCount } from '../../../components/utils/functions';
+import { useConfirm } from '../../../components/utils/useConfirm';
 
 const IMPORT_HINT = 'Кожен рядок — слово, переклад, речення і переклад речення. Між ними — /, | або Tab. До 100 рядків за раз.';
 const TEXTAREA_HINT = 'Вставте або введіть слова — по одному рядку на кожне.';
 
 export default function BulkImportWordsForm() {
   const dispatch = useDispatch();
+  const confirm = useConfirm();
   const { activeItem } = useSelector((state) => state.wordSets);
   const [text, setText] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isClearing, setIsClearing] = useState(false);
   const [toast, setToast] = useState({ open: false, message: '', severity: 'info' });
   const handleCloseToast = () => setToast({ ...toast, open: false });
+  const wordsInSetCount = activeItem?.words?.length ?? 0;
 
   const { words, errors } = useMemo(
     () => parseBulkWords(text, 'auto'),
@@ -88,6 +92,40 @@ export default function BulkImportWordsForm() {
     }
   };
 
+  const onClearWordSet = async () => {
+    if (!activeItem?.id || wordsInSetCount === 0) return;
+
+    const confirmed = await confirm({
+      message: 'Очистити набір? Усі слова буде видалено з набору. Скопіюйте список заздалегідь, якщо хочете зберегти копію.',
+      confirmText: 'Очистити',
+      confirmColor: 'error',
+    });
+
+    if (!confirmed) return;
+
+    setIsClearing(true);
+    try {
+      const result = await dispatch(clearWordSetWords(activeItem.id)).unwrap();
+      const cleared = result?.cleared ?? wordsInSetCount;
+
+      setToast({
+        open: true,
+        message: cleared > 0
+          ? `Набір очищено — видалено ${formatLocaleCount(cleared)} ${correctNounCase(cleared, 'слово', 'слова', 'слів')}`
+          : 'Набір уже порожній',
+        severity: cleared > 0 ? 'success' : 'info',
+      });
+    } catch (error) {
+      setToast({
+        open: true,
+        message: error?.message?.message || error?.message || 'Не вдалося очистити набір',
+        severity: 'error',
+      });
+    } finally {
+      setIsClearing(false);
+    }
+  };
+
   return (
     <>
       <Box className="bulk-import-words content-block">
@@ -135,13 +173,33 @@ export default function BulkImportWordsForm() {
         )}
 
         <Box className="bulk-import-words__footer">
+          {wordsInSetCount > 0 && (
+            <Tooltip
+              title="Видалити всі слова з набору — зручно перед повторним імпортом відредагованого списку"
+              arrow
+              placement="top"
+            >
+              <span className="bulk-import-words__clear-wrap">
+                <Button
+                  variant="outlined"
+                  color="error"
+                  fullWidth
+                  onClick={onClearWordSet}
+                  disabled={isClearing || isSubmitting}
+                  className="bulk-import-words__clear"
+                >
+                  {isClearing ? 'Очищуємо…' : 'Очистити набір'}
+                </Button>
+              </span>
+            </Tooltip>
+          )}
           <Tooltip title={submitHint} arrow placement="top">
             <span className="bulk-import-words__submit-wrap">
               <Button
                 variant="contained"
                 fullWidth
                 onClick={onImport}
-                disabled={isSubmitting || !isReady}
+                disabled={isSubmitting || isClearing || !isReady}
                 className="bulk-import-words__submit"
               >
                 {submitLabel}

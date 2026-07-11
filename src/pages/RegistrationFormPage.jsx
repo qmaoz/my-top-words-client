@@ -25,12 +25,13 @@ export default function SignupFormPage() {
   });
 
   const onSubmitForm = async (values) => {
-    if (values?.password && values?.confirm_password && values.password !== values.confirm_password) {
+      const { username, password, confirm_password: confirmPassword } = values;
+    if (password !== confirmPassword) {
       return setToast({ open: true, message: 'Паролі не збігаються', severity: 'error' });
     }
-    
+
     try {
-      const data = await dispatch(fetchRegister(values)).unwrap();
+      const data = await dispatch(fetchRegister({ username, password })).unwrap();
 
       if (!data) {
         throw new Error();

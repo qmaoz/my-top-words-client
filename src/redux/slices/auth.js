@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk, isAnyOf } from '@reduxjs/toolkit';
 import axios from '../../axios';
-import { ADMIN_USER_ID } from '../../components/utils/admin.js';
 
 export const fetchLogin = createAsyncThunk('auth/fetchLogin', async (params, { rejectWithValue }) => {
   try {
@@ -20,9 +19,9 @@ export const fetchUserInfo = createAsyncThunk('auth/fetchUserInfo', async (param
   }
 });
 
-export const fetchRegister = createAsyncThunk('auth/fetchRegister', async (params, { rejectWithValue }) => {
+export const fetchRegister = createAsyncThunk('auth/fetchRegister', async ({ username, password }, { rejectWithValue }) => {
   try {
-    const { data } = await axios.post('/auth/register', params);
+    const { data } = await axios.post('/auth/register', { username, password });
     return data;
   } catch (error) {
     return rejectWithValue({ message: error?.response?.data || 'Сервер недоступний або сталася помилка' });
@@ -76,7 +75,7 @@ const authSlice = createSlice({
 export const selectIsAuth = (state) => Boolean(state.auth.data);
 export const selectUserData = (state) => state.auth.data?.userData;
 export const selectAuthStatus = (state) => state.auth.status;
-export const selectIsAdmin = (state) => state.auth.data?.userData?.id === ADMIN_USER_ID;
+export const selectIsAdmin = (state) => Boolean(state.auth.data?.userData?.is_admin);
 
 export const authReducer = authSlice.reducer;
 

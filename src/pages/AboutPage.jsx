@@ -145,7 +145,7 @@ export default function AboutPage() {
             Можливості
           </Typography>
           <Typography className="about-block__intro">
-            Сервіс орієнтований на регулярну роботу з лексикою, без зайвих елементів.
+            Сервіс орієнтований на регулярну роботу з лексикою.
           </Typography>
         </Reveal>
 

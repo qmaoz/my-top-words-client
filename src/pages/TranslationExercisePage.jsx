@@ -273,7 +273,7 @@ export default function TranslationExercisePage() {
 
   return (
     <>
-      <Box className='app-container container p-3 exercise-page-content'>
+      <Box className='app-container container exercise-page-content'>
         <Box className='exercise-page-body'>
         <Box className='exercise-page-main'>
         <CircularLoading isLoading={isPageLoading}>
@@ -308,7 +308,7 @@ export default function TranslationExercisePage() {
                   </Fragment>
                 ))}
               </>}
-              <Paper elevation={0} className='main-content content-block exercise-card-paper' sx={{ mt: '1em' }}>
+              <Paper elevation={0} className='main-content content-block exercise-card-paper'>
                 <Box ref={fitContainerRef} className="exercise-fit-text-slot">
                   <Box ref={fitTextRef} className="exercise-fit-text">
                   {currentWord?.sentence_translation_uk && (
@@ -381,7 +381,7 @@ export default function TranslationExercisePage() {
         </CircularLoading>
         </Box>
 
-        <Box className='exercise-page-actions exercise-buttons-stack w-100 mt-3'>
+        <Box className='exercise-page-actions exercise-buttons-stack w-100'>
           {showTrainer && (
             <>
               {!isRevealed ? (
@@ -409,9 +409,9 @@ export default function TranslationExercisePage() {
                       Позначити як вивчене
                     </Button>
                   )}
-                  <Box className='exercise-answer-buttons gap-1'>
-                    <Button variant='contained' color='success' onClick={onYesButtonClick}>Мій переклад був правильним</Button>
-                    <Button variant='contained' color='error' onClick={onNoButtonClick}>Мій переклад був неправильним</Button>
+                  <Box className='exercise-answer-buttons'>
+                    <Button variant='contained' color='success' onClick={onYesButtonClick}>Мій переклад правильний</Button>
+                    <Button variant='contained' color='error' onClick={onNoButtonClick}>Мій переклад неправильний</Button>
                   </Box>
                 </>
               )}

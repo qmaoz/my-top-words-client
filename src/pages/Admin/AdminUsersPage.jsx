@@ -5,7 +5,6 @@ import {
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-import { ADMIN_USER_ID } from '../../components/utils/admin';
 import { deleteAdminUser, fetchAdminUsers } from '../../redux/slices/admin';
 import { selectUserData } from '../../redux/slices/auth';
 import CircularLoading from '../../components/wrappers/CircularLoading';
@@ -43,7 +42,7 @@ export default function AdminUsersPage() {
       return;
     }
 
-    if (user.id === ADMIN_USER_ID) {
+    if (user.is_admin) {
       setToast({ open: true, message: 'Не можна видалити обліковий запис адміністратора', severity: 'error' });
       return;
     }
@@ -65,7 +64,7 @@ export default function AdminUsersPage() {
     }
   };
 
-  const canDelete = (user) => user.id !== currentUser?.id && user.id !== ADMIN_USER_ID;
+  const canDelete = (user) => user.id !== currentUser?.id && !user.is_admin;
 
   return (
     <>
@@ -100,7 +99,7 @@ export default function AdminUsersPage() {
                       <td>{user.id}</td>
                       <td>
                         {user.username}
-                        {user.id === ADMIN_USER_ID && <span className="admin-badge">адмін</span>}
+                        {user.is_admin && <span className="admin-badge">адмін</span>}
                         {user.id === currentUser?.id && <span className="admin-badge admin-badge--self">Ви</span>}
                       </td>
                       <td className="admin-table__actions">

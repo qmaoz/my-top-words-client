@@ -35,11 +35,11 @@ export default function App() {
         try {
           await dispatch(fetchUserInfo()).unwrap();
         } catch (error) {
-          const message = error?.message?.message || error?.message;
-          if (message !== 'jwt expired') {
-            setToast({ open: true, message: message || 'Не вдалося завантажити профіль. Спробуйте оновити сторінку.', severity: 'error' });
-          } else {
+          if (error?.response?.status === 401 || error?.message?.message === 'jwt expired') {
             window.localStorage.removeItem('token');
+          } else {
+            const message = error?.message?.message || error?.message;
+            setToast({ open: true, message: message || 'Не вдалося завантажити профіль. Спробуйте оновити сторінку.', severity: 'error' });
           }
         }
       } else {

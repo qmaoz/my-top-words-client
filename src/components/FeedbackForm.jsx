@@ -103,6 +103,13 @@ export default function FeedbackForm({ defaultPageUrl = '' }) {
           <TextField
             {...register('page_url', {
               maxLength: { value: 500, message: 'Максимум 500 символів' },
+              validate: {
+                internalPath: (value) => {
+                  const trimmed = value?.trim();
+                  if (!trimmed) return true;
+                  return /^\/[a-zA-Z0-9/_-]*$/.test(trimmed) || 'Дозволено лише внутрішній шлях, наприклад /about';
+                },
+              },
             })}
             label="Сторінка з проблемою (необов'язково)"
             placeholder="/about"
