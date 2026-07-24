@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchLogin, selectIsAuth } from '../redux/slices/auth.js';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Box, Button, Paper } from '@mui/material';
 import FormInput from '../components/form/FormInput.jsx';
 import { useState } from 'react';
@@ -11,6 +12,7 @@ export default function LoginFormPage() {
   const isAuth = useSelector(selectIsAuth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [toast, setToast] = useState({ open: false, message: '', severity: 'info' });
   const handleCloseToast = () => setToast({ ...toast, open: false });
 
@@ -34,7 +36,7 @@ export default function LoginFormPage() {
         throw new Error();
       }
     } catch (error) {
-      return setToast({ open: true, message: error?.message?.message || error?.message || 'Не вдалося увійти. Перевірте ім’я та пароль.', severity: 'error' });
+      return setToast({ open: true, message: error?.message?.message || error?.message || t('auth.loginError'), severity: 'error' });
     }
   };
 
@@ -46,27 +48,28 @@ export default function LoginFormPage() {
     <>
       <Box className="container">
         <Paper elevation={3} className='form-block content-block'>
-          <h2 className="text-center mb-3">Вхід</h2>
+          <h2 className="text-center">{t('auth.loginTitle')}</h2>
           <form onSubmit={handleSubmit(onSubmitForm)}>
             <FormInput
               name="username"
-              label="Ім’я користувача"
+              label={t('auth.username')}
               register={register}
               errors={errors}
               required fullWidth
               maxLength={20}
+              autoComplete="username"
             />
             <FormInput
               name="password"
               type='password'
-              label="Пароль"
+              label={t('auth.password')}
               register={register}
               errors={errors}
               required fullWidth
               maxLength={20}
-              className="mt-3"
+              autoComplete="current-password"
             />
-            <Button color='primary' fullWidth={true} variant='contained' className="mt-3" type="submit">Увійти</Button>
+            <Button color='primary' fullWidth={true} variant='contained' type="submit">{t('auth.loginSubmit')}</Button>
           </form>
         </Paper>
       </Box>

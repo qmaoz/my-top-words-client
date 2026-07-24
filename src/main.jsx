@@ -7,6 +7,7 @@ import App from './App.jsx';
 import store from './redux/store';
 import { applyCssVariables } from './theme/applyCssVariables.js';
 import theme from './theme/muiTheme.js';
+import './i18n';
 import './index.css';
 
 applyCssVariables();

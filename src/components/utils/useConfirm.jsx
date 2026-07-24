@@ -1,4 +1,5 @@
 import { createContext, useCallback, useContext, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
 } from '@mui/material';
@@ -6,6 +7,7 @@ import {
 const ConfirmContext = createContext(null);
 
 export function ConfirmProvider({ children }) {
+  const { t } = useTranslation();
   const [options, setOptions] = useState(null);
   const resolveRef = useRef(null);
 
@@ -17,12 +19,12 @@ export function ConfirmProvider({ children }) {
       setOptions({
         title: normalized.title ?? null,
         message: normalized.message ?? '',
-        confirmText: normalized.confirmText ?? 'Так',
-        cancelText: normalized.cancelText ?? 'Скасувати',
+        confirmText: normalized.confirmText ?? t('common.yes'),
+        cancelText: normalized.cancelText ?? t('common.cancel'),
         confirmColor: normalized.confirmColor ?? 'primary',
       });
     });
-  }, []);
+  }, [t]);
 
   const handleClose = (result) => {
     setOptions(null);
@@ -36,7 +38,7 @@ export function ConfirmProvider({ children }) {
       <Dialog
         open={Boolean(options)}
         onClose={() => handleClose(false)}
-        maxWidth="xs"
+        maxWidth="sm"
         fullWidth
         className="confirm-dialog"
       >

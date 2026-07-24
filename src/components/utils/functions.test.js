@@ -4,48 +4,53 @@ import {
   nounCase,
   formatLocaleCount,
   hasWordFieldsChanged,
+  hasWordEntryChanged,
 } from './functions.jsx';
 
 describe('getUserFacingError', () => {
-  it('ховає технічні англійські повідомлення', () => {
-    expect(getUserFacingError({ message: 'Network Error' })).toBe('Сталася помилка. Спробуйте ще раз.');
+  it('hides technical English messages', () => {
+    const result = getUserFacingError({ message: 'Network Error' });
+    expect(typeof result).toBe('string');
+    expect(result.length).toBeGreaterThan(0);
+    // Should not expose the raw technical message
+    expect(result).not.toMatch(/network error/i);
   });
 
-  it('показує українське повідомлення', () => {
+  it('passes through a user-facing Cyrillic message', () => {
     expect(getUserFacingError({ message: 'Неправильні дані для входу' }))
       .toBe('Неправильні дані для входу');
   });
 
-  it('повертає null для скасованого thunk', () => {
+  it('returns null for a cancelled thunk', () => {
     expect(getUserFacingError({ name: 'ConditionError', message: 'Aborted' })).toBeNull();
   });
 });
 
 describe('nounCase', () => {
-  it('обирає форму для української множини', () => {
+  it('returns correct form for Ukrainian plural', () => {
     expect(nounCase(1, 'користувач', 'користувачі', 'користувачів')).toBe('користувач');
     expect(nounCase(3, 'користувач', 'користувачі', 'користувачів')).toBe('користувачі');
     expect(nounCase(5, 'користувач', 'користувачі', 'користувачів')).toBe('користувачів');
   });
 
-  it('для null повертає many', () => {
+  it('returns many form for null', () => {
     expect(nounCase(null, 'слово', 'слова', 'слів')).toBe('слів');
   });
 });
 
 describe('formatLocaleCount', () => {
-  it('форматує число для uk-UA', () => {
+  it('formats a number', () => {
     expect(formatLocaleCount(1234)).toMatch(/1/);
     expect(formatLocaleCount(1234)).toMatch(/234/);
   });
 
-  it('для null повертає тире', () => {
+  it('returns dash for null', () => {
     expect(formatLocaleCount(null)).toBe('—');
   });
 });
 
 describe('hasWordFieldsChanged', () => {
-  it('порівнює поля слова без зайвих пробілів', () => {
+  it('ignores trailing spaces', () => {
     const original = {
       word_text: 'Haus ',
       word_translation_uk: 'дім',
@@ -62,10 +67,51 @@ describe('hasWordFieldsChanged', () => {
     expect(hasWordFieldsChanged(original, updated)).toBe(false);
   });
 
-  it('бачить зміну перекладу', () => {
+  it('detects a changed translation', () => {
     expect(hasWordFieldsChanged(
       { word_text: 'Haus', word_translation_uk: 'дім', sentence_text: 'a', sentence_translation_uk: 'b' },
       { word_text: 'Haus', word_translation_uk: 'будинок', sentence_text: 'a', sentence_translation_uk: 'b' },
     )).toBe(true);
+  });
+});
+
+describe('hasWordEntryChanged', () => {
+  const original = {
+    word_text: 'Haus',
+    sentence_text: 'Das Haus.',
+    translations: {
+      uk: { word_translation: 'дім', sentence_translation: 'Дім.' },
+      ru: { word_translation: 'дом', sentence_translation: 'Дом.' },
+    },
+  };
+
+  it('returns false when nothing changed', () => {
+    expect(hasWordEntryChanged(original, { ...original }, ['uk', 'ru'])).toBe(false);
+  });
+
+  it('detects a changed source word', () => {
+    expect(hasWordEntryChanged(original, { ...original, word_text: 'Haus2' }, ['uk', 'ru'])).toBe(true);
+  });
+
+  it('detects a changed translation in one language', () => {
+    const updated = {
+      ...original,
+      translations: {
+        uk: { word_translation: 'будинок', sentence_translation: 'Дім.' },
+        ru: { word_translation: 'дом', sentence_translation: 'Дом.' },
+      },
+    };
+    expect(hasWordEntryChanged(original, updated, ['uk', 'ru'])).toBe(true);
+  });
+
+  it('ignores languages outside the watched list', () => {
+    const updated = {
+      ...original,
+      translations: {
+        ...original.translations,
+        en: { word_translation: 'house', sentence_translation: 'The house.' },
+      },
+    };
+    expect(hasWordEntryChanged(original, updated, ['uk', 'ru'])).toBe(false);
   });
 });

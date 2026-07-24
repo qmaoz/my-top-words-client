@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Box, Button, Paper, TextField } from '@mui/material';
 
 import { fetchRegister, selectIsAuth } from '../redux/slices/auth.js';
@@ -12,6 +13,7 @@ export default function SignupFormPage() {
   const isAuth = useSelector(selectIsAuth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [toast, setToast] = useState({ open: false, message: '', severity: 'info' });
   const handleCloseToast = () => setToast({ ...toast, open: false });
 
@@ -27,7 +29,7 @@ export default function SignupFormPage() {
   const onSubmitForm = async (values) => {
       const { username, password, confirm_password: confirmPassword } = values;
     if (password !== confirmPassword) {
-      return setToast({ open: true, message: 'Паролі не збігаються', severity: 'error' });
+      return setToast({ open: true, message: t('auth.passwordMismatch'), severity: 'error' });
     }
 
     try {
@@ -41,7 +43,7 @@ export default function SignupFormPage() {
         throw new Error();
       }
     } catch (error) {      
-      return setToast({ open: true, message: error?.message?.message || error?.message || 'Не вдалося зареєструватися. Спробуйте інше ім’я.', severity: 'error' });
+      return setToast({ open: true, message: error?.message?.message || error?.message || t('auth.registerError'), severity: 'error' });
     }
   };
 
@@ -56,11 +58,11 @@ export default function SignupFormPage() {
     <>
       <Box className="container">
         <Paper elevation={3} className='form-block content-block'>
-          <h2 className="text-center mb-3">Реєстрація</h2>
+          <h2 className="text-center">{t('auth.registerTitle')}</h2>
           <form onSubmit={handleSubmit(onSubmitForm)}>
             <FormInput
               name="username"
-              label="Ім’я користувача"
+              label={t('auth.username')}
               register={register}
               errors={errors}
               required fullWidth
@@ -70,26 +72,24 @@ export default function SignupFormPage() {
             <FormInput
               name="password"
               type='password'
-              label="Пароль"
+              label={t('auth.password')}
               register={register}
               errors={errors}
               required fullWidth
               maxLength={20}
-              className="mt-3"
               autoComplete="new-password"
             />
 
             <FormInput
               name="confirm_password"
               type="password"
-              label="Підтвердження пароля"
+              label={t('auth.confirmPassword')}
               register={register}
               errors={errors}
               required fullWidth
               maxLength={20}
-              className="mt-3"
               autoComplete="new-password" />
-            <Button color='primary' fullWidth variant='contained' className="mt-3" type="submit">Зареєструватися</Button>
+            <Button color='primary' fullWidth variant='contained' type="submit">{t('auth.registerSubmit')}</Button>
           </form>
         </Paper>
       </Box>

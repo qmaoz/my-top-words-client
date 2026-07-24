@@ -1,28 +1,37 @@
-export const WORD_SET_VISIBILITY = {
-  private: {
-    value: 'private',
-    label: 'Тільки я',
-    hint: 'Бачите лише Ви',
-    confirm: 'Залишити набір лише для себе?',
-  },
-  unlisted: {
-    value: 'unlisted',
-    label: 'За посиланням',
-    hint: 'Відкривається за посиланням, але не на головній',
-    confirm: 'Відкрити набір за посиланням?',
-  },
-  public: {
-    value: 'public',
-    label: 'На головній',
-    hint: 'З’явиться в списку на головній сторінці',
-    confirm: 'Показати набір на головній сторінці?',
-  },
-};
+import { tr } from './translate';
+
+export const VISIBILITY_VALUES = ['private', 'unlisted', 'public'];
+
+export function getWordSetVisibilityOptions() {
+  return {
+    private: {
+      value: 'private',
+      label: tr('wordSet.visPrivateLabel'),
+      hint: tr('wordSet.visPrivateHint'),
+      confirm: tr('wordSet.visPrivateConfirm'),
+    },
+    unlisted: {
+      value: 'unlisted',
+      label: tr('wordSet.visUnlistedLabel'),
+      hint: tr('wordSet.visUnlistedHint'),
+      confirm: tr('wordSet.visUnlistedConfirm'),
+    },
+    public: {
+      value: 'public',
+      label: tr('wordSet.visPublicLabel'),
+      hint: tr('wordSet.visPublicHint'),
+      confirm: tr('wordSet.visPublicConfirm'),
+    },
+  };
+}
 
 export function getWordSetVisibility(wordSet) {
   if (!wordSet) return 'private';
-  if (wordSet.visibility && WORD_SET_VISIBILITY[wordSet.visibility]) {
+  if (wordSet.visibility && VISIBILITY_VALUES.includes(wordSet.visibility)) {
     return wordSet.visibility;
   }
   return wordSet.is_public ? 'public' : 'private';
 }
+
+/** @deprecated Use getWordSetVisibilityOptions() — kept for gradual migration */
+export const WORD_SET_VISIBILITY = getWordSetVisibilityOptions();

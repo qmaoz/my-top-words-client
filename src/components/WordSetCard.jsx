@@ -1,6 +1,7 @@
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Box, CircularProgress, Paper, Skeleton } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+import { Box, Paper, Skeleton } from '@mui/material';
 
 import ProgressBar from './ProgressBar';
 import { toggleWordSetSave } from '../redux/slices/word-sets';
@@ -8,12 +9,11 @@ import { selectIsAuth } from '../redux/slices/auth';
 import WordSetName from './wrappers/WordSetName';
 import CircularLoading from './wrappers/CircularLoading';
 import SaveForLearningButton from './wrappers/SaveForLearningButton';
-import { correctNounCase } from './utils/functions';
-import { useState } from 'react';
 import { Toast } from './utils/messages';
 
 
 export default function WordSetCard({ id, totalWords, learnedWordsCount, isSavedForLearning, link, title, isLoading }) {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const isAuth = useSelector(selectIsAuth);
   const [toast, setToast] = useState({ open: false, message: '', severity: 'info' });
@@ -23,11 +23,11 @@ export default function WordSetCard({ id, totalWords, learnedWordsCount, isSaved
     try {
       await dispatch(toggleWordSetSave({ id })).unwrap();
     } catch (error) {
-      setToast({ open: true, message: error?.message?.message || error?.message || 'Не вдалося змінити статус збереження набору', severity: 'error' });
+      setToast({ open: true, message: error?.message?.message || error?.message || t('wordSet.savedToggleError'), severity: 'error' });
     }
   };
 
-  const numberOfWords = `${totalWords} ${correctNounCase(totalWords, 'слово', 'слова', 'слів')} в наборі`;
+  const numberOfWords = t('wordSet.cardWordsInSet', { count: totalWords });
 
   const wordSetCardBottomContent = isAuth ? <>
     <Box className="word-set-card__progress">

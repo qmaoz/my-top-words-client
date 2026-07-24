@@ -1,25 +1,29 @@
 import { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import {
   Box, Button, MenuItem, Paper, TextField,
 } from '@mui/material';
 
-import { FEEDBACK_TYPES } from './utils/feedback';
+import { getFeedbackTypes } from './utils/feedback';
 import { resetSubmitStatus, submitFeedback } from '../redux/slices/admin';
 import { Toast } from './utils/messages';
 
-export default function FeedbackForm({ defaultPageUrl = '' }) {
+export default function FeedbackForm({ defaultPageUrl = '', onSubmitted, embedded = false }) {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const submitStatus = useSelector((state) => state.admin.submitStatus);
   const [toast, setToast] = useState({ open: false, message: '', severity: 'info' });
   const handleCloseToast = () => setToast({ ...toast, open: false });
+  const feedbackTypes = getFeedbackTypes();
 
   const {
     register,
     handleSubmit,
     control,
     reset,
+    setValue,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -31,17 +35,22 @@ export default function FeedbackForm({ defaultPageUrl = '' }) {
   });
 
   useEffect(() => {
+    setValue('page_url', defaultPageUrl);
+  }, [defaultPageUrl, setValue]);
+
+  useEffect(() => {
     if (submitStatus === 'succeeded') {
-      setToast({ open: true, message: 'Повідомлення надіслано. Дякуємо.', severity: 'success' });
+      setToast({ open: true, message: t('feedback.sent'), severity: 'success' });
       reset({ type: 'bug', message: '', page_url: defaultPageUrl });
       dispatch(resetSubmitStatus());
+      onSubmitted?.();
     }
 
     if (submitStatus === 'failed') {
-      setToast({ open: true, message: 'Не вдалося надіслати повідомлення', severity: 'error' });
+      setToast({ open: true, message: t('feedback.sendError'), severity: 'error' });
       dispatch(resetSubmitStatus());
     }
-  }, [submitStatus, reset, defaultPageUrl, dispatch]);
+  }, [submitStatus, reset, defaultPageUrl, dispatch, t, onSubmitted]);
 
   const onSubmit = async (values) => {
     try {
@@ -51,31 +60,29 @@ export default function FeedbackForm({ defaultPageUrl = '' }) {
         page_url: values.page_url?.trim() || undefined,
       })).unwrap();
     } catch (error) {
-      const message = error?.message?.message || error?.message || 'Невідома помилка';
+      const message = error?.message?.message || error?.message || t('feedback.unknownError');
       setToast({ open: true, message, severity: 'error' });
       dispatch(resetSubmitStatus());
     }
   };
 
-  return (
-    <>
-      <Paper elevation={1} className="feedback-form content-block">
-        <form onSubmit={handleSubmit(onSubmit)} className="feedback-form__body">
+  const form = (
+        <form onSubmit={handleSubmit(onSubmit)} className="feedback-form__body" autoComplete="off">
           <Controller
             name="type"
             control={control}
-            rules={{ required: 'Оберіть тип повідомлення' }}
+            rules={{ required: t('feedback.selectType') }}
             render={({ field }) => (
               <TextField
                 {...field}
                 select
-                label="Тип повідомлення"
+                label={t('feedback.type')}
                 fullWidth
-                margin="normal"
+                margin="none"
                 error={Boolean(errors.type)}
                 helperText={errors.type?.message}
               >
-                {FEEDBACK_TYPES.map((item) => (
+                {feedbackTypes.map((item) => (
                   <MenuItem key={item.value} value={item.value}>{item.label}</MenuItem>
                 ))}
               </TextField>
@@ -84,39 +91,41 @@ export default function FeedbackForm({ defaultPageUrl = '' }) {
 
           <TextField
             {...register('message', {
-              required: 'Введіть текст повідомлення',
-              minLength: { value: 1, message: 'Введіть текст повідомлення' },
-              maxLength: { value: 2000, message: 'Максимум 2000 символів' },
+              required: t('feedback.enterText'),
+              minLength: { value: 1, message: t('feedback.enterText') },
+              maxLength: { value: 2000, message: t('feedback.max2000') },
               validate: {
-                notBlank: (v) => v.trim().length >= 1 || 'Введіть текст повідомлення',
+                notBlank: (v) => v.trim().length >= 1 || t('feedback.enterText'),
               },
             })}
-            label="Текст повідомлення"
+            label={t('feedback.text')}
             multiline
             minRows={4}
             fullWidth
-            margin="normal"
+            margin="none"
             error={Boolean(errors.message)}
             helperText={errors.message?.message}
+            autoComplete="off"
           />
 
           <TextField
             {...register('page_url', {
-              maxLength: { value: 500, message: 'Максимум 500 символів' },
+              maxLength: { value: 500, message: t('feedback.max500') },
               validate: {
                 internalPath: (value) => {
                   const trimmed = value?.trim();
                   if (!trimmed) return true;
-                  return /^\/[a-zA-Z0-9/_-]*$/.test(trimmed) || 'Дозволено лише внутрішній шлях, наприклад /about';
+                  return /^\/[a-zA-Z0-9/_-]*$/.test(trimmed) || t('feedback.onlyInternalPath');
                 },
               },
             })}
-            label="Сторінка з проблемою (необов'язково)"
-            placeholder="/about"
+            label={t('feedback.pageOptional')}
+            placeholder="/word-set/5"
             fullWidth
-            margin="normal"
+            margin="none"
             error={Boolean(errors.page_url)}
-            helperText={errors.page_url?.message || 'Шлях на сайті, наприклад /word-set/5'}
+            helperText={errors.page_url?.message}
+            autoComplete="off"
           />
 
           <Box className="feedback-form__actions">
@@ -125,12 +134,19 @@ export default function FeedbackForm({ defaultPageUrl = '' }) {
               variant="contained"
               disabled={submitStatus === 'loading'}
             >
-              Надіслати
+              {t('feedback.submit')}
             </Button>
           </Box>
         </form>
-      </Paper>
+  );
 
+  return (
+    <>
+      {embedded ? form : (
+        <Paper elevation={1} className="feedback-form content-block">
+          {form}
+        </Paper>
+      )}
       <Toast {...toast} handleClose={handleCloseToast} />
     </>
   );

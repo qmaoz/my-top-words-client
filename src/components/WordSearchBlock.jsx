@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { Box, Pagination, Stack, TextField, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
 
 import { WarningMessage, Toast } from './utils/messages';
@@ -7,8 +8,10 @@ import WordSetTable from './WordSetTable';
 import { selectIsAuth } from '../redux/slices/auth';
 import { deleteWord, updateWord } from '../redux/slices/words';
 import { toggleWordLearned } from '../redux/slices/word-sets';
-import { correctNounCase, formatLocaleCount, hasWordFieldsChanged, nounCase } from './utils/functions';
+import { formatLocaleCount, hasWordEntryChanged } from './utils/functions';
+import { tCount } from './utils/translate';
 import { findDuplicateWordEntry } from './utils/parseBulkWords';
+import { DEFAULT_SOURCE_LOCALE, DEFAULT_TRANSLATION_LOCALES } from './utils/locales';
 import { useConfirm } from './utils/useConfirm';
 
 const WORDS_PER_PAGE = 10;
@@ -20,17 +23,25 @@ function normalizeSearch(value) {
 function wordMatchesSearch(word, query) {
   if (!query) return true;
 
-  const fields = [
-    word.word_text,
-    word.word_translation_uk,
-    word.sentence_text,
-    word.sentence_translation_uk,
-  ];
+  const fields = [word.word_text, word.sentence_text];
+
+  if (word.translations) {
+    Object.values(word.translations).forEach((translation) => {
+      fields.push(translation?.word_translation, translation?.sentence_translation);
+    });
+  }
 
   return fields.some((field) => field?.toLowerCase().includes(query));
 }
 
-export default function WordSearchBlock({ title, words, isEditing }) {
+export default function WordSearchBlock({
+  title,
+  words,
+  isEditing,
+  sourceLocale = DEFAULT_SOURCE_LOCALE,
+  translationLocales = DEFAULT_TRANSLATION_LOCALES,
+}) {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const confirm = useConfirm();
   const [toast, setToast] = useState({ open: false, message: '', severity: 'info' });
@@ -78,29 +89,29 @@ export default function WordSearchBlock({ title, words, isEditing }) {
       return true;
     }
 
-    if (!hasWordFieldsChanged(word, updatedData)) {
+    if (!hasWordEntryChanged(word, updatedData, translationLocales)) {
       return true;
     }
 
     if (findDuplicateWordEntry(words, updatedData, wordId)) {
-      setToast({ open: true, message: 'Такий запис вже є в наборі', severity: 'error' });
+      setToast({ open: true, message: t('word.duplicateEntry'), severity: 'error' });
       return false;
     }
 
     try {
       await dispatch(updateWord({ id: wordId, ...updatedData })).unwrap();
-      setToast({ open: true, message: 'Слово оновлено', severity: 'success' });
+      setToast({ open: true, message: t('word.updated'), severity: 'success' });
       return true;
     } catch (error) {
-      setToast({ open: true, message: error?.message?.message || error?.message || 'Помилка під час оновлення слова', severity: 'error' });
+      setToast({ open: true, message: error?.message?.message || error?.message || t('word.updateError'), severity: 'error' });
       return false;
     }
   };
 
   const handleFullDelete = async (wordId) => {
     const confirmed = await confirm({
-      message: 'Видалити це слово з набору?',
-      confirmText: 'Видалити',
+      message: t('word.deleteConfirm'),
+      confirmText: t('common.delete'),
       confirmColor: 'error',
     });
 
@@ -108,9 +119,9 @@ export default function WordSearchBlock({ title, words, isEditing }) {
 
     try {
       await dispatch(deleteWord(wordId)).unwrap();
-      setToast({ open: true, message: 'Слово видалено', severity: 'success' });
+      setToast({ open: true, message: t('word.deleted'), severity: 'success' });
     } catch {
-      setToast({ open: true, message: 'Не вдалося видалити слово', severity: 'error' });
+      setToast({ open: true, message: t('word.deleteError'), severity: 'error' });
     }
   };
 
@@ -118,7 +129,7 @@ export default function WordSearchBlock({ title, words, isEditing }) {
     try {
       await dispatch(toggleWordLearned({ wordId })).unwrap();
     } catch (error) {
-      setToast({ open: true, message: error?.message?.message || error?.message || 'Не вдалося змінити позначку «вивчене»', severity: 'error' });
+      setToast({ open: true, message: error?.message?.message || error?.message || t('word.learnedToggleError'), severity: 'error' });
     }
   };
 
@@ -129,7 +140,10 @@ export default function WordSearchBlock({ title, words, isEditing }) {
   const totalWords = words?.length ?? 0;
   const foundWords = filteredWords.length;
   const showPagination = totalPages > 1;
-  const wordsPhrase = (count) => correctNounCase(count, 'слово', 'слова', 'слів');
+
+  const summaryText = foundWords === totalWords
+    ? `${t('word.total', { count: totalWords })} ${tCount('common.word', totalWords)}`
+    : t('word.found', { found: formatLocaleCount(foundWords), total: formatLocaleCount(totalWords) });
 
   const paginationBlock = showPagination && (
     <Stack spacing={2} className='word-search-pagination aic'>
@@ -148,17 +162,18 @@ export default function WordSearchBlock({ title, words, isEditing }) {
     <>
       {title && title.trim() != '' && <h3>{title}</h3>}
 
-      <Box className='content-block' sx={{ boxShadow: 2 }}>
+      <Box className='content-block word-search-block' sx={{ boxShadow: 2 }}>
         {totalWords > 0 && (
           <>
             <Box className='word-search-toolbar'>
               <TextField
-                label='Пошук слова або речення'
+                label={t('word.searchPlaceholder')}
                 value={searchQuery}
                 onChange={(event) => setSearchQuery(event.target.value)}
                 fullWidth
                 size='small'
                 className='word-search-input'
+                autoComplete="off"
               />
 
               {isAuth && !isEditing && (
@@ -170,19 +185,17 @@ export default function WordSearchBlock({ title, words, isEditing }) {
                     onChange={(_event, value) => value && setLearnedFilter(value)}
                     className='word-search-filter'
                   >
-                    <ToggleButton value='all' title="Усі слова набору">Усі</ToggleButton>
-                    <ToggleButton value='unlearned' title="Слова без позначки «вивчене»">Невивчені</ToggleButton>
-                    <ToggleButton value='learned' title="Слова, які Ви позначили як вивчені">Вивчені</ToggleButton>
+                    <ToggleButton value='all' title={t('word.filterAllTitle')}>{t('word.filterAll')}</ToggleButton>
+                    <ToggleButton value='unlearned' title={t('word.filterUnlearnedTitle')}>{t('word.filterUnlearned')}</ToggleButton>
+                    <ToggleButton value='learned' title={t('word.filterLearnedTitle')}>{t('word.filterLearned')}</ToggleButton>
                   </ToggleButtonGroup>
                 </Box>
               )}
             </Box>
 
             <h4 className='word-search-summary'>
-              {foundWords === totalWords
-                ? `Усього: ${formatLocaleCount(totalWords)} ${wordsPhrase(totalWords)}`
-                : `Знайдено: ${formatLocaleCount(foundWords)} з ${formatLocaleCount(totalWords)}`}
-              {showPagination && ` · ${nounCase(currentPage, 'сторінка', 'сторінки', 'сторінок')} ${currentPage} з ${totalPages}`}
+              {summaryText}
+              {showPagination && t('word.page', { current: currentPage, total: totalPages })}
             </h4>
 
             {paginationBlock}
@@ -192,7 +205,6 @@ export default function WordSearchBlock({ title, words, isEditing }) {
         {totalWords > 0 ? (
           foundWords > 0 ? (
             <WordSetTable
-              className='mt-2'
               words={paginatedWords}
               isEditing={isEditing}
               isAuthorized={isAuth}
@@ -200,15 +212,15 @@ export default function WordSearchBlock({ title, words, isEditing }) {
               onToggleLearned={handleToggleLearned}
               onUpdate={handleUpdateWord}
               onFullDelete={handleFullDelete}
+              sourceLocale={sourceLocale}
+              translationLocales={translationLocales}
             />
           ) : (
-            <WarningMessage message={'За Вашим запитом нічого не знайдено'} className='mt-2' />
+            <WarningMessage message={t('word.nothingFound')} />
           )
         ) : (
           <WarningMessage
-            message={isEditing
-              ? 'Набір порожній. Вставте слова у поле вище.'
-              : 'У наборі ще немає слів'}
+            message={isEditing ? t('word.emptyInsert') : t('word.emptyNoWords')}
           />
         )}
 

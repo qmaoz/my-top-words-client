@@ -6,12 +6,14 @@ import { Box } from '@mui/material';
 import WordSetCardGroup from '../components/WordSetCardGroup';
 import { fetchWordSets } from '../redux/slices/word-sets';
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { isStateUpdateNeeded } from '../components/utils/functions';
 import { Toast } from '../components/utils/messages';
 
 export default function HomePage() {
   const { items: wordSets, totalPages, status } = useSelector(state => state.wordSets.top);
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const [toast, setToast] = useState({ open: false, message: '', severity: 'info' });
   const handleCloseToast = () => setToast({ ...toast, open: false });
 
@@ -32,7 +34,7 @@ export default function HomePage() {
       try {
         await dispatch(fetchWordSets({ page, limit, filter: 'top', partOfName: partOfName })).unwrap();
       } catch (error) {
-        setToast({ open: true, message: error?.message?.message || error?.message || 'Не вдалося завантажити набори. Оновіть сторінку.', severity: 'error' });
+        setToast({ open: true, message: error?.message?.message || error?.message || t('home.loadError'), severity: 'error' });
       }
     })();
   }, [dispatch, page, limit, topWordSetNameToSearch]);
@@ -50,8 +52,8 @@ export default function HomePage() {
 
   return (
     <>
-      <Box className="container">
-        <h2>Популярні публічні набори слів</h2>
+      <Box className="container home-page">
+        <h2>{t('home.title')}</h2>
 
         <WordSetCardGroup
           status={status}
@@ -61,7 +63,6 @@ export default function HomePage() {
           onChange={handlePageChange}
           limit={limit}
           searchInputName={'topWordSetNameToSearch'}
-          className='mt-4'
           register={register}
           handleSubmit={handleSubmit}
           onSubmitForm={onSubmitSearchTopWordSetsForm}

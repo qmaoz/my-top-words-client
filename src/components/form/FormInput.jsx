@@ -1,27 +1,30 @@
 import { TextField } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 const FormInput = ({
   name, label, register, errors,
   required = false, fullWidth = false, disabled = false,
   maxLength = null,
-  type = 'text', placeholder = '', className = '', color = 'primary', autoComplete = ''
+  type = 'text', placeholder = '', className = '', color = 'primary', autoComplete = 'off'
 }) => {
+  const { t } = useTranslation();
+
   const validationRules = {
     ...(required && {
-      required: label ? `«${label}» не може бути порожнім` : 'Поле не може бути порожнім',
+      required: label ? t('validation.emptyNamed', { label }) : t('validation.empty'),
       validate: {
         notBlank: (v) => (
           v.trim().length > 0
-          || (label ? `«${label}» не може складатися лише з пробілів` : 'Поле не може складатися лише з пробілів')
+          || (label ? t('validation.whitespaceNamed', { label }) : t('validation.whitespace'))
         ),
       },
     }),
     ...(maxLength && {
       maxLength: {
         value: maxLength,
-        message: `Максимальна довжина — ${maxLength}`
-      }
-    })
+        message: t('validation.maxLength', { max: maxLength }),
+      },
+    }),
   };
 
   return (
@@ -35,10 +38,10 @@ const FormInput = ({
       fullWidth={fullWidth}
       color={color}
       disabled={disabled}
-      autoComplete={autoComplete ? autoComplete : undefined}
+      autoComplete={autoComplete}
 
       variant="outlined"
-      margin="dense"
+      margin="none"
       size="small"
       
       error={Boolean(errors[name])}

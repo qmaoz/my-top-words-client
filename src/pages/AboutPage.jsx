@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Box, Button, Paper, Typography } from '@mui/material';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
@@ -8,8 +9,7 @@ import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import GroupsIcon from '@mui/icons-material/Groups';
 import axios from '../axios';
-import FeedbackForm from '../components/FeedbackForm';
-import { formatLocaleCount, nounCase } from '../components/utils/functions';
+import { formatLocaleCount } from '../components/utils/functions';
 
 function Reveal({ children, className = '', delay = 0 }) {
   const ref = useRef(null);
@@ -45,41 +45,26 @@ function Reveal({ children, className = '', delay = 0 }) {
 }
 
 const STAT_ITEMS = [
-  { key: 'wordsCount', one: 'слово', few: 'слова', many: 'слів', suffix: 'у базі' },
-  { key: 'usersCount', one: 'користувач', few: 'користувачі', many: 'користувачів' },
-  { key: 'wordSetsCount', one: 'набір', few: 'набори', many: 'наборів', suffix: 'слів' },
+  { key: 'wordsCount', i18nKey: 'about.words' },
+  { key: 'usersCount', i18nKey: 'about.users' },
+  { key: 'wordSetsCount', i18nKey: 'about.sets' },
 ];
 
 const FEATURES = [
-  {
-    icon: MenuBookIcon,
-    title: 'Речення з перекладом',
-    text: 'Кожне слово супроводжується прикладом у реченні — лексика вивчається в контексті.',
-  },
-  {
-    icon: FitnessCenterIcon,
-    title: 'Тренажер',
-    text: 'Вправи на переклад допомагають перевірити розуміння та закріпити матеріал.',
-  },
-  {
-    icon: FavoriteBorderIcon,
-    title: 'Набори слів',
-    text: 'Можна створювати власні набори, зберігати чужі публічні набори та відмічати вивчені слова.',
-  },
-  {
-    icon: RecordVoiceOverIcon,
-    title: 'Озвучення',
-    text: 'У тренажері доступне прослуховування німецького тексту.',
-  },
+  { icon: MenuBookIcon, titleKey: 'about.feature1Title', textKey: 'about.feature1Text' },
+  { icon: FitnessCenterIcon, titleKey: 'about.feature2Title', textKey: 'about.feature2Text' },
+  { icon: FavoriteBorderIcon, titleKey: 'about.feature3Title', textKey: 'about.feature3Text' },
+  { icon: RecordVoiceOverIcon, titleKey: 'about.feature4Title', textKey: 'about.feature4Text' },
 ];
 
 const STEPS = [
-  { num: '1', title: 'Обрати набір', text: 'Переглянути публічні набори або створити власний.' },
-  { num: '2', title: 'Пройти тренажер', text: 'Перекласти речення та перевірити відповідь.' },
-  { num: '3', title: 'Відмітити вивчене', text: 'Позначити слова, які вже засвоєні, щоб зосередитись на решті.' },
+  { num: '1', titleKey: 'about.step1Title', textKey: 'about.step1Text' },
+  { num: '2', titleKey: 'about.step2Title', textKey: 'about.step2Text' },
+  { num: '3', titleKey: 'about.step3Title', textKey: 'about.step3Text' },
 ];
 
 export default function AboutPage() {
+  const { t } = useTranslation();
   const [stats, setStats] = useState(null);
 
   useEffect(() => {
@@ -104,18 +89,17 @@ export default function AboutPage() {
       <section className="about-hero content-block">
         <Box className="about-hero__inner">
           <Typography variant="h4" component="h1" className="about-hero__title">
-            Про сервіс
+            {t('about.title')}
           </Typography>
           <Typography className="about-hero__lead">
-            My Top Words — невеликий інструмент для вивчення німецької лексики.
-            Основна ідея проста: працювати зі словами у реченнях і повторювати їх у тренажері.
+            {t('about.intro')}
           </Typography>
           <Box className="about-hero__actions">
             <Button component={Link} to="/sign-up" variant="contained" className="about-hero__btn about-hero__btn--primary">
-              Зареєструватися
+              {t('about.signUp')}
             </Button>
             <Button component={Link} to="/" variant="outlined" className="about-hero__btn about-hero__btn--outline">
-              Переглянути набори
+              {t('about.viewSets')}
             </Button>
           </Box>
         </Box>
@@ -123,9 +107,9 @@ export default function AboutPage() {
 
       <section className="about-block">
         <Box className="about-stats__grid">
-          {STAT_ITEMS.map(({ key, one, few, many, suffix }, index) => {
+          {STAT_ITEMS.map(({ key, i18nKey }, index) => {
             const count = stats?.[key];
-            const label = `${nounCase(count, one, few, many)}${suffix ? ` ${suffix}` : ''}`;
+            const label = t(i18nKey, { count: count ?? 0 });
 
             return (
             <Reveal key={key} delay={index * 60}>
@@ -142,24 +126,24 @@ export default function AboutPage() {
       <section className="about-block">
         <Reveal>
           <Typography variant="h5" component="h2" className="about-block__title">
-            Можливості
+            {t('about.features')}
           </Typography>
           <Typography className="about-block__intro">
-            Сервіс орієнтований на регулярну роботу з лексикою.
+            {t('about.featuresLead')}
           </Typography>
         </Reveal>
 
         <Box className="about-features">
-          {FEATURES.map(({ icon: Icon, title, text }, index) => (
-            <Reveal key={title} delay={index * 60}>
+          {FEATURES.map(({ icon: Icon, titleKey, textKey }, index) => (
+            <Reveal key={titleKey} delay={index * 60}>
               <Paper elevation={1} className="about-feature content-block">
                 <Box className="about-feature__icon-wrap">
                   <Icon className="about-feature__icon" />
                 </Box>
                 <Typography variant="h6" component="h3" className="about-feature__title">
-                  {title}
+                  {t(titleKey)}
                 </Typography>
-                <Typography className="about-feature__text">{text}</Typography>
+                <Typography className="about-feature__text">{t(textKey)}</Typography>
               </Paper>
             </Reveal>
           ))}
@@ -169,17 +153,17 @@ export default function AboutPage() {
       <section className="about-block about-block--muted">
         <Reveal>
           <Typography variant="h5" component="h2" className="about-block__title">
-            Як користуватись
+            {t('about.howTo')}
           </Typography>
         </Reveal>
 
         <Box className="about-steps">
-          {STEPS.map(({ num, title, text }, index) => (
+          {STEPS.map(({ num, titleKey, textKey }, index) => (
             <Reveal key={num} delay={index * 70}>
               <Box className="about-step">
                 <Typography className="about-step__num">{num}</Typography>
-                <Typography variant="h6" component="h3" className="about-step__title">{title}</Typography>
-                <Typography className="about-step__text">{text}</Typography>
+                <Typography variant="h6" component="h3" className="about-step__title">{t(titleKey)}</Typography>
+                <Typography className="about-step__text">{t(textKey)}</Typography>
               </Box>
             </Reveal>
           ))}
@@ -191,9 +175,9 @@ export default function AboutPage() {
           <Paper elevation={1} className="about-highlight content-block">
             <TrendingUpIcon className="about-highlight__icon" />
             <Box>
-              <Typography variant="h6" component="h3">Повторення</Typography>
+              <Typography variant="h6" component="h3">{t('about.repetition')}</Typography>
               <Typography className="about-highlight__text">
-                У тренажері слова, які ще не позначені як вивчені, з&apos;являються знову під час сесії.
+                {t('about.repetitionText')}
               </Typography>
             </Box>
           </Paper>
@@ -203,9 +187,9 @@ export default function AboutPage() {
           <Paper elevation={1} className="about-highlight content-block">
             <GroupsIcon className="about-highlight__icon about-highlight__icon--teal" />
             <Box>
-              <Typography variant="h6" component="h3">Публічні набори</Typography>
+              <Typography variant="h6" component="h3">{t('about.publicSets')}</Typography>
               <Typography className="about-highlight__text">
-                Автори можуть робити набори публічними; інші користувачі можуть їх переглядати та зберігати.
+                {t('about.publicSetsText')}
               </Typography>
             </Box>
           </Paper>
@@ -215,12 +199,11 @@ export default function AboutPage() {
       <section className="about-block about-feedback">
         <Reveal>
           <Typography variant="h5" component="h2" className="about-block__title">
-            Зворотний зв&apos;язок
+            {t('about.feedback')}
           </Typography>
           <Typography className="about-feedback__intro">
-            Повідомте про помилку в тексті, технічну несправність або запропонуйте зміну.
+            {t('about.feedbackTextFab')}
           </Typography>
-          <FeedbackForm defaultPageUrl="/about" />
         </Reveal>
       </section>
     </Box>

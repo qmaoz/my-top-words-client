@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from '../../axios';
+import { tr } from '../../components/utils/translate';
 import { logout } from './auth';
 
 export const submitFeedback = createAsyncThunk('admin/submitFeedback', async (params, { rejectWithValue }) => {
@@ -7,7 +8,7 @@ export const submitFeedback = createAsyncThunk('admin/submitFeedback', async (pa
     const { data } = await axios.post('/feedback', params);
     return data;
   } catch (error) {
-    return rejectWithValue({ message: error?.response?.data || 'Сервер недоступний або сталася помилка' });
+    return rejectWithValue({ message: error?.response?.data || tr('common.serverError') });
   }
 });
 
@@ -16,7 +17,7 @@ export const fetchAdminOverview = createAsyncThunk('admin/fetchOverview', async 
     const { data } = await axios.get('/admin/overview');
     return data;
   } catch (error) {
-    return rejectWithValue({ message: error?.response?.data || 'Сервер недоступний або сталася помилка' });
+    return rejectWithValue({ message: error?.response?.data || tr('common.serverError') });
   }
 });
 
@@ -25,7 +26,7 @@ export const fetchAdminFeedback = createAsyncThunk('admin/fetchFeedback', async 
     const { data } = await axios.get('/admin/feedback', { params });
     return data;
   } catch (error) {
-    return rejectWithValue({ message: error?.response?.data || 'Сервер недоступний або сталася помилка' });
+    return rejectWithValue({ message: error?.response?.data || tr('common.serverError') });
   }
 });
 
@@ -34,7 +35,7 @@ export const updateAdminFeedback = createAsyncThunk('admin/updateFeedback', asyn
     const { data } = await axios.patch(`/admin/feedback/${id}`, body);
     return data;
   } catch (error) {
-    return rejectWithValue({ message: error?.response?.data || 'Сервер недоступний або сталася помилка' });
+    return rejectWithValue({ message: error?.response?.data || tr('common.serverError') });
   }
 });
 
@@ -43,7 +44,7 @@ export const fetchAdminUsers = createAsyncThunk('admin/fetchUsers', async (param
     const { data } = await axios.get('/admin/users', { params });
     return data;
   } catch (error) {
-    return rejectWithValue({ message: error?.response?.data || 'Сервер недоступний або сталася помилка' });
+    return rejectWithValue({ message: error?.response?.data || tr('common.serverError') });
   }
 });
 
@@ -52,7 +53,7 @@ export const deleteAdminUser = createAsyncThunk('admin/deleteUser', async (userI
     const { data } = await axios.delete(`/admin/users/${userId}`);
     return { userId, ...data };
   } catch (error) {
-    return rejectWithValue({ message: error?.response?.data || 'Сервер недоступний або сталася помилка' });
+    return rejectWithValue({ message: error?.response?.data || tr('common.serverError') });
   }
 });
 

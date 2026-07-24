@@ -1,12 +1,13 @@
 import { createSlice, createAsyncThunk, isAnyOf } from '@reduxjs/toolkit';
 import axios from '../../axios';
+import { tr } from '../../components/utils/translate';
 
 export const fetchLogin = createAsyncThunk('auth/fetchLogin', async (params, { rejectWithValue }) => {
   try {
     const { data } = await axios.post('/auth/login', params);
     return data;
   } catch (error) {
-    return rejectWithValue({ message: error?.response?.data || 'Сервер недоступний або сталася помилка' });
+    return rejectWithValue({ message: error?.response?.data || tr('common.serverError') });
   }
 });
 
@@ -15,7 +16,7 @@ export const fetchUserInfo = createAsyncThunk('auth/fetchUserInfo', async (param
     const { data } = await axios.get('/userinfo');
     return data;
   } catch (error) {
-    return rejectWithValue({ message: error?.response?.data || 'Сервер недоступний або сталася помилка' });
+    return rejectWithValue({ message: error?.response?.data || tr('common.serverError') });
   }
 });
 
@@ -24,9 +25,21 @@ export const fetchRegister = createAsyncThunk('auth/fetchRegister', async ({ use
     const { data } = await axios.post('/auth/register', { username, password });
     return data;
   } catch (error) {
-    return rejectWithValue({ message: error?.response?.data || 'Сервер недоступний або сталася помилка' });
+    return rejectWithValue({ message: error?.response?.data || tr('common.serverError') });
   }
 });
+
+export const updateUserPreferences = createAsyncThunk(
+  'auth/updateUserPreferences',
+  async (preferences, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.patch('/user/preferences', preferences);
+      return data;
+    } catch (error) {
+      return rejectWithValue({ message: error?.response?.data || tr('profile.settingsSaveError') });
+    }
+  }
+);
 
 const initialState = {
   data: null,
@@ -48,6 +61,12 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(updateUserPreferences.fulfilled, (state, action) => {
+        if (state.data?.userData) {
+          state.data.userData.preferred_translation_locale = action.payload.preferred_translation_locale;
+          state.data.userData.ui_locale = action.payload.ui_locale;
+        }
+      })
       .addMatcher(
         isAnyOf(fetchLogin.fulfilled, fetchUserInfo.fulfilled, fetchRegister.fulfilled),
         (state, action) => {
@@ -74,6 +93,8 @@ const authSlice = createSlice({
 
 export const selectIsAuth = (state) => Boolean(state.auth.data);
 export const selectUserData = (state) => state.auth.data?.userData;
+export const selectPreferredTranslationLocale = (state) => state.auth.data?.userData?.preferred_translation_locale;
+export const selectUiLocale = (state) => state.auth.data?.userData?.ui_locale;
 export const selectAuthStatus = (state) => state.auth.status;
 export const selectIsAdmin = (state) => Boolean(state.auth.data?.userData?.is_admin);
 

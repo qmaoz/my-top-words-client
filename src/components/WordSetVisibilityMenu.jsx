@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   IconButton, Menu, MenuItem, ListItemIcon, ListItemText, Tooltip,
 } from '@mui/material';
@@ -6,7 +7,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import LinkIcon from '@mui/icons-material/Link';
 import PublicIcon from '@mui/icons-material/Public';
 
-import { getWordSetVisibility, WORD_SET_VISIBILITY } from './utils/wordSetVisibility';
+import { getWordSetVisibility, getWordSetVisibilityOptions } from './utils/wordSetVisibility';
 
 const ICONS = {
   private: LockIcon,
@@ -15,9 +16,11 @@ const ICONS = {
 };
 
 export default function WordSetVisibilityMenu({ visibility, onChange }) {
+  const { t } = useTranslation();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  const current = WORD_SET_VISIBILITY[getWordSetVisibility({ visibility })] || WORD_SET_VISIBILITY.private;
+  const visibilityOptions = getWordSetVisibilityOptions();
+  const current = visibilityOptions[getWordSetVisibility({ visibility })] || visibilityOptions.private;
   const CurrentIcon = ICONS[current.value];
 
   const handleOpen = (event) => setAnchorEl(event.currentTarget);
@@ -32,10 +35,10 @@ export default function WordSetVisibilityMenu({ visibility, onChange }) {
 
   return (
     <>
-      <Tooltip title={`${current.label}. ${current.hint}`}>
+      <Tooltip title={t('wordSet.visibilityTooltip', { label: current.label, hint: current.hint })}>
         <IconButton
           onClick={handleOpen}
-          aria-label={`Доступ до набору: ${current.label}`}
+          aria-label={t('wordSet.visibilityAria', { label: current.label })}
           color={current.value === 'private' ? 'error' : 'success'}
         >
           <CurrentIcon className="mui-btn" />
@@ -43,7 +46,7 @@ export default function WordSetVisibilityMenu({ visibility, onChange }) {
       </Tooltip>
 
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose} className="word-set-visibility-menu">
-        {Object.values(WORD_SET_VISIBILITY).map((item) => {
+        {Object.values(visibilityOptions).map((item) => {
           const Icon = ICONS[item.value];
           return (
             <MenuItem

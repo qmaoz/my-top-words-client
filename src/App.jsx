@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
-import { fetchUserInfo, setAuthStatusError } from './redux/slices/auth';
+import { fetchUserInfo, setAuthStatusError, selectUiLocale } from './redux/slices/auth';
+import { changeUiLocale } from './i18n';
 import { Toast } from './components/utils/messages.jsx';
 import ScrollToTop from './components/utils/ScrollToTop.jsx';
+import DocumentTitle from './components/utils/DocumentTitle.jsx';
 import HomePage from './pages/HomePage.jsx';
 import AboutPage from './pages/AboutPage.jsx';
 import LoginFormPage from './pages/LoginFormPage.jsx';
@@ -16,6 +19,8 @@ import NotFoundPage from './pages/NotFoundPage.jsx';
 import ProfileLayout from './pages/Profile/ProfileLayout.jsx';
 import ProfileOwnWordSets from './pages/Profile/ProfileOwnWordSets.jsx';
 import ProfileSavedWordSets from './pages/Profile/ProfileSavedWordSets.jsx';
+import ProfileSettings from './pages/Profile/ProfileSettings.jsx';
+import ProfileRemarksInbox from './pages/Profile/ProfileRemarksInbox.jsx';
 import DefaultLayout from './components/blocks/DefaultLayout.jsx';
 import ExerciseLayout from './components/blocks/ExerciseLayout.jsx';
 import AdminLayout from './pages/Admin/AdminLayout.jsx';
@@ -26,8 +31,16 @@ import { ConfirmProvider } from './components/utils/useConfirm.jsx';
 
 export default function App() {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
+  const uiLocale = useSelector(selectUiLocale);
   const [toast, setToast] = useState({ open: false, message: '', severity: 'info' });
   const handleCloseToast = () => setToast({ ...toast, open: false });
+
+  useEffect(() => {
+    if (uiLocale) {
+      changeUiLocale(uiLocale);
+    }
+  }, [uiLocale]);
 
   useEffect(() => {
     (async () => {
@@ -39,7 +52,7 @@ export default function App() {
             window.localStorage.removeItem('token');
           } else {
             const message = error?.message?.message || error?.message;
-            setToast({ open: true, message: message || 'Не вдалося завантажити профіль. Спробуйте оновити сторінку.', severity: 'error' });
+            setToast({ open: true, message: message || t('common.profileLoadError'), severity: 'error' });
           }
         }
       } else {
@@ -61,7 +74,8 @@ export default function App() {
     <>
       <BrowserRouter>
         <ConfirmProvider>
-        <ScrollToTop />         
+        <ScrollToTop />
+        <DocumentTitle />
         <Toast {...toast} handleClose={handleCloseToast} />
         <Routes>
           <Route element={<DefaultLayout />}>
@@ -72,9 +86,11 @@ export default function App() {
             <Route path="/login" element={<><LoginFormPage /></>} />
             
             <Route path="/profile" element={<ProfileLayout />}>
-              <Route index element={<ProfileSavedWordSets />} />
+              <Route index element={<ProfileOwnWordSets />} />
               <Route path='saved-word-sets' element={<ProfileSavedWordSets />} />
               <Route path='own-word-sets' element={<ProfileOwnWordSets />} />
+              <Route path='remarks' element={<ProfileRemarksInbox />} />
+              <Route path='settings' element={<ProfileSettings />} />
             </Route>
 
             <Route path="/word-set/:id" element={<><WordSetPage /></>} />

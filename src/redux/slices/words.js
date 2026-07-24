@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-import axios from '../../axios'; 
+import axios from '../../axios';
+import { tr } from '../../components/utils/translate';
 
 export const fetchWords = createAsyncThunk(
   'words/fetchWords', 
@@ -12,24 +13,23 @@ export const fetchWords = createAsyncThunk(
       const { data } = await axios.get(url);
       return { ...data, filter };
     } catch (error) {
-      return rejectWithValue({ message: error?.response?.data || 'Сервер недоступний або сталася помилка' });
+      return rejectWithValue({ message: error?.response?.data || tr('common.serverError') });
     }
   }
 );
 
 export const updateWord = createAsyncThunk('words/updateWord',
-  async ({ id, word_text, word_translation_uk, sentence_text, sentence_translation_uk }, { rejectWithValue }) => {
+  async ({ id, word_text, sentence_text, translations }, { rejectWithValue }) => {
     const updateBody = {};
     if (word_text != null) updateBody.word_text = word_text;
-    if (word_translation_uk != null) updateBody.word_translation_uk = word_translation_uk;
     if (sentence_text != null) updateBody.sentence_text = sentence_text;
-    if (sentence_translation_uk != null) updateBody.sentence_translation_uk = sentence_translation_uk;
+    if (translations != null) updateBody.translations = translations;
 
     try {
       const { data } = await axios.patch(`/words/${id}`, updateBody);
       return data;
     } catch (error) {
-      return rejectWithValue({ message: error?.response?.data || 'Сервер недоступний або сталася помилка' });
+      return rejectWithValue({ message: error?.response?.data || tr('common.serverError') });
     }
   }
 );
@@ -41,7 +41,7 @@ export const deleteWord = createAsyncThunk(
       await axios.delete(`/words/${id}`);
       return id;
     } catch (error) {
-      return rejectWithValue({ message: error?.response?.data || 'Сервер недоступний або сталася помилка' });
+      return rejectWithValue({ message: error?.response?.data || tr('common.serverError') });
     }
   }
 );
@@ -81,13 +81,12 @@ const wordsSlice = createSlice({
       })
 
       .addCase(updateWord.fulfilled, (state, action) => {
-        const { id, word_text, word_translation_uk, sentence_text, sentence_translation_uk } = action.payload.updatedWord;
-        const word = state['own']?.items?.find(obj => Number(obj.id) === Number(id));
+        const updatedWord = action.payload.updatedWord;
+        const word = state['own']?.items?.find(obj => Number(obj.id) === Number(updatedWord.id));
         if (word) {
-          if (word_text != null) word.word_text = word_text;
-          if (word_translation_uk != null) word.word_translation_uk = word_translation_uk;
-          if (sentence_text != null) word.sentence_text = sentence_text;
-          if (sentence_translation_uk != null) word.sentence_translation_uk = sentence_translation_uk;
+          if (updatedWord.word_text != null) word.word_text = updatedWord.word_text;
+          if (updatedWord.sentence_text != null) word.sentence_text = updatedWord.sentence_text;
+          if (updatedWord.translations != null) word.translations = updatedWord.translations;
         }
       })
 

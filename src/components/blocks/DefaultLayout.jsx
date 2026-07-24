@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router';
 import Footer from './Footer';
 import Header from './Header';
+import GlobalFeedbackButton from '../GlobalFeedbackButton';
 import { Box } from '@mui/material';
 
 export default function DefaultLayout() {
@@ -12,6 +13,7 @@ export default function DefaultLayout() {
           <Outlet />
         </main>
         <Footer />
+        <GlobalFeedbackButton />
       </Box>
     </>
   );

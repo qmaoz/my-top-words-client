@@ -1,14 +1,18 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { Box, Paper, Typography } from '@mui/material';
 
 import { fetchAdminOverview } from '../../redux/slices/admin';
-import { formatLocaleCount, nounCase } from '../../components/utils/functions';
+import { formatLocaleCount } from '../../components/utils/functions';
 import CircularLoading from '../../components/wrappers/CircularLoading';
 
-function StatCard({ value, one, few, many, suffix, to }) {
-  const label = `${nounCase(value, one, few, many)}${suffix ? ` ${suffix}` : ''}`;
+function StatCard({ value, i18nKey, suffixKey, to }) {
+  const { t } = useTranslation();
+  const label = suffixKey
+    ? `${t(i18nKey, { count: value ?? 0 })} ${t(suffixKey)}`
+    : t(i18nKey, { count: value ?? 0 });
   const content = (
     <Paper elevation={1} className="admin-stat content-block">
       <Typography className="admin-stat__value">{formatLocaleCount(value)}</Typography>
@@ -24,6 +28,7 @@ function StatCard({ value, one, few, many, suffix, to }) {
 }
 
 export default function AdminOverviewPage() {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { overview, overviewStatus } = useSelector((state) => state.admin);
 
@@ -35,60 +40,47 @@ export default function AdminOverviewPage() {
     <CircularLoading isLoading={overviewStatus === 'loading'}>
       <Box className="admin-overview">
         <Typography className="admin-section__intro">
-          Короткий огляд стану сервісу.
+          {t('admin.overviewDesc')}
         </Typography>
 
         <Box className="admin-stat-grid">
           <StatCard
             value={overview?.usersCount}
-            one="користувач"
-            few="користувачі"
-            many="користувачів"
+            i18nKey="admin.user"
             to="/admin/users"
           />
           <StatCard
             value={overview?.wordsCount}
-            one="слово"
-            few="слова"
-            many="слів"
-            suffix="у базі"
+            i18nKey="about.words"
           />
           <StatCard
             value={overview?.wordSetsCount}
-            one="набір"
-            few="набори"
-            many="наборів"
-            suffix="слів"
+            i18nKey="admin.set"
+            suffixKey="admin.statSetsSuffix"
           />
         </Box>
 
         <Typography variant="h6" component="h3" className="admin-block__title">
-          Зворотний зв&apos;язок
+          {t('admin.feedback')}
         </Typography>
 
         <Box className="admin-stat-grid admin-stat-grid--compact">
           <StatCard
             value={overview?.feedbackQueued}
-            one="повідомлення"
-            few="повідомлення"
-            many="повідомлень"
-            suffix="у черзі"
+            i18nKey="admin.message"
+            suffixKey="admin.msgQueued"
             to="/admin/feedback"
           />
           <StatCard
             value={overview?.feedbackInProgress}
-            one="повідомлення"
-            few="повідомлення"
-            many="повідомлень"
-            suffix="на розгляді"
+            i18nKey="admin.message"
+            suffixKey="admin.msgInProgress"
             to="/admin/feedback"
           />
           <StatCard
             value={overview?.feedbackDone}
-            one="повідомлення"
-            few="повідомлення"
-            many="повідомлень"
-            suffix="виконано"
+            i18nKey="admin.message"
+            suffixKey="admin.msgDone"
             to="/admin/feedback"
           />
         </Box>

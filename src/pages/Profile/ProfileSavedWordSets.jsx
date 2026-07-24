@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 
 import { selectIsAuth, selectAuthStatus } from '../../redux/slices/auth';
 import { fetchWordSets } from '../../redux/slices/word-sets';
@@ -16,6 +17,7 @@ import { Toast } from '../../components/utils/messages';
 export default function ProfileSavedWordSets() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const isAuth = useSelector(selectIsAuth);
   const authStatus = useSelector(selectAuthStatus);
   const [toast, setToast] = useState({ open: false, message: '', severity: 'info' });
@@ -45,7 +47,7 @@ export default function ProfileSavedWordSets() {
         try {
           await dispatch(fetchWordSets({ page: savedWordSetsPage, limit: wordSetLimitPerPage, filter: 'saved', partOfName: partOfName })).unwrap();
         } catch (error) {
-          setToast({ open: true, message: error?.message?.message || error?.message || 'Не вдалося завантажити Ваші набори', severity: 'error' });
+          setToast({ open: true, message: error?.message?.message || error?.message || t('profile.loadError'), severity: 'error' });
         }
       }
     })();
@@ -71,10 +73,10 @@ export default function ProfileSavedWordSets() {
         {savedWordSets && (
           <>
             <Typography className="profile-section-intro" color="text.secondary">
-              Набори інших авторів, які Ви зберегли до себе.
+              {t('profile.savedDesc')}
             </Typography>
             <WordSetCardGroup
-              title={'Збережені набори'}
+              title={t('profile.tabSaved')}
               status={savedWordSetsStatus}
               wordSets={savedWordSets}
               count={savedWordSetsTotalPages}
@@ -82,7 +84,6 @@ export default function ProfileSavedWordSets() {
               searchInputName={'savedWordSetNameToSearch'}
               onChange={handleSavedWordSetsPageChange}
               limit={wordSetLimitPerPage}
-              className='mt-4'
               register={registerSavedWordSetToSearch}
               handleSubmit={handleSubmitSavedWordSetToSearch}
               onSubmitForm={onSubmitSearchSavedWordSetsForm}

@@ -1,8 +1,11 @@
 import { Typography } from '@mui/material';
 import { Snackbar, Alert } from '@mui/material';
 import { getUserFacingError } from './functions';
+import { tr } from './translate';
 
-export const WORD_SET_LOAD_ERROR = 'Набір не знайдено, він приватний, або під час завантаження сталася помилка.';
+export function getWordSetLoadError() {
+  return tr('common.wordSetLoadError');
+}
 
 export function WarningMessage({ message, className = null }) {
   return (
@@ -21,8 +24,9 @@ export function ErrorMessage({ message, className = null }) {
 }
 
 export function Toast({ open, handleClose, message, severity = 'info', className = null }) {
+  const fallback = tr('common.genericError');
   const displayMessage = severity === 'error'
-    ? (getUserFacingError({ message }, 'Сталася помилка. Спробуйте ще раз.') || 'Сталася помилка. Спробуйте ще раз.')
+    ? (getUserFacingError({ message }, fallback) || fallback)
     : message;
 
   return (
@@ -43,4 +47,4 @@ export function Toast({ open, handleClose, message, severity = 'info', className
       </Alert>
     </Snackbar>
   );
-};
+}

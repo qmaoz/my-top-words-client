@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 
 import { selectIsAuth, selectAuthStatus } from '../../redux/slices/auth';
 import { fetchWordSets } from '../../redux/slices/word-sets';
@@ -15,6 +16,7 @@ import { Toast } from '../../components/utils/messages';
 export default function ProfileOwnWordSets() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const isAuth = useSelector(selectIsAuth);
   const authStatus = useSelector(selectAuthStatus);
   const [toast, setToast] = useState({ open: false, message: '', severity: 'info' });
@@ -44,7 +46,7 @@ export default function ProfileOwnWordSets() {
         try {
           await dispatch(fetchWordSets({ page: ownWordSetsPage, limit: wordSetLimitPerPage, filter: 'own', partOfName: partOfName })).unwrap();
         } catch (error) {
-          setToast({ open: true, message: error?.message?.message || error?.message || 'Не вдалося завантажити Ваші набори', severity: 'error' });
+          setToast({ open: true, message: error?.message?.message || error?.message || t('profile.loadError'), severity: 'error' });
         }
       }
     })();
@@ -67,12 +69,12 @@ export default function ProfileOwnWordSets() {
   return (
     <>
       <CircularLoading isLoading={authStatus === 'loading'}>
-        <CreateNewWordSetForm className='mt-4 mb-5' />
+        <CreateNewWordSetForm />
 
         {ownWordSets && (
           <>
             <WordSetCardGroup
-              title={'Власні набори'}
+              title={t('profile.tabOwn')}
               status={ownWordSetsStatus}
               wordSets={ownWordSets}
               count={ownWordSetsTotalPages}
@@ -80,7 +82,6 @@ export default function ProfileOwnWordSets() {
               searchInputName={'ownWordSetNameToSearch'}
               onChange={handleOwnWordSetsPageChange}
               limit={wordSetLimitPerPage}
-              className='mt-4'
               register={registerOwnWordSetToSearch}
               handleSubmit={handleSubmitOwnWordSetToSearch}
               onSubmitForm={onSubmitSearchOwnWordSetsForm}

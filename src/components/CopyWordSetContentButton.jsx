@@ -1,28 +1,29 @@
+import { useTranslation } from 'react-i18next';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { IconButton } from '@mui/material';
 
 import { formatWordSetAsBulkText } from './utils/parseBulkWords';
-import { correctNounCase, formatLocaleCount } from './utils/functions';
+import { DEFAULT_TRANSLATION_LOCALES } from './utils/locales';
 
-const COPY_HINT = 'Скопіювати слова списком — можна вставити в інший набір';
+export default function CopyWordSetContentButton({ words, translationLocales = DEFAULT_TRANSLATION_LOCALES, onNotify }) {
+  const { t } = useTranslation();
 
-export default function CopyWordSetContentButton({ words, onNotify }) {
   if (!words?.length) {
     return null;
   }
 
   const handleCopy = async () => {
-    const text = formatWordSetAsBulkText(words);
+    const text = formatWordSetAsBulkText(words, translationLocales);
 
     try {
       await navigator.clipboard.writeText(text);
       onNotify?.({
-        message: `Скопійовано ${formatLocaleCount(words.length)} ${correctNounCase(words.length, 'слово', 'слова', 'слів')}`,
+        message: t('bulkImport.copied', { count: words.length }),
         severity: 'success',
       });
     } catch {
       onNotify?.({
-        message: 'Не вдалося скопіювати. Спробуйте ще раз або скопіюйте вручну',
+        message: t('bulkImport.copyError'),
         severity: 'error',
       });
     }
@@ -31,8 +32,8 @@ export default function CopyWordSetContentButton({ words, onNotify }) {
   return (
     <IconButton
       onClick={handleCopy}
-      title={COPY_HINT}
-      aria-label="Скопіювати слова набору"
+      title={t('bulkImport.copyTooltip')}
+      aria-label={t('bulkImport.copyAria')}
       color="primary"
     >
       <ContentCopyIcon className="mui-btn" />

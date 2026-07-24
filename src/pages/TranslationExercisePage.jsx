@@ -1,26 +1,38 @@
-import { Fragment, useEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
-import { Box, Button, Paper, Tooltip, Typography } from '@mui/material';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { Box, Button, IconButton, MenuItem, Paper, Select, Tooltip, Typography } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import FlagOutlinedIcon from '@mui/icons-material/FlagOutlined';
 
-import { fetchWordSet, toggleWordLearned } from '../redux/slices/word-sets';
-import { selectIsAuth } from '../redux/slices/auth';
+import ExerciseBackButton from '../components/ExerciseBackButton';
+import ReportSetIssueDialog from '../components/ReportSetIssueDialog';
+
+import { fetchWordSet, reviewWordProgress, toggleWordLearned } from '../redux/slices/word-sets';
+import { selectIsAuth, selectPreferredTranslationLocale } from '../redux/slices/auth';
 import ProgressBar from '../components/ProgressBar';
 import PronounceButton from '../components/wrappers/PronounceButton';
 import { speakText, stopSpeech, isThunkSkipped } from '../components/utils/functions';
 import CircularLoading from '../components/wrappers/CircularLoading';
-import { ErrorMessage, Toast, WORD_SET_LOAD_ERROR } from '../components/utils/messages';
+import { ErrorMessage, Toast } from '../components/utils/messages';
 import useFitText from '../components/utils/useFitText';
+import { useDocumentTitle } from '../components/utils/useDocumentTitle';
+import { DEFAULT_SOURCE_LOCALE, DEFAULT_TRANSLATION_LOCALES, getLocaleLabel } from '../components/utils/locales';
 
-function getInitialTrainerWords(words) {
-  if (!words?.length) return [];
-
-  const allLearned = words.every((word) => word.isLearned);
-  return allLearned ? [...words] : words.filter((word) => !word.isLearned);
+function getWordTranslation(word, locale) {
+  if (!word) return {};
+  const fromMap = word.translations?.[locale];
+  if (fromMap) return fromMap;
+  if (locale === 'uk') {
+    return {
+      word_translation: word.word_translation_uk ?? '',
+      sentence_translation: word.sentence_translation_uk ?? '',
+    };
+  }
+  return {};
 }
 
 function shuffleArray(array) {
@@ -34,10 +46,60 @@ function shuffleArray(array) {
   return result;
 }
 
+function isDue(word, nowMs) {
+  if (!word?.nextAt) return false;
+  return new Date(word.nextAt).getTime() <= nowMs;
+}
+
+function isDeferred(word, nowMs) {
+  if (!word?.nextAt) return false;
+  return new Date(word.nextAt).getTime() > nowMs;
+}
+
+/** overdue (oldest first) → in progress → new; each group shuffled except overdue keeps age order with light shuffle of ties. */
+function buildTrainerWordList(words) {
+  if (!words?.length) return [];
+
+  const nowMs = Date.now();
+  const allLearned = words.every((word) => word.isLearned);
+  const pool = allLearned ? [...words] : words.filter((word) => !word.isLearned);
+
+  const available = allLearned
+    ? pool
+    : pool.filter((word) => !isDeferred(word, nowMs));
+
+  if (allLearned) {
+    return shuffleArray(available);
+  }
+
+  const overdue = [];
+  const inProgress = [];
+  const fresh = [];
+
+  for (const word of available) {
+    if (isDue(word, nowMs)) {
+      overdue.push(word);
+    } else if (word.hasProgress) {
+      inProgress.push(word);
+    } else {
+      fresh.push(word);
+    }
+  }
+
+  overdue.sort((a, b) => new Date(a.nextAt).getTime() - new Date(b.nextAt).getTime());
+
+  return [
+    ...overdue,
+    ...shuffleArray(inProgress),
+    ...shuffleArray(fresh),
+  ];
+}
+
 function createQueueItem(word) {
   return {
     id: word.id,
-    correctRepeatNumber: 0,
+    failedOnce: false,
+    correctStreak: 0,
     totalRepeatNumber: 0,
     repeatAfter: 0,
   };
@@ -50,7 +112,7 @@ function getNextWordIndex(queue) {
   for (let i = 0; i < queue.length; i++) {
     const wordInList = queue[i];
 
-    if (nextWord.repeatAfter == null || nextWord.repeatAfter > wordInList.repeatAfter && wordInList.repeatAfter != null) {
+    if (nextWord.repeatAfter == null || (nextWord.repeatAfter > wordInList.repeatAfter && wordInList.repeatAfter != null)) {
       nextWord = wordInList;
     }
   }
@@ -66,21 +128,47 @@ function isSessionFinished(queue) {
   return queue.length === 0 || getPendingWordsCount(queue) === 0;
 }
 
+function shouldGraduate(item) {
+  // First-try success, or three correct answers in a row after a failure.
+  return !item.failedOnce || item.correctStreak >= 3;
+}
+
 export default function TranslationExercisePage() {
   const isDebug = false;
   const { id } = useParams();
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const [toast, setToast] = useState({ open: false, message: '', severity: 'info' });
   const handleCloseToast = () => setToast({ ...toast, open: false });
   const { activeItem, activeItemStatus } = useSelector((state) => state.wordSets);
   const isAuth = useSelector(selectIsAuth);
+  const preferredLocale = useSelector(selectPreferredTranslationLocale);
   const [isRevealed, setIsRevealed] = useState(false);
   const [wordsQueue, setWordsQueue] = useState([]);
   const [queueInitialized, setQueueInitialized] = useState(false);
   const [sessionComplete, setSessionComplete] = useState(false);
   const [isMarkingLearned, setIsMarkingLearned] = useState(false);
+  const [isSavingReview, setIsSavingReview] = useState(false);
   const [currentWordIndex, setCurrentWordIndex] = useState(null);
   const [currentWord, setCurrentWord] = useState(null);
+  const [reportOpen, setReportOpen] = useState(false);
+
+  const translationLocales = useMemo(
+    () => activeItem?.translation_locales ?? DEFAULT_TRANSLATION_LOCALES,
+    [activeItem?.translation_locales],
+  );
+  const sourceLocale = activeItem?.source_locale ?? DEFAULT_SOURCE_LOCALE;
+  const [exerciseLocale, setExerciseLocale] = useState(translationLocales[0]);
+
+  useEffect(() => {
+    setExerciseLocale(
+      preferredLocale && translationLocales.includes(preferredLocale)
+        ? preferredLocale
+        : translationLocales[0],
+    );
+  }, [id, translationLocales, preferredLocale]);
+
+  const currentTranslation = getWordTranslation(currentWord, exerciseLocale);
 
   useEffect(() => {
     setWordsQueue([]);
@@ -100,8 +188,8 @@ export default function TranslationExercisePage() {
       return;
     }
 
-    const trainerWords = getInitialTrainerWords(activeItem.words);
-    const initialQueue = shuffleArray(trainerWords.map(createQueueItem));
+    const trainerWords = buildTrainerWordList(activeItem.words);
+    const initialQueue = trainerWords.map(createQueueItem);
 
     if (initialQueue.length === 0) {
       setQueueInitialized(true);
@@ -113,7 +201,7 @@ export default function TranslationExercisePage() {
     setCurrentWordIndex(firstWordId);
     setCurrentWord(activeItem.words.find((word) => word.id == firstWordId) ?? null);
     setQueueInitialized(true);
-  }, [activeItem, queueInitialized, sessionComplete]);
+  }, [activeItem, queueInitialized, sessionComplete, id]);
 
   const prevAuthRef = useRef(isAuth);
 
@@ -128,11 +216,11 @@ export default function TranslationExercisePage() {
 
       setToast({
         open: true,
-        message: error?.message?.message || error?.message || 'Не вдалося завантажити набір',
+        message: error?.message?.message || error?.message || t('exercise.loadError'),
         severity: 'error',
       });
     });
-  }, [id, dispatch, isAuth]);
+  }, [id, dispatch, isAuth, t]);
 
   const findWordById = (wordId) => activeItem?.words?.find((word) => word.id == wordId) ?? null;
 
@@ -161,29 +249,70 @@ export default function TranslationExercisePage() {
 
   const onShowAnswerClick = () => {
     setIsRevealed(true);
-    speakText(currentWord?.sentence_text);
+    speakText(currentWord?.sentence_text, sourceLocale);
   };
 
-  const onYesButtonClick = () => {
+  const persistReview = async (outcome) => {
+    if (!isAuth || !currentWord) return null;
+
+    try {
+      setIsSavingReview(true);
+      return await dispatch(reviewWordProgress({
+        wordId: currentWord.id,
+        outcome,
+      })).unwrap();
+    } catch (error) {
+      setToast({
+        open: true,
+        message: error?.message?.message || error?.message || t('exercise.reviewSaveError'),
+        severity: 'error',
+      });
+      return null;
+    } finally {
+      setIsSavingReview(false);
+    }
+  };
+
+  const onYesButtonClick = async () => {
+    const currentItem = wordsQueue.find((word) => word.id == currentWordIndex);
+    if (!currentItem) return;
+
+    const nextStreak = currentItem.correctStreak + 1;
+    const nextTotal = currentItem.totalRepeatNumber + 1;
+    const graduated = shouldGraduate({
+      ...currentItem,
+      correctStreak: nextStreak,
+    });
+
+    if (graduated) {
+      await persistReview('graduated');
+
+      const newWordsQueue = wordsQueue.map((word) => {
+        if (word.id == currentWordIndex) {
+          return {
+            ...word,
+            correctStreak: nextStreak,
+            totalRepeatNumber: nextTotal,
+            repeatAfter: null,
+          };
+        }
+
+        const repeatAfter = word.repeatAfter > 0 ? word.repeatAfter - 1 : word.repeatAfter;
+        return { ...word, repeatAfter };
+      });
+
+      goToNextWord(newWordsQueue);
+      return;
+    }
+
     const newWordsQueue = wordsQueue.map((word) => {
       if (word.id == currentWordIndex) {
-        if (word.totalRepeatNumber == 1 && word.repeatAfter == null) {
-          return { ...word };
-        }
-
-        const totalRepeatNumber = word.totalRepeatNumber + 1;
-        const correctRepeatNumber = word.correctRepeatNumber + 1;
-        let repeatAfter;
-
-        if (correctRepeatNumber >= 3 || totalRepeatNumber == 1) {
-          repeatAfter = null;
-        } else if (correctRepeatNumber == 1) {
-          repeatAfter = 1;
-        } else if (correctRepeatNumber == 2) {
-          repeatAfter = 4;
-        }
-
-        return { ...word, correctRepeatNumber, repeatAfter, totalRepeatNumber };
+        return {
+          ...word,
+          correctStreak: nextStreak,
+          totalRepeatNumber: nextTotal,
+          repeatAfter: nextStreak === 1 ? 1 : 4,
+        };
       }
 
       const repeatAfter = word.repeatAfter > 0 ? word.repeatAfter - 1 : word.repeatAfter;
@@ -193,13 +322,17 @@ export default function TranslationExercisePage() {
     goToNextWord(newWordsQueue);
   };
 
-  const onNoButtonClick = () => {
+  const onNoButtonClick = async () => {
+    await persistReview('again');
+
     const newWordsQueue = wordsQueue.map((word) => {
       if (word.id == currentWordIndex) {
         return {
           ...word,
-          correctRepeatNumber: 0,
+          failedOnce: true,
+          correctStreak: 0,
           totalRepeatNumber: word.totalRepeatNumber + 1,
+          repeatAfter: 0,
         };
       }
 
@@ -219,7 +352,7 @@ export default function TranslationExercisePage() {
       } catch (error) {
         setToast({
           open: true,
-          message: error?.message?.message || error?.message || 'Не вдалося позначити слово як вивчене',
+          message: error?.message?.message || error?.message || t('exercise.markLearnedError'),
           severity: 'error',
         });
         return;
@@ -242,10 +375,11 @@ export default function TranslationExercisePage() {
     [
       currentWord?.id,
       isRevealed,
-      currentWord?.sentence_translation_uk,
+      exerciseLocale,
+      currentTranslation.sentence_translation,
       currentWord?.sentence_text,
       currentWord?.word_text,
-      currentWord?.word_translation_uk,
+      currentTranslation.word_translation,
     ],
     { max: 2.5, min: 0.5, step: 0.05 },
   );
@@ -254,7 +388,7 @@ export default function TranslationExercisePage() {
     <Paper elevation={0} className='exercise-complete-block content-block'>
       <CheckCircleIcon className='exercise-complete-block__icon' />
       <Typography variant='h4' component='p' className='exercise-complete-block__title'>
-        Тренажер успішно пройдено!
+        {t('exercise.complete')}
       </Typography>
     </Paper>
   );
@@ -262,6 +396,7 @@ export default function TranslationExercisePage() {
   const isCurrentSetLoaded = activeItem
     && Number(activeItem.id) === Number(id)
     && activeItemStatus === 'loaded';
+  useDocumentTitle(isCurrentSetLoaded ? activeItem?.name : undefined);
 
   const isPageLoading = activeItemStatus === 'loading'
     || Boolean(activeItem && Number(activeItem.id) !== Number(id));
@@ -269,34 +404,91 @@ export default function TranslationExercisePage() {
   const hasWordsInSet = isCurrentSetLoaded && (activeItem?.words?.length ?? 0) > 0;
   const hasTrainerWords = wordsQueue.length > 0;
   const showTrainer = hasWordsInSet && hasTrainerWords && !sessionComplete;
-  const showPageActions = isCurrentSetLoaded || activeItemStatus === 'error';
+  const showTopBack = isCurrentSetLoaded || activeItemStatus === 'error';
+  const answersBusy = isMarkingLearned || isSavingReview;
+  const allDeferred = hasWordsInSet
+    && queueInitialized
+    && !hasTrainerWords
+    && !sessionComplete
+    && !(activeItem.words.every((word) => word.isLearned));
 
   return (
     <>
       <Box className='app-container container exercise-page-content'>
+        {showTopBack && (
+          <Box className="exercise-page-topbar">
+            <ExerciseBackButton wordSetId={id} onClick={onReturnButtonClick} />
+            {showTrainer && (
+              <Tooltip title={t('setRemark.reportTooltip')}>
+                <IconButton
+                  onClick={() => setReportOpen(true)}
+                  aria-label={t('setRemark.reportAria')}
+                  className="exercise-page-report"
+                >
+                  <FlagOutlinedIcon />
+                </IconButton>
+              </Tooltip>
+            )}
+          </Box>
+        )}
         <Box className='exercise-page-body'>
         <Box className='exercise-page-main'>
         <CircularLoading isLoading={isPageLoading}>
           {activeItemStatus === 'error' ? (
-            <ErrorMessage message={WORD_SET_LOAD_ERROR} />
+            <ErrorMessage message={t('common.setLoadError')} />
           ) : isCurrentSetLoaded ? (
             <>
               {!hasWordsInSet ? (
-                <ErrorMessage message={'У наборі немає слів для тренажера'} />
+                <ErrorMessage message={t('exercise.noWords')} />
               ) : sessionComplete ? (
                 exerciseCompleteBlock
+              ) : allDeferred ? (
+                <Paper elevation={0} className='exercise-complete-block content-block'>
+                  <Typography variant='h5' component='p' className='exercise-complete-block__title'>
+                    {t('exercise.nothingDue')}
+                  </Typography>
+                </Paper>
               ) : showTrainer ? (
                 <>
               <Box className="exercise-page-trainer">
               <Box className='exercise-progress-row df gap-3'>
-                <Tooltip title="Скільки слів уже пройдено в цій сесії">
-                  <span className='text-nowrap'>Пройдено:</span>
+                <Tooltip title={t('exercise.progressTooltip')}>
+                  <span className='text-nowrap'>{t('exercise.progress')}</span>
                 </Tooltip>
                 <ProgressBar
                   total={wordsQueue.length}
                   completed={wordsQueue.filter((word) => word.repeatAfter == null).length}
                 />
+                {translationLocales.length > 1 && (
+                  <Tooltip title={t('exercise.localeTooltip')}>
+                    <Select
+                      size="small"
+                      value={exerciseLocale}
+                      onChange={(event) => setExerciseLocale(event.target.value)}
+                      className="exercise-locale-select"
+                    >
+                      {translationLocales.map((locale) => (
+                        <MenuItem key={locale} value={locale}>{getLocaleLabel(locale)}</MenuItem>
+                      ))}
+                    </Select>
+                  </Tooltip>
+                )}
               </Box>
+              {isAuth && isRevealed && !currentWord?.isLearned && (
+                <Box className="exercise-learned-row">
+                  <Button
+                    variant="outlined"
+                    color="success"
+                    fullWidth
+                    startIcon={<CheckIcon />}
+                    onClick={onMarkLearnedClick}
+                    disabled={answersBusy}
+                    className="exercise-btn-learned"
+                  >
+                    {t('exercise.markLearned')}
+                  </Button>
+                </Box>
+              )}
               {isDebug && <>
                 <p style={{fontSize: '0.5em', margin: 0}}>
                   isRevealed: {String(isRevealed)}; | currentWordIndex: {currentWordIndex};<br />
@@ -304,17 +496,17 @@ export default function TranslationExercisePage() {
                 </p>
                 {wordsQueue.map((word) => (
                   <Fragment key={word.id}>
-                    <p style={{fontSize: '0.5em', margin: 0}}>id: {word.id} | correctRepeatNumber: {word.correctRepeatNumber} | repeatAfter: {word.repeatAfter} | totalRepeatNumber: {word.totalRepeatNumber} | {findWordById(word.id)?.sentence_text}</p>
+                    <p style={{fontSize: '0.5em', margin: 0}}>id: {word.id} | streak: {word.correctStreak} | failed: {String(word.failedOnce)} | repeatAfter: {String(word.repeatAfter)} | total: {word.totalRepeatNumber} | {findWordById(word.id)?.sentence_text}</p>
                   </Fragment>
                 ))}
               </>}
               <Paper elevation={0} className='main-content content-block exercise-card-paper'>
                 <Box ref={fitContainerRef} className="exercise-fit-text-slot">
                   <Box ref={fitTextRef} className="exercise-fit-text">
-                  {currentWord?.sentence_translation_uk && (
+                  {currentTranslation.sentence_translation && (
                     <Box className="exercise-fit-text__block">
                       <Typography className="exercise-fit-text__line">
-                        {currentWord.sentence_translation_uk}
+                        {currentTranslation.sentence_translation}
                       </Typography>
                     </Box>
                   )}
@@ -330,7 +522,7 @@ export default function TranslationExercisePage() {
                             {lastWord}
                             <span className="ms-1 exercise-fit-text__pronounce-slot">
                               {isFitReady ? (
-                                <PronounceButton text={currentWord.sentence_text} />
+                                <PronounceButton text={currentWord.sentence_text} locale={sourceLocale} />
                               ) : (
                                 <span className="exercise-fit-text__pronounce-spacer" aria-hidden="true" />
                               )}
@@ -352,7 +544,7 @@ export default function TranslationExercisePage() {
                             {lastWord}
                             <span className="ms-1 exercise-fit-text__pronounce-slot">
                               {isFitReady ? (
-                                <PronounceButton text={currentWord.word_text} />
+                                <PronounceButton text={currentWord.word_text} locale={sourceLocale} />
                               ) : (
                                 <span className="exercise-fit-text__pronounce-spacer" aria-hidden="true" />
                               )}
@@ -363,10 +555,10 @@ export default function TranslationExercisePage() {
                     );
                   })()}
 
-                  {isRevealed && currentWord?.word_translation_uk && (
+                  {isRevealed && currentTranslation.word_translation && (
                     <Box className="exercise-fit-text__block">
                       <Typography className="exercise-fit-text__line">
-                        {currentWord.word_translation_uk}
+                        {currentTranslation.word_translation}
                       </Typography>
                     </Box>
                   )}
@@ -392,49 +584,39 @@ export default function TranslationExercisePage() {
                   startIcon={<VisibilityIcon />}
                   onClick={onShowAnswerClick}
                 >
-                  Показати переклад
+                  {t('exercise.showTranslation')}
                 </Button>
               ) : (
-                <>
-                  {isAuth && !currentWord?.isLearned && (
-                    <Button
-                      fullWidth
-                      variant='contained'
-                      color='success'
-                      startIcon={<CheckIcon />}
-                      onClick={onMarkLearnedClick}
-                      disabled={isMarkingLearned}
-                      className='exercise-btn-learned'
-                    >
-                      Позначити як вивчене
-                    </Button>
-                  )}
-                  <Box className='exercise-answer-buttons'>
-                    <Button variant='contained' color='success' onClick={onYesButtonClick}>Мій переклад правильний</Button>
-                    <Button variant='contained' color='error' onClick={onNoButtonClick}>Мій переклад неправильний</Button>
-                  </Box>
-                </>
+                <Box className='exercise-answer-buttons'>
+                  <Button
+                    variant='contained'
+                    color='success'
+                    onClick={onYesButtonClick}
+                    disabled={answersBusy}
+                  >
+                    {t('exercise.correct')}
+                  </Button>
+                  <Button
+                    variant='contained'
+                    color='error'
+                    onClick={onNoButtonClick}
+                    disabled={answersBusy}
+                  >
+                    {t('exercise.incorrect')}
+                  </Button>
+                </Box>
               )}
             </>
           )}
-
-          {showPageActions && (
-            <Button
-              component={Link}
-              to={`/word-set/${id}`}
-              onClick={onReturnButtonClick}
-              variant='contained'
-              color='warning'
-              fullWidth
-              startIcon={<ArrowBackIcon />}
-              className='exercise-page-back'
-            >
-              Повернутися до набору
-            </Button>
-          )}
         </Box>
         </Box>
 
+        <ReportSetIssueDialog
+          open={reportOpen}
+          onClose={() => setReportOpen(false)}
+          wordSetId={id}
+          wordId={currentWord?.id ?? null}
+        />
         <Toast {...toast} handleClose={handleCloseToast} />
       </Box>
     </>

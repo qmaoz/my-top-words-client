@@ -1,9 +1,11 @@
+import { useTranslation } from 'react-i18next';
 import { IconButton } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 export default function SaveForLearningButton({ isSavedForLearning, handleToggleSave }) {
-  const label = isSavedForLearning ? 'Прибрати зі збережених' : 'Зберегти набір до профілю';
+  const { t } = useTranslation();
+  const label = isSavedForLearning ? t('wordSet.unsave') : t('wordSet.saveToProfile');
 
   return (
     <IconButton

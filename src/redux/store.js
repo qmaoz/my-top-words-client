@@ -4,6 +4,7 @@ import { authReducer } from './slices/auth';
 import { wordSetsReducer } from './slices/word-sets';
 import { wordsReducer } from './slices/words';
 import { adminReducer } from './slices/admin';
+import { wordSetRemarksReducer } from './slices/word-set-remarks';
 
 const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ const store = configureStore({
     wordSets: wordSetsReducer,
     words: wordsReducer,
     admin: adminReducer,
+    wordSetRemarks: wordSetRemarksReducer,
   },
   devTools: process.env.NODE_ENV !== 'production',
 });

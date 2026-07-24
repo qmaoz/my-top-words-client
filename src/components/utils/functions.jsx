@@ -1,3 +1,29 @@
+import { tr } from './translate';
+import { DEFAULT_SOURCE_LOCALE, getLocaleLabel, normalizeSourceLocale } from './locales';
+
+const SPEECH_LANG_TAGS = {
+  de: 'de-DE',
+  uk: 'uk-UA',
+  ru: 'ru-RU',
+  en: 'en-US',
+  ar: 'ar-SA',
+  hi: 'hi-IN',
+  ml: 'ml-IN',
+  tr: 'tr-TR',
+  el: 'el-GR',
+  zh: 'zh-CN',
+  ku: 'ku',
+  pl: 'pl-PL',
+  es: 'es-ES',
+  fr: 'fr-FR',
+  it: 'it-IT',
+  pt: 'pt-PT',
+  bn: 'bn-IN',
+  id: 'id-ID',
+  ja: 'ja-JP',
+  vi: 'vi-VN',
+};
+
 let speakGeneration = 0;
 
 const cancelSpeechNow = () => {
@@ -49,58 +75,64 @@ function extractErrorMessage(error) {
   return '';
 }
 
-export function getUserFacingError(error, fallback = 'Сталася помилка. Спробуйте ще раз.') {
+export function getUserFacingError(error, fallback) {
   if (isThunkSkipped(error)) return null;
 
+  const fb = fallback ?? tr('common.genericError');
   const raw = extractErrorMessage(error).trim();
-  if (!raw) return fallback;
+  if (!raw) return fb;
 
   const looksTechnical = TECHNICAL_PATTERNS.some((pattern) => pattern.test(raw));
   const hasCyrillic = CYRILLIC_PATTERN.test(raw);
 
   if (looksTechnical || !hasCyrillic) {
-    return fallback;
+    return fb;
   }
 
   return raw;
 }
 
-function getGermanVoice() {
+function getVoiceForLocale(localeCode) {
+  const code = normalizeSourceLocale(localeCode);
   const voices = window.speechSynthesis.getVoices();
-  const germanVoices = voices.filter((voice) => voice.lang.startsWith('de'));
+  const matchingVoices = voices.filter((voice) => {
+    const lang = voice.lang.toLowerCase();
+    return lang === code || lang.startsWith(`${code}-`);
+  });
 
-  if (germanVoices.length === 0) {
+  if (matchingVoices.length === 0) {
     return null;
   }
 
   // Source - https://stackoverflow.com/a/5915122
   // Posted by Kelly, modified by community. See post 'Timeline' for change history
   // Retrieved 2026-05-23, License - CC BY-SA 4.0
-  const randomIndex = Math.floor(Math.random() * germanVoices.length);
-  return germanVoices[randomIndex];
+  const randomIndex = Math.floor(Math.random() * matchingVoices.length);
+  return matchingVoices[randomIndex];
 }
 
-export const speakText = (text) => {
+export const speakText = (text, localeCode = DEFAULT_SOURCE_LOCALE) => {
   if (!text?.trim()) {
     return;
   }
 
   if (!window.speechSynthesis) {
-    return alert('Ваш браузер не підтримує синтез мовлення');
+    return alert(tr('common.speechNotSupported'));
   }
 
   stopSpeech();
   const generation = speakGeneration;
 
-  const germanVoice = getGermanVoice();
+  const code = normalizeSourceLocale(localeCode);
+  const voice = getVoiceForLocale(code);
 
-  if (!germanVoice) {
-    return alert('Не знайдено німецького голосу. Додайте німецьку мову в налаштуваннях озвучування тексту на пристрої.');
+  if (!voice) {
+    return alert(tr('common.sourceVoiceNotFound', { language: getLocaleLabel(code) }));
   }
 
   const utterance = new SpeechSynthesisUtterance(text);
-  utterance.voice = germanVoice;
-  utterance.lang = 'de-DE';
+  utterance.voice = voice;
+  utterance.lang = SPEECH_LANG_TAGS[code] ?? voice.lang ?? code;
   utterance.rate = 1;
 
   // Chrome queues speak() even after cancel(); defer and drop stale requests.
@@ -124,7 +156,8 @@ export const correctNounCase = (number, one, few, many) => {
 
 export const formatLocaleCount = (value) => {
   if (value == null) return '—';
-  return Number(value).toLocaleString('uk-UA');
+  const locale = document.documentElement.getAttribute('lang') || 'en';
+  return Number(value).toLocaleString(locale);
 };
 
 export const nounCase = (count, one, few, many) => {
@@ -158,4 +191,19 @@ export function hasWordFieldsChanged(original, updated) {
   return WORD_ENTRY_FIELDS.some(
     (key) => normalizeWordField(original?.[key]) !== normalizeWordField(updated?.[key]),
   );
+}
+
+// Compares the source pair and per-locale translations for the given locales.
+export function hasWordEntryChanged(original, updated, locales = []) {
+  if (normalizeWordField(original?.word_text) !== normalizeWordField(updated?.word_text)) return true;
+  if (normalizeWordField(original?.sentence_text) !== normalizeWordField(updated?.sentence_text)) return true;
+
+  return locales.some((locale) => {
+    const originalTranslation = original?.translations?.[locale] ?? {};
+    const updatedTranslation = updated?.translations?.[locale] ?? {};
+    return (
+      normalizeWordField(originalTranslation.word_translation) !== normalizeWordField(updatedTranslation.word_translation)
+      || normalizeWordField(originalTranslation.sentence_translation) !== normalizeWordField(updatedTranslation.sentence_translation)
+    );
+  });
 }
