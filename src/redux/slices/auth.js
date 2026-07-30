@@ -5,6 +5,9 @@ import { tr } from '../../components/utils/translate';
 export const fetchLogin = createAsyncThunk('auth/fetchLogin', async (params, { rejectWithValue }) => {
   try {
     const { data } = await axios.post('/auth/login', params);
+    if (data?.token) {
+      window.localStorage.setItem('token', data.token);
+    }
     return data;
   } catch (error) {
     return rejectWithValue({ message: error?.response?.data || tr('common.serverError') });
@@ -23,6 +26,9 @@ export const fetchUserInfo = createAsyncThunk('auth/fetchUserInfo', async (param
 export const fetchRegister = createAsyncThunk('auth/fetchRegister', async ({ username, password }, { rejectWithValue }) => {
   try {
     const { data } = await axios.post('/auth/register', { username, password });
+    if (data?.token) {
+      window.localStorage.setItem('token', data.token);
+    }
     return data;
   } catch (error) {
     return rejectWithValue({ message: error?.response?.data || tr('common.serverError') });
@@ -75,9 +81,14 @@ const authSlice = createSlice({
         }
       )
       .addMatcher(
-        isAnyOf(fetchLogin.pending, fetchUserInfo.pending, fetchRegister.pending),
+        isAnyOf(fetchLogin.pending, fetchRegister.pending),
         (state) => {
-          state.data = null;
+          state.status = 'loading';
+        }
+      )
+      .addMatcher(
+        isAnyOf(fetchUserInfo.pending),
+        (state) => {
           state.status = 'loading';
         }
       )

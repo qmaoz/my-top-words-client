@@ -16,7 +16,12 @@ instance.interceptors.request.use((config) => {
 instance.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
+    const status = error.response?.status;
+    const message = error.response?.data?.message;
+    // Missing Authorization is often a transient race; only clear session on invalid/expired JWT.
+    const isInvalidToken = status === 401 && message && message !== 'Access denied';
+
+    if (isInvalidToken) {
       window.localStorage.removeItem('token');
       const path = window.location.pathname;
       if (!path.startsWith('/login') && !path.startsWith('/sign-up')) {
