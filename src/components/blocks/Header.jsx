@@ -1,5 +1,16 @@
 import { Link } from 'react-router';
-import { Menu, MenuItem, IconButton, Avatar, Paper, Box, Divider } from '@mui/material';
+import {
+  Menu,
+  MenuItem,
+  IconButton,
+  Avatar,
+  Paper,
+  Box,
+  Divider,
+  Tooltip,
+  useMediaQuery,
+} from '@mui/material';
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -17,6 +28,7 @@ export default function Header() {
   const dispatch = useDispatch();
   const confirm = useConfirm();
   const { t } = useTranslation();
+  const isCompactHeader = useMediaQuery('(max-width:600px)');
   const isAuth = useSelector(selectIsAuth);
   const isAdmin = useSelector(selectIsAdmin);
   const authStatus = useSelector(selectAuthStatus);
@@ -47,6 +59,10 @@ export default function Header() {
     }
   }, [dispatch, isAuth]);
 
+  useEffect(() => {
+    setAnchorEl(null);
+  }, [isCompactHeader, isAuth]);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -70,6 +86,7 @@ export default function Header() {
   };
 
   const initial = (userData?.username || '?').slice(0, 1).toUpperCase();
+  const accountMenuLabel = t('layout.accountMenu');
 
   return (
     <>
@@ -83,7 +100,7 @@ export default function Header() {
             >
               <Link to='/'>My Top Words</Link>
             </h1>
-            <Box className="header__actions df">
+            <Box className="header__actions">
               <Link to="/about" className="header__nav-link">{t('layout.about')}</Link>
               <LanguageSwitcher />
               {isAuth ? (
@@ -91,7 +108,7 @@ export default function Header() {
                   <IconButton
                     onClick={handleClick}
                     size="small"
-                    aria-label={t('layout.accountMenu')}
+                    aria-label={accountMenuLabel}
                     className="header__avatar-btn"
                   >
                     <Avatar className="header__avatar">{initial}</Avatar>
@@ -128,9 +145,40 @@ export default function Header() {
                 </Box>
               ) : (
                 authStatus !== 'loading' && (
-                  <Box className="sign-up-or-login">
-                    <Link to="/sign-up">{t('layout.signUp')}</Link> / <Link to='/login'>{t('layout.login')}</Link>
-                  </Box>
+                  isCompactHeader ? (
+                    <>
+                      <Tooltip title={accountMenuLabel}>
+                        <IconButton
+                          size="small"
+                          onClick={handleClick}
+                          aria-label={accountMenuLabel}
+                          className="header__guest-btn"
+                        >
+                          <PersonOutlineOutlinedIcon fontSize="small" />
+                        </IconButton>
+                      </Tooltip>
+                      <Menu
+                        anchorEl={anchorEl}
+                        open={open}
+                        onClose={handleClose}
+                        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                      >
+                        <MenuItem component={Link} to="/sign-up" onClick={handleClose}>
+                          {t('layout.signUp')}
+                        </MenuItem>
+                        <MenuItem component={Link} to="/login" onClick={handleClose}>
+                          {t('layout.login')}
+                        </MenuItem>
+                      </Menu>
+                    </>
+                  ) : (
+                    <Box className="sign-up-or-login">
+                      <Link to="/sign-up">{t('layout.signUp')}</Link>
+                      <span aria-hidden="true"> / </span>
+                      <Link to="/login">{t('layout.login')}</Link>
+                    </Box>
+                  )
                 )
               )}
             </Box>
