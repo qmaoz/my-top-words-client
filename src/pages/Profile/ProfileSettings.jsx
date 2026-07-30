@@ -9,39 +9,11 @@ import axios from '../../axios';
 import {
   logout,
   selectPreferredTranslationLocale,
-  selectUiLocale,
   updateUserPreferences,
 } from '../../redux/slices/auth';
 import { SUPPORTED_LOCALES, getLocaleDisplay } from '../../components/utils/locales';
 import { Toast } from '../../components/utils/messages';
 import { useConfirm } from '../../components/utils/useConfirm';
-
-function LocaleSettingCard({ title, hint, value, disabled, onChange }) {
-  return (
-    <Paper elevation={0} className="content-block profile-settings-card">
-      <Typography variant="h6" component="h3" className="profile-settings-card__title">
-        {title}
-      </Typography>
-      <Typography className="profile-settings-card__hint">
-        {hint}
-      </Typography>
-      <Select
-        size="small"
-        value={value}
-        onChange={onChange}
-        disabled={disabled}
-        fullWidth
-        className="profile-settings-card__control"
-      >
-        {SUPPORTED_LOCALES.map((locale) => (
-          <MenuItem key={locale.code} value={locale.code}>
-            {getLocaleDisplay(locale.code)}
-          </MenuItem>
-        ))}
-      </Select>
-    </Paper>
-  );
-}
 
 export default function ProfileSettings() {
   const dispatch = useDispatch();
@@ -49,16 +21,18 @@ export default function ProfileSettings() {
   const confirm = useConfirm();
   const { t } = useTranslation();
   const preferredLocale = useSelector(selectPreferredTranslationLocale) ?? 'en';
-  const uiLocale = useSelector(selectUiLocale) ?? 'en';
   const [isSaving, setIsSaving] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [toast, setToast] = useState({ open: false, message: '', severity: 'info' });
   const handleCloseToast = () => setToast((prev) => ({ ...prev, open: false }));
 
-  const savePreferences = async (preferences) => {
+  const handleTranslationChange = async (event) => {
+    const locale = event.target.value;
+    if (locale === preferredLocale) return;
+
     try {
       setIsSaving(true);
-      await dispatch(updateUserPreferences(preferences)).unwrap();
+      await dispatch(updateUserPreferences({ preferred_translation_locale: locale })).unwrap();
       setToast({ open: true, message: t('profile.settingsSaved'), severity: 'success' });
     } catch (error) {
       setToast({
@@ -68,20 +42,6 @@ export default function ProfileSettings() {
       });
     } finally {
       setIsSaving(false);
-    }
-  };
-
-  const handleTranslationChange = (event) => {
-    const locale = event.target.value;
-    if (locale !== preferredLocale) {
-      savePreferences({ preferred_translation_locale: locale });
-    }
-  };
-
-  const handleUiChange = (event) => {
-    const locale = event.target.value;
-    if (locale !== uiLocale) {
-      savePreferences({ ui_locale: locale });
     }
   };
 
@@ -113,21 +73,28 @@ export default function ProfileSettings() {
 
   return (
     <Box className="profile-settings">
-      <LocaleSettingCard
-        title={t('profile.translationTitle')}
-        hint={t('profile.translationHint')}
-        value={preferredLocale}
-        disabled={isSaving}
-        onChange={handleTranslationChange}
-      />
-
-      <LocaleSettingCard
-        title={t('profile.uiTitle')}
-        hint={t('profile.uiHint')}
-        value={uiLocale}
-        disabled={isSaving}
-        onChange={handleUiChange}
-      />
+      <Paper elevation={0} className="content-block profile-settings-card">
+        <Typography variant="h6" component="h3" className="profile-settings-card__title">
+          {t('profile.translationTitle')}
+        </Typography>
+        <Typography className="profile-settings-card__hint">
+          {t('profile.translationHint')}
+        </Typography>
+        <Select
+          size="small"
+          value={preferredLocale}
+          onChange={handleTranslationChange}
+          disabled={isSaving}
+          fullWidth
+          className="profile-settings-card__control"
+        >
+          {SUPPORTED_LOCALES.map((locale) => (
+            <MenuItem key={locale.code} value={locale.code}>
+              {getLocaleDisplay(locale.code)}
+            </MenuItem>
+          ))}
+        </Select>
+      </Paper>
 
       <Paper elevation={0} className="content-block profile-settings-card profile-settings-card--danger">
         <Typography variant="h6" component="h3" className="profile-settings-card__title">

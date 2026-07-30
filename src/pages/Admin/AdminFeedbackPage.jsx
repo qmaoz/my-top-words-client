@@ -121,7 +121,7 @@ export default function AdminFeedbackPage() {
               <table className="admin-table">
                 <thead>
                   <tr>
-                    <th>ID</th>
+                    <th>{t('admin.colId')}</th>
                     <th>{t('admin.colType')}</th>
                     <th>{t('admin.colText')}</th>
                     <th>{t('admin.colPage')}</th>

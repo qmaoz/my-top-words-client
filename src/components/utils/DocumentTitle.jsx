@@ -12,8 +12,9 @@ function resolvePageLabel(pathname, t) {
   if (pathname === '/about') return t('about.title');
   if (pathname === '/terms') return t('terms.title');
 
-  if (pathname === '/profile' || pathname === '/profile/saved-word-sets') return t('profile.tabSaved');
-  if (pathname === '/profile/own-word-sets') return t('profile.tabOwn');
+  if (pathname === '/profile' || pathname === '/profile/own-word-sets') return t('profile.tabOwn');
+  if (pathname === '/profile/saved-word-sets') return t('profile.tabSaved');
+  if (pathname === '/profile/remarks') return t('profile.tabRemarks');
   if (pathname === '/profile/settings') return t('profile.tabSettings');
 
   if (pathname.startsWith('/word-set/')) return t('wordSet.pageTitle');

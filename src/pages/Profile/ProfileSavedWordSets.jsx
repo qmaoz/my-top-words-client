@@ -7,10 +7,8 @@ import { useTranslation } from 'react-i18next';
 import { selectIsAuth, selectAuthStatus } from '../../redux/slices/auth';
 import { fetchWordSets } from '../../redux/slices/word-sets';
 
-import { Box, Typography } from '@mui/material';
 import WordSetCardGroup from '../../components/WordSetCardGroup';
 import CircularLoading from '../../components/wrappers/CircularLoading';
-import CreateNewWordSetForm from './components/CreateNewWordSetForm';
 import { isStateUpdateNeeded } from '../../components/utils/functions';
 import { Toast } from '../../components/utils/messages';
 
@@ -71,24 +69,20 @@ export default function ProfileSavedWordSets() {
     <>
       <CircularLoading isLoading={authStatus === 'loading'}>
         {savedWordSets && (
-          <>
-            <Typography className="profile-section-intro" color="text.secondary">
-              {t('profile.savedDesc')}
-            </Typography>
-            <WordSetCardGroup
-              title={t('profile.tabSaved')}
-              status={savedWordSetsStatus}
-              wordSets={savedWordSets}
-              count={savedWordSetsTotalPages}
-              page={savedWordSetsPage}
-              searchInputName={'savedWordSetNameToSearch'}
-              onChange={handleSavedWordSetsPageChange}
-              limit={wordSetLimitPerPage}
-              register={registerSavedWordSetToSearch}
-              handleSubmit={handleSubmitSavedWordSetToSearch}
-              onSubmitForm={onSubmitSearchSavedWordSetsForm}
-              errors={errorsSavedWordSetToSearch}/>
-          </>
+          <WordSetCardGroup
+            title={t('profile.tabSaved')}
+            status={savedWordSetsStatus}
+            wordSets={savedWordSets}
+            count={savedWordSetsTotalPages}
+            page={savedWordSetsPage}
+            searchInputName={'savedWordSetNameToSearch'}
+            onChange={handleSavedWordSetsPageChange}
+            limit={wordSetLimitPerPage}
+            register={registerSavedWordSetToSearch}
+            handleSubmit={handleSubmitSavedWordSetToSearch}
+            onSubmitForm={onSubmitSearchSavedWordSetsForm}
+            errors={errorsSavedWordSetToSearch}
+          />
         )}
       </CircularLoading>
       <Toast {...toast} handleClose={handleCloseToast} />

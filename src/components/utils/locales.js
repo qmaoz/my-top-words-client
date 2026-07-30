@@ -1,4 +1,4 @@
-export const SUPPORTED_LOCALES = [
+const LOCALE_DEFINITIONS = [
   { code: 'de', en: 'German', native: 'Deutsch', dir: 'ltr' },
   { code: 'uk', en: 'Ukrainian', native: 'Українська', dir: 'ltr' },
   { code: 'ru', en: 'Russian', native: 'Русский', dir: 'ltr' },
@@ -21,7 +21,12 @@ export const SUPPORTED_LOCALES = [
   { code: 'vi', en: 'Vietnamese', native: 'Tiếng Việt', dir: 'ltr' },
 ];
 
-const LOCALE_BY_CODE = new Map(SUPPORTED_LOCALES.map((locale) => [locale.code, locale]));
+/** UI lists: alphabetical by English name for a uniform order across scripts. */
+export const SUPPORTED_LOCALES = [...LOCALE_DEFINITIONS].sort((left, right) => (
+  left.en.localeCompare(right.en, 'en', { sensitivity: 'base' })
+));
+
+const LOCALE_BY_CODE = new Map(LOCALE_DEFINITIONS.map((locale) => [locale.code, locale]));
 
 export const DEFAULT_SOURCE_LOCALE = 'de';
 export const DEFAULT_TRANSLATION_LOCALES = ['uk'];

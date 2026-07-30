@@ -642,25 +642,23 @@ input::placeholder {
 
 .language-switcher {
   flex: 0 0 auto;
+  color: var(--on-primary) !important;
 }
 
-.language-switcher .MuiSelect-select {
-  padding-top: 0.25em;
-  padding-bottom: 0.25em;
-  padding-left: 0.5em;
-  padding-right: 2em !important;
-  font-size: 0.85em;
-  color: var(--on-primary);
-}
-
-.language-switcher .MuiSvgIcon-root {
-  color: var(--on-primary);
-}
-
-.language-switcher__value {
+.language-switcher__item {
   display: inline-flex;
   align-items: center;
-  gap: 0.35em;
+  gap: 0.5em;
+}
+
+.language-switcher__check,
+.language-switcher__check-spacer {
+  width: 1em;
+  flex: 0 0 1em;
+}
+
+.language-switcher__check {
+  font-size: 1em !important;
 }
 
 .profile-settings {
