@@ -1,6 +1,6 @@
 import palette from './palette.js';
 
-/** Встановлює CSS-змінні теми на :root з palette.js */
+/** Sets CSS theme variables on :root from palette.js */
 export function applyCssVariables() {
   const { common, background, chrome, accent, border, onPrimary, text, scrollbar, semantic } = palette;
   const root = document.documentElement;

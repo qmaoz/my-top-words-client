@@ -1,4 +1,4 @@
-/* GENERAL — кольори теми: src/theme/palette.js → applyCssVariables() */
+/* GENERAL — theme colors: src/theme/palette.js → applyCssVariables() */
 
 /* CUSTOM SCROLLBAR */
 * {
@@ -48,7 +48,7 @@
   background: transparent;
 }
 
-/* TEXT SELECTION — під тему сайту */
+/* TEXT SELECTION — matches site theme */
 ::selection {
   background: var(--accent-teal);
   color: var(--on-primary);
@@ -375,7 +375,7 @@ footer .container {
   }
 }
 
-/* Пошук / створення — поле і кнопка стовпчиком на всю ширину */
+/* Search / create — stacked full-width field and button */
 .inline-form-row {
   flex-direction: column;
   align-items: stretch;
@@ -1601,6 +1601,7 @@ input::placeholder {
   margin: 0 !important;
   width: 100%;
   max-width: 100%;
+  text-align: start;
 }
 
 .exercise-fit-text__nowrap {

@@ -114,12 +114,12 @@
     "sourceLocaleLabel": "Bahasa set",
     "sourceLocaleLocked": "Bahasa set tidak dapat diubah selama masih ada kata",
     "locked": "terkunci",
-    "translationLocalesLabel": "Bahasa terjemahan (urutan kolom):",
-    "moveLeft": "Pindah ke kiri",
-    "moveRight": "Pindah ke kanan",
+    "translationLocalesLabel": "Bahasa terjemahan",
     "removeLanguage": "Hapus bahasa",
     "addLanguage": "Tambah bahasa",
-    "pageTitle": "Set kata"
+    "pageTitle": "Set kata",
+    "moveUp": "Pindah ke atas",
+    "moveDown": "Pindah ke bawah"
   },
   "word": {
     "learned": "Dipelajari",

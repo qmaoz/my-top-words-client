@@ -114,12 +114,12 @@
     "sourceLocaleLabel": "സെറ്റിന്റെ ഭാഷ",
     "sourceLocaleLocked": "വാക്കുകൾ ഉള്ളപ്പോൾ സെറ്റിന്റെ ഭാഷ മാറ്റാനാവില്ല",
     "locked": "ലോക്ക് ചെയ്തു",
-    "translationLocalesLabel": "വിവർത്തന ഭാഷകൾ (നിര ക്രമം):",
-    "moveLeft": "ഇടത്തേക്ക് നീക്കുക",
-    "moveRight": "വലത്തേക്ക് നീക്കുക",
+    "translationLocalesLabel": "വിവർത്തന ഭാഷകൾ",
     "removeLanguage": "ഭാഷ നീക്കം ചെയ്യുക",
     "addLanguage": "ഭാഷ ചേർക്കുക",
-    "pageTitle": "വാക്ക് സെറ്റ്"
+    "pageTitle": "വാക്ക് സെറ്റ്",
+    "moveUp": "മുകളിലേക്ക് നീക്കുക",
+    "moveDown": "താഴേക്ക് നീക്കുക"
   },
   "word": {
     "learned": "പഠിച്ചത്",

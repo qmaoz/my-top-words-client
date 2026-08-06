@@ -20,7 +20,7 @@ import CircularLoading from '../components/wrappers/CircularLoading';
 import { ErrorMessage, Toast } from '../components/utils/messages';
 import useFitText from '../components/utils/useFitText';
 import { useDocumentTitle } from '../components/utils/useDocumentTitle';
-import { DEFAULT_SOURCE_LOCALE, DEFAULT_TRANSLATION_LOCALES, getLocaleLabel } from '../components/utils/locales';
+import { DEFAULT_SOURCE_LOCALE, DEFAULT_TRANSLATION_LOCALES, getLocaleDir, getLocaleLabel } from '../components/utils/locales';
 
 function getWordTranslation(word, locale) {
   if (!word) return {};
@@ -169,6 +169,8 @@ export default function TranslationExercisePage() {
   }, [id, translationLocales, preferredLocale]);
 
   const currentTranslation = getWordTranslation(currentWord, exerciseLocale);
+  const sourceDir = getLocaleDir(sourceLocale);
+  const translationDir = getLocaleDir(exerciseLocale);
 
   useEffect(() => {
     setWordsQueue([]);
@@ -504,7 +506,7 @@ export default function TranslationExercisePage() {
                 <Box ref={fitContainerRef} className="exercise-fit-text-slot">
                   <Box ref={fitTextRef} className="exercise-fit-text">
                   {currentTranslation.sentence_translation && (
-                    <Box className="exercise-fit-text__block">
+                    <Box className="exercise-fit-text__block" dir={translationDir} lang={exerciseLocale}>
                       <Typography className="exercise-fit-text__line">
                         {currentTranslation.sentence_translation}
                       </Typography>
@@ -515,7 +517,7 @@ export default function TranslationExercisePage() {
                     const words = currentWord.sentence_text.split(' ');
                     const lastWord = words.pop();
                     return (
-                      <Box className="exercise-fit-text__block">
+                      <Box className="exercise-fit-text__block" dir={sourceDir} lang={sourceLocale}>
                         <Typography className="exercise-fit-text__line">
                           {words.join(' ')}{words.length > 0 && ' '}
                           <span className="exercise-fit-text__nowrap">
@@ -537,7 +539,7 @@ export default function TranslationExercisePage() {
                     const words = currentWord.word_text.split(' ');
                     const lastWord = words.pop();
                     return (
-                      <Box className="exercise-fit-text__block">
+                      <Box className="exercise-fit-text__block" dir={sourceDir} lang={sourceLocale}>
                         <Typography className="exercise-fit-text__line">
                           {words.join(' ')}{words.length > 0 && ' '}
                           <span className="exercise-fit-text__nowrap">
@@ -556,7 +558,7 @@ export default function TranslationExercisePage() {
                   })()}
 
                   {isRevealed && currentTranslation.word_translation && (
-                    <Box className="exercise-fit-text__block">
+                    <Box className="exercise-fit-text__block" dir={translationDir} lang={exerciseLocale}>
                       <Typography className="exercise-fit-text__line">
                         {currentTranslation.word_translation}
                       </Typography>

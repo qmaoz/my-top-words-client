@@ -114,12 +114,12 @@
     "sourceLocaleLabel": "Set dili",
     "sourceLocaleLocked": "Sette kelime varken set dili değiştirilemez",
     "locked": "kilitli",
-    "translationLocalesLabel": "Çeviri dilleri (sütun sırası):",
-    "moveLeft": "Sola taşı",
-    "moveRight": "Sağa taşı",
+    "translationLocalesLabel": "Çeviri dilleri",
     "removeLanguage": "Dili kaldır",
     "addLanguage": "Dil ekle",
-    "pageTitle": "Kelime seti"
+    "pageTitle": "Kelime seti",
+    "moveUp": "Yukarı taşı",
+    "moveDown": "Aşağı taşı"
   },
   "word": {
     "learned": "Öğrenildi",

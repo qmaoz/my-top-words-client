@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { IconButton, Checkbox, Tooltip, Box } from '@mui/material';
 import { Edit, Delete, Save, Close } from '@mui/icons-material';
 import PronounceButton from './wrappers/PronounceButton';
-import { DEFAULT_SOURCE_LOCALE, DEFAULT_TRANSLATION_LOCALES, getLocaleLabel } from './utils/locales';
+import { DEFAULT_SOURCE_LOCALE, DEFAULT_TRANSLATION_LOCALES, getLocaleDir, getLocaleLabel } from './utils/locales';
 
 function getWordFormValues(word, locales) {
   const values = {
@@ -96,9 +96,15 @@ const WordTableRow = ({
             </Tooltip>
           </td>}
 
-        <td>
+        <td dir={getLocaleDir(sourceLocale)} lang={sourceLocale}>
           {showInputs ? (
-            <input {...register('word_text', { required: true })} className="table-input" autoComplete="off" />
+            <input
+              {...register('word_text', { required: true })}
+              className="table-input"
+              autoComplete="off"
+              dir={getLocaleDir(sourceLocale)}
+              lang={sourceLocale}
+            />
           ) : (
             word.word_text
           )}
@@ -111,12 +117,14 @@ const WordTableRow = ({
         </td>
 
         {translationLocales.map((locale) => (
-          <td key={`word-${locale}`}>
+          <td key={`word-${locale}`} dir={getLocaleDir(locale)} lang={locale}>
             {showInputs ? (
               <input
                 {...register(`word_${locale}`, { required: true })}
                 className="table-input"
                 autoComplete="off"
+                dir={getLocaleDir(locale)}
+                lang={locale}
                 placeholder={t('word.translationPlaceholder', { locale: getLocaleLabel(locale) })}
               />
             ) : (
@@ -146,9 +154,16 @@ const WordTableRow = ({
       </tr>
 
       <tr>
-        <td>
+        <td dir={getLocaleDir(sourceLocale)} lang={sourceLocale}>
           {showInputs ? (
-            <input {...register('sentence_text')} className="table-input" autoComplete="off" placeholder={t('word.sentencePlaceholder')} />
+            <input
+              {...register('sentence_text')}
+              className="table-input"
+              autoComplete="off"
+              dir={getLocaleDir(sourceLocale)}
+              lang={sourceLocale}
+              placeholder={t('word.sentencePlaceholder')}
+            />
           ) : (
             <span className="sentence-text">{word.sentence_text}</span>
           )}
@@ -161,12 +176,14 @@ const WordTableRow = ({
         </td>
 
         {translationLocales.map((locale) => (
-          <td key={`sentence-${locale}`}>
+          <td key={`sentence-${locale}`} dir={getLocaleDir(locale)} lang={locale}>
             {showInputs ? (
               <input
                 {...register(`sentence_${locale}`)}
                 className="table-input"
                 autoComplete="off"
+                dir={getLocaleDir(locale)}
+                lang={locale}
                 placeholder={t('word.sentenceTranslationPlaceholder', { locale: getLocaleLabel(locale) })}
               />
             ) : (

@@ -114,12 +114,12 @@
     "sourceLocaleLabel": "词集语言",
     "sourceLocaleLocked": "词集中有单词时无法更改词集语言",
     "locked": "已锁定",
-    "translationLocalesLabel": "翻译语言（列顺序）：",
-    "moveLeft": "左移",
-    "moveRight": "右移",
+    "translationLocalesLabel": "翻译语言",
     "removeLanguage": "移除语言",
     "addLanguage": "添加语言",
-    "pageTitle": "词集"
+    "pageTitle": "词集",
+    "moveUp": "上移",
+    "moveDown": "下移"
   },
   "word": {
     "learned": "已学",

@@ -7,12 +7,12 @@ import {
 } from './locales';
 
 describe('client locales', () => {
-  it('normalizeSourceLocale падає до de', () => {
+  it('normalizeSourceLocale falls back to de', () => {
     expect(normalizeSourceLocale('en')).toBe('en');
     expect(normalizeSourceLocale('zz')).toBe('de');
   });
 
-  it('normalizeTranslationLocales прибирає дублікати та непідтримувані', () => {
+  it('normalizeTranslationLocales removes duplicates and unsupported locales', () => {
     expect(normalizeTranslationLocales(['uk', 'uk', 'zz', 'ru'])).toEqual(['uk', 'ru']);
     expect(normalizeTranslationLocales([])).toEqual(['uk']);
   });
@@ -23,7 +23,7 @@ describe('client locales', () => {
     expect(getLocaleDir('de')).toBe('ltr');
   });
 
-  it('SUPPORTED_LOCALES відсортовані за англійською назвою', async () => {
+  it('SUPPORTED_LOCALES are sorted by English name', async () => {
     const { SUPPORTED_LOCALES } = await import('./locales');
     const names = SUPPORTED_LOCALES.map((locale) => locale.en);
     const sorted = [...names].sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'base' }));

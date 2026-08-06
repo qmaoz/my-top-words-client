@@ -114,12 +114,12 @@
     "sourceLocaleLabel": "Idioma do conjunto",
     "sourceLocaleLocked": "O idioma do conjunto não pode ser alterado enquanto tiver palavras",
     "locked": "bloqueado",
-    "translationLocalesLabel": "Idiomas de tradução (ordem das colunas):",
-    "moveLeft": "Mover para a esquerda",
-    "moveRight": "Mover para a direita",
+    "translationLocalesLabel": "Idiomas de tradução",
     "removeLanguage": "Remover idioma",
     "addLanguage": "Adicionar idioma",
-    "pageTitle": "Conjunto de palavras"
+    "pageTitle": "Conjunto de palavras",
+    "moveUp": "Mover para cima",
+    "moveDown": "Mover para baixo"
   },
   "word": {
     "learned": "Aprendida",

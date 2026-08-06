@@ -151,7 +151,7 @@
     "total": "Total: {{count}}",
     "found": "Found: {{found}} of {{total}}",
     "page": " · page {{current}} of {{total}}",
-    "nothingFound": "Nothing found for your query",
+    "nothingFound": "Nothing found for your search",
     "emptyInsert": "The set is empty. Paste words into the field above.",
     "emptyNoWords": "The set has no words yet"
   },

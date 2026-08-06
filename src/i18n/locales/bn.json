@@ -114,12 +114,12 @@
     "sourceLocaleLabel": "সেটের ভাষা",
     "sourceLocaleLocked": "সেটে শব্দ থাকলে সেটের ভাষা পরিবর্তন করা যাবে না",
     "locked": "লক করা",
-    "translationLocalesLabel": "অনুবাদের ভাষা (কলামের ক্রম):",
-    "moveLeft": "বামে সরান",
-    "moveRight": "ডানে সরান",
+    "translationLocalesLabel": "অনুবাদের ভাষা",
     "removeLanguage": "ভাষা সরান",
     "addLanguage": "ভাষা যোগ করুন",
-    "pageTitle": "শব্দ সেট"
+    "pageTitle": "শব্দ সেট",
+    "moveUp": "উপরে সরান",
+    "moveDown": "নিচে সরান"
   },
   "word": {
     "learned": "শেখা",

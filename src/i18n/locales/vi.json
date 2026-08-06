@@ -114,12 +114,12 @@
     "sourceLocaleLabel": "Ngôn ngữ của bộ từ",
     "sourceLocaleLocked": "Không thể thay đổi ngôn ngữ bộ từ khi đã có từ",
     "locked": "đã khóa",
-    "translationLocalesLabel": "Ngôn ngữ dịch (thứ tự cột):",
-    "moveLeft": "Di chuyển sang trái",
-    "moveRight": "Di chuyển sang phải",
+    "translationLocalesLabel": "Ngôn ngữ dịch",
     "removeLanguage": "Gỡ ngôn ngữ",
     "addLanguage": "Thêm ngôn ngữ",
-    "pageTitle": "Bộ từ"
+    "pageTitle": "Bộ từ",
+    "moveUp": "Di chuyển lên",
+    "moveDown": "Di chuyển xuống"
   },
   "word": {
     "learned": "Đã học",

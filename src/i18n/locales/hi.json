@@ -114,12 +114,12 @@
     "sourceLocaleLabel": "सेट की भाषा",
     "sourceLocaleLocked": "शब्द होने पर सेट की भाषा नहीं बदली जा सकती",
     "locked": "लॉक",
-    "translationLocalesLabel": "अनुवाद भाषाएँ (स्तंभ क्रम):",
-    "moveLeft": "बाएँ ले जाएँ",
-    "moveRight": "दाएँ ले जाएँ",
+    "translationLocalesLabel": "अनुवाद भाषाएँ",
     "removeLanguage": "भाषा हटाएँ",
     "addLanguage": "भाषा जोड़ें",
-    "pageTitle": "शब्द सेट"
+    "pageTitle": "शब्द सेट",
+    "moveUp": "ऊपर ले जाएँ",
+    "moveDown": "नीचे ले जाएँ"
   },
   "word": {
     "learned": "सीखा हुआ",

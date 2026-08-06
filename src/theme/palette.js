@@ -1,13 +1,13 @@
 /**
- * Тема «Lexikon» — спокійна палітра для тривалих сесій вивчення лексики.
+ * "Lexikon" theme — a calm palette for long vocabulary study sessions.
  *
- * Принципи:
- * - теплий паперовий фон замість яскравого білого/синього;
- * - єдиний приглушений шалфей (хром + MUI) — без втомлюючого контрасту;
- * - тепле золото для вторинних акцентів;
- * - м’які тіні та приглушені семантичні кольори.
+ * Principles:
+ * - warm paper background instead of bright white/blue;
+ * - a single muted sage (chrome + MUI) without fatiguing contrast;
+ * - warm gold for secondary accents;
+ * - soft shadows and muted semantic colors.
  *
- * CSS-змінні: applyCssVariables(); MUI: muiTheme.js.
+ * CSS variables: applyCssVariables(); MUI: muiTheme.js.
  */
 export const palette = {
   common: {
@@ -16,15 +16,15 @@ export const palette = {
   },
 
   background: {
-    /** Фон сторінки — теплий «папір» */
+    /** Page background — warm "paper" */
     default: '#F5F3EF',
-    /** Фон MUI — ледь помітний шалфейний відтінок */
+    /** MUI background — subtle sage tint */
     muiDefault: '#EFF3F2',
     paper: '#FDFCFA',
     muted: '#E8E6E1',
   },
 
-  /** Шапка, футер, навігація — узгоджено з MUI primary */
+  /** Header, footer, navigation — aligned with MUI primary */
   chrome: {
     main: '#2F6F6F',
     light: '#4A8F8F',
@@ -37,7 +37,7 @@ export const palette = {
     outline: 'rgba(47, 111, 111, 0.4)',
   },
 
-  /** Прогрес, скролбар, дрібні акценти */
+  /** Progress, scrollbar, small accents */
   accent: {
     main: '#4A8F8F',
     dark: '#2F6F6F',
@@ -88,7 +88,7 @@ export const palette = {
     success: { bg: '#E6F2EA', text: '#2D6B42' },
   },
 
-  /** MUI-компоненти: кнопки, форми, тости */
+  /** MUI components: buttons, forms, toasts */
   mui: {
     primary: {
       main: '#2F6F6F',
