@@ -59,7 +59,7 @@ export default function WordSetRemarksPanel({ wordSetId }) {
                 {formatFeedbackDate(item.created_at)} · {item.reporter?.username || t('admin.guest')}
               </Typography>
             </AccordionSummary>
-            <AccordionDetails>
+            <AccordionDetails className="word-set-remarks__details">
               {item.selected_text && (
                 <Typography className="word-set-remarks__quote">«{item.selected_text}»</Typography>
               )}

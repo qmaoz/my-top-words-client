@@ -90,7 +90,7 @@ export default function Header() {
 
   return (
     <>
-      <Paper elevation={2} className='mb-3'>
+      <Paper elevation={2}>
         <header>
           <Box className="container df">
             <h1

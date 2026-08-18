@@ -7,7 +7,7 @@ import { Box } from '@mui/material';
 export default function DefaultLayout() {
   return (
     <>
-      <Box className="app-container">
+      <Box className="app-container app-shell">
         <Header />
         <main className="main-content">
           <Outlet />
