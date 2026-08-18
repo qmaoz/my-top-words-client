@@ -17,7 +17,8 @@
     "goHome": "Zur Startseite",
     "word_one": "Wort",
     "word_other": "Wörter",
-    "sourceVoiceNotFound": "Keine Stimme für {{language}} gefunden. Fügen Sie diese Sprache in den Text-zu-Sprache-Einstellungen Ihres Geräts hinzu."
+    "sourceVoiceNotFound": "Keine Stimme für {{language}} gefunden. Fügen Sie diese Sprache in den Text-zu-Sprache-Einstellungen Ihres Geräts hinzu.",
+    "speechFailed": "Aussprache konnte nicht abgespielt werden. Wenn das weiterhin passiert, prüfen Sie die Text-zu-Sprache-Einstellungen Ihres Geräts."
   },
   "layout": {
     "logoutConfirm": "Abmelden?",
@@ -115,11 +116,12 @@
     "sourceLocaleLocked": "Die Setsprache kann nicht geändert werden, solange Wörter vorhanden sind",
     "locked": "gesperrt",
     "translationLocalesLabel": "Übersetzungssprachen (Spaltenreihenfolge):",
-    "moveLeft": "Nach links",
-    "moveRight": "Nach rechts",
     "removeLanguage": "Sprache entfernen",
     "addLanguage": "Sprache hinzufügen",
-    "pageTitle": "Wortset"
+    "pageTitle": "Wortset",
+    "sourceLocaleHint": "(Setsprache)",
+    "moveUp": "Nach oben",
+    "moveDown": "Nach unten"
   },
   "word": {
     "learned": "Gelernt",

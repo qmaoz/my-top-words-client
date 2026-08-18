@@ -17,7 +17,8 @@
     "goHome": "Ir para o início",
     "word_one": "palavra",
     "word_other": "palavras",
-    "sourceVoiceNotFound": "Não foi encontrada voz para {{language}}. Adicione este idioma nas definições de texto para voz do dispositivo."
+    "sourceVoiceNotFound": "Não foi encontrada voz para {{language}}. Adicione este idioma nas definições de texto para voz do dispositivo.",
+    "speechFailed": "Não foi possível reproduzir a pronúncia. Se continuar a acontecer, verifique as definições de texto para voz no dispositivo."
   },
   "layout": {
     "logoutConfirm": "Terminar sessão?",
@@ -119,7 +120,8 @@
     "addLanguage": "Adicionar idioma",
     "pageTitle": "Conjunto de palavras",
     "moveUp": "Mover para cima",
-    "moveDown": "Mover para baixo"
+    "moveDown": "Mover para baixo",
+    "sourceLocaleHint": "(Idioma do conjunto)"
   },
   "word": {
     "learned": "Aprendida",

@@ -17,7 +17,8 @@
     "goHome": "Ir al inicio",
     "word_one": "palabra",
     "word_other": "palabras",
-    "sourceVoiceNotFound": "No se encontró voz para {{language}}. Añade este idioma en la configuración de texto a voz del dispositivo."
+    "sourceVoiceNotFound": "No se encontró voz para {{language}}. Añade este idioma en la configuración de texto a voz del dispositivo.",
+    "speechFailed": "No se pudo reproducir la pronunciación. Si sigue ocurriendo, revise la configuración de texto a voz en su dispositivo."
   },
   "layout": {
     "logoutConfirm": "¿Cerrar sesión?",
@@ -115,11 +116,12 @@
     "sourceLocaleLocked": "El idioma del conjunto no se puede cambiar mientras tenga palabras",
     "locked": "bloqueado",
     "translationLocalesLabel": "Idiomas de traducción (orden de columnas):",
-    "moveLeft": "Mover a la izquierda",
-    "moveRight": "Mover a la derecha",
     "removeLanguage": "Quitar idioma",
     "addLanguage": "Añadir idioma",
-    "pageTitle": "Conjunto de palabras"
+    "pageTitle": "Conjunto de palabras",
+    "sourceLocaleHint": "(Idioma del conjunto)",
+    "moveUp": "Subir",
+    "moveDown": "Bajar"
   },
   "word": {
     "learned": "Aprendida",

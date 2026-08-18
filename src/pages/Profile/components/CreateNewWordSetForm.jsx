@@ -11,7 +11,10 @@ import FormInput from '../../../components/form/FormInput';
 import { Toast } from '../../../components/utils/messages';
 import CircularLoading from '../../../components/wrappers/CircularLoading';
 import LanguageSettings from '../../../components/LanguageSettings';
-import { DEFAULT_SOURCE_LOCALE, DEFAULT_TRANSLATION_LOCALES } from '../../../components/utils/locales';
+import {
+  DEFAULT_SET_LOCALES,
+  splitSetLocales,
+} from '../../../components/utils/locales';
 
 export default function CreateNewWordSetForm({ className }) {
   const dispatch = useDispatch();
@@ -19,8 +22,8 @@ export default function CreateNewWordSetForm({ className }) {
   const { t } = useTranslation();
   const isAuth = useSelector(selectIsAuth);
   const authStatus = useSelector(selectAuthStatus);
-  const rootClassName = ['create-word-set-form', className].filter(Boolean).join(' ');
-  
+  const rootClassName = ['create-word-set-form', 'content-block', className].filter(Boolean).join(' ');
+
   useEffect(() => {
     if (!isAuth && authStatus !== 'loading') {
       navigate('/');
@@ -30,25 +33,18 @@ export default function CreateNewWordSetForm({ className }) {
   const [toast, setToast] = useState({ open: false, message: '', severity: 'info' });
   const handleCloseToast = () => setToast({ ...toast, open: false });
 
-  const [sourceLocale, setSourceLocale] = useState(DEFAULT_SOURCE_LOCALE);
-  const [translationLocales, setTranslationLocales] = useState([...DEFAULT_TRANSLATION_LOCALES]);
+  const [setLocales, setSetLocales] = useState([...DEFAULT_SET_LOCALES]);
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm({
     defaultValues: {
-      newWordSetName: ''
+      newWordSetName: '',
     },
-    mode: 'onSubmit'
+    mode: 'onSubmit',
   });
 
-  const handleSourceChange = (nextSource) => {
-    setSourceLocale(nextSource);
-    setTranslationLocales((prev) => {
-      const next = prev.filter((locale) => locale !== nextSource);
-      return next.length > 0 ? next : ['uk'];
-    });
-  };
-
   const onSubmitForm = async (values) => {
+    const { sourceLocale, translationLocales } = splitSetLocales(setLocales);
+
     try {
       const payload = await dispatch(createNewWordSet({
         name: values.newWordSetName,
@@ -57,19 +53,22 @@ export default function CreateNewWordSetForm({ className }) {
       })).unwrap();
       setToast({ open: true, message: t('profile.createSetSuccess'), severity: 'success' });
       reset();
-      setSourceLocale(DEFAULT_SOURCE_LOCALE);
-      setTranslationLocales([...DEFAULT_TRANSLATION_LOCALES]);
+      setSetLocales([...DEFAULT_SET_LOCALES]);
       navigate(`/word-set/${payload.id}`);
     } catch (error) {
-      setToast({ open: true, message: error?.message?.message || error?.message || t('profile.createSetError'), severity: 'error' });
+      setToast({
+        open: true,
+        message: error?.message?.message || error?.message || t('profile.createSetError'),
+        severity: 'error',
+      });
     }
   };
 
   return (
     <>
-      <Box className={rootClassName}>
+      <Box className={rootClassName} component="section">
         <CircularLoading isLoading={authStatus === 'loading'}>
-          <h3>{t('profile.createSetTitle')}</h3>
+          <h3 className="create-word-set-form__title">{t('profile.createSetTitle')}</h3>
           <form onSubmit={handleSubmit(onSubmitForm)} className="create-word-set-form__fields">
             <FormInput
               name="newWordSetName"
@@ -84,16 +83,15 @@ export default function CreateNewWordSetForm({ className }) {
               autoComplete="off"
             />
             <LanguageSettings
-              sourceLocale={sourceLocale}
-              translationLocales={translationLocales}
-              onSourceChange={handleSourceChange}
-              onTranslationChange={setTranslationLocales}
+              locales={setLocales}
+              onChange={setSetLocales}
               disabled={!isAuth}
             />
             <Button
               type="submit"
               color="primary"
               variant="contained"
+              fullWidth
               disabled={!isAuth}
               className="create-word-set-form__submit"
             >

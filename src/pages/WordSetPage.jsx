@@ -215,6 +215,24 @@ export default function WordSetPage() {
     }
   };
 
+  const handleSetLocalesChange = async (nextLocales) => {
+    if (!isOwnWordSet) return;
+
+    const nextSource = nextLocales[0];
+    const nextTranslations = nextLocales.slice(1);
+
+    if (nextSource !== sourceLocale) {
+      await handleSourceLocaleChange(nextSource);
+    }
+
+    const translationsChanged = nextTranslations.length !== translationLocales.length
+      || nextTranslations.some((locale, index) => locale !== translationLocales[index]);
+
+    if (translationsChanged) {
+      await handleTranslationLocalesChange(nextTranslations);
+    }
+  };
+
   const prevAuthRef = useRef(isAuth);
 
   useEffect(() => {
@@ -353,11 +371,11 @@ export default function WordSetPage() {
                     {t('wordSet.setLanguages')}
                   </Typography>
                   <LanguageSettings
-                    sourceLocale={sourceLocale}
-                    translationLocales={translationLocales}
-                    onSourceChange={handleSourceLocaleChange}
-                    onTranslationChange={handleTranslationLocalesChange}
-                    disableSourceChange={totalWords > 0}
+                    locales={[sourceLocale, ...translationLocales]}
+                    onChange={handleSetLocalesChange}
+                    lockSourceLocale={totalWords > 0}
+                    showSourceLockedHint={totalWords > 0}
+                    showLabel={false}
                   />
                 </Box>
               )}

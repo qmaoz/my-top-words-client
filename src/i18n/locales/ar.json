@@ -21,7 +21,8 @@
     "word_few": "كلمات",
     "word_many": "كلمة",
     "word_other": "كلمة",
-    "sourceVoiceNotFound": "لم يُعثر على صوت للغة {{language}}. أضف هذه اللغة في إعدادات قراءة النص على جهازك."
+    "sourceVoiceNotFound": "لم يُعثر على صوت للغة {{language}}. أضف هذه اللغة في إعدادات قراءة النص على جهازك.",
+    "speechFailed": "تعذّر تشغيل النطق. إذا استمر ذلك، تحقق من إعدادات تحويل النص إلى كلام على جهازك."
   },
   "layout": {
     "logoutConfirm": "تسجيل الخروج؟",
@@ -119,11 +120,12 @@
     "sourceLocaleLocked": "لا يمكن تغيير لغة المجموعة ما دامت تحتوي على كلمات",
     "locked": "مثبّتة",
     "translationLocalesLabel": "لغات الترجمة (ترتيب الأعمدة):",
-    "moveLeft": "تحريك لليسار",
-    "moveRight": "تحريك لليمين",
     "removeLanguage": "إزالة اللغة",
     "addLanguage": "إضافة لغة",
-    "pageTitle": "مجموعة كلمات"
+    "pageTitle": "مجموعة كلمات",
+    "sourceLocaleHint": "(لغة المجموعة)",
+    "moveUp": "تحريك لأعلى",
+    "moveDown": "تحريك لأسفل"
   },
   "word": {
     "learned": "متعلَّمة",

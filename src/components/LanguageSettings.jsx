@@ -1,146 +1,151 @@
 import { useTranslation } from 'react-i18next';
 import {
-  Box, Chip, FormControl, IconButton, InputLabel, MenuItem, Select, Tooltip, Typography,
+  Box,
+  FormControl,
+  IconButton,
+  MenuItem,
+  Select,
+  Tooltip,
+  Typography,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import CloseIcon from '@mui/icons-material/Close';
 
 import {
+  MIN_SET_LOCALES,
   SUPPORTED_LOCALES,
   getLocaleLabel,
   getLocaleDisplay,
 } from './utils/locales';
 
 export default function LanguageSettings({
-  sourceLocale,
-  translationLocales,
-  onSourceChange,
-  onTranslationChange,
-  disableSourceChange = false,
+  locales,
+  onChange,
+  lockSourceLocale = false,
+  showSourceLockedHint = false,
   disabled = false,
+  showLabel = true,
 }) {
   const { t } = useTranslation();
   const available = SUPPORTED_LOCALES.filter(
-    (locale) => locale.code !== sourceLocale && !translationLocales.includes(locale.code),
+    (locale) => !locales.includes(locale.code),
   );
 
   const addLocale = (code) => {
     if (!code) return;
-    onTranslationChange([...translationLocales, code]);
+    onChange([...locales, code]);
   };
 
-  const removeLocale = (code) => {
-    const next = translationLocales.filter((locale) => locale !== code);
-    onTranslationChange(next.length > 0 ? next : ['uk']);
+  const removeLocale = (index) => {
+    if (locales.length <= MIN_SET_LOCALES) return;
+    onChange(locales.filter((_, itemIndex) => itemIndex !== index));
   };
 
   const moveLocale = (index, direction) => {
     const target = index + direction;
-    if (target < 0 || target >= translationLocales.length) return;
-    const next = [...translationLocales];
+    if (target < 0 || target >= locales.length) return;
+    if (lockSourceLocale && (index === 0 || target === 0)) return;
+
+    const next = [...locales];
     [next[index], next[target]] = [next[target], next[index]];
-    onTranslationChange(next);
+    onChange(next);
   };
 
   return (
     <Box className="language-settings">
-      <Box className="language-settings__row">
-        <FormControl size="small" className="language-settings__source" disabled={disabled || disableSourceChange}>
-          <InputLabel id="source-locale-label">{t('wordSet.sourceLocaleLabel')}</InputLabel>
-          <Select
-            labelId="source-locale-label"
-            label={t('wordSet.sourceLocaleLabel')}
-            value={sourceLocale}
-            onChange={(event) => onSourceChange(event.target.value)}
+      {showLabel && (
+        <Typography component="p" className="language-settings__label">
+          {t('wordSet.setLanguages')}
+        </Typography>
+      )}
+
+      <Box className="language-settings__list" role="list">
+        {locales.map((code, index) => (
+          <Box
+            key={code}
+            className={`language-settings__item${index === 0 ? ' language-settings__item--source' : ''}`}
+            role="listitem"
           >
-            {SUPPORTED_LOCALES.map((locale) => (
-              <MenuItem
-                key={locale.code}
-                value={locale.code}
-                disabled={translationLocales.includes(locale.code)}
+            <span className="language-settings__item-order" aria-hidden="true">
+              {index + 1}
+            </span>
+            <span className="language-settings__item-name">
+              {getLocaleLabel(code)}
+              {index === 0 && (
+                <span className="language-settings__item-role">
+                  {t('wordSet.sourceLocaleHint')}
+                </span>
+              )}
+            </span>
+            <Box className="language-settings__item-actions">
+              <IconButton
+                size="small"
+                disabled={disabled || index === 0 || (lockSourceLocale && index === 1)}
+                onClick={() => moveLocale(index, -1)}
+                aria-label={t('wordSet.moveUp')}
+                className="language-settings__item-btn"
               >
+                <KeyboardArrowUpIcon fontSize="small" />
+              </IconButton>
+              <IconButton
+                size="small"
+                disabled={
+                  disabled
+                  || index === locales.length - 1
+                  || (lockSourceLocale && index === 0)
+                }
+                onClick={() => moveLocale(index, 1)}
+                aria-label={t('wordSet.moveDown')}
+                className="language-settings__item-btn"
+              >
+                <KeyboardArrowDownIcon fontSize="small" />
+              </IconButton>
+              <IconButton
+                size="small"
+                disabled={disabled || locales.length <= MIN_SET_LOCALES}
+                onClick={() => removeLocale(index)}
+                aria-label={t('wordSet.removeLanguage')}
+                className="language-settings__item-btn language-settings__item-btn--danger"
+              >
+                <CloseIcon fontSize="small" />
+              </IconButton>
+            </Box>
+          </Box>
+        ))}
+      </Box>
+
+      {available.length > 0 && (
+        <FormControl size="small" fullWidth className="language-settings__add" disabled={disabled}>
+          <Select
+            value=""
+            displayEmpty
+            onChange={(event) => addLocale(event.target.value)}
+            renderValue={() => (
+              <span className="language-settings__add-value">
+                <AddIcon fontSize="inherit" />
+                {t('wordSet.addLanguage')}
+              </span>
+            )}
+            aria-label={t('wordSet.addLanguage')}
+          >
+            {available.map((locale) => (
+              <MenuItem key={locale.code} value={locale.code}>
                 {getLocaleDisplay(locale.code)}
               </MenuItem>
             ))}
           </Select>
         </FormControl>
-        {disableSourceChange && (
-          <Tooltip title={t('wordSet.sourceLocaleLocked')} arrow>
-            <Typography component="span" className="language-settings__hint">
-              {t('wordSet.locked')}
-            </Typography>
-          </Tooltip>
-        )}
-      </Box>
+      )}
 
-      <Box className="language-settings__translations">
-        <Typography component="p" className="language-settings__label">
-          {t('wordSet.translationLocalesLabel')}
-        </Typography>
-        <Box className="language-settings__chips">
-          {translationLocales.map((code, index) => (
-            <Chip
-              key={code}
-              className="language-settings__chip"
-              label={
-                <Box component="span" className="language-settings__chip-inner">
-                  <Box component="span" className="language-settings__chip-order">{index + 1}</Box>
-                  {getLocaleLabel(code)}
-                  <IconButton
-                    size="small"
-                    disabled={disabled || index === 0}
-                    onClick={() => moveLocale(index, -1)}
-                    aria-label={t('wordSet.moveLeft')}
-                    className="language-settings__chip-btn"
-                  >
-                    <ArrowUpwardIcon fontSize="inherit" sx={{ transform: 'rotate(-90deg)' }} />
-                  </IconButton>
-                  <IconButton
-                    size="small"
-                    disabled={disabled || index === translationLocales.length - 1}
-                    onClick={() => moveLocale(index, 1)}
-                    aria-label={t('wordSet.moveRight')}
-                    className="language-settings__chip-btn"
-                  >
-                    <ArrowDownwardIcon fontSize="inherit" sx={{ transform: 'rotate(-90deg)' }} />
-                  </IconButton>
-                  <IconButton
-                    size="small"
-                    disabled={disabled || translationLocales.length <= 1}
-                    onClick={() => removeLocale(code)}
-                    aria-label={t('wordSet.removeLanguage')}
-                    className="language-settings__chip-btn"
-                  >
-                    <CloseIcon fontSize="inherit" />
-                  </IconButton>
-                </Box>
-              }
-            />
-          ))}
-        </Box>
-
-        {available.length > 0 && (
-          <FormControl size="small" className="language-settings__add" disabled={disabled}>
-            <InputLabel id="add-locale-label">
-              <Box component="span" className="df aic gap-1"><AddIcon fontSize="inherit" /> {t('wordSet.addLanguage')}</Box>
-            </InputLabel>
-            <Select
-              labelId="add-locale-label"
-              label={t('wordSet.addLanguage')}
-              value=""
-              onChange={(event) => addLocale(event.target.value)}
-            >
-              {available.map((locale) => (
-                <MenuItem key={locale.code} value={locale.code}>
-                  {getLocaleDisplay(locale.code)}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        )}
-      </Box>
+      {showSourceLockedHint && (
+        <Tooltip title={t('wordSet.sourceLocaleLocked')} arrow>
+          <Typography component="p" className="language-settings__footnote">
+            {t('wordSet.sourceLocaleLocked')}
+          </Typography>
+        </Tooltip>
+      )}
     </Box>
   );
 }

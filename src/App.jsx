@@ -8,6 +8,7 @@ import { changeUiLocale } from './i18n';
 import { Toast } from './components/utils/messages.jsx';
 import ScrollToTop from './components/utils/ScrollToTop.jsx';
 import DocumentTitle from './components/utils/DocumentTitle.jsx';
+import { registerSpeechNotifier, initSpeechVoices } from './components/utils/functions.jsx';
 import HomePage from './pages/HomePage.jsx';
 import AboutPage from './pages/AboutPage.jsx';
 import LoginFormPage from './pages/LoginFormPage.jsx';
@@ -62,12 +63,12 @@ export default function App() {
   }, [dispatch]);
 
   useEffect(() => {
-    const loadVoices = () => {
-      window.speechSynthesis.getVoices();
-    };
+    registerSpeechNotifier(({ message, severity }) => {
+      setToast({ open: true, message, severity: severity ?? 'warning' });
+    });
+    initSpeechVoices();
 
-    window.speechSynthesis.onvoiceschanged = loadVoices;
-    loadVoices();
+    return () => registerSpeechNotifier(null);
   }, []);
   
   return (

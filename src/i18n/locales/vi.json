@@ -17,7 +17,8 @@
     "goHome": "Về trang chủ",
     "word_one": "từ",
     "word_other": "từ",
-    "sourceVoiceNotFound": "Không tìm thấy giọng cho {{language}}. Hãy thêm ngôn ngữ này trong cài đặt chuyển văn bản thành giọng nói của thiết bị."
+    "sourceVoiceNotFound": "Không tìm thấy giọng cho {{language}}. Hãy thêm ngôn ngữ này trong cài đặt chuyển văn bản thành giọng nói của thiết bị.",
+    "speechFailed": "Không thể phát âm. Nếu lỗi lặp lại, hãy kiểm tra cài đặt chuyển văn bản thành giọng nói trên thiết bị."
   },
   "layout": {
     "logoutConfirm": "Đăng xuất?",
@@ -119,7 +120,8 @@
     "addLanguage": "Thêm ngôn ngữ",
     "pageTitle": "Bộ từ",
     "moveUp": "Di chuyển lên",
-    "moveDown": "Di chuyển xuống"
+    "moveDown": "Di chuyển xuống",
+    "sourceLocaleHint": "(Ngôn ngữ của bộ từ)"
   },
   "word": {
     "learned": "Đã học",

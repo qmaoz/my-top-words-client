@@ -17,7 +17,8 @@
     "goHome": "Accueil",
     "word_one": "mot",
     "word_other": "mots",
-    "sourceVoiceNotFound": "Aucune voix trouvée pour {{language}}. Ajoutez cette langue dans les paramètres de synthèse vocale de votre appareil."
+    "sourceVoiceNotFound": "Aucune voix trouvée pour {{language}}. Ajoutez cette langue dans les paramètres de synthèse vocale de votre appareil.",
+    "speechFailed": "Impossible de lire la prononciation. Si le problème persiste, vérifiez les paramètres de synthèse vocale de votre appareil."
   },
   "layout": {
     "logoutConfirm": "Se déconnecter ?",
@@ -115,11 +116,12 @@
     "sourceLocaleLocked": "La langue de l'ensemble ne peut pas être modifiée tant qu'il contient des mots",
     "locked": "verrouillé",
     "translationLocalesLabel": "Langues de traduction (ordre des colonnes) :",
-    "moveLeft": "Déplacer à gauche",
-    "moveRight": "Déplacer à droite",
     "removeLanguage": "Retirer la langue",
     "addLanguage": "Ajouter une langue",
-    "pageTitle": "Ensemble de mots"
+    "pageTitle": "Ensemble de mots",
+    "sourceLocaleHint": "(Langue de l'ensemble)",
+    "moveUp": "Monter",
+    "moveDown": "Descendre"
   },
   "word": {
     "learned": "Appris",

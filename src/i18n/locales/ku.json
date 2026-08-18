@@ -17,7 +17,8 @@
     "goHome": "Serûpel",
     "word_one": "peyv",
     "word_other": "peyv",
-    "sourceVoiceNotFound": "Deng ji bo {{language}} nehate dîtin. Vî zimanî li mîhengên axaftina nivîsê li ser amûra xwe zêde bike."
+    "sourceVoiceNotFound": "Deng ji bo {{language}} nehate dîtin. Vî zimanî li mîhengên axaftina nivîsê li ser amûra xwe zêde bike.",
+    "speechFailed": "Bilêvkirin nehate lêdan. Ger ev berdewam bike, mîhengên axaftina nivîsê li ser amûra xwe kontrol bike."
   },
   "layout": {
     "logoutConfirm": "Derkevî?",
@@ -115,11 +116,12 @@
     "sourceLocaleLocked": "Heta ku peyv di komê de hebin zimanê komê nayê guhertin",
     "locked": "sabîtkirî",
     "translationLocalesLabel": "Zimanên wergerê (rêza stûnan):",
-    "moveLeft": "Bişemitîne çepê",
-    "moveRight": "Bişemitîne rastê",
     "removeLanguage": "Zimên rake",
     "addLanguage": "Zimên zêde bike",
-    "pageTitle": "Seta peyvên"
+    "pageTitle": "Seta peyvên",
+    "sourceLocaleHint": "(Zimanê komê)",
+    "moveUp": "Bişemitîne jorê",
+    "moveDown": "Bişemitîne jêrê"
   },
   "word": {
     "learned": "Fêrbûyî",

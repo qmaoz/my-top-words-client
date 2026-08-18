@@ -17,7 +17,8 @@
     "goHome": "Go home",
     "word_one": "word",
     "word_other": "words",
-    "sourceVoiceNotFound": "No voice found for {{language}}. Add this language in your device's text-to-speech settings."
+    "sourceVoiceNotFound": "No voice found for {{language}}. Add this language in your device's text-to-speech settings.",
+    "speechFailed": "Could not play pronunciation. If this keeps happening, check text-to-speech settings on your device."
   },
   "layout": {
     "logoutConfirm": "Log out?",
@@ -115,11 +116,12 @@
     "sourceLocaleLocked": "The set language cannot be changed while it has words",
     "locked": "locked",
     "translationLocalesLabel": "Translation languages (column order):",
-    "moveLeft": "Move left",
-    "moveRight": "Move right",
     "removeLanguage": "Remove language",
     "addLanguage": "Add language",
-    "pageTitle": "Word set"
+    "pageTitle": "Word set",
+    "sourceLocaleHint": "(Set language)",
+    "moveUp": "Move up",
+    "moveDown": "Move down"
   },
   "word": {
     "learned": "Learned",

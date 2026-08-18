@@ -17,7 +17,8 @@
     "goHome": "Strona główna",
     "word_one": "słowo",
     "word_other": "słów",
-    "sourceVoiceNotFound": "Nie znaleziono głosu dla języka {{language}}. Dodaj ten język w ustawieniach syntezy mowy na urządzeniu."
+    "sourceVoiceNotFound": "Nie znaleziono głosu dla języka {{language}}. Dodaj ten język w ustawieniach syntezy mowy na urządzeniu.",
+    "speechFailed": "Nie udało się odtworzyć wymowy. Jeśli problem się powtarza, sprawdź ustawienia syntezy mowy na urządzeniu."
   },
   "layout": {
     "logoutConfirm": "Wylogować się?",
@@ -119,7 +120,8 @@
     "addLanguage": "Dodaj język",
     "pageTitle": "Zestaw słów",
     "moveUp": "Przenieś w górę",
-    "moveDown": "Przenieś w dół"
+    "moveDown": "Przenieś w dół",
+    "sourceLocaleHint": "(Język zestawu)"
   },
   "word": {
     "learned": "Nauczone",

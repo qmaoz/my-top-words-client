@@ -17,7 +17,8 @@
     "goHome": "返回首页",
     "word_one": "个词",
     "word_other": "个词",
-    "sourceVoiceNotFound": "未找到「{{language}}」的语音。请在设备的文字转语音设置中添加该语言。"
+    "sourceVoiceNotFound": "未找到「{{language}}」的语音。请在设备的文字转语音设置中添加该语言。",
+    "speechFailed": "无法播放发音。如果问题持续出现，请检查设备上的文字转语音设置。"
   },
   "layout": {
     "logoutConfirm": "退出登录？",
@@ -119,7 +120,8 @@
     "addLanguage": "添加语言",
     "pageTitle": "词集",
     "moveUp": "上移",
-    "moveDown": "下移"
+    "moveDown": "下移",
+    "sourceLocaleHint": "(词集语言)"
   },
   "word": {
     "learned": "已学",

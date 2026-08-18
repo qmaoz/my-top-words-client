@@ -30,6 +30,39 @@ const LOCALE_BY_CODE = new Map(LOCALE_DEFINITIONS.map((locale) => [locale.code, 
 
 export const DEFAULT_SOURCE_LOCALE = 'de';
 export const DEFAULT_TRANSLATION_LOCALES = ['uk'];
+export const MIN_SET_LOCALES = 2;
+export const DEFAULT_SET_LOCALES = [DEFAULT_SOURCE_LOCALE, ...DEFAULT_TRANSLATION_LOCALES];
+
+export function splitSetLocales(locales) {
+  const list = normalizeSetLocales(locales);
+  return {
+    sourceLocale: list[0],
+    translationLocales: list.slice(1),
+  };
+}
+
+export function normalizeSetLocales(locales) {
+  const list = Array.isArray(locales) ? locales : [];
+  const seen = new Set();
+  const result = [];
+
+  for (const code of list) {
+    if (isSupportedLocale(code) && !seen.has(code)) {
+      seen.add(code);
+      result.push(code);
+    }
+  }
+
+  for (const fallback of DEFAULT_SET_LOCALES) {
+    if (result.length >= MIN_SET_LOCALES) break;
+    if (!seen.has(fallback)) {
+      seen.add(fallback);
+      result.push(fallback);
+    }
+  }
+
+  return result.length >= MIN_SET_LOCALES ? result : [...DEFAULT_SET_LOCALES];
+}
 
 export function isSupportedLocale(code) {
   return LOCALE_BY_CODE.has(code);
