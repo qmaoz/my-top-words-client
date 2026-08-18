@@ -1,9 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import {
-  Box, Button, IconButton, TextField, Tooltip, Typography,
+  Box, Button, TextField, Typography,
 } from '@mui/material';
 
 import { syncWordSetWords } from '../redux/slices/word-sets';
@@ -18,6 +17,7 @@ import {
   DEFAULT_TRANSLATION_LOCALES,
   getLocaleLabel,
 } from './utils/locales';
+import InfoHint from './InfoHint';
 
 export default function WordSetWordsEditor({
   wordSetId,
@@ -147,16 +147,16 @@ export default function WordSetWordsEditor({
         <Typography variant="h6" component="h3" className="word-set-text-editor__title">
           {t('setEditor.title')}
         </Typography>
-        <Tooltip title={importHint} arrow placement="top">
-          <IconButton size="small" className="word-set-text-editor__info-btn" aria-label={t('setEditor.formatHintAria')}>
-            <InfoOutlinedIcon fontSize="inherit" />
-          </IconButton>
-        </Tooltip>
+        <InfoHint
+          ariaLabel={t('setEditor.formatHintAria')}
+          title={(
+            <Box className="info-hint-tooltip">
+              <span>{t('setEditor.intro')}</span>
+              <span>{importHint}</span>
+            </Box>
+          )}
+        />
       </Box>
-
-      <Typography className="word-set-text-editor__hint">
-        {t('setEditor.intro')}
-      </Typography>
 
       <TextField
         multiline

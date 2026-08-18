@@ -83,7 +83,7 @@ export default function AdminFeedbackPage() {
   return (
     <>
       <Box className="admin-feedback">
-        <form onSubmit={onSearch} className="admin-toolbar df gap-3" autoComplete="off">
+        <form onSubmit={onSearch} className="admin-toolbar search-card content-block" autoComplete="off">
           <TextField
             select
             label={t('admin.status')}

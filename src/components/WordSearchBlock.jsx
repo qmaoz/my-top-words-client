@@ -162,7 +162,7 @@ export default function WordSearchBlock({
     <>
       {title && title.trim() != '' && <h3>{title}</h3>}
 
-      <Box className='content-block word-search-block' sx={{ boxShadow: 2 }}>
+      <Box className='content-block word-search-block'>
         {totalWords > 0 && (
           <>
             <Box className='word-search-toolbar'>

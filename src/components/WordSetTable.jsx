@@ -19,37 +19,37 @@ export default function WordSetTable({
   const showHeader = translationLocales.length > 1;
 
   return (
-    <Box className={className ?? ''}>
+    <Box className={`word-set-table-frame ${className ?? ''}`.trim()}>
       <Box className="word-set-table-wrap">
-      <table className="word-set-table">
-        {showHeader && (
-          <thead className="word-set-table__head">
-            <tr>
-              {showLearnedToggle && <th aria-label={t('word.learned')} />}
-              <th className="word-set-table__head-cell">{getLocaleLabel(sourceLocale)}</th>
-              <th aria-label={t('word.pronounceAria')} />
-              {translationLocales.map((locale) => (
-                <th key={locale} className="word-set-table__head-cell">{getLocaleLabel(locale)}</th>
-              ))}
-              {isAuthorized && <th aria-label={t('word.actions')} />}
-            </tr>
-          </thead>
-        )}
-        {words?.map((word) => (
-          <WordTableRow
-            key={word.id}
-            word={word}
-            isAuthorized={isAuthorized}
-            isEditing={isEditing}
-            showLearnedToggle={showLearnedToggle}
-            onToggleLearned={onToggleLearned}
-            onUpdate={onUpdate}
-            onFullDelete={onFullDelete}
-            sourceLocale={sourceLocale}
-            translationLocales={translationLocales}
-          />
-        ))}
-      </table>
+        <table className="word-set-table">
+          {showHeader && (
+            <thead className="word-set-table__head">
+              <tr>
+                {showLearnedToggle && <th aria-label={t('word.learned')} />}
+                <th className="word-set-table__head-cell">{getLocaleLabel(sourceLocale)}</th>
+                <th aria-label={t('word.pronounceAria')} />
+                {translationLocales.map((locale) => (
+                  <th key={locale} className="word-set-table__head-cell">{getLocaleLabel(locale)}</th>
+                ))}
+                {isAuthorized && <th aria-label={t('word.actions')} />}
+              </tr>
+            </thead>
+          )}
+          {words?.map((word) => (
+            <WordTableRow
+              key={word.id}
+              word={word}
+              isAuthorized={isAuthorized}
+              isEditing={isEditing}
+              showLearnedToggle={showLearnedToggle}
+              onToggleLearned={onToggleLearned}
+              onUpdate={onUpdate}
+              onFullDelete={onFullDelete}
+              sourceLocale={sourceLocale}
+              translationLocales={translationLocales}
+            />
+          ))}
+        </table>
       </Box>
     </Box>
   );

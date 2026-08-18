@@ -53,14 +53,31 @@ export const theme = createTheme({
           borderRadius: 12,
           textTransform: 'none',
           fontWeight: 600,
-          boxShadow: `0 2px 8px ${mui.primary.shadow}`,
+          overflow: 'hidden',
+        },
+        contained: {
+          boxShadow: 'none',
           '&:hover': {
-            boxShadow: `0 3px 12px ${mui.primary.shadowHover}`,
+            boxShadow: 'none',
+          },
+        },
+        outlined: {
+          boxShadow: 'none',
+          '&:hover': {
+            boxShadow: 'none',
+          },
+        },
+        text: {
+          boxShadow: 'none',
+          '&:hover': {
+            boxShadow: 'none',
           },
         },
         containedPrimary: {
+          backgroundColor: mui.primary.main,
           backgroundImage: `linear-gradient(135deg, ${mui.primary.gradientStart} 0%, ${mui.primary.gradientEnd} 100%)`,
           '&:hover': {
+            backgroundColor: mui.primary.dark,
             backgroundImage: `linear-gradient(135deg, ${mui.primary.gradientHoverStart} 0%, ${mui.primary.gradientHoverEnd} 100%)`,
           },
         },
@@ -72,10 +89,30 @@ export const theme = createTheme({
         },
       },
     },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          overflow: 'hidden',
+          backgroundColor: palette.background.paper,
+          backgroundClip: 'padding-box',
+        },
+        notchedOutline: {
+          borderRadius: 'inherit',
+        },
+      },
+    },
+    MuiToggleButtonGroup: {
+      styleOverrides: {
+        root: {
+          overflow: 'hidden',
+          backgroundClip: 'padding-box',
+        },
+      },
+    },
     MuiPaper: {
       styleOverrides: {
         root: {
-          boxShadow: `0 2px 16px ${mui.primary.shadowPaper}`,
+          backgroundClip: 'padding-box',
         },
       },
     },

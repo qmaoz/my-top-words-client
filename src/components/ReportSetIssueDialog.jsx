@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import {
-  Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography,
+  Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField,
 } from '@mui/material';
 
 import { submitWordSetRemark } from '../redux/slices/word-set-remarks';
 import { Toast } from './utils/messages';
+import InfoHint from './InfoHint';
 
 export default function ReportSetIssueDialog({
   open,
@@ -58,11 +59,11 @@ export default function ReportSetIssueDialog({
   return (
     <>
       <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-        <DialogTitle>{t('setRemark.title')}</DialogTitle>
+        <DialogTitle className="heading-with-info">
+          {t('setRemark.title')}
+          <InfoHint title={t('setRemark.hint')} />
+        </DialogTitle>
         <DialogContent className="report-set-issue-dialog">
-          <Typography className="report-set-issue-dialog__hint">
-            {t('setRemark.hint')}
-          </Typography>
           <TextField
             label={t('setRemark.selectedText')}
             value={selectedText}

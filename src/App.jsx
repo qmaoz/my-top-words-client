@@ -29,6 +29,7 @@ import AdminOverviewPage from './pages/Admin/AdminOverviewPage.jsx';
 import AdminFeedbackPage from './pages/Admin/AdminFeedbackPage.jsx';
 import AdminUsersPage from './pages/Admin/AdminUsersPage.jsx';
 import { ConfirmProvider } from './components/utils/useConfirm.jsx';
+import BootScreen from './components/BootScreen.jsx';
 
 export default function App() {
   const dispatch = useDispatch();
@@ -73,6 +74,7 @@ export default function App() {
   
   return (
     <>
+      <BootScreen />
       <BrowserRouter>
         <ConfirmProvider>
         <ScrollToTop />

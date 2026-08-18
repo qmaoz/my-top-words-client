@@ -47,7 +47,7 @@ export default function LoginFormPage() {
   return (
     <>
       <Box className="container">
-        <Paper elevation={3} className='form-block content-block'>
+        <Paper elevation={0} className='form-block content-block'>
           <h2 className="text-center">{t('auth.loginTitle')}</h2>
           <form onSubmit={handleSubmit(onSubmitForm)}>
             <FormInput

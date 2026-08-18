@@ -11,6 +11,7 @@ import { fetchMyWordSetRemarks, updateWordSetRemark } from '../../redux/slices/w
 import { formatFeedbackDate } from '../../components/utils/feedback';
 import CircularLoading from '../../components/wrappers/CircularLoading';
 import { Toast } from '../../components/utils/messages';
+import InfoHint from '../../components/InfoHint';
 
 export default function ProfileRemarksInbox() {
   const { t } = useTranslation();
@@ -38,22 +39,23 @@ export default function ProfileRemarksInbox() {
 
   return (
     <Box className="profile-remarks-inbox">
-      <Typography className="profile-section-intro" color="text.secondary">
-        {t('setRemark.inboxIntro')}
-      </Typography>
-
-      <TextField
-        select
-        size="small"
-        label={t('admin.status')}
-        value={statusFilter}
-        onChange={(event) => setStatusFilter(event.target.value)}
-        className="profile-remarks-inbox__filter"
-      >
-        <MenuItem value="queued">{t('feedback.statusQueued')}</MenuItem>
-        <MenuItem value="done">{t('feedback.statusDone')}</MenuItem>
-        <MenuItem value="all">{t('feedback.statusAll')}</MenuItem>
-      </TextField>
+      <Box className="search-card content-block profile-remarks-inbox__toolbar">
+        <Box className="heading-with-info profile-remarks-inbox__filter-row">
+          <TextField
+            select
+            size="small"
+            label={t('admin.status')}
+            value={statusFilter}
+            onChange={(event) => setStatusFilter(event.target.value)}
+            className="profile-remarks-inbox__filter"
+          >
+            <MenuItem value="queued">{t('feedback.statusQueued')}</MenuItem>
+            <MenuItem value="done">{t('feedback.statusDone')}</MenuItem>
+            <MenuItem value="all">{t('feedback.statusAll')}</MenuItem>
+          </TextField>
+          <InfoHint title={t('setRemark.inboxIntro')} />
+        </Box>
+      </Box>
 
       <CircularLoading isLoading={inbox.status === 'loading'}>
         {inbox.items.length === 0 ? (

@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Box, Button, Typography } from '@mui/material';
 
 import Reveal from '../components/Reveal';
+import { selectIsAuth } from '../redux/slices/auth';
 
 const STEPS = [
   { num: '1', titleKey: 'about.step1Title', textKey: 'about.step1Text' },
@@ -12,6 +14,7 @@ const STEPS = [
 
 export default function AboutPage() {
   const { t } = useTranslation();
+  const isAuth = useSelector(selectIsAuth);
 
   return (
     <Box className="about-page container">
@@ -28,16 +31,18 @@ export default function AboutPage() {
               <Button component={Link} to="/" variant="contained" className="about-hero__btn about-hero__btn--primary">
                 {t('about.viewSets')}
               </Button>
-              <Button component={Link} to="/sign-up" variant="outlined" className="about-hero__btn about-hero__btn--outline">
-                {t('about.signUp')}
-              </Button>
+              {!isAuth && (
+                <Button component={Link} to="/sign-up" variant="outlined" className="about-hero__btn about-hero__btn--outline">
+                  {t('about.signUp')}
+                </Button>
+              )}
             </Box>
           </Box>
         </section>
       </Reveal>
 
       <Reveal delay={80}>
-        <section className="about-block about-block--muted">
+        <section className="about-howto content-block">
           <Typography variant="h5" component="h2" className="about-block__title">
             {t('about.howTo')}
           </Typography>
@@ -45,7 +50,7 @@ export default function AboutPage() {
           <Box className="about-steps">
             {STEPS.map(({ num, titleKey, textKey }, index) => (
               <Reveal key={num} delay={140 + index * 70} className="about-step">
-                <Typography className="about-step__num" aria-hidden="true">{num}</Typography>
+                <span className="about-step__num" aria-hidden="true">{num}</span>
                 <Typography variant="h6" component="h3" className="about-step__title">
                   {t(titleKey)}
                 </Typography>

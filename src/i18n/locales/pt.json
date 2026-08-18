@@ -18,7 +18,8 @@
     "word_one": "palavra",
     "word_other": "palavras",
     "sourceVoiceNotFound": "Não foi encontrada voz para {{language}}. Adicione este idioma nas definições de texto para voz do dispositivo.",
-    "speechFailed": "Não foi possível reproduzir a pronúncia. Se continuar a acontecer, verifique as definições de texto para voz no dispositivo."
+    "speechFailed": "Não foi possível reproduzir a pronúncia. Se continuar a acontecer, verifique as definições de texto para voz no dispositivo.",
+    "firstLoadHint": "O site é gratuito, por isso o primeiro carregamento da página pode demorar cerca de um minuto."
   },
   "layout": {
     "logoutConfirm": "Terminar sessão?",
@@ -172,7 +173,9 @@
     "incorrect": "Preciso de praticar mais",
     "backToSet": "Voltar ao conjunto",
     "reviewSaveError": "Falha ao guardar o progresso",
-    "nothingDue": "Nada para praticar agora. Volte mais tarde para a próxima revisão."
+    "nothingDue": "Nada para praticar agora. Volte mais tarde para a próxima revisão.",
+    "emptyPrompt": "Neste cartão não há texto para traduzir — a tradução está em falta.",
+    "emptyPromptHint": "Passe com os botões abaixo ou reporte o conjunto com a bandeira."
   },
   "bulkImport": {
     "colWord": "palavra",

@@ -17,7 +17,7 @@ export default function WordSetCardGroup({ title, wordSets, status, limit, count
       <Box className={rootClassName}>
         {title && title.trim() != '' && <h3>{title}</h3>}
 
-        <form onSubmit={handleSubmit(onSubmitForm)} className="inline-form-row df ais gap-3" autoComplete="off">
+        <form onSubmit={handleSubmit(onSubmitForm)} className="search-card content-block" autoComplete="off">
           <FormInput
             name={searchInputName}
             label={t('wordSet.searchByName')}
@@ -25,9 +25,17 @@ export default function WordSetCardGroup({ title, wordSets, status, limit, count
             errors={errors}
             fullWidth
             maxLength={255}
-            className='m-0'
+            className="m-0"
           />
-          <Button type='submit' color='primary' variant='contained' className='ps-3 pe-3'>{t('common.find')}</Button>
+          <Button
+            type="submit"
+            color="primary"
+            variant="contained"
+            fullWidth
+            className="search-card__submit"
+          >
+            {t('common.find')}
+          </Button>
         </form>
 
         {status === 'loaded' && count > 1 &&

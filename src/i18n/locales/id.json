@@ -18,7 +18,8 @@
     "word_one": "kata",
     "word_other": "kata",
     "sourceVoiceNotFound": "Suara untuk {{language}} tidak ditemukan. Tambahkan bahasa ini di pengaturan text-to-speech perangkat Anda.",
-    "speechFailed": "Pengucapan tidak dapat diputar. Jika masalah berlanjut, periksa pengaturan text-to-speech di perangkat Anda."
+    "speechFailed": "Pengucapan tidak dapat diputar. Jika masalah berlanjut, periksa pengaturan text-to-speech di perangkat Anda.",
+    "firstLoadHint": "Situs ini gratis, jadi pemuatan halaman pertama bisa memakan waktu sekitar satu menit."
   },
   "layout": {
     "logoutConfirm": "Keluar?",
@@ -172,7 +173,9 @@
     "incorrect": "Saya perlu latihan lagi",
     "backToSet": "Kembali ke set",
     "reviewSaveError": "Gagal menyimpan progres ulasan",
-    "nothingDue": "Tidak ada yang perlu dilatih sekarang. Kembali nanti untuk ulasan berikutnya."
+    "nothingDue": "Tidak ada yang perlu dilatih sekarang. Kembali nanti untuk ulasan berikutnya.",
+    "emptyPrompt": "Kartu ini tidak punya teks untuk diterjemahkan — terjemahannya kosong.",
+    "emptyPromptHint": "Lewati dengan tombol di bawah, atau laporkan set dengan bendera."
   },
   "bulkImport": {
     "colWord": "kata",

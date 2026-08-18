@@ -18,7 +18,8 @@
     "word_one": "parola",
     "word_other": "parole",
     "sourceVoiceNotFound": "Nessuna voce trovata per {{language}}. Aggiungi questa lingua nelle impostazioni di sintesi vocale del dispositivo.",
-    "speechFailed": "Impossibile riprodurre la pronuncia. Se il problema persiste, controlli le impostazioni di sintesi vocale del dispositivo."
+    "speechFailed": "Impossibile riprodurre la pronuncia. Se il problema persiste, controlli le impostazioni di sintesi vocale del dispositivo.",
+    "firstLoadHint": "Il sito è gratuito, quindi il primo caricamento della pagina può richiedere circa un minuto."
   },
   "layout": {
     "logoutConfirm": "Uscire?",
@@ -172,7 +173,9 @@
     "incorrect": "Devo esercitarmi ancora",
     "backToSet": "Torna al set",
     "reviewSaveError": "Impossibile salvare i progressi",
-    "nothingDue": "Niente da esercitare al momento. Torna più tardi per la prossima revisione."
+    "nothingDue": "Niente da esercitare al momento. Torna più tardi per la prossima revisione.",
+    "emptyPrompt": "Questa scheda non ha testo da tradurre: manca la traduzione.",
+    "emptyPromptHint": "Salta la scheda con i pulsanti in basso o segnala il set con la bandiera."
   },
   "bulkImport": {
     "colWord": "parola",

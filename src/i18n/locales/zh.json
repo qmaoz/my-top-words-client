@@ -18,7 +18,8 @@
     "word_one": "个词",
     "word_other": "个词",
     "sourceVoiceNotFound": "未找到「{{language}}」的语音。请在设备的文字转语音设置中添加该语言。",
-    "speechFailed": "无法播放发音。如果问题持续出现，请检查设备上的文字转语音设置。"
+    "speechFailed": "无法播放发音。如果问题持续出现，请检查设备上的文字转语音设置。",
+    "firstLoadHint": "本站免费运行，首次打开页面大约需要一分钟。"
   },
   "layout": {
     "logoutConfirm": "退出登录？",
@@ -172,7 +173,9 @@
     "incorrect": "还需要再练习",
     "backToSet": "返回词集",
     "reviewSaveError": "无法保存复习进度",
-    "nothingDue": "现在没有可练习的内容。稍后再来进行下一次复习。"
+    "nothingDue": "现在没有可练习的内容。稍后再来进行下一次复习。",
+    "emptyPrompt": "这张卡片没有可翻译的文本 — 缺少译文。",
+    "emptyPromptHint": "可用下方按钮跳过，或用旗帜标记报告此词集。"
   },
   "bulkImport": {
     "colWord": "单词",

@@ -22,7 +22,7 @@ import WordSetName from '../components/wrappers/WordSetName';
 import CircularLoading from '../components/wrappers/CircularLoading';
 import SaveForLearningButton from '../components/wrappers/SaveForLearningButton';
 import ProgressBar from '../components/ProgressBar';
-import { Box, Typography } from '@mui/material';
+import { Box, Tooltip, Typography } from '@mui/material';
 import LanguageSettings from '../components/LanguageSettings';
 import WordSetWordsEditor from '../components/WordSetWordsEditor';
 import { useConfirm } from '../components/utils/useConfirm';
@@ -348,9 +348,12 @@ export default function WordSetPage() {
               )}
 
               {isAuth && !isEditingWords && totalWords > 0 && (
-                <Box className="word-set-progress-row df gap-3">
-                  <span className="text-nowrap">{t('wordSet.learnedCount')}</span>
-                  <ProgressBar total={totalWords} completed={learnedWordsCount} />
+                <Box className="word-set-progress-row content-block">
+                  <Tooltip title={t('wordSet.learnedCount')}>
+                    <Box className="word-set-progress-row__bar">
+                      <ProgressBar total={totalWords} completed={learnedWordsCount} />
+                    </Box>
+                  </Tooltip>
                 </Box>
               )}
               {!isEditingWords && totalWords > 0 && (

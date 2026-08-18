@@ -14,6 +14,7 @@ import {
 import { SUPPORTED_LOCALES, getLocaleDisplay } from '../../components/utils/locales';
 import { Toast } from '../../components/utils/messages';
 import { useConfirm } from '../../components/utils/useConfirm';
+import InfoHint from '../../components/InfoHint';
 
 export default function ProfileSettings() {
   const dispatch = useDispatch();
@@ -74,12 +75,12 @@ export default function ProfileSettings() {
   return (
     <Box className="profile-settings">
       <Paper elevation={0} className="content-block profile-settings-card">
-        <Typography variant="h6" component="h3" className="profile-settings-card__title">
-          {t('profile.translationTitle')}
-        </Typography>
-        <Typography className="profile-settings-card__hint">
-          {t('profile.translationHint')}
-        </Typography>
+        <Box className="heading-with-info">
+          <Typography variant="h6" component="h3" className="profile-settings-card__title">
+            {t('profile.translationTitle')}
+          </Typography>
+          <InfoHint title={t('profile.translationHint')} />
+        </Box>
         <Select
           size="small"
           value={preferredLocale}
@@ -97,12 +98,12 @@ export default function ProfileSettings() {
       </Paper>
 
       <Paper elevation={0} className="content-block profile-settings-card profile-settings-card--danger">
-        <Typography variant="h6" component="h3" className="profile-settings-card__title">
-          {t('profile.deleteTitle')}
-        </Typography>
-        <Typography className="profile-settings-card__hint">
-          {t('profile.deleteHint')}
-        </Typography>
+        <Box className="heading-with-info">
+          <Typography variant="h6" component="h3" className="profile-settings-card__title">
+            {t('profile.deleteTitle')}
+          </Typography>
+          <InfoHint title={t('profile.deleteHint')} />
+        </Box>
         <Button
           variant="outlined"
           color="error"

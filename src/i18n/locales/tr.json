@@ -18,7 +18,8 @@
     "word_one": "kelime",
     "word_other": "kelime",
     "sourceVoiceNotFound": "{{language}} için ses bulunamadı. Bu dili cihazınızın metin okuma ayarlarına ekleyin.",
-    "speechFailed": "Telaffuz oynatılamadı. Bu devam ederse, cihazınızdaki metin okuma ayarlarını kontrol edin."
+    "speechFailed": "Telaffuz oynatılamadı. Bu devam ederse, cihazınızdaki metin okuma ayarlarını kontrol edin.",
+    "firstLoadHint": "Site ücretsiz çalıştığı için ilk sayfa yüklemesi yaklaşık bir dakika sürebilir."
   },
   "layout": {
     "logoutConfirm": "Çıkış yapılsın mı?",
@@ -172,7 +173,9 @@
     "incorrect": "Daha fazla tekrar etmeliyim",
     "backToSet": "Sete dön",
     "reviewSaveError": "İlerleme kaydedilemedi",
-    "nothingDue": "Şu an çalışacak bir şey yok. Sonraki tekrar için daha sonra gelin."
+    "nothingDue": "Şu an çalışacak bir şey yok. Sonraki tekrar için daha sonra gelin.",
+    "emptyPrompt": "Bu kartta çevrilecek metin yok — çeviri eksik.",
+    "emptyPromptHint": "Aşağıdaki düğmelerle atlayın veya bayrakla seti bildirin."
   },
   "bulkImport": {
     "colWord": "kelime",

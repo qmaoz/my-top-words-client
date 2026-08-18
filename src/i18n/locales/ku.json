@@ -18,7 +18,8 @@
     "word_one": "peyv",
     "word_other": "peyv",
     "sourceVoiceNotFound": "Deng ji bo {{language}} nehate dîtin. Vî zimanî li mîhengên axaftina nivîsê li ser amûra xwe zêde bike.",
-    "speechFailed": "Bilêvkirin nehate lêdan. Ger ev berdewam bike, mîhengên axaftina nivîsê li ser amûra xwe kontrol bike."
+    "speechFailed": "Bilêvkirin nehate lêdan. Ger ev berdewam bike, mîhengên axaftina nivîsê li ser amûra xwe kontrol bike.",
+    "firstLoadHint": "Malper belaş e, loma barkirina rûpelê ya yekem dikare nêzîkî deqeyekê bidome."
   },
   "layout": {
     "logoutConfirm": "Derkevî?",
@@ -172,7 +173,9 @@
     "incorrect": "Divê ez hîn bêtir dubare bikim",
     "backToSet": "Vegere komê",
     "reviewSaveError": "Pêşketina dubareyê nehat tomarkirin",
-    "nothingDue": "Niha tiştek ji bo temrînê tune. Ji bo dubareya din paşê were."
+    "nothingDue": "Niha tiştek ji bo temrînê tune. Ji bo dubareya din paşê were.",
+    "emptyPrompt": "Li ser vê kartê nivîs ji bo wergerê nîne — werger vala ye.",
+    "emptyPromptHint": "Bi bişkokên jêr derbas bibe, an bi ala setê ragihîne."
   },
   "bulkImport": {
     "colWord": "peyv",

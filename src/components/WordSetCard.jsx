@@ -43,7 +43,7 @@ export default function WordSetCard({ id, totalWords, learnedWordsCount, isSaved
       {isLoading ? <>
         <Skeleton animation="wave" variant="rounded" width={'100%'} height={230} />
       </> : <>
-        <Paper elevation={2} className='word-set-card content-block rounded p-3'>
+        <Paper elevation={0} className='word-set-card content-block p-3'>
           <CircularLoading isLoading={isLoading}>
             <Box className="word-set-card__top">
               <WordSetName name={title} maxLength={30} link={link} />

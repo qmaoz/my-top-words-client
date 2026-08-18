@@ -18,7 +18,8 @@
     "word_one": "word",
     "word_other": "words",
     "sourceVoiceNotFound": "No voice found for {{language}}. Add this language in your device's text-to-speech settings.",
-    "speechFailed": "Could not play pronunciation. If this keeps happening, check text-to-speech settings on your device."
+    "speechFailed": "Could not play pronunciation. If this keeps happening, check text-to-speech settings on your device.",
+    "firstLoadHint": "This site is free, so the first page load can take about a minute."
   },
   "layout": {
     "logoutConfirm": "Log out?",
@@ -172,7 +173,9 @@
     "incorrect": "I need more practice",
     "backToSet": "Back to the set",
     "reviewSaveError": "Failed to save review progress",
-    "nothingDue": "Nothing to practice right now. Come back later for the next review."
+    "nothingDue": "Nothing to practice right now. Come back later for the next review.",
+    "emptyPrompt": "There is no text to translate on this card — the translation is missing.",
+    "emptyPromptHint": "Skip it with the buttons below, or report the set with the flag."
   },
   "bulkImport": {
     "colWord": "word",

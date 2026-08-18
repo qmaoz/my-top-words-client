@@ -5,7 +5,6 @@ import {
   IconButton,
   MenuItem,
   Select,
-  Tooltip,
   Typography,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
@@ -13,6 +12,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import CloseIcon from '@mui/icons-material/Close';
 
+import InfoHint from './InfoHint';
 import {
   MIN_SET_LOCALES,
   SUPPORTED_LOCALES,
@@ -78,6 +78,9 @@ export default function LanguageSettings({
                   {t('wordSet.sourceLocaleHint')}
                 </span>
               )}
+              {index === 0 && showSourceLockedHint && (
+                <InfoHint title={t('wordSet.sourceLocaleLocked')} />
+              )}
             </span>
             <Box className="language-settings__item-actions">
               <IconButton
@@ -137,14 +140,6 @@ export default function LanguageSettings({
             ))}
           </Select>
         </FormControl>
-      )}
-
-      {showSourceLockedHint && (
-        <Tooltip title={t('wordSet.sourceLocaleLocked')} arrow>
-          <Typography component="p" className="language-settings__footnote">
-            {t('wordSet.sourceLocaleLocked')}
-          </Typography>
-        </Tooltip>
       )}
     </Box>
   );

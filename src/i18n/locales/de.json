@@ -18,7 +18,8 @@
     "word_one": "Wort",
     "word_other": "Wörter",
     "sourceVoiceNotFound": "Keine Stimme für {{language}} gefunden. Fügen Sie diese Sprache in den Text-zu-Sprache-Einstellungen Ihres Geräts hinzu.",
-    "speechFailed": "Aussprache konnte nicht abgespielt werden. Wenn das weiterhin passiert, prüfen Sie die Text-zu-Sprache-Einstellungen Ihres Geräts."
+    "speechFailed": "Aussprache konnte nicht abgespielt werden. Wenn das weiterhin passiert, prüfen Sie die Text-zu-Sprache-Einstellungen Ihres Geräts.",
+    "firstLoadHint": "Die Website läuft kostenlos, daher kann das erste Laden der Seite etwa eine Minute dauern."
   },
   "layout": {
     "logoutConfirm": "Abmelden?",
@@ -172,7 +173,9 @@
     "incorrect": "Ich brauche mehr Übung",
     "backToSet": "Zurück zum Set",
     "reviewSaveError": "Fortschritt konnte nicht gespeichert werden",
-    "nothingDue": "Gerade gibt es nichts zu üben. Kommen Sie später zur nächsten Wiederholung zurück."
+    "nothingDue": "Gerade gibt es nichts zu üben. Kommen Sie später zur nächsten Wiederholung zurück.",
+    "emptyPrompt": "Auf dieser Karte gibt es keinen Text zum Übersetzen — die Übersetzung fehlt.",
+    "emptyPromptHint": "Überspringen Sie die Karte mit den Buttons unten oder melden Sie den Satz mit der Flagge."
   },
   "bulkImport": {
     "colWord": "Wort",

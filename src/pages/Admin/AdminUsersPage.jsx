@@ -110,7 +110,7 @@ export default function AdminUsersPage() {
   return (
     <>
       <Box className="admin-users">
-        <form onSubmit={onSearch} className="admin-toolbar df gap-3" autoComplete="off">
+        <form onSubmit={onSearch} className="admin-toolbar search-card content-block" autoComplete="off">
           <TextField
             label={t('admin.searchByName')}
             value={searchInput}

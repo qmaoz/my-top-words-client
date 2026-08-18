@@ -18,7 +18,8 @@
     "word_one": "từ",
     "word_other": "từ",
     "sourceVoiceNotFound": "Không tìm thấy giọng cho {{language}}. Hãy thêm ngôn ngữ này trong cài đặt chuyển văn bản thành giọng nói của thiết bị.",
-    "speechFailed": "Không thể phát âm. Nếu lỗi lặp lại, hãy kiểm tra cài đặt chuyển văn bản thành giọng nói trên thiết bị."
+    "speechFailed": "Không thể phát âm. Nếu lỗi lặp lại, hãy kiểm tra cài đặt chuyển văn bản thành giọng nói trên thiết bị.",
+    "firstLoadHint": "Trang web chạy miễn phí, nên lần tải đầu tiên có thể mất khoảng một phút."
   },
   "layout": {
     "logoutConfirm": "Đăng xuất?",
@@ -172,7 +173,9 @@
     "incorrect": "Tôi cần luyện thêm",
     "backToSet": "Quay lại bộ từ",
     "reviewSaveError": "Không lưu được tiến độ ôn tập",
-    "nothingDue": "Hiện không có gì để luyện. Hãy quay lại sau cho lần ôn tiếp theo."
+    "nothingDue": "Hiện không có gì để luyện. Hãy quay lại sau cho lần ôn tiếp theo.",
+    "emptyPrompt": "Thẻ này không có nội dung để dịch — bản dịch bị thiếu.",
+    "emptyPromptHint": "Bỏ qua bằng các nút bên dưới, hoặc báo cáo bộ từ bằng cờ."
   },
   "bulkImport": {
     "colWord": "từ",

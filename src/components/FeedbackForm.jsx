@@ -143,7 +143,7 @@ export default function FeedbackForm({ defaultPageUrl = '', onSubmitted, embedde
   return (
     <>
       {embedded ? form : (
-        <Paper elevation={1} className="feedback-form content-block">
+        <Paper elevation={0} className="feedback-form content-block">
           {form}
         </Paper>
       )}

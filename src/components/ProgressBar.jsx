@@ -7,7 +7,7 @@ export default function ProgressBar({ completed, total }) {
 
   return (
     <>
-      <Box className="my-progress-bar" sx={{ boxShadow: 2 }}>
+      <Box className="my-progress-bar">
         <Box className="my-progress-bar__filled" style={{ width: `${procent}%`, borderRightWidth: borderRightWidth }}></Box>
         <span className="my-progress-bar__percent text-nowrap">{completed} / {total}</span>
       </Box>

@@ -18,7 +18,8 @@
     "word_one": "mot",
     "word_other": "mots",
     "sourceVoiceNotFound": "Aucune voix trouvée pour {{language}}. Ajoutez cette langue dans les paramètres de synthèse vocale de votre appareil.",
-    "speechFailed": "Impossible de lire la prononciation. Si le problème persiste, vérifiez les paramètres de synthèse vocale de votre appareil."
+    "speechFailed": "Impossible de lire la prononciation. Si le problème persiste, vérifiez les paramètres de synthèse vocale de votre appareil.",
+    "firstLoadHint": "Le site est gratuit, le premier chargement de la page peut donc prendre environ une minute."
   },
   "layout": {
     "logoutConfirm": "Se déconnecter ?",
@@ -172,7 +173,9 @@
     "incorrect": "Je dois encore m'entraîner",
     "backToSet": "Retour à l'ensemble",
     "reviewSaveError": "Impossible d'enregistrer la progression",
-    "nothingDue": "Rien à pratiquer pour le moment. Revenez plus tard pour la prochaine révision."
+    "nothingDue": "Rien à pratiquer pour le moment. Revenez plus tard pour la prochaine révision.",
+    "emptyPrompt": "Cette carte n’a pas de texte à traduire — la traduction est manquante.",
+    "emptyPromptHint": "Passez-la avec les boutons ci-dessous, ou signalez le set avec le drapeau."
   },
   "bulkImport": {
     "colWord": "mot",

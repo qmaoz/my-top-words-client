@@ -22,6 +22,10 @@ import useFitText from '../components/utils/useFitText';
 import { useDocumentTitle } from '../components/utils/useDocumentTitle';
 import { DEFAULT_SOURCE_LOCALE, DEFAULT_TRANSLATION_LOCALES, getLocaleDir, getLocaleLabel } from '../components/utils/locales';
 
+function displayText(value) {
+  return String(value ?? '').trim();
+}
+
 function getWordTranslation(word, locale) {
   if (!word) return {};
   const fromMap = word.translations?.[locale];
@@ -169,6 +173,14 @@ export default function TranslationExercisePage() {
   }, [id, translationLocales, preferredLocale]);
 
   const currentTranslation = getWordTranslation(currentWord, exerciseLocale);
+  const promptSentence = displayText(currentTranslation.sentence_translation);
+  const promptWord = displayText(currentTranslation.word_translation);
+  const sourceSentence = displayText(currentWord?.sentence_text);
+  const sourceWord = displayText(currentWord?.word_text);
+  const promptText = promptSentence || promptWord;
+  const hasCardContent = isRevealed
+    ? Boolean(promptText || sourceSentence || sourceWord)
+    : Boolean(promptText);
   const sourceDir = getLocaleDir(sourceLocale);
   const translationDir = getLocaleDir(exerciseLocale);
 
@@ -378,10 +390,10 @@ export default function TranslationExercisePage() {
       currentWord?.id,
       isRevealed,
       exerciseLocale,
-      currentTranslation.sentence_translation,
-      currentWord?.sentence_text,
-      currentWord?.word_text,
-      currentTranslation.word_translation,
+      promptSentence,
+      sourceSentence,
+      sourceWord,
+      promptWord,
     ],
     { max: 2.5, min: 0.5, step: 0.05 },
   );
@@ -421,6 +433,30 @@ export default function TranslationExercisePage() {
           <Box className="exercise-page-topbar">
             <ExerciseBackButton wordSetId={id} onClick={onReturnButtonClick} />
             {showTrainer && (
+              <Tooltip title={t('exercise.progressTooltip')}>
+                <Box className="exercise-page-progress">
+                  <ProgressBar
+                    total={wordsQueue.length}
+                    completed={wordsQueue.filter((word) => word.repeatAfter == null).length}
+                  />
+                </Box>
+              </Tooltip>
+            )}
+            {showTrainer && translationLocales.length > 1 && (
+              <Tooltip title={t('exercise.localeTooltip')}>
+                <Select
+                  size="small"
+                  value={exerciseLocale}
+                  onChange={(event) => setExerciseLocale(event.target.value)}
+                  className="exercise-locale-select"
+                >
+                  {translationLocales.map((locale) => (
+                    <MenuItem key={locale} value={locale}>{getLocaleLabel(locale)}</MenuItem>
+                  ))}
+                </Select>
+              </Tooltip>
+            )}
+            {showTrainer && (
               <Tooltip title={t('setRemark.reportTooltip')}>
                 <IconButton
                   onClick={() => setReportOpen(true)}
@@ -453,29 +489,6 @@ export default function TranslationExercisePage() {
               ) : showTrainer ? (
                 <>
               <Box className="exercise-page-trainer">
-              <Box className='exercise-progress-row df gap-3'>
-                <Tooltip title={t('exercise.progressTooltip')}>
-                  <span className='text-nowrap'>{t('exercise.progress')}</span>
-                </Tooltip>
-                <ProgressBar
-                  total={wordsQueue.length}
-                  completed={wordsQueue.filter((word) => word.repeatAfter == null).length}
-                />
-                {translationLocales.length > 1 && (
-                  <Tooltip title={t('exercise.localeTooltip')}>
-                    <Select
-                      size="small"
-                      value={exerciseLocale}
-                      onChange={(event) => setExerciseLocale(event.target.value)}
-                      className="exercise-locale-select"
-                    >
-                      {translationLocales.map((locale) => (
-                        <MenuItem key={locale} value={locale}>{getLocaleLabel(locale)}</MenuItem>
-                      ))}
-                    </Select>
-                  </Tooltip>
-                )}
-              </Box>
               {isAuth && isRevealed && !currentWord?.isLearned && (
                 <Box className="exercise-learned-row">
                   <Button
@@ -503,18 +516,26 @@ export default function TranslationExercisePage() {
                 ))}
               </>}
               <Paper elevation={0} className='main-content content-block exercise-card-paper'>
+                {hasCardContent ? (
                 <Box ref={fitContainerRef} className="exercise-fit-text-slot">
                   <Box ref={fitTextRef} className="exercise-fit-text">
-                  {currentTranslation.sentence_translation && (
+                  {promptSentence && (
                     <Box className="exercise-fit-text__block" dir={translationDir} lang={exerciseLocale}>
                       <Typography className="exercise-fit-text__line">
-                        {currentTranslation.sentence_translation}
+                        {promptSentence}
+                      </Typography>
+                    </Box>
+                  )}
+                  {!promptSentence && promptWord && (
+                    <Box className="exercise-fit-text__block" dir={translationDir} lang={exerciseLocale}>
+                      <Typography className="exercise-fit-text__line">
+                        {promptWord}
                       </Typography>
                     </Box>
                   )}
 
-                  {isRevealed && currentWord?.sentence_text && (() => {
-                    const words = currentWord.sentence_text.split(' ');
+                  {isRevealed && sourceSentence && (() => {
+                    const words = sourceSentence.split(' ');
                     const lastWord = words.pop();
                     return (
                       <Box className="exercise-fit-text__block" dir={sourceDir} lang={sourceLocale}>
@@ -524,7 +545,7 @@ export default function TranslationExercisePage() {
                             {lastWord}
                             <span className="ms-1 exercise-fit-text__pronounce-slot">
                               {isFitReady ? (
-                                <PronounceButton text={currentWord.sentence_text} locale={sourceLocale} />
+                                <PronounceButton text={sourceSentence} locale={sourceLocale} />
                               ) : (
                                 <span className="exercise-fit-text__pronounce-spacer" aria-hidden="true" />
                               )}
@@ -535,8 +556,8 @@ export default function TranslationExercisePage() {
                     );
                   })()}
 
-                  {isRevealed && currentWord?.word_text && (() => {
-                    const words = currentWord.word_text.split(' ');
+                  {isRevealed && sourceWord && (() => {
+                    const words = sourceWord.split(' ');
                     const lastWord = words.pop();
                     return (
                       <Box className="exercise-fit-text__block" dir={sourceDir} lang={sourceLocale}>
@@ -546,7 +567,7 @@ export default function TranslationExercisePage() {
                             {lastWord}
                             <span className="ms-1 exercise-fit-text__pronounce-slot">
                               {isFitReady ? (
-                                <PronounceButton text={currentWord.word_text} locale={sourceLocale} />
+                                <PronounceButton text={sourceWord} locale={sourceLocale} />
                               ) : (
                                 <span className="exercise-fit-text__pronounce-spacer" aria-hidden="true" />
                               )}
@@ -557,15 +578,25 @@ export default function TranslationExercisePage() {
                     );
                   })()}
 
-                  {isRevealed && currentTranslation.word_translation && (
+                  {isRevealed && promptSentence && promptWord && (
                     <Box className="exercise-fit-text__block" dir={translationDir} lang={exerciseLocale}>
                       <Typography className="exercise-fit-text__line">
-                        {currentTranslation.word_translation}
+                        {promptWord}
                       </Typography>
                     </Box>
                   )}
                   </Box>
                 </Box>
+                ) : (
+                  <Box className="exercise-empty-card">
+                    <Typography className="exercise-empty-card__title">
+                      {t('exercise.emptyPrompt')}
+                    </Typography>
+                    <Typography className="exercise-empty-card__hint">
+                      {t('exercise.emptyPromptHint')}
+                    </Typography>
+                  </Box>
+                )}
               </Paper>
               </Box>
                 </>

@@ -1,4 +1,13 @@
 /* GENERAL — theme colors: src/theme/palette.js → applyCssVariables() */
+:root {
+  --bg: #F5F3EF;
+  --black: #1E2A29;
+  --primary-color: #2F6F6F;
+  --secondary-color: #FDFCFA;
+  --text-body: rgba(30, 42, 41, 0.72);
+  --text-strong: rgba(30, 42, 41, 0.82);
+  --text-secondary: rgba(30, 42, 41, 0.6);
+}
 
 /* CUSTOM SCROLLBAR */
 * {
@@ -160,6 +169,8 @@ body {
 .content-block {
   background-color: var(--secondary-color) !important;
   background-image: var(--gradient2) !important;
+  background-clip: padding-box;
+  isolation: isolate;
   border-radius: 0.5em;
   padding: 1.5em 1em;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
@@ -347,58 +358,67 @@ footer .container {
   display: flex;
   flex-direction: column;
   gap: 1em;
-  width: 600px;
+  width: 100%;
+  max-width: 28em;
   margin: 0.5em auto 0;
-
-  form {
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-    width: 500px;
-    margin: 0 auto;
-  }
-
-  h2 {
-    margin: 0;
-  }
 }
 
-@media (max-width: 768px) {
-  .form-block {
-    width: 100%;
-    max-width: 100%;
-  }
-
-  .form-block form {
-    width: 100%;
-    max-width: 100%;
-  }
-}
-
-/* Search / create — stacked full-width field and button */
-.inline-form-row {
+.form-block form {
+  display: flex;
   flex-direction: column;
-  align-items: stretch;
+  gap: 1em;
   width: 100%;
-  max-width: none;
-  gap: 0.65em;
 }
 
-.inline-form-row > .MuiFormControl-root,
-.inline-form-row > .word-set-name-input {
-  flex: 0 0 auto;
-  width: 100%;
-  max-width: none;
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
+.form-block h2 {
+  margin: 0;
 }
 
-.inline-form-row > .MuiFormControl-root .MuiInputBase-root {
-  min-height: 2.5em;
+.heading-with-info {
+  display: flex;
+  align-items: center;
+  gap: 0.2em;
 }
 
-.inline-form-row > .MuiButton-root {
+.info-hint-btn {
+  padding: 0.15em !important;
+  color: var(--text-placeholder) !important;
+}
+
+.info-hint-btn .MuiSvgIcon-root {
+  font-size: 1.05em;
+}
+
+.info-hint-tooltip {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45em;
+  font-size: 0.85em;
+  line-height: 1.4;
+}
+
+/* Search / filter panels — same card language as create-set form */
+.search-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75em;
   width: 100%;
+  padding: 1.15em 1.25em !important;
+}
+
+.search-card__submit {
+  align-self: stretch;
+  text-transform: none !important;
+  font-weight: 600 !important;
+}
+
+.home-page .content-block + .content-block,
+.profile-page__content .content-block + .content-block,
+.word-set-page .content-block + .content-block,
+.admin-page__content .content-block + .content-block,
+.word-set-list .content-block + .content-block,
+.profile-remarks-inbox .content-block + .content-block {
+  margin-top: 0;
 }
 
 input {
@@ -438,6 +458,8 @@ input::placeholder {
   gap: 1em;
   background-color: var(--secondary-color) !important;
   background-image: var(--gradient2) !important;
+  background-clip: padding-box;
+  isolation: isolate;
   border-radius: 0.5em;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -588,12 +610,16 @@ input::placeholder {
 .language-settings__item-name {
   flex: 1 1 auto;
   min-width: 0;
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.15em 0.35em;
   font-size: 0.88em;
   line-height: 1.3;
 }
 
 .language-settings__item-role {
-  margin-inline-start: 0.35em;
+  margin-inline-start: 0;
   font-size: 0.88em;
   color: var(--text-secondary);
   font-weight: 400;
@@ -657,16 +683,6 @@ input::placeholder {
   color: var(--on-primary);
 }
 
-.word-set-table__head th:first-child {
-  border-top-left-radius: 0.4em;
-  border-bottom-left-radius: 0.4em;
-}
-
-.word-set-table__head th:last-child {
-  border-top-right-radius: 0.4em;
-  border-bottom-right-radius: 0.4em;
-}
-
 .word-set-table__head-cell {
   text-align: left;
   padding: 0.4em 0.6em;
@@ -724,11 +740,6 @@ input::placeholder {
 
 .profile-settings-card__title {
   margin: 0;
-}
-
-.profile-settings-card__hint {
-  font-size: 0.85em;
-  color: var(--text-secondary, #6b7280);
 }
 
 .profile-settings-card__control {
@@ -833,11 +844,12 @@ input::placeholder {
   font-size: 1.05em;
 }
 
-.word-set-text-editor__hint {
-  margin: 0;
-  font-size: 0.8em;
-  line-height: 1.45;
-  color: var(--text-secondary, #6b7280);
+.word-set-text-editor__tooltip {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45em;
+  font-size: 0.85em;
+  line-height: 1.4;
 }
 
 .word-set-text-editor__textarea {
@@ -940,7 +952,12 @@ input::placeholder {
   font-weight: 600 !important;
 }
 
+.profile-remarks-inbox__filter-row {
+  width: 100%;
+}
+
 .profile-remarks-inbox__filter {
+  flex: 1 1 auto;
   max-width: 14em;
 }
 
@@ -1105,8 +1122,7 @@ input::placeholder {
   width: 100%;
 }
 
-.exercise-progress-row > .text-nowrap,
-.word-set-progress-row > .text-nowrap {
+.exercise-progress-row > .text-nowrap {
   flex: 0 0 auto;
 }
 
@@ -1114,8 +1130,20 @@ input::placeholder {
 .word-set-progress-row .my-progress-bar {
   flex: 1 1 auto;
   min-width: 0;
-  width: auto;
+  width: 100%;
   height: 2.2em;
+}
+
+.word-set-progress-row__bar {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
+  display: block;
+  cursor: help;
+}
+
+.word-set-progress-row.content-block {
+  padding: 0.85em 1.15em !important;
 }
 
 .mui-btn {
@@ -1123,19 +1151,26 @@ input::placeholder {
   height: 1.3em !important;
 }
 
-.word-set-table {
-  width: 100%;
-  border-collapse: collapse;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+.word-set-table-frame {
   border-radius: 0.5em;
-  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 
 .word-set-table-wrap {
   width: 100%;
   max-width: 100%;
   overflow-x: auto;
+  overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
+  border-radius: 0.5em;
+  background-color: var(--secondary-color);
+  background-clip: padding-box;
+}
+
+.word-set-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: transparent;
 }
 
 .word-set-table thead {
@@ -1222,6 +1257,19 @@ input::placeholder {
   flex: 1 1 16em;
   min-width: 0;
   margin: 0 !important;
+}
+
+.MuiOutlinedInput-root {
+  overflow: hidden;
+  background-clip: padding-box;
+}
+
+.MuiOutlinedInput-notchedOutline {
+  border-radius: inherit;
+}
+
+.MuiOutlinedInput-input {
+  background-color: transparent !important;
 }
 
 .word-search-input .MuiInputBase-root {
@@ -1486,22 +1534,28 @@ input::placeholder {
 .exercise-page-topbar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
   flex-shrink: 0;
-  gap: 0.5em;
+  gap: 0.45em;
   margin-bottom: 0.25em;
 }
 
 .exercise-page-top-back,
-.exercise-page-report {
+.exercise-page-report,
+.exercise-page-topbar .exercise-locale-select {
   flex-shrink: 0;
 }
 
-.exercise-page-content .exercise-progress-row {
-  gap: 0.45em;
+.exercise-page-progress {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: block;
+  cursor: help;
 }
 
-.exercise-page-content .exercise-progress-row .my-progress-bar {
+.exercise-page-progress .my-progress-bar {
+  width: 100%;
   height: 1.65em;
 }
 
@@ -1584,8 +1638,33 @@ input::placeholder {
   border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.exercise-card-paper:hover {
-  box-shadow: none !important;
+.exercise-empty-card {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  padding: 1.25em 1.5em;
+  text-align: center;
+}
+
+.exercise-empty-card__title {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1.05em;
+  line-height: 1.4;
+  color: var(--text-strong);
+  max-width: 22em;
+}
+
+.exercise-empty-card__hint {
+  margin: 0;
+  font-size: 0.9em;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  max-width: 22em;
 }
 
 /* Fixed area inside the card — always full card size, not content height */
@@ -1810,20 +1889,27 @@ input::placeholder {
   font-size: inherit !important;
 }
 
-/* MUI BUTTONS - prevent text wrapping */
-.css-1e6y48t-MuiButtonBase-root-MuiButton-root, 
-.MuiButton-root,
-button {
-  white-space: nowrap !important;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-}
-
+/* MUI BUTTONS */
 .MuiButton-root {
+  white-space: nowrap !important;
   text-transform: none !important;
   letter-spacing: 0.02857em !important;
   font-weight: 500 !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24) !important;
-  transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  overflow: hidden;
+  background-clip: padding-box;
+  -webkit-background-clip: padding-box;
+  transform: translateZ(0);
+}
+
+.MuiButton-contained {
+  isolation: isolate;
+  overflow: visible !important;
+  background-clip: padding-box !important;
+  transform: translateZ(0);
+  clip-path: inset(0 round 12px);
+  box-shadow: none !important;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.22));
+  transition: filter 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 .MuiButton-startIcon {
@@ -1836,12 +1922,21 @@ button {
   margin-right: -0.15em !important;
 }
 
-.MuiButton-root:hover {
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23) !important;
+.MuiButton-contained:hover {
+  box-shadow: none !important;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.28));
 }
 
-.MuiButton-root:active {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24) !important;
+.MuiButton-contained:active {
+  box-shadow: none !important;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.22));
+}
+
+.MuiButton-outlined,
+.MuiButton-text,
+.MuiButton-outlined:hover,
+.MuiButton-text:hover {
+  box-shadow: none !important;
 }
 
 /* Responsive MUI buttons - allow them to be smaller on mobile */
@@ -1864,7 +1959,7 @@ button {
     padding-bottom: calc(2.5em + env(safe-area-inset-bottom, 0px)) !important;
   }
 
-  .exercise-page-content .exercise-progress-row .my-progress-bar {
+  .exercise-page-progress .my-progress-bar {
     height: 1.5em;
   }
 }
@@ -1899,7 +1994,6 @@ button {
   }
 
   .about-hero__lead,
-  .about-step__text,
   .about-feedback__intro,
   .terms-section__text,
   .terms-page__intro {
@@ -1925,6 +2019,7 @@ button {
   display: flex;
   flex-direction: column;
   gap: 0;
+  width: 100%;
   padding: 1.25em 1.35em !important;
 }
 
@@ -1995,12 +2090,11 @@ button {
   transform: translateY(0);
 }
 
-.about-page {
+.about-page.container {
   display: flex;
   flex-direction: column;
   gap: 1.75em;
   padding-bottom: 1em;
-  max-width: 44em;
 }
 
 .about-page > .content-block + .content-block,
@@ -2012,13 +2106,6 @@ button {
   display: flex;
   flex-direction: column;
   gap: 1em;
-}
-
-.about-block--muted {
-  background: var(--secondary-color);
-  border-radius: 0.5em;
-  padding: 1.35em 1.15em;
-  border: 1px solid var(--border-light-color);
 }
 
 .about-block__title {
@@ -2089,37 +2176,64 @@ button {
   box-shadow: none !important;
 }
 
+.about-howto {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15em;
+  padding: 1.4em 1.25em !important;
+}
+
 .about-steps {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.15em;
+  gap: 0.9em;
+  align-items: stretch;
 }
 
 .about-step {
   display: flex;
   flex-direction: column;
-  gap: 0.4em;
+  gap: 0.5em;
+  height: 100%;
+  box-sizing: border-box;
+  background: var(--bg);
+  background-clip: padding-box;
+  isolation: isolate;
+  border-radius: 0.5em;
+  padding: 1.15em 1.05em 1.2em;
+  border: 1px solid var(--border-light-color);
 }
 
 .about-step__num {
+  width: 2em;
+  height: 2em;
   margin: 0;
-  font-size: 0.75em;
-  font-weight: 600;
-  color: var(--accent-teal);
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary-color);
+  color: var(--on-primary);
+  font-size: 0.95em;
+  font-weight: 700;
+  line-height: 1;
+  flex-shrink: 0;
 }
 
 .about-step__title {
   margin: 0;
-  font-size: 0.72em;
-  font-weight: 600;
-  line-height: 1.35;
+  font-size: 1.05em !important;
+  font-weight: 700 !important;
+  line-height: 1.3;
+  color: var(--black);
 }
 
 .about-step__text {
   margin: 0;
-  font-size: 0.56em;
-  line-height: 1.6;
-  color: var(--text-muted);
+  font-size: 0.92em;
+  line-height: 1.55;
+  color: var(--text-body);
+  flex: 1;
 }
 
 .about-feedback__intro {
@@ -2157,18 +2271,21 @@ button {
     gap: 1.25em;
   }
 
+  .about-howto {
+    padding: 1.15em 1em !important;
+  }
+
   .about-hero {
     padding: 1.15em 1em !important;
   }
 }
 
 /* TERMS PAGE */
-.terms-page {
+.terms-page.container {
   display: flex;
   flex-direction: column;
   gap: 1.25em;
   padding-bottom: 1em;
-  max-width: 44em;
 }
 
 .terms-page > .content-block {
@@ -2361,9 +2478,15 @@ button {
 }
 
 .admin-toolbar {
+  flex-direction: row;
   flex-wrap: wrap;
   align-items: flex-end;
   gap: 0.75em;
+}
+
+.admin-toolbar .MuiButton-root {
+  text-transform: none !important;
+  font-weight: 600 !important;
 }
 
 @media (max-width: 600px) {
@@ -2409,6 +2532,7 @@ button {
 .admin-table-wrap {
   padding: 0 !important;
   overflow: auto;
+  background-clip: padding-box;
 }
 
 .admin-table {

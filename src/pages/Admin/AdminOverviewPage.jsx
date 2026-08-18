@@ -14,7 +14,7 @@ function StatCard({ value, i18nKey, suffixKey, to }) {
     ? `${t(i18nKey, { count: value ?? 0 })} ${t(suffixKey)}`
     : t(i18nKey, { count: value ?? 0 });
   const content = (
-    <Paper elevation={1} className="admin-stat content-block">
+    <Paper elevation={0} className="admin-stat content-block">
       <Typography className="admin-stat__value">{formatLocaleCount(value)}</Typography>
       <Typography className="admin-stat__label">{label}</Typography>
     </Paper>
