@@ -9,16 +9,34 @@ import {
 
 describe('getUserFacingError', () => {
   it('hides technical English messages', () => {
-    const result = getUserFacingError({ message: 'Network Error' });
+    const result = getUserFacingError({ message: 'Cannot read properties of undefined' });
     expect(typeof result).toBe('string');
     expect(result.length).toBeGreaterThan(0);
-    // Should not expose the raw technical message
-    expect(result).not.toMatch(/network error/i);
+    expect(result).not.toMatch(/cannot read propert/i);
   });
 
   it('passes through a user-facing Cyrillic message', () => {
     expect(getUserFacingError({ message: 'Неправильні дані для входу' }))
       .toBe('Неправильні дані для входу');
+  });
+
+  it('passes through an already translated client message', () => {
+    expect(getUserFacingError({
+      message: 'Anmeldung fehlgeschlagen. Prüfen Sie Benutzername und Passwort.',
+    })).toBe('Anmeldung fehlgeschlagen. Prüfen Sie Benutzername und Passwort.');
+  });
+
+  it('maps a known English API message to the UI translation', () => {
+    expect(getUserFacingError({ message: 'Invalid username or password' }))
+      .not.toBe('Invalid username or password');
+    expect(getUserFacingError({ message: 'Invalid username or password' }))
+      .not.toMatch(/genericError|schiefgelaufen|Something went wrong/i);
+  });
+
+  it('maps network failures to the server-error copy', () => {
+    const result = getUserFacingError({ message: 'Network Error' });
+    expect(result).not.toMatch(/network error/i);
+    expect(result.length).toBeGreaterThan(0);
   });
 
   it('returns null for a cancelled thunk', () => {

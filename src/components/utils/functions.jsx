@@ -9,22 +9,57 @@ export function isThunkSkipped(error) {
     || message.includes('Aborted due to');
 }
 
-const CYRILLIC_PATTERN = /[а-яА-ЯіїєґІЇЄҐ]/u;
-
 const TECHNICAL_PATTERNS = [
   /aborted/i,
   /condition callback/i,
-  /network error/i,
-  /request failed/i,
+  /request failed with status code/i,
   /axios/i,
   /unexpected token/i,
   /cannot read propert/i,
-  /failed to fetch/i,
   /^error:/i,
-  /sql/i,
+  /\bsql\b/i,
   /sequelize/i,
-  /jwt/i,
+  /\bjwt\b/i,
+  /econnrefused/i,
+  /etimedout/i,
 ];
+
+// English API / validation texts → UI keys (so a German UI does not show English).
+const API_MESSAGE_KEYS = {
+  'network error': 'common.serverError',
+  'failed to fetch': 'common.serverError',
+  'internal server error': 'common.serverError',
+  'invalid or expired token': 'errors.sessionExpired',
+  'invalid username or password': 'auth.loginError',
+  'this username is already taken': 'errors.usernameTaken',
+  'username must be 1–20 characters': 'errors.usernameLength',
+  'password must be 12–20 characters': 'errors.passwordLength',
+  'password must contain at least one lowercase letter': 'errors.passwordLower',
+  'password must contain at least one uppercase letter': 'errors.passwordUpper',
+  'password must contain at least one digit': 'errors.passwordDigit',
+  'password must contain at least one special character (!@#$%^&*()_=+/\\~`\'"-)': 'errors.passwordSpecial',
+  'passwords do not match': 'auth.passwordMismatch',
+  'password cannot be empty': 'errors.passwordEmpty',
+  'you already have a set with this name': 'errors.setNameTaken',
+  'set name must be 1–30 characters': 'errors.setNameLength',
+  'set not found or access is denied': 'common.wordSetLoadError',
+  'access denied': 'errors.accessDenied',
+  'access to this word is denied': 'errors.accessDenied',
+  'this entry already exists in the set': 'word.duplicateEntry',
+  'the list contains duplicate words (word + sentence)': 'errors.duplicateWords',
+  'too many messages this hour. please try again later.': 'errors.tooManyMessages',
+  'too many attempts. please try again later.': 'errors.tooManyAttempts',
+  'you cannot delete your own account': 'admin.deleteSelfError',
+  'cannot delete an administrator account': 'admin.deleteAdminError',
+  'admin accounts cannot be deleted by the user': 'errors.adminAccountLocked',
+  'user not found': 'errors.userNotFound',
+  'nothing to update': 'errors.nothingToUpdate',
+  'invalid set visibility': 'errors.invalidVisibility',
+  'unsupported language': 'errors.unsupportedLanguage',
+  'unsupported set language': 'errors.unsupportedLanguage',
+  'selected text or a comment is required': 'errors.remarkRequired',
+  'only an internal path is allowed, e.g. /about': 'feedback.onlyInternalPath',
+};
 
 function extractErrorMessage(error) {
   if (error == null) return '';
@@ -45,12 +80,11 @@ export function getUserFacingError(error, fallback) {
   const raw = extractErrorMessage(error).trim();
   if (!raw) return fb;
 
-  const looksTechnical = TECHNICAL_PATTERNS.some((pattern) => pattern.test(raw));
-  const hasCyrillic = CYRILLIC_PATTERN.test(raw);
+  const mappedKey = API_MESSAGE_KEYS[raw.toLowerCase()];
+  if (mappedKey) return tr(mappedKey);
 
-  if (looksTechnical || !hasCyrillic) {
-    return fb;
-  }
+  const looksTechnical = TECHNICAL_PATTERNS.some((pattern) => pattern.test(raw));
+  if (looksTechnical) return fb;
 
   return raw;
 }
