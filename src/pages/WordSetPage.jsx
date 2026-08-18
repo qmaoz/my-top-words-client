@@ -348,7 +348,7 @@ export default function WordSetPage() {
               )}
 
               {isAuth && !isEditingWords && totalWords > 0 && (
-                <Box className="word-set-progress-row content-block">
+                <Box className="word-set-progress-row">
                   <Tooltip title={t('wordSet.learnedCount')}>
                     <Box className="word-set-progress-row__bar">
                       <ProgressBar total={totalWords} completed={learnedWordsCount} />

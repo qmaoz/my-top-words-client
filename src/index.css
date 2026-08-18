@@ -1,6 +1,7 @@
 /* GENERAL — theme colors: src/theme/palette.js → applyCssVariables() */
 :root {
   --bg: #F5F3EF;
+  --bg-muted: #E8E6E1;
   --black: #1E2A29;
   --primary-color: #2F6F6F;
   --secondary-color: #FDFCFA;
@@ -484,6 +485,12 @@ input::placeholder {
 .word-set-card__progress {
   flex: 1 1 auto;
   min-width: 0;
+}
+
+.word-set-card__progress-bar {
+  display: block;
+  width: 100%;
+  cursor: help;
 }
 
 .word-set-card__bottom .MuiIconButton-root {
@@ -1080,7 +1087,7 @@ input::placeholder {
   border-radius: 100em;
   overflow: hidden;
   position: relative;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 0 0 1px #B0ABA2;
 }
 
 .my-progress-bar__filled {
@@ -1140,10 +1147,6 @@ input::placeholder {
   width: 100%;
   display: block;
   cursor: help;
-}
-
-.word-set-progress-row.content-block {
-  padding: 0.85em 1.15em !important;
 }
 
 .mui-btn {
@@ -1994,7 +1997,10 @@ input::placeholder {
   }
 
   .about-hero__lead,
-  .about-feedback__intro,
+  .about-feedback__intro {
+    font-size: 0.92em;
+  }
+
   .terms-section__text,
   .terms-page__intro {
     font-size: 0.72em;
@@ -2132,8 +2138,8 @@ input::placeholder {
 
 .about-hero__lead {
   margin: 0;
-  font-size: 0.62em;
-  line-height: 1.65;
+  font-size: 0.92em;
+  line-height: 1.6;
   color: var(--text-body);
 }
 
@@ -2236,11 +2242,18 @@ input::placeholder {
   flex: 1;
 }
 
+.about-feedback {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65em;
+  padding: 1.4em 1.25em !important;
+}
+
 .about-feedback__intro {
   margin: 0;
-  font-size: 0.56em;
-  line-height: 1.6;
-  color: var(--text-muted);
+  font-size: 0.92em;
+  line-height: 1.55;
+  color: var(--text-body);
 }
 
 .feedback-form {
@@ -2271,7 +2284,8 @@ input::placeholder {
     gap: 1.25em;
   }
 
-  .about-howto {
+  .about-howto,
+  .about-feedback {
     padding: 1.15em 1em !important;
   }
 

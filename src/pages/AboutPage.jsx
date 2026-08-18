@@ -62,7 +62,7 @@ export default function AboutPage() {
       </Reveal>
 
       <Reveal delay={120}>
-        <section className="about-block about-feedback">
+        <section className="about-feedback content-block">
           <Typography variant="h5" component="h2" className="about-block__title">
             {t('about.feedback')}
           </Typography>

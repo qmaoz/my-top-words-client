@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { Box, Paper, Skeleton } from '@mui/material';
+import { Box, Paper, Skeleton, Tooltip } from '@mui/material';
 
 import ProgressBar from './ProgressBar';
 import { toggleWordSetSave } from '../redux/slices/word-sets';
@@ -31,7 +31,11 @@ export default function WordSetCard({ id, totalWords, learnedWordsCount, isSaved
 
   const wordSetCardBottomContent = isAuth ? <>
     <Box className="word-set-card__progress">
-      <ProgressBar total={totalWords || 0} completed={learnedWordsCount || 0} />
+      <Tooltip title={t('wordSet.learnedCount')}>
+        <Box className="word-set-card__progress-bar">
+          <ProgressBar total={totalWords || 0} completed={learnedWordsCount || 0} />
+        </Box>
+      </Tooltip>
     </Box>
     <SaveForLearningButton isSavedForLearning={isSavedForLearning} handleToggleSave={handleToggleSave} />
   </> : <>

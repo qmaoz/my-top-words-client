@@ -9,6 +9,7 @@ export function applyCssVariables() {
 
   set('--black', common.black);
   set('--bg', background.default);
+  set('--bg-muted', background.muted);
   set('--primary-color', chrome.main);
   set('--secondary-color', background.paper);
   set('--primary-light', chrome.lighter);
