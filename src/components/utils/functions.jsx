@@ -59,6 +59,11 @@ const API_MESSAGE_KEYS = {
   'unsupported set language': 'errors.unsupportedLanguage',
   'selected text or a comment is required': 'errors.remarkRequired',
   'only an internal path is allowed, e.g. /about': 'feedback.onlyInternalPath',
+  'enter a valid email': 'errors.invalidEmail',
+  'this email is already in use': 'errors.emailTaken',
+  'this reset link is invalid or has expired': 'errors.resetInvalidToken',
+  'current password is incorrect': 'errors.currentPasswordWrong',
+  'current password is required': 'errors.currentPasswordWrong',
 };
 
 function extractErrorMessage(error) {
@@ -106,17 +111,6 @@ export const formatLocaleCount = (value) => {
 export const nounCase = (count, one, few, many) => {
   if (count == null) return many;
   return correctNounCase(Number(count), one, few, many);
-};
-
-// the new string is not empty and different from the previous string
-// or
-// the previous string was not empty and the new one is different ("empty" is possible in this case)
-export const isStateUpdateNeeded = (newStr, previousStr) => {
-  return (
-    (newStr != null && newStr.trim() != '' && newStr.trim().toLowerCase() != previousStr.trim().toLowerCase())
-    ||
-    (previousStr != null && previousStr.trim() != '' && newStr.trim().toLowerCase() != previousStr.trim().toLowerCase())
-  );
 };
 
 const WORD_ENTRY_FIELDS = [

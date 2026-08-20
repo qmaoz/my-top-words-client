@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { selectIsAuth, selectAuthStatus } from '../../redux/slices/auth';
@@ -10,7 +9,7 @@ import { fetchWordSets } from '../../redux/slices/word-sets';
 import WordSetCardGroup from '../../components/WordSetCardGroup';
 import CircularLoading from '../../components/wrappers/CircularLoading';
 import CreateNewWordSetForm from './components/CreateNewWordSetForm';
-import { isStateUpdateNeeded } from '../../components/utils/functions';
+import useDebouncedValue from '../../components/utils/useDebouncedValue';
 import { Toast } from '../../components/utils/messages';
 
 export default function ProfileOwnWordSets() {
@@ -28,42 +27,36 @@ export default function ProfileOwnWordSets() {
     }
   }, [isAuth, authStatus, navigate]);
 
-  const [ownWordSetsPage, setOwnWordSetsPage] = useState(1);
-  const [ownWordSetNameToSearch, setOwnWordSetNameToSearch] = useState('');
-  
-  const handleOwnWordSetsPageChange = (event, value) => {
-    setOwnWordSetsPage(value);
-  };
+  const [page, setPage] = useState(1);
+  const [searchInput, setSearchInput] = useState('');
+  const searchQuery = useDebouncedValue(searchInput.trim());
+  const limit = 8;
 
-  const wordSetLimitPerPage = 8;
+  const { items: ownWordSets, totalPages, status } = useSelector(state => state.wordSets.own);
 
-  const { items: ownWordSets, totalPages: ownWordSetsTotalPages, status: ownWordSetsStatus } = useSelector(state => state.wordSets.own);
+  useEffect(() => {
+    setPage(1);
+  }, [searchQuery]);
 
   useEffect(() => {
     (async () => {
-      if (isAuth) {
-        const partOfName = ownWordSetNameToSearch != '' ? ownWordSetNameToSearch : null;
-        try {
-          await dispatch(fetchWordSets({ page: ownWordSetsPage, limit: wordSetLimitPerPage, filter: 'own', partOfName: partOfName })).unwrap();
-        } catch (error) {
-          setToast({ open: true, message: error?.message?.message || error?.message || t('profile.loadError'), severity: 'error' });
-        }
+      if (!isAuth) return;
+      const partOfName = searchQuery !== '' ? searchQuery : null;
+      try {
+        await dispatch(fetchWordSets({ page, limit, filter: 'own', partOfName })).unwrap();
+      } catch (error) {
+        setToast({ open: true, message: error?.message?.message || error?.message || t('profile.loadError'), severity: 'error' });
       }
     })();
-  }, [dispatch, ownWordSetsPage, wordSetLimitPerPage, isAuth, ownWordSetNameToSearch]);
+  }, [dispatch, page, limit, isAuth, searchQuery, t]);
 
-  const { register: registerOwnWordSetToSearch, handleSubmit: handleSubmitOwnWordSetToSearch, formState: { errors: errorsOwnWordSetToSearch } } = useForm({
-    defaultValues: {
-      ownWordSetNameToSearch: '',
-    },
-    mode: 'onSubmit'
-  });
-
-  const onSubmitSearchOwnWordSetsForm = async (values) => {
-    if (isAuth && isStateUpdateNeeded(values?.ownWordSetNameToSearch, ownWordSetNameToSearch)) {
-      setOwnWordSetsPage(1);
-      setOwnWordSetNameToSearch(values.ownWordSetNameToSearch.trim());
+  const handleDeleted = () => {
+    if (ownWordSets.length <= 1 && page > 1) {
+      setPage((current) => current - 1);
+      return;
     }
+    const partOfName = searchQuery !== '' ? searchQuery : null;
+    dispatch(fetchWordSets({ page, limit, filter: 'own', partOfName }));
   };
 
   return (
@@ -72,21 +65,20 @@ export default function ProfileOwnWordSets() {
         <CreateNewWordSetForm />
 
         {ownWordSets && (
-          <>
-            <WordSetCardGroup
-              title={t('profile.tabOwn')}
-              status={ownWordSetsStatus}
-              wordSets={ownWordSets}
-              count={ownWordSetsTotalPages}
-              page={ownWordSetsPage}
-              searchInputName={'ownWordSetNameToSearch'}
-              onChange={handleOwnWordSetsPageChange}
-              limit={wordSetLimitPerPage}
-              register={registerOwnWordSetToSearch}
-              handleSubmit={handleSubmitOwnWordSetToSearch}
-              onSubmitForm={onSubmitSearchOwnWordSetsForm}
-              errors={errorsOwnWordSetToSearch}/>
-          </>
+          <WordSetCardGroup
+            status={status}
+            wordSets={ownWordSets}
+            count={totalPages}
+            page={page}
+            searchInputName="ownWordSetNameToSearch"
+            onChange={(_event, value) => setPage(value)}
+            limit={limit}
+            searchValue={searchInput}
+            onSearchChange={setSearchInput}
+            showSave={false}
+            canDelete
+            onDeleted={handleDeleted}
+          />
         )}
       </CircularLoading>
       <Toast {...toast} handleClose={handleCloseToast} />

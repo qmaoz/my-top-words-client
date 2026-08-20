@@ -4,7 +4,6 @@
     "delete": "Löschen",
     "save": "Speichern",
     "yes": "Ja",
-    "find": "Suchen",
     "done": "Fertig",
     "genericError": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.",
     "serverError": "Server nicht erreichbar oder ein Fehler ist aufgetreten",
@@ -41,7 +40,11 @@
     "nothingToUpdate": "Nichts zu aktualisieren",
     "invalidVisibility": "Ungültige Set-Sichtbarkeit",
     "unsupportedLanguage": "Diese Sprache wird nicht unterstützt",
-    "remarkRequired": "Markierter Text oder ein Kommentar ist erforderlich"
+    "remarkRequired": "Markierter Text oder ein Kommentar ist erforderlich",
+    "invalidEmail": "Geben Sie eine gültige E-Mail ein",
+    "emailTaken": "Diese E-Mail wird bereits verwendet",
+    "resetInvalidToken": "Dieser Link ist ungültig oder abgelaufen",
+    "currentPasswordWrong": "Das aktuelle Passwort ist falsch"
   },
   "layout": {
     "logoutConfirm": "Abmelden?",
@@ -50,7 +53,6 @@
     "admin": "Admin",
     "signUp": "Registrieren",
     "login": "Anmelden",
-    "about": "Über",
     "terms": "Nutzungsbedingungen",
     "language": "Oberflächensprache",
     "documentTitle": "My Top Words — Vokabeln lernen",
@@ -68,7 +70,17 @@
     "registerSubmit": "Registrieren",
     "loginError": "Anmeldung fehlgeschlagen. Prüfen Sie Benutzername und Passwort.",
     "registerError": "Registrierung fehlgeschlagen. Versuchen Sie einen anderen Namen.",
-    "passwordMismatch": "Passwörter stimmen nicht überein"
+    "passwordMismatch": "Passwörter stimmen nicht überein",
+    "email": "E-Mail",
+    "forgotPassword": "Passwort vergessen?",
+    "forgotPasswordTitle": "Passwort zurücksetzen",
+    "forgotPasswordHint": "Geben Sie die E-Mail Ihres Kontos ein. Falls sie existiert, senden wir einen Link.",
+    "forgotPasswordSubmit": "Link senden",
+    "forgotPasswordSent": "Falls ein Konto mit dieser E-Mail existiert, haben wir einen Link gesendet.",
+    "resetPasswordTitle": "Neues Passwort",
+    "resetPasswordSubmit": "Passwort speichern",
+    "resetPasswordSuccess": "Passwort geändert. Sie können sich jetzt anmelden.",
+    "backToLogin": "Zur Anmeldung"
   },
   "home": {
     "title": "Beliebte öffentliche Wortsets",
@@ -96,7 +108,13 @@
     "createSetSubmit": "Erstellen",
     "createSetSuccess": "Set erfolgreich erstellt",
     "createSetError": "Set konnte nicht erstellt werden",
-    "tabRemarks": "Hinweise"
+    "tabRemarks": "Hinweise",
+    "emailTitle": "E-Mail",
+    "emailHint": "Wird zum Zurücksetzen des Passworts benötigt. Bestätigen Sie das aktuelle Passwort, um die E-Mail zu ändern.",
+    "emailSave": "E-Mail speichern",
+    "emailSaved": "E-Mail gespeichert",
+    "emailSaveError": "E-Mail konnte nicht gespeichert werden",
+    "currentPassword": "Aktuelles Passwort"
   },
   "wordSet": {
     "savedToggleError": "Gespeichert-Status konnte nicht geändert werden",
@@ -311,8 +329,6 @@
     "step3Text": "Im Trainer übersetzen Sie den Satz, prüfen die Antwort und markieren Gelernte — danach kommen öfter die noch offenen Wörter.",
     "viewSets": "Zu den Sets",
     "signUp": "Registrieren",
-    "feedback": "Feedback",
-    "feedbackTextFab": "Über die Feedback-Schaltfläche auf jeder Seite können Sie einen Fehler melden oder eine Verbesserung vorschlagen.",
     "words_one": "Wort in der Datenbank",
     "words_other": "Wörter in der Datenbank"
   },
@@ -320,7 +336,7 @@
     "title": "Nutzung",
     "intro": "Kurz zu Konto, Daten und Materialien.",
     "dataTitle": "Was gespeichert wird",
-    "dataText": "Benutzername, Passwort-Hash, Ihre Sets und Lernfortschritt; Feedback-Nachrichten, wenn Sie welche senden. Diese Daten werden nicht verkauft und nicht für Werbung verwendet.",
+    "dataText": "Benutzername, E-Mail, Passwort-Hash, Ihre Sets und Lernfortschritt; Feedback-Nachrichten, wenn Sie welche senden. Diese Daten werden nicht verkauft und nicht für Werbung verwendet.",
     "accountTitle": "Ihr Konto",
     "accountText": "Geben Sie Ihr Passwort nicht weiter. Aktionen unter Ihrem Login gelten als Ihre.",
     "materialsTitle": "Materialien",
@@ -360,5 +376,12 @@
     "markedDone": "Als erledigt markiert",
     "updateError": "Hinweis konnte nicht aktualisiert werden",
     "openSet": "Set öffnen"
+  },
+  "learning": {
+    "dueToday": "Heute fällig: {{count}}",
+    "streak": "Serie: {{count}}",
+    "nextReview": "Nächste Wiederholung: {{when}}",
+    "nextReviewNow": "jetzt",
+    "nextReviewNone": "keine"
   }
 }

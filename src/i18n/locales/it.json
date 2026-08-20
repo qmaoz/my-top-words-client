@@ -4,7 +4,6 @@
     "delete": "Elimina",
     "save": "Salva",
     "yes": "Sì",
-    "find": "Cerca",
     "done": "Fatto",
     "genericError": "Qualcosa è andato storto. Riprova.",
     "serverError": "Il server non è disponibile o si è verificato un errore",
@@ -41,7 +40,11 @@
     "nothingToUpdate": "Niente da aggiornare",
     "invalidVisibility": "Visibilità del set non valida",
     "unsupportedLanguage": "Questa lingua non è supportata",
-    "remarkRequired": "È richiesto un testo selezionato o un commento"
+    "remarkRequired": "È richiesto un testo selezionato o un commento",
+    "invalidEmail": "Inserisci un’email valida",
+    "emailTaken": "Questa email è già in uso",
+    "resetInvalidToken": "Questo link non è valido o è scaduto",
+    "currentPasswordWrong": "La password attuale non è corretta"
   },
   "layout": {
     "logoutConfirm": "Uscire?",
@@ -50,7 +53,6 @@
     "admin": "Admin",
     "signUp": "Registrati",
     "login": "Accedi",
-    "about": "Informazioni",
     "terms": "Termini di utilizzo",
     "language": "Lingua dell'interfaccia",
     "documentTitle": "My Top Words — imparare il vocabolario",
@@ -68,7 +70,17 @@
     "registerSubmit": "Registrati",
     "loginError": "Accesso non riuscito. Controlla nome utente e password.",
     "registerError": "Registrazione non riuscita. Prova un altro nome.",
-    "passwordMismatch": "Le password non coincidono"
+    "passwordMismatch": "Le password non coincidono",
+    "email": "Email",
+    "forgotPassword": "Password dimenticata?",
+    "forgotPasswordTitle": "Reimposta password",
+    "forgotPasswordHint": "Inserisci l’email dell’account. Se esiste, invieremo un link.",
+    "forgotPasswordSubmit": "Invia link",
+    "forgotPasswordSent": "Se esiste un account con questa email, abbiamo inviato un link.",
+    "resetPasswordTitle": "Nuova password",
+    "resetPasswordSubmit": "Salva password",
+    "resetPasswordSuccess": "Password aggiornata. Ora puoi accedere.",
+    "backToLogin": "Torna all’accesso"
   },
   "home": {
     "title": "Set di parole pubblici popolari",
@@ -96,7 +108,13 @@
     "createSetSubmit": "Crea",
     "createSetSuccess": "Set creato con successo",
     "createSetError": "Impossibile creare il set",
-    "tabRemarks": "Osservazioni"
+    "tabRemarks": "Osservazioni",
+    "emailTitle": "Email",
+    "emailHint": "Serve per recuperare la password. Conferma la password attuale per cambiare l’email.",
+    "emailSave": "Salva email",
+    "emailSaved": "Email salvata",
+    "emailSaveError": "Impossibile salvare l’email",
+    "currentPassword": "Password attuale"
   },
   "wordSet": {
     "savedToggleError": "Impossibile modificare lo stato salvato",
@@ -311,8 +329,6 @@
     "step3Text": "Nell’allenatore traduci la frase, controlla la risposta e segna le parole imparate — così la coda punta su ciò che manca ancora.",
     "viewSets": "Vai ai set",
     "signUp": "Registrati",
-    "feedback": "Feedback",
-    "feedbackTextFab": "Il pulsante di feedback è su ogni pagina: usalo per segnalare un errore o proporre un miglioramento.",
     "words_one": "parola nel database",
     "words_other": "parole nel database"
   },
@@ -320,7 +336,7 @@
     "title": "Condizioni",
     "intro": "Una nota breve su account, dati e materiali.",
     "dataTitle": "Cosa viene memorizzato",
-    "dataText": "Nome utente, hash della password, i Suoi set e i progressi; i messaggi di feedback se li invia. Questi dati non vengono venduti né usati per la pubblicità.",
+    "dataText": "Nome utente, email, hash della password, i Suoi set e i progressi; i messaggi di feedback se li invia. Questi dati non vengono venduti né usati per la pubblicità.",
     "accountTitle": "Il Suo account",
     "accountText": "Non condivida la password. Le azioni con il Suo accesso si considerano Sue.",
     "materialsTitle": "Materiali",
@@ -360,5 +376,12 @@
     "markedDone": "Segnato come fatto",
     "updateError": "Aggiornamento dell’osservazione non riuscito",
     "openSet": "Apri set"
+  },
+  "learning": {
+    "dueToday": "Schede per oggi: {{count}}",
+    "streak": "Serie: {{count}}",
+    "nextReview": "Prossima ripetizione: {{when}}",
+    "nextReviewNow": "ora",
+    "nextReviewNone": "nessuna"
   }
 }

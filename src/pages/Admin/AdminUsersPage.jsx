@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import {
-  Box, Button, IconButton, Pagination, Stack, TextField, Tooltip, Typography,
+  Box, IconButton, Pagination, Stack, TextField, Tooltip, Typography,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -12,6 +12,7 @@ import CircularLoading from '../../components/wrappers/CircularLoading';
 import { Toast } from '../../components/utils/messages';
 import { useConfirm } from '../../components/utils/useConfirm';
 import { formatFeedbackDate } from '../../components/utils/feedback';
+import useDebouncedValue from '../../components/utils/useDebouncedValue';
 
 const SORTABLE_COLUMNS = [
   { key: 'id', labelKey: 'admin.colId' },
@@ -43,8 +44,8 @@ export default function AdminUsersPage() {
   const confirm = useConfirm();
   const currentUser = useSelector(selectUserData);
   const { users } = useSelector((state) => state.admin);
-  const [search, setSearch] = useState('');
   const [searchInput, setSearchInput] = useState('');
+  const search = useDebouncedValue(searchInput.trim());
   const [page, setPage] = useState(1);
   const [sortBy, setSortBy] = useState('id');
   const [sortDir, setSortDir] = useState('asc');
@@ -61,11 +62,9 @@ export default function AdminUsersPage() {
     }));
   }, [dispatch, page, search, sortBy, sortDir]);
 
-  const onSearch = (event) => {
-    event.preventDefault();
+  useEffect(() => {
     setPage(1);
-    setSearch(searchInput.trim());
-  };
+  }, [search]);
 
   const onSort = (column) => {
     setPage(1);
@@ -110,7 +109,7 @@ export default function AdminUsersPage() {
   return (
     <>
       <Box className="admin-users">
-        <form onSubmit={onSearch} className="admin-toolbar search-card content-block" autoComplete="off">
+        <Box className="admin-toolbar search-card content-block">
           <TextField
             label={t('admin.searchByName')}
             value={searchInput}
@@ -119,8 +118,7 @@ export default function AdminUsersPage() {
             className="admin-toolbar__search"
             autoComplete="off"
           />
-          <Button type="submit" variant="contained">{t('common.find')}</Button>
-        </form>
+        </Box>
 
         <CircularLoading isLoading={users.status === 'loading'}>
           {users.items.length === 0 ? (

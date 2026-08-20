@@ -5,7 +5,7 @@
     <title>My Top Words — vocabulary learning</title>
 
     <meta name="theme-color" content="#F5F3EF" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
     <link rel="icon" href="/img/favicon/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon/apple-touch-icon.png">
@@ -47,8 +47,22 @@
         border-radius: 0.6em;
         background: #FDFCFA;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.85em;
+        text-align: center;
         opacity: 0;
         animation: boot-card-in 0.35s ease 0.45s forwards;
+      }
+      .boot-screen__spinner {
+        width: 2.35em;
+        height: 2.35em;
+        flex-shrink: 0;
+        border: 0.28em solid rgba(47, 111, 111, 0.22);
+        border-top-color: #2F6F6F;
+        border-radius: 50%;
+        animation: boot-spin 0.75s linear infinite;
       }
       .boot-screen__text {
         margin: 0;
@@ -60,12 +74,16 @@
         from { opacity: 0; transform: translateY(0.35em); }
         to { opacity: 1; transform: none; }
       }
+      @keyframes boot-spin {
+        to { transform: rotate(360deg); }
+      }
     </style>
   </head>
   <body>
     <noscript>Please enable JavaScript to use this site.</noscript>
     <div id="boot-screen" role="status" aria-live="polite">
       <div class="boot-screen__card">
+        <div class="boot-screen__spinner" aria-hidden="true"></div>
         <p id="boot-screen-text" class="boot-screen__text">This site is free, so the first page load can take about a minute.</p>
       </div>
     </div>

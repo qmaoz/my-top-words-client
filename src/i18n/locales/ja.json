@@ -4,7 +4,6 @@
     "delete": "削除",
     "save": "保存",
     "yes": "はい",
-    "find": "検索",
     "done": "完了",
     "genericError": "問題が発生しました。もう一度お試しください。",
     "serverError": "サーバーが利用できないか、エラーが発生しました",
@@ -41,7 +40,11 @@
     "nothingToUpdate": "更新するものがありません",
     "invalidVisibility": "セットの公開設定が無効です",
     "unsupportedLanguage": "この言語はサポートされていません",
-    "remarkRequired": "選択したテキストまたはコメントが必要です"
+    "remarkRequired": "選択したテキストまたはコメントが必要です",
+    "invalidEmail": "有効なメールを入力してください",
+    "emailTaken": "このメールは既に使われています",
+    "resetInvalidToken": "このリンクは無効か期限切れです",
+    "currentPasswordWrong": "現在のパスワードが正しくありません"
   },
   "layout": {
     "logoutConfirm": "ログアウトしますか？",
@@ -50,7 +53,6 @@
     "admin": "管理",
     "signUp": "新規登録",
     "login": "ログイン",
-    "about": "このサイトについて",
     "terms": "利用規約",
     "language": "表示言語",
     "documentTitle": "My Top Words — 語彙学習",
@@ -68,7 +70,17 @@
     "registerSubmit": "新規登録",
     "loginError": "ログインに失敗しました。ユーザー名とパスワードを確認してください。",
     "registerError": "登録に失敗しました。別の名前をお試しください。",
-    "passwordMismatch": "パスワードが一致しません"
+    "passwordMismatch": "パスワードが一致しません",
+    "email": "メール",
+    "forgotPassword": "パスワードをお忘れですか？",
+    "forgotPasswordTitle": "パスワードの再設定",
+    "forgotPasswordHint": "アカウントのメールを入力してください。存在すればリンクを送ります。",
+    "forgotPasswordSubmit": "リンクを送る",
+    "forgotPasswordSent": "このメールのアカウントがあれば、再設定リンクを送りました。",
+    "resetPasswordTitle": "新しいパスワード",
+    "resetPasswordSubmit": "パスワードを保存",
+    "resetPasswordSuccess": "パスワードを更新しました。ログインできます。",
+    "backToLogin": "ログインに戻る"
   },
   "home": {
     "title": "人気の公開単語セット",
@@ -96,7 +108,13 @@
     "createSetSubmit": "作成",
     "createSetSuccess": "セットを作成しました",
     "createSetError": "セットの作成に失敗しました",
-    "tabRemarks": "指摘"
+    "tabRemarks": "指摘",
+    "emailTitle": "メール",
+    "emailHint": "パスワード再設定に必要です。メールを変更するには現在のパスワードを確認してください。",
+    "emailSave": "メールを保存",
+    "emailSaved": "メールを保存しました",
+    "emailSaveError": "メールを保存できませんでした",
+    "currentPassword": "現在のパスワード"
   },
   "wordSet": {
     "savedToggleError": "保存状態の変更に失敗しました",
@@ -311,8 +329,6 @@
     "step3Text": "トレーナーで文を訳し、答えを確認し、覚えた語をチェックします。その後はまだ覚えていない語が優先されます。",
     "viewSets": "セットを見る",
     "signUp": "登録する",
-    "feedback": "フィードバック",
-    "feedbackTextFab": "どのページにもフィードバックボタンがあります。不具合の報告や改善の提案に使えます。",
     "words_one": "語（データベース内）",
     "words_other": "語（データベース内）"
   },
@@ -320,7 +336,7 @@
     "title": "利用について",
     "intro": "アカウント・データ・教材についての短い案内です。",
     "dataTitle": "保存されるデータ",
-    "dataText": "ユーザー名、パスワードのハッシュ、セットと学習の進捗。フィードバックを送った場合はその内容も。これらのデータは販売されず、広告にも使われません。",
+    "dataText": "ユーザー名、メール、パスワードのハッシュ、セットと学習の進捗。フィードバックを送った場合はその内容も。これらのデータは販売されず、広告にも使われません。",
     "accountTitle": "アカウント",
     "accountText": "パスワードを他人に渡さないでください。ログイン後の操作はあなたのものと考えます。",
     "materialsTitle": "教材",
@@ -360,5 +376,12 @@
     "markedDone": "対応済みにしました",
     "updateError": "指摘を更新できませんでした",
     "openSet": "セットを開く"
+  },
+  "learning": {
+    "dueToday": "今日のカード: {{count}}",
+    "streak": "連続: {{count}}",
+    "nextReview": "次の復習: {{when}}",
+    "nextReviewNow": "今",
+    "nextReviewNone": "なし"
   }
 }

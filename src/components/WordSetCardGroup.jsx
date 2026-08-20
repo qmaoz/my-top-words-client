@@ -1,15 +1,31 @@
 import { useTranslation } from 'react-i18next';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
+import { Box, TextField } from '@mui/material';
 
 import WordSetCard from '../components/WordSetCard';
-import Typography from '@mui/material/Typography';
 import { ErrorMessage, WarningMessage } from './utils/messages';
-import { Box, Button } from '@mui/material';
-import FormInput from './form/FormInput';
+import { selectUserData } from '../redux/slices/auth';
+import { useSelector } from 'react-redux';
 
-export default function WordSetCardGroup({ title, wordSets, status, limit, count, page, searchInputName, onChange, className, register, handleSubmit, onSubmitForm, errors }) {
+export default function WordSetCardGroup({
+  title,
+  wordSets,
+  status,
+  limit,
+  count,
+  page,
+  searchValue = '',
+  onSearchChange,
+  searchInputName,
+  onChange,
+  className,
+  showSave = true,
+  canDelete = false,
+  onDeleted,
+}) {
   const { t } = useTranslation();
+  const userId = useSelector(selectUserData)?.id;
   const rootClassName = ['word-set-list', className].filter(Boolean).join(' ');
 
   return (
@@ -17,26 +33,18 @@ export default function WordSetCardGroup({ title, wordSets, status, limit, count
       <Box className={rootClassName}>
         {title && title.trim() != '' && <h3>{title}</h3>}
 
-        <form onSubmit={handleSubmit(onSubmitForm)} className="search-card content-block" autoComplete="off">
-          <FormInput
+        <Box className="search-card content-block">
+          <TextField
             name={searchInputName}
             label={t('wordSet.searchByName')}
-            register={register}
-            errors={errors}
+            value={searchValue}
+            onChange={(event) => onSearchChange?.(event.target.value)}
             fullWidth
-            maxLength={255}
-            className="m-0"
+            size="small"
+            autoComplete="off"
+            slotProps={{ htmlInput: { maxLength: 255 } }}
           />
-          <Button
-            type="submit"
-            color="primary"
-            variant="contained"
-            fullWidth
-            className="search-card__submit"
-          >
-            {t('common.find')}
-          </Button>
-        </form>
+        </Box>
 
         {status === 'loaded' && count > 1 &&
           <Stack spacing={2} className='aic'>
@@ -72,8 +80,19 @@ export default function WordSetCardGroup({ title, wordSets, status, limit, count
                   title={obj.name}
                   link={`/word-set/${obj.id}`}
                   totalWords={obj.totalWords}
+                  sourceLocale={obj.source_locale}
+                  translationLocales={obj.translation_locales}
                   learnedWordsCount={obj.learnedWordsCount}
                   isSavedForLearning={obj.isSavedForLearning}
+                  showSave={
+                    showSave
+                    && (
+                      Number(obj.owner_user_id) !== Number(userId)
+                      || Boolean(obj.isSavedForLearning)
+                    )
+                  }
+                  canDelete={canDelete}
+                  onDeleted={onDeleted}
                 />
               ) : ''
             )

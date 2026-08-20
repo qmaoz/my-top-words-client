@@ -311,7 +311,7 @@ export default function WordSetPage() {
                 </Box>
 
                 <Box className="word-set-page-header__right">
-                  {activeItem && isAuth &&
+                  {activeItem && isAuth && !isOwnWordSet &&
                     <SaveForLearningButton isSavedForLearning={isSavedForLearning} handleToggleSave={handleToggleSave} />
                   }
                   {totalWords > 0 &&

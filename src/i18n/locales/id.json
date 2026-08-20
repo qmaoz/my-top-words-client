@@ -4,7 +4,6 @@
     "delete": "Hapus",
     "save": "Simpan",
     "yes": "Ya",
-    "find": "Cari",
     "done": "Selesai",
     "genericError": "Terjadi kesalahan. Silakan coba lagi.",
     "serverError": "Server tidak tersedia atau terjadi kesalahan",
@@ -41,7 +40,11 @@
     "nothingToUpdate": "Tidak ada yang perlu diperbarui",
     "invalidVisibility": "Visibilitas set tidak valid",
     "unsupportedLanguage": "Bahasa ini tidak didukung",
-    "remarkRequired": "Teks terpilih atau komentar diperlukan"
+    "remarkRequired": "Teks terpilih atau komentar diperlukan",
+    "invalidEmail": "Masukkan email yang valid",
+    "emailTaken": "Email ini sudah digunakan",
+    "resetInvalidToken": "Tautan ini tidak valid atau sudah kedaluwarsa",
+    "currentPasswordWrong": "Kata sandi saat ini salah"
   },
   "layout": {
     "logoutConfirm": "Keluar?",
@@ -50,7 +53,6 @@
     "admin": "Admin",
     "signUp": "Daftar",
     "login": "Masuk",
-    "about": "Tentang",
     "terms": "Ketentuan Penggunaan",
     "language": "Bahasa antarmuka",
     "documentTitle": "My Top Words — belajar kosakata",
@@ -68,7 +70,17 @@
     "registerSubmit": "Daftar",
     "loginError": "Gagal masuk. Periksa nama pengguna dan kata sandi Anda.",
     "registerError": "Gagal mendaftar. Coba nama lain.",
-    "passwordMismatch": "Kata sandi tidak cocok"
+    "passwordMismatch": "Kata sandi tidak cocok",
+    "email": "Email",
+    "forgotPassword": "Lupa kata sandi?",
+    "forgotPasswordTitle": "Atur ulang kata sandi",
+    "forgotPasswordHint": "Masukkan email akun. Jika ada, kami akan mengirim tautan.",
+    "forgotPasswordSubmit": "Kirim tautan",
+    "forgotPasswordSent": "Jika akun dengan email ini ada, kami telah mengirim tautan.",
+    "resetPasswordTitle": "Kata sandi baru",
+    "resetPasswordSubmit": "Simpan kata sandi",
+    "resetPasswordSuccess": "Kata sandi diperbarui. Anda dapat masuk sekarang.",
+    "backToLogin": "Kembali ke masuk"
   },
   "home": {
     "title": "Set kata populer publik",
@@ -96,7 +108,13 @@
     "createSetSubmit": "Buat",
     "createSetSuccess": "Set berhasil dibuat",
     "createSetError": "Gagal membuat set",
-    "tabRemarks": "Catatan"
+    "tabRemarks": "Catatan",
+    "emailTitle": "Email",
+    "emailHint": "Diperlukan untuk memulihkan kata sandi. Konfirmasikan kata sandi saat ini untuk mengubah email.",
+    "emailSave": "Simpan email",
+    "emailSaved": "Email disimpan",
+    "emailSaveError": "Gagal menyimpan email",
+    "currentPassword": "Kata sandi saat ini"
   },
   "wordSet": {
     "savedToggleError": "Gagal mengubah status tersimpan",
@@ -311,8 +329,6 @@
     "step3Text": "Di pelatih, terjemahkan kalimat, periksa jawaban, dan tandai kata yang sudah dipelajari — antrean lalu fokus pada yang masih kurang.",
     "viewSets": "Ke set",
     "signUp": "Daftar",
-    "feedback": "Masukan",
-    "feedbackTextFab": "Tombol masukan ada di setiap halaman — gunakan untuk melaporkan masalah atau mengusulkan perbaikan.",
     "words_one": "kata di basis data",
     "words_other": "kata di basis data"
   },
@@ -320,7 +336,7 @@
     "title": "Ketentuan",
     "intro": "Catatan singkat tentang akun, data, dan materi.",
     "dataTitle": "Apa yang disimpan",
-    "dataText": "Nama pengguna, hash kata sandi, set dan progres belajar Anda; pesan masukan jika Anda mengirimnya. Data ini tidak dijual dan tidak digunakan untuk iklan.",
+    "dataText": "Nama pengguna, email, hash kata sandi, set dan progres belajar Anda; pesan masukan jika Anda mengirimnya. Data ini tidak dijual dan tidak digunakan untuk iklan.",
     "accountTitle": "Akun Anda",
     "accountText": "Jangan bagikan kata sandi. Tindakan di bawah login Anda dianggap milik Anda.",
     "materialsTitle": "Materi",
@@ -360,5 +376,12 @@
     "markedDone": "Ditandai selesai",
     "updateError": "Gagal memperbarui catatan",
     "openSet": "Buka set"
+  },
+  "learning": {
+    "dueToday": "Kartu hari ini: {{count}}",
+    "streak": "Rentetan: {{count}}",
+    "nextReview": "Ulangan berikutnya: {{when}}",
+    "nextReviewNow": "sekarang",
+    "nextReviewNone": "tidak ada"
   }
 }

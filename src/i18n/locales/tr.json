@@ -4,7 +4,6 @@
     "delete": "Sil",
     "save": "Kaydet",
     "yes": "Evet",
-    "find": "Ara",
     "done": "Tamam",
     "genericError": "Bir şeyler ters gitti. Lütfen tekrar deneyin.",
     "serverError": "Sunucu kullanılamıyor veya bir hata oluştu",
@@ -41,7 +40,11 @@
     "nothingToUpdate": "Güncellenecek bir şey yok",
     "invalidVisibility": "Geçersiz set görünürlüğü",
     "unsupportedLanguage": "Bu dil desteklenmiyor",
-    "remarkRequired": "Seçili metin veya bir yorum gerekli"
+    "remarkRequired": "Seçili metin veya bir yorum gerekli",
+    "invalidEmail": "Geçerli bir e-posta girin",
+    "emailTaken": "Bu e-posta zaten kullanılıyor",
+    "resetInvalidToken": "Bu bağlantı geçersiz veya süresi dolmuş",
+    "currentPasswordWrong": "Mevcut şifre yanlış"
   },
   "layout": {
     "logoutConfirm": "Çıkış yapılsın mı?",
@@ -50,7 +53,6 @@
     "admin": "Yönetim",
     "signUp": "Kayıt ol",
     "login": "Giriş yap",
-    "about": "Hakkında",
     "terms": "Kullanım Koşulları",
     "language": "Arayüz dili",
     "documentTitle": "My Top Words — kelime öğrenme",
@@ -68,7 +70,17 @@
     "registerSubmit": "Kayıt ol",
     "loginError": "Giriş yapılamadı. Kullanıcı adınızı ve parolanızı kontrol edin.",
     "registerError": "Kayıt olunamadı. Farklı bir ad deneyin.",
-    "passwordMismatch": "Parolalar eşleşmiyor"
+    "passwordMismatch": "Parolalar eşleşmiyor",
+    "email": "E-posta",
+    "forgotPassword": "Şifrenizi mi unuttunuz?",
+    "forgotPasswordTitle": "Şifreyi sıfırla",
+    "forgotPasswordHint": "Hesabın e-postasını girin. Varsa bir bağlantı göndeririz.",
+    "forgotPasswordSubmit": "Bağlantı gönder",
+    "forgotPasswordSent": "Bu e-postayla bir hesap varsa sıfırlama bağlantısı gönderildi.",
+    "resetPasswordTitle": "Yeni şifre",
+    "resetPasswordSubmit": "Şifreyi kaydet",
+    "resetPasswordSuccess": "Şifre güncellendi. Şimdi giriş yapabilirsiniz.",
+    "backToLogin": "Girişe dön"
   },
   "home": {
     "title": "Popüler herkese açık kelime setleri",
@@ -96,7 +108,13 @@
     "createSetSubmit": "Oluştur",
     "createSetSuccess": "Set başarıyla oluşturuldu",
     "createSetError": "Set oluşturulamadı",
-    "tabRemarks": "Notlar"
+    "tabRemarks": "Notlar",
+    "emailTitle": "E-posta",
+    "emailHint": "Şifre kurtarma için gerekir. E-postayı değiştirmek için mevcut şifreyi doğrulayın.",
+    "emailSave": "E-postayı kaydet",
+    "emailSaved": "E-posta kaydedildi",
+    "emailSaveError": "E-posta kaydedilemedi",
+    "currentPassword": "Mevcut şifre"
   },
   "wordSet": {
     "savedToggleError": "Kaydedilme durumu değiştirilemedi",
@@ -311,8 +329,6 @@
     "step3Text": "Antrenörde cümleyi çevirin, cevabı kontrol edin ve öğrenilenleri işaretleyin — sırada daha çok henüz öğrenilmeyenler çıkar.",
     "viewSets": "Setlere git",
     "signUp": "Kayıt ol",
-    "feedback": "Geri bildirim",
-    "feedbackTextFab": "Her sayfada geri bildirim düğmesi vardır — hata bildirmek veya iyileştirme önermek için kullanın.",
     "words_one": "veritabanındaki kelime",
     "words_other": "veritabanındaki kelime"
   },
@@ -320,7 +336,7 @@
     "title": "Koşullar",
     "intro": "Hesap, veri ve materyaller hakkında kısa not.",
     "dataTitle": "Neler saklanır",
-    "dataText": "Kullanıcı adı, parola özeti, setleriniz ve ilerleme; gönderirseniz geri bildirim mesajları. Bu veriler satılmaz ve reklam için kullanılmaz.",
+    "dataText": "Kullanıcı adı, e-posta, parola özeti, setleriniz ve ilerleme; gönderirseniz geri bildirim mesajları. Bu veriler satılmaz ve reklam için kullanılmaz.",
     "accountTitle": "Hesabınız",
     "accountText": "Parolanızı başkalarıyla paylaşmayın. Girişiniz altındaki işlemler size aittir.",
     "materialsTitle": "Materyaller",
@@ -360,5 +376,12 @@
     "markedDone": "Tamamlandı olarak işaretlendi",
     "updateError": "Not güncellenemedi",
     "openSet": "Seti aç"
+  },
+  "learning": {
+    "dueToday": "Bugünkü kartlar: {{count}}",
+    "streak": "Seri: {{count}}",
+    "nextReview": "Sonraki tekrar: {{when}}",
+    "nextReviewNow": "şimdi",
+    "nextReviewNone": "yok"
   }
 }

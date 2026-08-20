@@ -4,7 +4,6 @@
     "delete": "Delete",
     "save": "Save",
     "yes": "Yes",
-    "find": "Search",
     "done": "Done",
     "genericError": "Something went wrong. Please try again.",
     "serverError": "Server is unavailable or an error occurred",
@@ -41,7 +40,11 @@
     "nothingToUpdate": "Nothing to update",
     "invalidVisibility": "Invalid set visibility",
     "unsupportedLanguage": "This language is not supported",
-    "remarkRequired": "Selected text or a comment is required"
+    "remarkRequired": "Selected text or a comment is required",
+    "invalidEmail": "Enter a valid email",
+    "emailTaken": "This email is already in use",
+    "resetInvalidToken": "This reset link is invalid or has expired",
+    "currentPasswordWrong": "Current password is incorrect"
   },
   "layout": {
     "logoutConfirm": "Log out?",
@@ -50,7 +53,6 @@
     "admin": "Admin",
     "signUp": "Sign up",
     "login": "Log in",
-    "about": "About",
     "terms": "Terms of Use",
     "language": "Interface language",
     "documentTitle": "My Top Words — vocabulary learning",
@@ -68,7 +70,17 @@
     "registerSubmit": "Sign up",
     "loginError": "Failed to log in. Check your username and password.",
     "registerError": "Failed to sign up. Try a different name.",
-    "passwordMismatch": "Passwords do not match"
+    "passwordMismatch": "Passwords do not match",
+    "email": "Email",
+    "forgotPassword": "Forgot password?",
+    "forgotPasswordTitle": "Reset password",
+    "forgotPasswordHint": "Enter the email for your account. If it exists, we will send a reset link.",
+    "forgotPasswordSubmit": "Send reset link",
+    "forgotPasswordSent": "If an account with this email exists, we have sent a reset link.",
+    "resetPasswordTitle": "New password",
+    "resetPasswordSubmit": "Save password",
+    "resetPasswordSuccess": "Password updated. You can log in now.",
+    "backToLogin": "Back to log in"
   },
   "home": {
     "title": "Popular public word sets",
@@ -96,7 +108,13 @@
     "createSetSubmit": "Create",
     "createSetSuccess": "Set created successfully",
     "createSetError": "Failed to create the set",
-    "tabRemarks": "Remarks"
+    "tabRemarks": "Remarks",
+    "emailTitle": "Email",
+    "emailHint": "Needed to recover your password. Confirm your current password to change the email.",
+    "emailSave": "Save email",
+    "emailSaved": "Email saved",
+    "emailSaveError": "Failed to save the email",
+    "currentPassword": "Current password"
   },
   "wordSet": {
     "savedToggleError": "Failed to change the saved status",
@@ -311,8 +329,6 @@
     "step3Text": "In the trainer, translate the sentence, check your answer, and mark words as learned so the queue focuses on what you still need.",
     "viewSets": "Browse sets",
     "signUp": "Sign up",
-    "feedback": "Feedback",
-    "feedbackTextFab": "Use the feedback button on any page to report a problem or suggest an improvement.",
     "words_one": "word in the database",
     "words_other": "words in the database"
   },
@@ -320,7 +336,7 @@
     "title": "Terms",
     "intro": "A short note about the account, data, and materials.",
     "dataTitle": "What is stored",
-    "dataText": "Username, password hash, your sets and learning progress; feedback messages if you send them. This data is not sold or used for advertising.",
+    "dataText": "Username, email, password hash, your sets and learning progress; feedback messages if you send them. This data is not sold or used for advertising.",
     "accountTitle": "Your account",
     "accountText": "Keep your password private. Actions under your login are considered yours.",
     "materialsTitle": "Materials",
@@ -360,5 +376,12 @@
     "markedDone": "Marked as done",
     "updateError": "Failed to update the remark",
     "openSet": "Open set"
+  },
+  "learning": {
+    "dueToday": "Due today: {{count}}",
+    "streak": "Streak: {{count}}",
+    "nextReview": "Next review: {{when}}",
+    "nextReviewNow": "now",
+    "nextReviewNone": "none"
   }
 }

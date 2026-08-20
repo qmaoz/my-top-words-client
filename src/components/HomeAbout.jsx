@@ -1,10 +1,8 @@
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Box, Button, Typography } from '@mui/material';
 
-import Reveal from '../components/Reveal';
-import { selectIsAuth } from '../redux/slices/auth';
+import Reveal from './Reveal';
 
 const STEPS = [
   { num: '1', titleKey: 'about.step1Title', textKey: 'about.step1Text' },
@@ -12,12 +10,11 @@ const STEPS = [
   { num: '3', titleKey: 'about.step3Title', textKey: 'about.step3Text' },
 ];
 
-export default function AboutPage() {
+export default function HomeAbout() {
   const { t } = useTranslation();
-  const isAuth = useSelector(selectIsAuth);
 
   return (
-    <Box className="about-page container">
+    <>
       <Reveal>
         <section className="about-hero content-block">
           <Box className="about-hero__inner">
@@ -28,14 +25,17 @@ export default function AboutPage() {
               {t('about.intro')}
             </Typography>
             <Box className="about-hero__actions">
-              <Button component={Link} to="/" variant="contained" className="about-hero__btn about-hero__btn--primary">
+              <Button
+                component="a"
+                href="#home-sets"
+                variant="contained"
+                className="about-hero__btn about-hero__btn--primary"
+              >
                 {t('about.viewSets')}
               </Button>
-              {!isAuth && (
-                <Button component={Link} to="/sign-up" variant="outlined" className="about-hero__btn about-hero__btn--outline">
-                  {t('about.signUp')}
-                </Button>
-              )}
+              <Button component={Link} to="/sign-up" variant="outlined" className="about-hero__btn about-hero__btn--outline">
+                {t('about.signUp')}
+              </Button>
             </Box>
           </Box>
         </section>
@@ -60,17 +60,6 @@ export default function AboutPage() {
           </Box>
         </section>
       </Reveal>
-
-      <Reveal delay={120}>
-        <section className="about-feedback content-block">
-          <Typography variant="h5" component="h2" className="about-block__title">
-            {t('about.feedback')}
-          </Typography>
-          <Typography className="about-feedback__intro">
-            {t('about.feedbackTextFab')}
-          </Typography>
-        </section>
-      </Reveal>
-    </Box>
+    </>
   );
 }

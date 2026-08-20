@@ -4,7 +4,6 @@
     "delete": "Jê bibe",
     "save": "Tomar bike",
     "yes": "Erê",
-    "find": "Lêgerîn",
     "done": "Temam",
     "genericError": "Çewtiyek çêbû. Ji kerema xwe dîsa biceribîne.",
     "serverError": "Server ne berdest e an jî çewtiyek çêbû",
@@ -41,7 +40,11 @@
     "nothingToUpdate": "Tiştek ji bo nûkirinê nîne",
     "invalidVisibility": "Dîtina komê nederbasdar e",
     "unsupportedLanguage": "Ev ziman nayê piştgirîkirin",
-    "remarkRequired": "Nivîsa hilbijartî an şîroveyek pêwîst e"
+    "remarkRequired": "Nivîsa hilbijartî an şîroveyek pêwîst e",
+    "invalidEmail": "E-nameyeke derbasdar binivîse",
+    "emailTaken": "Ev e-name jixwe tê bikaranîn",
+    "resetInvalidToken": "Ev lînk nederbasdar e an qediya",
+    "currentPasswordWrong": "Şîfreya niha çewt e"
   },
   "layout": {
     "logoutConfirm": "Derkevî?",
@@ -50,7 +53,6 @@
     "admin": "Rêvebir",
     "signUp": "Tomar bibe",
     "login": "Têkeve",
-    "about": "Derbarê",
     "terms": "Mercên bikaranînê",
     "language": "Zimanê navrûyê",
     "documentTitle": "My Top Words — fêrbûna peyvan",
@@ -68,7 +70,17 @@
     "registerSubmit": "Tomar bibe",
     "loginError": "Têketin bi ser neket. Nav û şîfreyê kontrol bike.",
     "registerError": "Tomarbûn bi ser neket. Navekî din biceribîne.",
-    "passwordMismatch": "Şîfre li hev nakin"
+    "passwordMismatch": "Şîfre li hev nakin",
+    "email": "E-name",
+    "forgotPassword": "Şîfre ji bîr kir?",
+    "forgotPasswordTitle": "Şîfreyê nû bike",
+    "forgotPasswordHint": "E-nameya hesabê binivîse. Heke hebe, em lînkekê dişînin.",
+    "forgotPasswordSubmit": "Lînkê bişîne",
+    "forgotPasswordSent": "Heke hesabek bi vê e-nameyê hebe, me lînka nûkirinê şand.",
+    "resetPasswordTitle": "Şîfreya nû",
+    "resetPasswordSubmit": "Şîfreyê tomar bike",
+    "resetPasswordSuccess": "Şîfre hat nûkirin. Niha dikarî têkevî.",
+    "backToLogin": "Vegere têketinê"
   },
   "home": {
     "title": "Komên peyvên giştî yên populer",
@@ -96,7 +108,13 @@
     "createSetSubmit": "Biafirîne",
     "createSetSuccess": "Kom bi serkeftî hat afirandin",
     "createSetError": "Afirandina komê bi ser neket",
-    "tabRemarks": "Têbînî"
+    "tabRemarks": "Têbînî",
+    "emailTitle": "E-name",
+    "emailHint": "Ji bo vegerandina şîfreyê pêwîst e. Ji bo guherandina e-nameyê şîfreya niha piştrast bike.",
+    "emailSave": "E-nameyê tomar bike",
+    "emailSaved": "E-name hat tomarkirin",
+    "emailSaveError": "E-name nehat tomarkirin",
+    "currentPassword": "Şîfreya niha"
   },
   "wordSet": {
     "savedToggleError": "Guhertina rewşa tomarkirinê bi ser neket",
@@ -311,8 +329,6 @@
     "step3Text": "Di rahêner de hevokê wergerînin, bersivê kontrol bikin û yên fêrbûyî nîşan bikin — paşê zêdetir yên ku hîn nehatine fêrbûn derdikevin.",
     "viewSets": "Ber bi koman",
     "signUp": "Tomar bibe",
-    "feedback": "Feedback",
-    "feedbackTextFab": "Bişkoja feedbackê li ser her rûpelê heye — ji bo ragihandina çewtiyê an pêşniyara başkirinê bikar bînin.",
     "words_one": "peyv di bingeha daneyan de",
     "words_other": "peyv di bingeha daneyan de"
   },
@@ -320,7 +336,7 @@
     "title": "Merc",
     "intro": "Noteke kurt der barê hesab, daneyan û materyalan.",
     "dataTitle": "Çi tê tomarkirin",
-    "dataText": "Navê bikarhêner, hasha şîfreyê, kom û pêşveçûna we; peyamên feedbackê heke hûn bişînin. Ev dane nayên firotin û ji bo reklamê nayên bikaranîn.",
+    "dataText": "Navê bikarhêner, e-name, hasha şîfreyê, kom û pêşveçûna we; peyamên feedbackê heke hûn bişînin. Ev dane nayên firotin û ji bo reklamê nayên bikaranîn.",
     "accountTitle": "Hesabê we",
     "accountText": "Şîfreyê bi kesên din re parve nekin. Çalakiyên di bin têketina we de wekî yên we têne hesibandin.",
     "materialsTitle": "Materyal",
@@ -360,5 +376,12 @@
     "markedDone": "Weşandî wekî temam",
     "updateError": "Têbînî nehate nûkirin",
     "openSet": "Komê veke"
+  },
+  "learning": {
+    "dueToday": "Kartên îro: {{count}}",
+    "streak": "Zincîre: {{count}}",
+    "nextReview": "Dubareya pêş: {{when}}",
+    "nextReviewNow": "niha",
+    "nextReviewNone": "tune"
   }
 }

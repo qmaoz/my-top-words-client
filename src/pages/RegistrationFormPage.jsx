@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Box, Button, Paper, TextField } from '@mui/material';
+import { Box, Button, Paper } from '@mui/material';
 
 import { fetchRegister, selectIsAuth } from '../redux/slices/auth.js';
 import FormInput from '../components/form/FormInput.jsx';
@@ -20,6 +20,7 @@ export default function SignupFormPage() {
   const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
       username: '',
+      email: '',
       password: '',
       confirm_password: '',
     },
@@ -33,7 +34,12 @@ export default function SignupFormPage() {
     }
 
     try {
-      const data = await dispatch(fetchRegister({ username, password })).unwrap();
+      const data = await dispatch(fetchRegister({
+        username,
+        password,
+        email: values.email,
+        confirm_password: confirmPassword,
+      })).unwrap();
 
       if (!data) {
         throw new Error();
@@ -58,7 +64,7 @@ export default function SignupFormPage() {
     <>
       <Box className="container">
         <Paper elevation={0} className='form-block content-block'>
-          <h2 className="text-center">{t('auth.registerTitle')}</h2>
+          <h2>{t('auth.registerTitle')}</h2>
           <form onSubmit={handleSubmit(onSubmitForm)}>
             <FormInput
               name="username"
@@ -68,6 +74,15 @@ export default function SignupFormPage() {
               required fullWidth
               maxLength={20}
               autoComplete="username"
+            />
+            <FormInput
+              name="email"
+              type="email"
+              label={t('auth.email')}
+              register={register}
+              errors={errors}
+              required fullWidth
+              autoComplete="email"
             />
             <FormInput
               name="password"

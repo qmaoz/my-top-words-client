@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchLogin, selectIsAuth } from '../redux/slices/auth.js';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Box, Button, Paper } from '@mui/material';
 import FormInput from '../components/form/FormInput.jsx';
@@ -48,7 +48,7 @@ export default function LoginFormPage() {
     <>
       <Box className="container">
         <Paper elevation={0} className='form-block content-block'>
-          <h2 className="text-center">{t('auth.loginTitle')}</h2>
+          <h2>{t('auth.loginTitle')}</h2>
           <form onSubmit={handleSubmit(onSubmitForm)}>
             <FormInput
               name="username"
@@ -71,6 +71,9 @@ export default function LoginFormPage() {
             />
             <Button color='primary' fullWidth={true} variant='contained' type="submit">{t('auth.loginSubmit')}</Button>
           </form>
+          <p className="form-block__extra">
+            <Link to="/forgot-password">{t('auth.forgotPassword')}</Link>
+          </p>
         </Paper>
       </Box>
 

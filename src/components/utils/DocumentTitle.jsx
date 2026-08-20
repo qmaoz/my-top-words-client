@@ -9,7 +9,8 @@ function resolvePageLabel(pathname, t) {
 
   if (pathname === '/login') return t('auth.loginTitle');
   if (pathname === '/sign-up') return t('auth.registerTitle');
-  if (pathname === '/about') return t('about.title');
+  if (pathname === '/forgot-password') return t('auth.forgotPasswordTitle');
+  if (pathname === '/reset-password') return t('auth.resetPasswordTitle');
   if (pathname === '/terms') return t('terms.title');
 
   if (pathname === '/profile' || pathname === '/profile/own-word-sets') return t('profile.tabOwn');

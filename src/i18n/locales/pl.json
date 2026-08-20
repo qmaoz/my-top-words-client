@@ -4,7 +4,6 @@
     "delete": "Usuń",
     "save": "Zapisz",
     "yes": "Tak",
-    "find": "Szukaj",
     "done": "Gotowe",
     "genericError": "Coś poszło nie tak. Spróbuj ponownie.",
     "serverError": "Serwer jest niedostępny lub wystąpił błąd",
@@ -41,7 +40,11 @@
     "nothingToUpdate": "Nie ma nic do zaktualizowania",
     "invalidVisibility": "Nieprawidłowa widoczność zestawu",
     "unsupportedLanguage": "Ten język nie jest obsługiwany",
-    "remarkRequired": "Wymagany jest zaznaczony tekst lub komentarz"
+    "remarkRequired": "Wymagany jest zaznaczony tekst lub komentarz",
+    "invalidEmail": "Podaj poprawny e-mail",
+    "emailTaken": "Ten e-mail jest już używany",
+    "resetInvalidToken": "Ten link jest nieprawidłowy lub wygasł",
+    "currentPasswordWrong": "Bieżące hasło jest nieprawidłowe"
   },
   "layout": {
     "logoutConfirm": "Wylogować się?",
@@ -50,7 +53,6 @@
     "admin": "Admin",
     "signUp": "Zarejestruj się",
     "login": "Zaloguj się",
-    "about": "O serwisie",
     "terms": "Warunki użytkowania",
     "language": "Język interfejsu",
     "documentTitle": "My Top Words — nauka słownictwa",
@@ -68,7 +70,17 @@
     "registerSubmit": "Zarejestruj się",
     "loginError": "Nie udało się zalogować. Sprawdź nazwę użytkownika i hasło.",
     "registerError": "Nie udało się zarejestrować. Spróbuj innej nazwy.",
-    "passwordMismatch": "Hasła nie są zgodne"
+    "passwordMismatch": "Hasła nie są zgodne",
+    "email": "E-mail",
+    "forgotPassword": "Nie pamiętasz hasła?",
+    "forgotPasswordTitle": "Reset hasła",
+    "forgotPasswordHint": "Podaj e-mail konta. Jeśli istnieje, wyślemy link.",
+    "forgotPasswordSubmit": "Wyślij link",
+    "forgotPasswordSent": "Jeśli konto z tym e-mailem istnieje, wysłaliśmy link.",
+    "resetPasswordTitle": "Nowe hasło",
+    "resetPasswordSubmit": "Zapisz hasło",
+    "resetPasswordSuccess": "Hasło zmienione. Możesz się zalogować.",
+    "backToLogin": "Wróć do logowania"
   },
   "home": {
     "title": "Popularne publiczne zestawy słów",
@@ -96,7 +108,13 @@
     "createSetSubmit": "Utwórz",
     "createSetSuccess": "Zestaw utworzony pomyślnie",
     "createSetError": "Nie udało się utworzyć zestawu",
-    "tabRemarks": "Uwagi"
+    "tabRemarks": "Uwagi",
+    "emailTitle": "E-mail",
+    "emailHint": "Potrzebny do odzyskania hasła. Potwierdź bieżące hasło, aby zmienić e-mail.",
+    "emailSave": "Zapisz e-mail",
+    "emailSaved": "E-mail zapisany",
+    "emailSaveError": "Nie udało się zapisać e-maila",
+    "currentPassword": "Bieżące hasło"
   },
   "wordSet": {
     "savedToggleError": "Nie udało się zmienić statusu zapisania",
@@ -311,8 +329,6 @@
     "step3Text": "W trenerze przetłumacz zdanie, sprawdź odpowiedź i oznacz nauczone słowa — potem częściej pojawiają się te jeszcze nieopanowane.",
     "viewSets": "Do zestawów",
     "signUp": "Zarejestruj się",
-    "feedback": "Opinie",
-    "feedbackTextFab": "Przycisk opinii jest na każdej stronie — możesz zgłosić błąd lub zaproponować ulepszenie.",
     "words_one": "słowo w bazie danych",
     "words_other": "słów w bazie danych"
   },
@@ -320,7 +336,7 @@
     "title": "Warunki",
     "intro": "Krótko o koncie, danych i materiałach.",
     "dataTitle": "Co jest przechowywane",
-    "dataText": "Nazwa użytkownika, hash hasła, Państwa zestawy i postęp; wiadomości opinii, jeśli je Państwo wyślą. Te dane nie są sprzedawane ani wykorzystywane do reklam.",
+    "dataText": "Nazwa użytkownika, e-mail, hash hasła, Państwa zestawy i postęp; wiadomości opinii, jeśli je Państwo wyślą. Te dane nie są sprzedawane ani wykorzystywane do reklam.",
     "accountTitle": "Państwa konto",
     "accountText": "Nie udostępniajcie hasła. Działania po zalogowaniu uważane są za Państwa.",
     "materialsTitle": "Materiały",
@@ -360,5 +376,12 @@
     "markedDone": "Oznaczono jako wykonane",
     "updateError": "Nie udało się zaktualizować uwagi",
     "openSet": "Otwórz zestaw"
+  },
+  "learning": {
+    "dueToday": "Karty na dziś: {{count}}",
+    "streak": "Seria: {{count}}",
+    "nextReview": "Następna powtórka: {{when}}",
+    "nextReviewNow": "teraz",
+    "nextReviewNone": "brak"
   }
 }

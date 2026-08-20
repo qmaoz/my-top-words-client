@@ -7,6 +7,7 @@ import { Box, Tab, Tabs } from '@mui/material';
 import { selectIsAuth, selectAuthStatus } from '../../redux/slices/auth';
 import { selectQueuedRemarksTotal } from '../../redux/slices/word-set-remarks';
 import CircularLoading from '../../components/wrappers/CircularLoading';
+import ProfileLearningSummary from './ProfileLearningSummary';
 
 export default function ProfileLayout() {
   const location = useLocation();
@@ -43,6 +44,7 @@ export default function ProfileLayout() {
                 <Tab label={t('profile.tabSettings')} value="/profile/settings" component={Link} to="settings" />
               </Tabs>
             </Box>
+            <ProfileLearningSummary />
             <Box className="profile-page__content">
               <Outlet />
             </Box>

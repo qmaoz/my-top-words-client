@@ -21,6 +21,7 @@ import { ErrorMessage, Toast } from '../components/utils/messages';
 import useFitText from '../components/utils/useFitText';
 import { useDocumentTitle } from '../components/utils/useDocumentTitle';
 import { DEFAULT_SOURCE_LOCALE, DEFAULT_TRANSLATION_LOCALES, getLocaleDir, getLocaleLabel } from '../components/utils/locales';
+import useVisualViewportBottomInset from '../components/utils/useVisualViewportBottomInset';
 
 function displayText(value) {
   return String(value ?? '').trim();
@@ -156,6 +157,7 @@ export default function TranslationExercisePage() {
   const [currentWordIndex, setCurrentWordIndex] = useState(null);
   const [currentWord, setCurrentWord] = useState(null);
   const [reportOpen, setReportOpen] = useState(false);
+  const viewportBottomInset = useVisualViewportBottomInset();
 
   const translationLocales = useMemo(
     () => activeItem?.translation_locales ?? DEFAULT_TRANSLATION_LOCALES,
@@ -428,7 +430,10 @@ export default function TranslationExercisePage() {
 
   return (
     <>
-      <Box className='app-container container exercise-page-content'>
+      <Box
+        className='app-container container exercise-page-content'
+        style={{ '--vv-bottom': `${viewportBottomInset}px` }}
+      >
         {showTopBack && (
           <Box className="exercise-page-topbar">
             <ExerciseBackButton wordSetId={id} onClick={onReturnButtonClick} />

@@ -4,7 +4,6 @@
     "delete": "Supprimer",
     "save": "Enregistrer",
     "yes": "Oui",
-    "find": "Rechercher",
     "done": "Terminé",
     "genericError": "Une erreur s'est produite. Veuillez réessayer.",
     "serverError": "Le serveur est indisponible ou une erreur s'est produite",
@@ -41,7 +40,11 @@
     "nothingToUpdate": "Rien à mettre à jour",
     "invalidVisibility": "Visibilité de l’ensemble non valide",
     "unsupportedLanguage": "Cette langue n’est pas prise en charge",
-    "remarkRequired": "Un texte sélectionné ou un commentaire est requis"
+    "remarkRequired": "Un texte sélectionné ou un commentaire est requis",
+    "invalidEmail": "Saisissez un e-mail valide",
+    "emailTaken": "Cet e-mail est déjà utilisé",
+    "resetInvalidToken": "Ce lien est invalide ou a expiré",
+    "currentPasswordWrong": "Le mot de passe actuel est incorrect"
   },
   "layout": {
     "logoutConfirm": "Se déconnecter ?",
@@ -50,7 +53,6 @@
     "admin": "Admin",
     "signUp": "S'inscrire",
     "login": "Connexion",
-    "about": "À propos",
     "terms": "Conditions d'utilisation",
     "language": "Langue de l'interface",
     "documentTitle": "My Top Words — apprendre le vocabulaire",
@@ -68,7 +70,17 @@
     "registerSubmit": "S'inscrire",
     "loginError": "Échec de la connexion. Vérifiez le nom d'utilisateur et le mot de passe.",
     "registerError": "Échec de l'inscription. Essayez un autre nom.",
-    "passwordMismatch": "Les mots de passe ne correspondent pas"
+    "passwordMismatch": "Les mots de passe ne correspondent pas",
+    "email": "E-mail",
+    "forgotPassword": "Mot de passe oublié ?",
+    "forgotPasswordTitle": "Réinitialiser le mot de passe",
+    "forgotPasswordHint": "Saisissez l’e-mail du compte. S’il existe, nous enverrons un lien.",
+    "forgotPasswordSubmit": "Envoyer le lien",
+    "forgotPasswordSent": "Si un compte avec cet e-mail existe, nous avons envoyé un lien.",
+    "resetPasswordTitle": "Nouveau mot de passe",
+    "resetPasswordSubmit": "Enregistrer le mot de passe",
+    "resetPasswordSuccess": "Mot de passe mis à jour. Vous pouvez vous connecter.",
+    "backToLogin": "Retour à la connexion"
   },
   "home": {
     "title": "Ensembles publics populaires",
@@ -96,7 +108,13 @@
     "createSetSubmit": "Créer",
     "createSetSuccess": "Ensemble créé avec succès",
     "createSetError": "Impossible de créer l'ensemble",
-    "tabRemarks": "Remarques"
+    "tabRemarks": "Remarques",
+    "emailTitle": "E-mail",
+    "emailHint": "Nécessaire pour récupérer le mot de passe. Confirmez le mot de passe actuel pour changer l’e-mail.",
+    "emailSave": "Enregistrer l’e-mail",
+    "emailSaved": "E-mail enregistré",
+    "emailSaveError": "Impossible d’enregistrer l’e-mail",
+    "currentPassword": "Mot de passe actuel"
   },
   "wordSet": {
     "savedToggleError": "Impossible de modifier le statut enregistré",
@@ -311,8 +329,6 @@
     "step3Text": "Dans l’entraîneur, traduisez la phrase, vérifiez la réponse et marquez les mots appris — la file privilégie alors ce qui reste à travailler.",
     "viewSets": "Voir les ensembles",
     "signUp": "S’inscrire",
-    "feedback": "Commentaires",
-    "feedbackTextFab": "Le bouton de commentaires est sur chaque page — pour signaler un problème ou proposer une amélioration.",
     "words_one": "mot dans la base de données",
     "words_other": "mots dans la base de données"
   },
@@ -320,7 +336,7 @@
     "title": "Conditions",
     "intro": "Quelques notes sur le compte, les données et les contenus.",
     "dataTitle": "Ce qui est stocké",
-    "dataText": "Nom d’utilisateur, hash du mot de passe, vos ensembles et votre progression ; les messages de commentaires si vous en envoyez. Ces données ne sont ni vendues ni utilisées à des fins publicitaires.",
+    "dataText": "Nom d’utilisateur, e-mail, hash du mot de passe, vos ensembles et votre progression ; les messages de commentaires si vous en envoyez. Ces données ne sont ni vendues ni utilisées à des fins publicitaires.",
     "accountTitle": "Votre compte",
     "accountText": "Ne partagez pas votre mot de passe. Les actions sous votre connexion sont considérées comme vôtres.",
     "materialsTitle": "Contenus",
@@ -360,5 +376,12 @@
     "markedDone": "Marqué comme traité",
     "updateError": "Échec de la mise à jour de la remarque",
     "openSet": "Ouvrir l’ensemble"
+  },
+  "learning": {
+    "dueToday": "Cartes pour aujourd’hui : {{count}}",
+    "streak": "Série : {{count}}",
+    "nextReview": "Prochaine révision : {{when}}",
+    "nextReviewNow": "maintenant",
+    "nextReviewNone": "aucune"
   }
 }

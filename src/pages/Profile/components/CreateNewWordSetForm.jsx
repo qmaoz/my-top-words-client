@@ -32,6 +32,7 @@ export default function CreateNewWordSetForm({ className }) {
 
   const [toast, setToast] = useState({ open: false, message: '', severity: 'info' });
   const handleCloseToast = () => setToast({ ...toast, open: false });
+  const [isOpen, setIsOpen] = useState(false);
 
   const [setLocales, setSetLocales] = useState([...DEFAULT_SET_LOCALES]);
 
@@ -54,6 +55,7 @@ export default function CreateNewWordSetForm({ className }) {
       setToast({ open: true, message: t('profile.createSetSuccess'), severity: 'success' });
       reset();
       setSetLocales([...DEFAULT_SET_LOCALES]);
+      setIsOpen(false);
       navigate(`/word-set/${payload.id}`);
     } catch (error) {
       setToast({
@@ -66,6 +68,18 @@ export default function CreateNewWordSetForm({ className }) {
 
   return (
     <>
+      {!isOpen ? (
+        <Button
+          type="button"
+          color="primary"
+          variant="contained"
+          onClick={() => setIsOpen(true)}
+          disabled={!isAuth}
+          className="create-word-set-form__open"
+        >
+          {t('profile.createSetTitle')}
+        </Button>
+      ) : (
       <Box className={rootClassName} component="section">
         <CircularLoading isLoading={authStatus === 'loading'}>
           <h3 className="create-word-set-form__title">{t('profile.createSetTitle')}</h3>
@@ -87,19 +101,33 @@ export default function CreateNewWordSetForm({ className }) {
               onChange={setSetLocales}
               disabled={!isAuth}
             />
-            <Button
-              type="submit"
-              color="primary"
-              variant="contained"
-              fullWidth
-              disabled={!isAuth}
-              className="create-word-set-form__submit"
-            >
-              {t('profile.createSetSubmit')}
-            </Button>
+            <Box className="create-word-set-form__actions">
+              <Button
+                type="button"
+                color="inherit"
+                variant="text"
+                onClick={() => {
+                  setIsOpen(false);
+                  reset();
+                  setSetLocales([...DEFAULT_SET_LOCALES]);
+                }}
+              >
+                {t('common.cancel')}
+              </Button>
+              <Button
+                type="submit"
+                color="primary"
+                variant="contained"
+                disabled={!isAuth}
+                className="create-word-set-form__submit"
+              >
+                {t('profile.createSetSubmit')}
+              </Button>
+            </Box>
           </form>
         </CircularLoading>
       </Box>
+      )}
       <Toast {...toast} handleClose={handleCloseToast} />
     </>
   );

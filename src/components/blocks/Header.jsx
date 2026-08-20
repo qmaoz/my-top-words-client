@@ -101,7 +101,6 @@ export default function Header() {
               <Link to='/'>My Top Words</Link>
             </h1>
             <Box className="header__actions">
-              <Link to="/about" className="header__nav-link">{t('layout.about')}</Link>
               <LanguageSwitcher />
               {isAuth ? (
                 <Box className="header__user-profile df aic">

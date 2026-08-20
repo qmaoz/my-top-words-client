@@ -16,6 +16,7 @@ import {
 import { fetchAdminFeedback, updateAdminFeedback } from '../../redux/slices/admin';
 import CircularLoading from '../../components/wrappers/CircularLoading';
 import { Toast } from '../../components/utils/messages';
+import useDebouncedValue from '../../components/utils/useDebouncedValue';
 
 export default function AdminFeedbackPage() {
   const { t } = useTranslation();
@@ -24,8 +25,8 @@ export default function AdminFeedbackPage() {
   const feedbackStatuses = getFeedbackStatuses();
   const statusOptions = feedbackStatuses.filter((item) => item.value !== 'all');
   const [statusFilter, setStatusFilter] = useState('all');
-  const [search, setSearch] = useState('');
   const [searchInput, setSearchInput] = useState('');
+  const search = useDebouncedValue(searchInput.trim());
   const [page, setPage] = useState(1);
   const [selectedItem, setSelectedItem] = useState(null);
   const [toast, setToast] = useState({ open: false, message: '', severity: 'info' });
@@ -46,6 +47,10 @@ export default function AdminFeedbackPage() {
   }, [dispatch, page, statusFilter, search]);
 
   useEffect(() => {
+    setPage(1);
+  }, [search]);
+
+  useEffect(() => {
     if (selectedItem) {
       reset({
         status: selectedItem.status,
@@ -53,12 +58,6 @@ export default function AdminFeedbackPage() {
       });
     }
   }, [selectedItem, reset]);
-
-  const onSearch = (event) => {
-    event.preventDefault();
-    setPage(1);
-    setSearch(searchInput.trim());
-  };
 
   const onOpenItem = (item) => setSelectedItem(item);
   const onCloseDialog = () => setSelectedItem(null);
@@ -83,7 +82,7 @@ export default function AdminFeedbackPage() {
   return (
     <>
       <Box className="admin-feedback">
-        <form onSubmit={onSearch} className="admin-toolbar search-card content-block" autoComplete="off">
+        <Box className="admin-toolbar search-card content-block">
           <TextField
             select
             label={t('admin.status')}
@@ -109,9 +108,7 @@ export default function AdminFeedbackPage() {
             className="admin-toolbar__search"
             autoComplete="off"
           />
-
-          <Button type="submit" variant="contained">{t('common.find')}</Button>
-        </form>
+        </Box>
 
         <CircularLoading isLoading={feedback.status === 'loading'}>
           {feedback.items.length === 0 ? (
