@@ -132,25 +132,21 @@
     "deleteSet": "Komê jê bibe",
     "editWords": "Peyvan zêde bike an biguherîne",
     "finishEditingWords": "Sererastkirina peyvan biqedîne",
-    "learnedCount": "Peyvên fêrbûyî:",
+    "learnedCount": "Peyvên fêrbûyî",
     "practice": "Wergerê temrîn bike",
     "practiceHint": "Hevokê wergerîne û bersivê kontrol bike",
     "setLanguages": "Zimanên komê",
     "visPrivateLabel": "Tenê ez",
     "visPrivateHint": "Tenê tu dibînî",
-    "visPrivateConfirm": "Kom tenê ji bo xwe bihêlî?",
     "visUnlistedLabel": "Bi girêdanê",
     "visUnlistedHint": "Bi girêdanê vedibe, lê ne li serûpelê",
-    "visUnlistedConfirm": "Kom bi girêdanê veke?",
     "visPublicLabel": "Li serûpelê",
     "visPublicHint": "Dê di lîsteya serûpelê de xuya bibe",
-    "visPublicConfirm": "Komê li serûpelê nîşan bide?",
     "visibilityTooltip": "{{label}}. {{hint}}",
     "visibilityAria": "Xuyabûna komê: {{label}}",
     "cardWordsInSet": "{{count}} di komê de",
     "searchByName": "Li gorî navê komê bigere",
     "loadListError": "Barkirina koman bi ser neket. Rûpelê nû bike",
-    "notFound": "Tu kom nehat dîtin",
     "unsave": "Ji tomarkirîyan rake",
     "saveToProfile": "Komê li profîlê tomar bike",
     "sourceLocaleLocked": "Heta ku peyv di komê de hebin zimanê komê nayê guhertin",
@@ -159,7 +155,11 @@
     "pageTitle": "Seta peyvên",
     "sourceLocaleHint": "(Zimanê komê)",
     "moveUp": "Bişemitîne jorê",
-    "moveDown": "Bişemitîne jêrê"
+    "moveDown": "Bişemitîne jêrê",
+    "emptyHome": "Hîn komên giştî nîn in",
+    "emptyOwn": "Hîn komên te nîn in",
+    "emptySaved": "Hîn komên tomarkirî nîn in",
+    "searchNotFound": "Tu kom bi vê lêgerînê re nagunce"
   },
   "word": {
     "learned": "Fêrbûyî",
@@ -270,7 +270,6 @@
     "tabOverview": "Giştî",
     "tabFeedback": "Bertek",
     "tabUsers": "Bikarhêner",
-    "overviewDesc": "Nêrîneke kurt a rewşa xizmetê.",
     "statSetsSuffix": "peyv",
     "feedback": "Bertek",
     "msgQueued": "di rêzê de",
@@ -315,7 +314,10 @@
     "colWordSets": "Kom",
     "colWords": "Peyv",
     "colRegistered": "Tomarbûn",
-    "colLastSeen": "Herî dawî serhêl"
+    "colLastSeen": "Herî dawî serhêl",
+    "deleteMessageConfirm": "Vê peyamê jê bibe?",
+    "messageDeleted": "Peyam hat jêbirin",
+    "deleteMessageError": "Peyam nehat jêbirin"
   },
   "about": {
     "title": "Der barê xizmetê",
@@ -374,14 +376,16 @@
     "panelTitle": "Têbîniyên li ser vê komê",
     "markDone": "Weşîne wekî temam",
     "markedDone": "Weşandî wekî temam",
-    "updateError": "Têbînî nehate nûkirin",
+    "deleteError": "Têbînî nehat jêbirin",
     "openSet": "Komê veke"
   },
   "learning": {
-    "dueToday": "Kartên îro: {{count}}",
-    "streak": "Zincîre: {{count}}",
-    "nextReview": "Dubareya pêş: {{when}}",
-    "nextReviewNow": "niha",
+    "dueToday": "Niha di rahênerê de: {{count}}",
+    "dueTodayHint": "Peyvên ku tu dikarî niha rahênî. Bersiva rast peyvê ditewîne; a şaş di vê rêzê de dihêle. Peyvên ku hîn di rahênerê de venekirî ne nayên jimartin.",
+    "streak": "Rojên li pey hev: {{count}}",
+    "streakHint": "Rojên li pey hev ku te kêmî carekê rahêner bikar anî. Piştî rojekê ya winda, danişîna pêş 1 dest pê dike.",
+    "nextReview": "Paşxistina pêş: {{when}}",
+    "nextReviewHint": "Kengê peyva paşxistî ya herî nêzîk vedigere rahênerê. Yên îro di «Niha di rahênerê de» ne.",
     "nextReviewNone": "tune"
   }
 }

@@ -28,7 +28,6 @@ import WordSetWordsEditor from '../components/WordSetWordsEditor';
 import { useConfirm } from '../components/utils/useConfirm';
 import { useDocumentTitle } from '../components/utils/useDocumentTitle';
 import { isThunkSkipped } from '../components/utils/functions';
-import { getWordSetVisibilityOptions } from '../components/utils/wordSetVisibility';
 import {
   DEFAULT_SOURCE_LOCALE,
   DEFAULT_TRANSLATION_LOCALES,
@@ -81,10 +80,6 @@ export default function WordSetPage() {
 
   const handleVisibilityChange = async (nextVisibility) => {
     if (!isOwnWordSet) return;
-
-    const visibilityOptions = getWordSetVisibilityOptions();
-    const confirmed = await confirm(visibilityOptions[nextVisibility]?.confirm);
-    if (!confirmed) return;
 
     try {
       const data = await dispatch(updateWordSet({ id: wordSetId, visibility: nextVisibility })).unwrap();

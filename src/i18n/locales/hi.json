@@ -132,25 +132,21 @@
     "deleteSet": "सेट हटाएँ",
     "editWords": "शब्द जोड़ें या संपादित करें",
     "finishEditingWords": "शब्द संपादन समाप्त करें",
-    "learnedCount": "सीखे गए शब्द:",
+    "learnedCount": "सीखे गए शब्द",
     "practice": "अनुवाद का अभ्यास",
     "practiceHint": "वाक्य का अनुवाद करें और अपना उत्तर जाँचें",
     "setLanguages": "सेट की भाषाएँ",
     "visPrivateLabel": "केवल मैं",
     "visPrivateHint": "केवल आपको दिखाई देगा",
-    "visPrivateConfirm": "सेट निजी रखें?",
     "visUnlistedLabel": "लिंक द्वारा",
     "visUnlistedHint": "लिंक से खुलता है, लेकिन मुख्य पृष्ठ पर नहीं",
-    "visUnlistedConfirm": "सेट लिंक द्वारा उपलब्ध कराएँ?",
     "visPublicLabel": "मुख्य पृष्ठ पर",
     "visPublicHint": "मुख्य पृष्ठ की सूची में दिखाई देगा",
-    "visPublicConfirm": "सेट मुख्य पृष्ठ पर दिखाएँ?",
     "visibilityTooltip": "{{label}}. {{hint}}",
     "visibilityAria": "सेट की दृश्यता: {{label}}",
     "cardWordsInSet": "सेट में {{count}}",
     "searchByName": "सेट के नाम से खोजें",
     "loadListError": "सेट लोड करने में विफल। कृपया पृष्ठ रीफ़्रेश करें",
-    "notFound": "कोई सेट नहीं मिला",
     "unsave": "सहेजे गए से हटाएँ",
     "saveToProfile": "सेट अपनी प्रोफ़ाइल में सहेजें",
     "sourceLocaleLocked": "शब्द होने पर सेट की भाषा नहीं बदली जा सकती",
@@ -159,7 +155,11 @@
     "pageTitle": "शब्द सेट",
     "moveUp": "ऊपर ले जाएँ",
     "moveDown": "नीचे ले जाएँ",
-    "sourceLocaleHint": "(सेट की भाषा)"
+    "sourceLocaleHint": "(सेट की भाषा)",
+    "emptyHome": "अभी कोई सार्वजनिक सेट नहीं है",
+    "emptyOwn": "आपके पास अभी कोई सेट नहीं है",
+    "emptySaved": "आपके पास अभी कोई सहेजा सेट नहीं है",
+    "searchNotFound": "खोज से कोई सेट नहीं मिला"
   },
   "word": {
     "learned": "सीखा हुआ",
@@ -270,7 +270,6 @@
     "tabOverview": "अवलोकन",
     "tabFeedback": "प्रतिक्रिया",
     "tabUsers": "उपयोगकर्ता",
-    "overviewDesc": "सेवा की स्थिति का संक्षिप्त अवलोकन।",
     "statSetsSuffix": "शब्द",
     "feedback": "प्रतिक्रिया",
     "msgQueued": "कतार में",
@@ -315,7 +314,10 @@
     "user_one": "उपयोगकर्ता",
     "user_other": "उपयोगकर्ता",
     "set_one": "सेट",
-    "set_other": "सेट"
+    "set_other": "सेट",
+    "deleteMessageConfirm": "यह संदेश हटाएँ?",
+    "messageDeleted": "संदेश हटा दिया गया",
+    "deleteMessageError": "संदेश हटाया नहीं जा सका"
   },
   "about": {
     "title": "सेवा के बारे में",
@@ -374,14 +376,16 @@
     "panelTitle": "इस सेट पर टिप्पणियाँ",
     "markDone": "पूर्ण चिह्नित करें",
     "markedDone": "पूर्ण चिह्नित",
-    "updateError": "टिप्पणी अपडेट नहीं हो सकी",
+    "deleteError": "टिप्पणी हटाई नहीं जा सकी",
     "openSet": "सेट खोलें"
   },
   "learning": {
-    "dueToday": "आज के कार्ड: {{count}}",
-    "streak": "श्रृंखला: {{count}}",
-    "nextReview": "अगला दोहराव: {{when}}",
-    "nextReviewNow": "अभी",
-    "nextReviewNone": "नहीं"
+    "dueToday": "अभी ट्रेनर में: {{count}}",
+    "dueTodayHint": "वे शब्द जिन्हें आप अभी अभ्यास कर सकते हैं। सही उत्तर शब्द को टालता है; गलत इसे इसी कतार में रखता है। ट्रेनर में अभी न खोले शब्द नहीं गिने जाते।",
+    "streak": "लगातार दिन: {{count}}",
+    "streakHint": "लगातार दिन जब आपने ट्रेनर में कम से कम एक बार अभ्यास किया। छूटे दिन के बाद अगला सत्र 1 से शुरू होता है।",
+    "nextReview": "अगला स्थगन: {{when}}",
+    "nextReviewHint": "सबसे नज़दीकी स्थगित शब्द ट्रेनर में कब लौटेगा। आज वाले «अभी ट्रेनर में» हैं।",
+    "nextReviewNone": "कोई नहीं"
   }
 }

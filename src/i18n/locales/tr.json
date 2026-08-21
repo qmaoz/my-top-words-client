@@ -132,25 +132,21 @@
     "deleteSet": "Seti sil",
     "editWords": "Kelime ekle veya düzenle",
     "finishEditingWords": "Kelime düzenlemeyi bitir",
-    "learnedCount": "Öğrenilen kelimeler:",
+    "learnedCount": "Öğrenilen kelimeler",
     "practice": "Çeviri alıştırması",
     "practiceHint": "Cümleyi çevirin ve cevabınızı kontrol edin",
     "setLanguages": "Set dilleri",
     "visPrivateLabel": "Yalnızca ben",
     "visPrivateHint": "Yalnızca size görünür",
-    "visPrivateConfirm": "Set gizli kalsın mı?",
     "visUnlistedLabel": "Bağlantı ile",
     "visUnlistedHint": "Bağlantı ile açılır, ana sayfada değil",
-    "visUnlistedConfirm": "Set bağlantı ile erişilebilir olsun mu?",
     "visPublicLabel": "Ana sayfada",
     "visPublicHint": "Ana sayfadaki listede görünecek",
-    "visPublicConfirm": "Set ana sayfada gösterilsin mi?",
     "visibilityTooltip": "{{label}}. {{hint}}",
     "visibilityAria": "Set görünürlüğü: {{label}}",
     "cardWordsInSet": "Sette {{count}}",
     "searchByName": "Set adına göre ara",
     "loadListError": "Setler yüklenemedi. Lütfen sayfayı yenileyin",
-    "notFound": "Set bulunamadı",
     "unsave": "Kaydedilenlerden kaldır",
     "saveToProfile": "Seti profilinize kaydedin",
     "sourceLocaleLocked": "Sette kelime varken set dili değiştirilemez",
@@ -159,7 +155,11 @@
     "pageTitle": "Kelime seti",
     "moveUp": "Yukarı taşı",
     "moveDown": "Aşağı taşı",
-    "sourceLocaleHint": "(Set dili)"
+    "sourceLocaleHint": "(Set dili)",
+    "emptyHome": "Henüz herkese açık set yok",
+    "emptyOwn": "Henüz setin yok",
+    "emptySaved": "Henüz kayıtlı setin yok",
+    "searchNotFound": "Aramana uyan set yok"
   },
   "word": {
     "learned": "Öğrenildi",
@@ -270,7 +270,6 @@
     "tabOverview": "Genel bakış",
     "tabFeedback": "Geri bildirim",
     "tabUsers": "Kullanıcılar",
-    "overviewDesc": "Hizmet durumunun kısa bir özeti.",
     "statSetsSuffix": "kelime",
     "feedback": "Geri bildirim",
     "msgQueued": "sırada",
@@ -315,7 +314,10 @@
     "user_one": "kullanıcı",
     "user_other": "kullanıcı",
     "set_one": "set",
-    "set_other": "set"
+    "set_other": "set",
+    "deleteMessageConfirm": "Bu mesaj silinsin mi?",
+    "messageDeleted": "Mesaj silindi",
+    "deleteMessageError": "Mesaj silinemedi"
   },
   "about": {
     "title": "Hizmet hakkında",
@@ -374,14 +376,16 @@
     "panelTitle": "Bu set hakkındaki notlar",
     "markDone": "Tamamlandı olarak işaretle",
     "markedDone": "Tamamlandı olarak işaretlendi",
-    "updateError": "Not güncellenemedi",
+    "deleteError": "Not silinemedi",
     "openSet": "Seti aç"
   },
   "learning": {
-    "dueToday": "Bugünkü kartlar: {{count}}",
-    "streak": "Seri: {{count}}",
-    "nextReview": "Sonraki tekrar: {{when}}",
-    "nextReviewNow": "şimdi",
+    "dueToday": "Antrenörde şimdi: {{count}}",
+    "dueTodayHint": "Şu anda çalışabileceğin kelimeler. Doğru cevap kelimeyi erteler; yanlış cevap onu bu kuyrukta tutar. Antrenörde henüz açmadığın kelimeler sayılmaz.",
+    "streak": "Üst üste gün: {{count}}",
+    "streakHint": "Antrenörde en az bir kez çalıştığın ardışık günler. Atlanan günden sonra sonraki seans 1’den başlar.",
+    "nextReview": "Sonraki erteleme: {{when}}",
+    "nextReviewHint": "En yakın ertelenen kelimenin antrenöre ne zaman döneceği. Bugünküler «Antrenörde şimdi» içinde.",
     "nextReviewNone": "yok"
   }
 }

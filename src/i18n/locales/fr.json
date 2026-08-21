@@ -132,25 +132,21 @@
     "deleteSet": "Supprimer l'ensemble",
     "editWords": "Ajouter ou modifier des mots",
     "finishEditingWords": "Terminer la modification",
-    "learnedCount": "Mots appris :",
+    "learnedCount": "Mots appris",
     "practice": "S'entraîner à traduire",
     "practiceHint": "Traduisez la phrase et vérifiez votre réponse",
     "setLanguages": "Langues de l'ensemble",
     "visPrivateLabel": "Moi seulement",
     "visPrivateHint": "Visible uniquement par vous",
-    "visPrivateConfirm": "Garder l'ensemble privé ?",
     "visUnlistedLabel": "Par lien",
     "visUnlistedHint": "Accessible par lien, mais pas sur la page d'accueil",
-    "visUnlistedConfirm": "Rendre l'ensemble accessible par lien ?",
     "visPublicLabel": "Sur la page d'accueil",
     "visPublicHint": "Apparaîtra dans la liste de la page d'accueil",
-    "visPublicConfirm": "Afficher l'ensemble sur la page d'accueil ?",
     "visibilityTooltip": "{{label}}. {{hint}}",
     "visibilityAria": "Visibilité de l'ensemble : {{label}}",
     "cardWordsInSet": "{{count}} dans l'ensemble",
     "searchByName": "Rechercher par nom d'ensemble",
     "loadListError": "Impossible de charger les ensembles. Veuillez actualiser la page",
-    "notFound": "Aucun ensemble trouvé",
     "unsave": "Retirer des enregistrés",
     "saveToProfile": "Enregistrer l'ensemble dans le profil",
     "sourceLocaleLocked": "La langue de l'ensemble ne peut pas être modifiée tant qu'il contient des mots",
@@ -159,7 +155,11 @@
     "pageTitle": "Ensemble de mots",
     "sourceLocaleHint": "(Langue de l'ensemble)",
     "moveUp": "Monter",
-    "moveDown": "Descendre"
+    "moveDown": "Descendre",
+    "emptyHome": "Aucun ensemble public pour le moment",
+    "emptyOwn": "Vous n’avez pas encore d’ensembles",
+    "emptySaved": "Vous n’avez pas encore d’ensembles enregistrés",
+    "searchNotFound": "Aucun ensemble ne correspond à votre recherche"
   },
   "word": {
     "learned": "Appris",
@@ -270,7 +270,6 @@
     "tabOverview": "Aperçu",
     "tabFeedback": "Commentaires",
     "tabUsers": "Utilisateurs",
-    "overviewDesc": "Un bref aperçu de l'état du service.",
     "statSetsSuffix": "mots",
     "feedback": "Commentaires",
     "msgQueued": "en attente",
@@ -315,7 +314,10 @@
     "user_one": "utilisateur",
     "user_other": "utilisateurs",
     "set_one": "ensemble",
-    "set_other": "ensembles"
+    "set_other": "ensembles",
+    "deleteMessageConfirm": "Supprimer ce message ?",
+    "messageDeleted": "Message supprimé",
+    "deleteMessageError": "Impossible de supprimer le message"
   },
   "about": {
     "title": "À propos",
@@ -374,14 +376,16 @@
     "panelTitle": "Remarques sur cet ensemble",
     "markDone": "Marquer comme traité",
     "markedDone": "Marqué comme traité",
-    "updateError": "Échec de la mise à jour de la remarque",
+    "deleteError": "Impossible de supprimer la remarque",
     "openSet": "Ouvrir l’ensemble"
   },
   "learning": {
-    "dueToday": "Cartes pour aujourd’hui : {{count}}",
-    "streak": "Série : {{count}}",
-    "nextReview": "Prochaine révision : {{when}}",
-    "nextReviewNow": "maintenant",
-    "nextReviewNone": "aucune"
+    "dueToday": "Dans le trainer maintenant : {{count}}",
+    "dueTodayHint": "Mots que vous pouvez réviser tout de suite. Une bonne réponse reporte le mot ; une mauvaise le garde dans cette file. Les mots pas encore ouverts dans le trainer ne sont pas comptés.",
+    "streak": "Jours d’affilée : {{count}}",
+    "streakHint": "Jours consécutifs avec au moins une session dans le trainer. Après un jour manqué, la session suivante repart de 1.",
+    "nextReview": "Prochain report : {{when}}",
+    "nextReviewHint": "Quand le mot reporté le plus proche revient dans le trainer. Les mots du jour sont dans « Dans le trainer maintenant ».",
+    "nextReviewNone": "aucun"
   }
 }

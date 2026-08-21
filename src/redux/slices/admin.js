@@ -39,6 +39,15 @@ export const updateAdminFeedback = createAsyncThunk('admin/updateFeedback', asyn
   }
 });
 
+export const deleteAdminFeedback = createAsyncThunk('admin/deleteFeedback', async (id, { rejectWithValue }) => {
+  try {
+    const { data } = await axios.delete(`/admin/feedback/${id}`);
+    return { id, ...data };
+  } catch (error) {
+    return rejectWithValue({ message: error?.response?.data || tr('common.serverError') });
+  }
+});
+
 export const fetchAdminUsers = createAsyncThunk('admin/fetchUsers', async (params, { rejectWithValue }) => {
   try {
     const { data } = await axios.get('/admin/users', { params });
@@ -112,6 +121,10 @@ const adminSlice = createSlice({
         if (index !== -1) {
           state.feedback.items[index] = action.payload.item;
         }
+      })
+      .addCase(deleteAdminFeedback.fulfilled, (state, action) => {
+        state.feedback.items = state.feedback.items.filter((item) => item.id !== action.payload.id);
+        state.feedback.totalItems = Math.max(0, state.feedback.totalItems - 1);
       })
       .addCase(fetchAdminUsers.pending, (state) => {
         state.users.status = 'loading';

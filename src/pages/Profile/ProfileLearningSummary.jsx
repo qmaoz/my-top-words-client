@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 import axios from '../../axios';
+import InfoHint from '../../components/InfoHint';
 
-function formatNextReview(nextReviewAt, dueToday, t, locale) {
-  if (dueToday > 0) return t('learning.nextReviewNow');
+function formatNextReview(nextReviewAt, t, locale) {
   if (!nextReviewAt) return t('learning.nextReviewNone');
 
   try {
@@ -37,7 +37,7 @@ export default function ProfileLearningSummary() {
   }, []);
 
   const when = useMemo(
-    () => formatNextReview(summary?.nextReviewAt, summary?.dueToday || 0, t, i18n.language),
+    () => formatNextReview(summary?.nextReviewAt, t, i18n.language),
     [summary, t, i18n.language],
   );
 
@@ -45,15 +45,24 @@ export default function ProfileLearningSummary() {
 
   return (
     <div className="profile-learning-summary">
-      <Typography component="p" className="profile-learning-summary__item">
-        {t('learning.dueToday', { count: summary.dueToday || 0 })}
-      </Typography>
-      <Typography component="p" className="profile-learning-summary__item">
-        {t('learning.streak', { count: summary.streak || 0 })}
-      </Typography>
-      <Typography component="p" className="profile-learning-summary__item">
-        {t('learning.nextReview', { when })}
-      </Typography>
+      <Box className="profile-learning-summary__item heading-with-info">
+        <Typography component="p" className="profile-learning-summary__value">
+          {t('learning.dueToday', { count: summary.dueToday || 0 })}
+        </Typography>
+        <InfoHint title={t('learning.dueTodayHint')} />
+      </Box>
+      <Box className="profile-learning-summary__item heading-with-info">
+        <Typography component="p" className="profile-learning-summary__value">
+          {t('learning.streak', { count: summary.streak || 0 })}
+        </Typography>
+        <InfoHint title={t('learning.streakHint')} />
+      </Box>
+      <Box className="profile-learning-summary__item heading-with-info">
+        <Typography component="p" className="profile-learning-summary__value">
+          {t('learning.nextReview', { when })}
+        </Typography>
+        <InfoHint title={t('learning.nextReviewHint')} />
+      </Box>
     </div>
   );
 }

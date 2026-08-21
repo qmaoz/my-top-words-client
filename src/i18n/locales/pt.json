@@ -132,25 +132,21 @@
     "deleteSet": "Eliminar conjunto",
     "editWords": "Adicionar ou editar palavras",
     "finishEditingWords": "Concluir edição de palavras",
-    "learnedCount": "Palavras aprendidas:",
+    "learnedCount": "Palavras aprendidas",
     "practice": "Praticar tradução",
     "practiceHint": "Traduza a frase e verifique a sua resposta",
     "setLanguages": "Idiomas do conjunto",
     "visPrivateLabel": "Só eu",
     "visPrivateHint": "Visível apenas para si",
-    "visPrivateConfirm": "Manter o conjunto privado?",
     "visUnlistedLabel": "Por link",
     "visUnlistedHint": "Abre por link, mas não aparece na página inicial",
-    "visUnlistedConfirm": "Tornar o conjunto disponível por link?",
     "visPublicLabel": "Na página inicial",
     "visPublicHint": "Aparecerá na lista da página inicial",
-    "visPublicConfirm": "Mostrar o conjunto na página inicial?",
     "visibilityTooltip": "{{label}}. {{hint}}",
     "visibilityAria": "Visibilidade do conjunto: {{label}}",
     "cardWordsInSet": "{{count}} no conjunto",
     "searchByName": "Procurar por nome do conjunto",
     "loadListError": "Falha ao carregar os conjuntos. Atualize a página",
-    "notFound": "Nenhum conjunto encontrado",
     "unsave": "Remover dos guardados",
     "saveToProfile": "Guardar o conjunto no seu perfil",
     "sourceLocaleLocked": "O idioma do conjunto não pode ser alterado enquanto tiver palavras",
@@ -159,7 +155,11 @@
     "pageTitle": "Conjunto de palavras",
     "moveUp": "Mover para cima",
     "moveDown": "Mover para baixo",
-    "sourceLocaleHint": "(Idioma do conjunto)"
+    "sourceLocaleHint": "(Idioma do conjunto)",
+    "emptyHome": "Ainda não há conjuntos públicos",
+    "emptyOwn": "Ainda não tens conjuntos",
+    "emptySaved": "Ainda não tens conjuntos guardados",
+    "searchNotFound": "Nenhum conjunto corresponde à pesquisa"
   },
   "word": {
     "learned": "Aprendida",
@@ -270,7 +270,6 @@
     "tabOverview": "Visão geral",
     "tabFeedback": "Feedback",
     "tabUsers": "Utilizadores",
-    "overviewDesc": "Uma breve visão geral do estado do serviço.",
     "statSetsSuffix": "palavras",
     "feedback": "Feedback",
     "msgQueued": "na fila",
@@ -315,7 +314,10 @@
     "user_one": "utilizador",
     "user_other": "utilizadores",
     "set_one": "conjunto",
-    "set_other": "conjuntos"
+    "set_other": "conjuntos",
+    "deleteMessageConfirm": "Eliminar esta mensagem?",
+    "messageDeleted": "Mensagem eliminada",
+    "deleteMessageError": "Não foi possível eliminar a mensagem"
   },
   "about": {
     "title": "Sobre o serviço",
@@ -374,14 +376,16 @@
     "panelTitle": "Observações sobre este conjunto",
     "markDone": "Marcar como concluída",
     "markedDone": "Marcada como concluída",
-    "updateError": "Falha ao atualizar a observação",
+    "deleteError": "Falha ao eliminar a observação",
     "openSet": "Abrir conjunto"
   },
   "learning": {
-    "dueToday": "Cartões para hoje: {{count}}",
-    "streak": "Sequência: {{count}}",
-    "nextReview": "Próxima revisão: {{when}}",
-    "nextReviewNow": "agora",
-    "nextReviewNone": "nenhuma"
+    "dueToday": "Agora no treino: {{count}}",
+    "dueTodayHint": "Palavras que podes treinar agora. Uma resposta certa adia a palavra; uma errada deixa-a nesta fila. Palavras ainda não abertas no treino não contam.",
+    "streak": "Dias seguidos: {{count}}",
+    "streakHint": "Dias consecutivos com pelo menos uma sessão no treino. Depois de um dia falhado, a sessão seguinte começa em 1.",
+    "nextReview": "Próximo adiamento: {{when}}",
+    "nextReviewHint": "Quando a palavra adiada mais próxima volta ao treino. As de hoje estão em «Agora no treino».",
+    "nextReviewNone": "nenhum"
   }
 }

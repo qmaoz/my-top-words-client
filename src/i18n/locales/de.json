@@ -132,25 +132,21 @@
     "deleteSet": "Set löschen",
     "editWords": "Wörter hinzufügen oder bearbeiten",
     "finishEditingWords": "Bearbeitung beenden",
-    "learnedCount": "Gelernte Wörter:",
+    "learnedCount": "Gelernte Wörter",
     "practice": "Übersetzung üben",
     "practiceHint": "Übersetzen Sie den Satz und prüfen Sie Ihre Antwort",
     "setLanguages": "Setsprachen",
     "visPrivateLabel": "Nur ich",
     "visPrivateHint": "Nur für Sie sichtbar",
-    "visPrivateConfirm": "Set privat lassen?",
     "visUnlistedLabel": "Per Link",
     "visUnlistedHint": "Öffnet per Link, erscheint aber nicht auf der Startseite",
-    "visUnlistedConfirm": "Set per Link verfügbar machen?",
     "visPublicLabel": "Auf der Startseite",
     "visPublicHint": "Erscheint in der Liste auf der Startseite",
-    "visPublicConfirm": "Set auf der Startseite anzeigen?",
     "visibilityTooltip": "{{label}}. {{hint}}",
     "visibilityAria": "Set-Sichtbarkeit: {{label}}",
     "cardWordsInSet": "{{count}} im Set",
     "searchByName": "Nach Setname suchen",
     "loadListError": "Sets konnten nicht geladen werden. Bitte laden Sie die Seite neu",
-    "notFound": "Keine Sets gefunden",
     "unsave": "Aus Gespeicherten entfernen",
     "saveToProfile": "Set im Profil speichern",
     "sourceLocaleLocked": "Die Setsprache kann nicht geändert werden, solange Wörter vorhanden sind",
@@ -159,7 +155,11 @@
     "pageTitle": "Wortset",
     "sourceLocaleHint": "(Setsprache)",
     "moveUp": "Nach oben",
-    "moveDown": "Nach unten"
+    "moveDown": "Nach unten",
+    "emptyHome": "Noch keine öffentlichen Sets",
+    "emptyOwn": "Du hast noch keine Sets",
+    "emptySaved": "Du hast noch keine gespeicherten Sets",
+    "searchNotFound": "Keine Sets zu dieser Suche"
   },
   "word": {
     "learned": "Gelernt",
@@ -270,7 +270,6 @@
     "tabOverview": "Übersicht",
     "tabFeedback": "Feedback",
     "tabUsers": "Benutzer",
-    "overviewDesc": "Ein kurzer Überblick über den Zustand des Dienstes.",
     "statSetsSuffix": "Wörter",
     "feedback": "Feedback",
     "msgQueued": "in Warteschlange",
@@ -315,7 +314,10 @@
     "user_one": "Benutzer",
     "user_other": "Benutzer",
     "set_one": "Set",
-    "set_other": "Sets"
+    "set_other": "Sets",
+    "deleteMessageConfirm": "Diese Nachricht löschen?",
+    "messageDeleted": "Nachricht gelöscht",
+    "deleteMessageError": "Nachricht konnte nicht gelöscht werden"
   },
   "about": {
     "title": "Über den Dienst",
@@ -374,14 +376,16 @@
     "panelTitle": "Hinweise zu diesem Set",
     "markDone": "Als erledigt markieren",
     "markedDone": "Als erledigt markiert",
-    "updateError": "Hinweis konnte nicht aktualisiert werden",
+    "deleteError": "Hinweis konnte nicht gelöscht werden",
     "openSet": "Set öffnen"
   },
   "learning": {
-    "dueToday": "Heute fällig: {{count}}",
-    "streak": "Serie: {{count}}",
-    "nextReview": "Nächste Wiederholung: {{when}}",
-    "nextReviewNow": "jetzt",
+    "dueToday": "Jetzt im Trainer: {{count}}",
+    "dueTodayHint": "Wörter, die Sie jetzt üben können. Eine richtige Antwort schiebt das Wort auf; eine falsche lässt es in dieser Warteschlange. Wörter, die Sie im Trainer noch nicht geöffnet haben, zählen nicht.",
+    "streak": "Tage in Folge: {{count}}",
+    "streakHint": "Aufeinanderfolgende Tage mit mindestens einer Übung im Trainer. Nach einem ausgelassenen Tag beginnt die nächste Sitzung bei 1.",
+    "nextReview": "Nächste Verschiebung: {{when}}",
+    "nextReviewHint": "Wann das nächste aufgeschobene Wort in den Trainer zurückkehrt. Heutige Wörter stehen unter „Jetzt im Trainer“.",
     "nextReviewNone": "keine"
   }
 }

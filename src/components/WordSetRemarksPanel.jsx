@@ -6,7 +6,7 @@ import {
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-import { fetchWordSetRemarks, updateWordSetRemark } from '../redux/slices/word-set-remarks';
+import { fetchWordSetRemarks, deleteWordSetRemark } from '../redux/slices/word-set-remarks';
 import { formatFeedbackDate } from './utils/feedback';
 import { Toast } from './utils/messages';
 
@@ -18,7 +18,7 @@ export default function WordSetRemarksPanel({ wordSetId }) {
 
   useEffect(() => {
     if (wordSetId) {
-      dispatch(fetchWordSetRemarks({ wordSetId, status: 'queued', page: 1, limit: 30 }));
+      dispatch(fetchWordSetRemarks({ wordSetId, page: 1, limit: 30 }));
     }
   }, [dispatch, wordSetId]);
 
@@ -26,13 +26,12 @@ export default function WordSetRemarksPanel({ wordSetId }) {
 
   const onMarkDone = async (id) => {
     try {
-      await dispatch(updateWordSetRemark({ id, status: 'done' })).unwrap();
+      await dispatch(deleteWordSetRemark(id)).unwrap();
       setToast({ open: true, message: t('setRemark.markedDone'), severity: 'success' });
-      dispatch(fetchWordSetRemarks({ wordSetId, status: 'queued', page: 1, limit: 30 }));
     } catch (error) {
       setToast({
         open: true,
-        message: error?.message?.message || error?.message || t('setRemark.updateError'),
+        message: error?.message?.message || error?.message || t('setRemark.deleteError'),
         severity: 'error',
       });
     }

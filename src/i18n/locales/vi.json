@@ -132,25 +132,21 @@
     "deleteSet": "Xóa bộ từ",
     "editWords": "Thêm hoặc sửa từ",
     "finishEditingWords": "Hoàn tất chỉnh sửa từ",
-    "learnedCount": "Từ đã học:",
+    "learnedCount": "Từ đã học",
     "practice": "Luyện dịch",
     "practiceHint": "Dịch câu và kiểm tra câu trả lời của bạn",
     "setLanguages": "Ngôn ngữ của bộ từ",
     "visPrivateLabel": "Chỉ mình tôi",
     "visPrivateHint": "Chỉ bạn mới thấy",
-    "visPrivateConfirm": "Giữ bộ từ ở chế độ riêng tư?",
     "visUnlistedLabel": "Qua liên kết",
     "visUnlistedHint": "Mở được qua liên kết nhưng không hiển thị trên trang chủ",
-    "visUnlistedConfirm": "Cho phép truy cập bộ từ qua liên kết?",
     "visPublicLabel": "Trên trang chủ",
     "visPublicHint": "Sẽ xuất hiện trong danh sách trên trang chủ",
-    "visPublicConfirm": "Hiển thị bộ từ trên trang chủ?",
     "visibilityTooltip": "{{label}}. {{hint}}",
     "visibilityAria": "Chế độ hiển thị bộ từ: {{label}}",
     "cardWordsInSet": "{{count}} trong bộ",
     "searchByName": "Tìm theo tên bộ từ",
     "loadListError": "Không tải được các bộ từ. Vui lòng tải lại trang",
-    "notFound": "Không tìm thấy bộ từ",
     "unsave": "Gỡ khỏi danh sách đã lưu",
     "saveToProfile": "Lưu bộ từ vào hồ sơ",
     "sourceLocaleLocked": "Không thể thay đổi ngôn ngữ bộ từ khi đã có từ",
@@ -159,7 +155,11 @@
     "pageTitle": "Bộ từ",
     "moveUp": "Di chuyển lên",
     "moveDown": "Di chuyển xuống",
-    "sourceLocaleHint": "(Ngôn ngữ của bộ từ)"
+    "sourceLocaleHint": "(Ngôn ngữ của bộ từ)",
+    "emptyHome": "Chưa có bộ từ công khai",
+    "emptyOwn": "Bạn chưa có bộ từ nào",
+    "emptySaved": "Bạn chưa lưu bộ từ nào",
+    "searchNotFound": "Không có bộ từ khớp với tìm kiếm"
   },
   "word": {
     "learned": "Đã học",
@@ -270,7 +270,6 @@
     "tabOverview": "Tổng quan",
     "tabFeedback": "Phản hồi",
     "tabUsers": "Người dùng",
-    "overviewDesc": "Tổng quan ngắn gọn về trạng thái dịch vụ.",
     "statSetsSuffix": "từ",
     "feedback": "Phản hồi",
     "msgQueued": "đang chờ",
@@ -315,7 +314,10 @@
     "user_one": "người dùng",
     "user_other": "người dùng",
     "set_one": "bộ từ",
-    "set_other": "bộ từ"
+    "set_other": "bộ từ",
+    "deleteMessageConfirm": "Xóa tin nhắn này?",
+    "messageDeleted": "Đã xóa tin nhắn",
+    "deleteMessageError": "Không xóa được tin nhắn"
   },
   "about": {
     "title": "Về dịch vụ",
@@ -374,14 +376,16 @@
     "panelTitle": "Nhận xét về bộ từ này",
     "markDone": "Đánh dấu đã xử lý",
     "markedDone": "Đã đánh dấu đã xử lý",
-    "updateError": "Không cập nhật được nhận xét",
+    "deleteError": "Không xóa được nhận xét",
     "openSet": "Mở bộ từ"
   },
   "learning": {
-    "dueToday": "Thẻ hôm nay: {{count}}",
-    "streak": "Chuỗi: {{count}}",
-    "nextReview": "Ôn tiếp theo: {{when}}",
-    "nextReviewNow": "bây giờ",
-    "nextReviewNone": "không có"
+    "dueToday": "Trong luyện tập ngay: {{count}}",
+    "dueTodayHint": "Số từ bạn có thể luyện ngay. Trả lời đúng thì từ được hoãn; sai thì từ còn trong hàng này. Từ chưa mở trong luyện tập không được tính.",
+    "streak": "Ngày liên tiếp: {{count}}",
+    "streakHint": "Số ngày liên tiếp bạn luyện ít nhất một lần. Sau ngày bỏ lỡ, buổi sau bắt đầu lại từ 1.",
+    "nextReview": "Lần hoãn tới: {{when}}",
+    "nextReviewHint": "Khi từ bị hoãn gần nhất quay lại luyện tập. Từ hôm nay nằm ở «Trong luyện tập ngay».",
+    "nextReviewNone": "không"
   }
 }

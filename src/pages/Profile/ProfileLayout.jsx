@@ -7,6 +7,7 @@ import { Box, Tab, Tabs } from '@mui/material';
 import { selectIsAuth, selectAuthStatus } from '../../redux/slices/auth';
 import { selectQueuedRemarksTotal } from '../../redux/slices/word-set-remarks';
 import CircularLoading from '../../components/wrappers/CircularLoading';
+import InfoHint from '../../components/InfoHint';
 import ProfileLearningSummary from './ProfileLearningSummary';
 
 export default function ProfileLayout() {
@@ -28,6 +29,8 @@ export default function ProfileLayout() {
   const currentTab = location.pathname === '/profile' || location.pathname === '/profile/own-word-sets'
     ? '/profile/own-word-sets'
     : location.pathname;
+  const showLearningSummary = currentTab === '/profile/own-word-sets'
+    || currentTab === '/profile/saved-word-sets';
 
   return (
     <>
@@ -39,12 +42,31 @@ export default function ProfileLayout() {
                 <Tab label={t('profile.tabOwn')} value="/profile/own-word-sets" component={Link} to="own-word-sets" />
                 <Tab label={t('profile.tabSaved')} value="/profile/saved-word-sets" component={Link} to="saved-word-sets" />
                 {showRemarksTab && (
-                  <Tab label={t('profile.tabRemarks')} value="/profile/remarks" component={Link} to="remarks" />
+                  <Tab
+                    label={(
+                      <Box
+                        component="span"
+                        className="heading-with-info"
+                        onClick={(event) => {
+                          if (event.target.closest('.info-hint-btn')) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                          }
+                        }}
+                      >
+                        {t('profile.tabRemarks')}
+                        <InfoHint title={t('setRemark.inboxIntro')} />
+                      </Box>
+                    )}
+                    value="/profile/remarks"
+                    component={Link}
+                    to="remarks"
+                  />
                 )}
                 <Tab label={t('profile.tabSettings')} value="/profile/settings" component={Link} to="settings" />
               </Tabs>
             </Box>
-            <ProfileLearningSummary />
+            {showLearningSummary && <ProfileLearningSummary />}
             <Box className="profile-page__content">
               <Outlet />
             </Box>

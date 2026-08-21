@@ -53,7 +53,7 @@ export default function Header() {
 
   useEffect(() => {
     if (isAuth) {
-      dispatch(fetchMyWordSetRemarks({ status: 'queued', page: 1, limit: 1 }));
+      dispatch(fetchMyWordSetRemarks({ page: 1, limit: 1 }));
     } else {
       dispatch(clearWordSetRemarks());
     }

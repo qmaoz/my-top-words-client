@@ -78,6 +78,7 @@ export default function ProfileOwnWordSets() {
             showSave={false}
             canDelete
             onDeleted={handleDeleted}
+            emptyKey="wordSet.emptyOwn"
           />
         )}
       </CircularLoading>

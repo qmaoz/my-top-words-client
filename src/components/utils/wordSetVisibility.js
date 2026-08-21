@@ -8,19 +8,16 @@ export function getWordSetVisibilityOptions() {
       value: 'private',
       label: tr('wordSet.visPrivateLabel'),
       hint: tr('wordSet.visPrivateHint'),
-      confirm: tr('wordSet.visPrivateConfirm'),
     },
     unlisted: {
       value: 'unlisted',
       label: tr('wordSet.visUnlistedLabel'),
       hint: tr('wordSet.visUnlistedHint'),
-      confirm: tr('wordSet.visUnlistedConfirm'),
     },
     public: {
       value: 'public',
       label: tr('wordSet.visPublicLabel'),
       hint: tr('wordSet.visPublicHint'),
-      confirm: tr('wordSet.visPublicConfirm'),
     },
   };
 }

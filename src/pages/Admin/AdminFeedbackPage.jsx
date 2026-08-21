@@ -4,8 +4,9 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import {
   Box, Button, Dialog, DialogActions, DialogContent, DialogTitle,
-  MenuItem, Pagination, Stack, TextField, Typography,
+  IconButton, MenuItem, Pagination, Stack, TextField, Tooltip, Typography,
 } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import {
   formatFeedbackDate,
@@ -13,14 +14,16 @@ import {
   getFeedbackStatusLabel,
   getFeedbackTypeLabel,
 } from '../../components/utils/feedback';
-import { fetchAdminFeedback, updateAdminFeedback } from '../../redux/slices/admin';
+import { fetchAdminFeedback, updateAdminFeedback, deleteAdminFeedback } from '../../redux/slices/admin';
 import CircularLoading from '../../components/wrappers/CircularLoading';
 import { Toast } from '../../components/utils/messages';
+import { useConfirm } from '../../components/utils/useConfirm';
 import useDebouncedValue from '../../components/utils/useDebouncedValue';
 
 export default function AdminFeedbackPage() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const confirm = useConfirm();
   const { feedback } = useSelector((state) => state.admin);
   const feedbackStatuses = getFeedbackStatuses();
   const statusOptions = feedbackStatuses.filter((item) => item.value !== 'all');
@@ -61,6 +64,36 @@ export default function AdminFeedbackPage() {
 
   const onOpenItem = (item) => setSelectedItem(item);
   const onCloseDialog = () => setSelectedItem(null);
+
+  const onDelete = async (item) => {
+    if (!item) return;
+
+    const confirmed = await confirm({
+      message: t('admin.deleteMessageConfirm'),
+      confirmText: t('common.delete'),
+      confirmColor: 'error',
+    });
+    if (!confirmed) return;
+
+    try {
+      await dispatch(deleteAdminFeedback(item.id)).unwrap();
+      setToast({ open: true, message: t('admin.messageDeleted'), severity: 'success' });
+      if (selectedItem?.id === item.id) onCloseDialog();
+      if (feedback.items.length <= 1 && page > 1) {
+        setPage((current) => current - 1);
+        return;
+      }
+      dispatch(fetchAdminFeedback({
+        page,
+        limit: 10,
+        status: statusFilter,
+        search: search || undefined,
+      }));
+    } catch (error) {
+      const message = error?.message?.message || error?.message || t('admin.deleteMessageError');
+      setToast({ open: true, message, severity: 'error' });
+    }
+  };
 
   const onSave = async (values) => {
     if (!selectedItem) return;
@@ -142,8 +175,17 @@ export default function AdminFeedbackPage() {
                         </span>
                       </td>
                       <td className="text-nowrap">{formatFeedbackDate(item.created_at)}</td>
-                      <td>
+                      <td className="admin-table__actions">
                         <Button size="small" onClick={() => onOpenItem(item)}>{t('admin.open')}</Button>
+                        <Tooltip title={t('common.delete')}>
+                          <IconButton
+                            color="error"
+                            onClick={() => onDelete(item)}
+                            aria-label={t('common.delete')}
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </Tooltip>
                       </td>
                     </tr>
                   ))}
@@ -208,6 +250,7 @@ export default function AdminFeedbackPage() {
         </DialogContent>
         <DialogActions>
           <Button onClick={onCloseDialog}>{t('common.cancel')}</Button>
+          <Button color="error" onClick={() => onDelete(selectedItem)}>{t('common.delete')}</Button>
           <Button type="submit" form="feedback-edit-form" variant="contained">{t('common.save')}</Button>
         </DialogActions>
       </Dialog>

@@ -132,25 +132,21 @@
     "deleteSet": "সেট মুছুন",
     "editWords": "শব্দ যোগ বা সম্পাদনা",
     "finishEditingWords": "শব্দ সম্পাদনা শেষ",
-    "learnedCount": "শেখা শব্দ:",
+    "learnedCount": "শেখা শব্দ",
     "practice": "অনুবাদ অনুশীলন",
     "practiceHint": "বাক্যটি অনুবাদ করুন এবং আপনার উত্তর পরীক্ষা করুন",
     "setLanguages": "সেটের ভাষা",
     "visPrivateLabel": "শুধু আমি",
     "visPrivateHint": "শুধু আপনার কাছে দৃশ্যমান",
-    "visPrivateConfirm": "সেট ব্যক্তিগত রাখবেন?",
     "visUnlistedLabel": "লিংকে",
     "visUnlistedHint": "লিংকে খোলে, কিন্তু হোম পেজে নয়",
-    "visUnlistedConfirm": "সেট লিংকে উপলব্ধ করবেন?",
     "visPublicLabel": "হোম পেজে",
     "visPublicHint": "হোম পেজের তালিকায় দেখা যাবে",
-    "visPublicConfirm": "সেট হোম পেজে দেখাবেন?",
     "visibilityTooltip": "{{label}}. {{hint}}",
     "visibilityAria": "সেটের দৃশ্যমানতা: {{label}}",
     "cardWordsInSet": "সেটে {{count}}",
     "searchByName": "সেটের নামে খুঁজুন",
     "loadListError": "সেট লোড করতে ব্যর্থ। পৃষ্ঠাটি রিফ্রেশ করুন",
-    "notFound": "কোনো সেট পাওয়া যায়নি",
     "unsave": "সংরক্ষিত থেকে সরান",
     "saveToProfile": "সেট আপনার প্রোফাইলে সংরক্ষণ করুন",
     "sourceLocaleLocked": "সেটে শব্দ থাকলে সেটের ভাষা পরিবর্তন করা যাবে না",
@@ -159,7 +155,11 @@
     "pageTitle": "শব্দ সেট",
     "moveUp": "উপরে সরান",
     "moveDown": "নিচে সরান",
-    "sourceLocaleHint": "(সেটের ভাষা)"
+    "sourceLocaleHint": "(সেটের ভাষা)",
+    "emptyHome": "এখনও কোনো পাবলিক সেট নেই",
+    "emptyOwn": "আপনার এখনও কোনো সেট নেই",
+    "emptySaved": "আপনার এখনও কোনো সেভ করা সেট নেই",
+    "searchNotFound": "অনুসন্ধানের সাথে কোনো সেট মেলেনি"
   },
   "word": {
     "learned": "শেখা",
@@ -270,7 +270,6 @@
     "tabOverview": "সংক্ষিপ্ত বিবরণ",
     "tabFeedback": "মতামত",
     "tabUsers": "ব্যবহারকারী",
-    "overviewDesc": "সেবার অবস্থার সংক্ষিপ্ত বিবরণ।",
     "statSetsSuffix": "শব্দ",
     "feedback": "ফিডব্যাক",
     "msgQueued": "সারিতে",
@@ -315,7 +314,10 @@
     "user_one": "ব্যবহারকারী",
     "user_other": "ব্যবহারকারী",
     "set_one": "সেট",
-    "set_other": "সেট"
+    "set_other": "সেট",
+    "deleteMessageConfirm": "এই বার্তাটি মুছবেন?",
+    "messageDeleted": "বার্তা মুছে ফেলা হয়েছে",
+    "deleteMessageError": "বার্তা মুছা যায়নি"
   },
   "about": {
     "title": "সেবা সম্পর্কে",
@@ -374,14 +376,16 @@
     "panelTitle": "এই সেট সম্পর্কে মন্তব্য",
     "markDone": "সম্পন্ন হিসেবে চিহ্নিত",
     "markedDone": "সম্পন্ন চিহ্নিত",
-    "updateError": "মন্তব্য হালনাগাদ করা যায়নি",
+    "deleteError": "মন্তব্য মুছা যায়নি",
     "openSet": "সেট খুলুন"
   },
   "learning": {
-    "dueToday": "আজকের কার্ড: {{count}}",
-    "streak": "ধারা: {{count}}",
-    "nextReview": "পরবর্তী পুনরাবৃত্তি: {{when}}",
-    "nextReviewNow": "এখন",
+    "dueToday": "এখন ট্রেনার: {{count}}",
+    "dueTodayHint": "এখন অনুশীলন করা যায় এমন শব্দ। সঠিক উত্তর শব্দটি পিছিয়ে দেয়; ভুল উত্তর এটিকে এই সারিতে রাখে। ট্রেনার খোলা হয়নি এমন শব্দ গোনা হয় না।",
+    "streak": "টানা দিন: {{count}}",
+    "streakHint": "যে টানা দিন আপনি ট্রেনার কমপক্ষে একবার ব্যবহার করেছেন। বাদ পড়া দিনের পর পরের সেশন 1 থেকে শুরু হয়।",
+    "nextReview": "পরবর্তী স্থগিত: {{when}}",
+    "nextReviewHint": "সবচেয়ে কাছের স্থগিত শব্দ কখন ট্রেনার ফিরবে। আজকের শব্দ «এখন ট্রেনার»-এ।",
     "nextReviewNone": "নেই"
   }
 }

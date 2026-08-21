@@ -132,25 +132,21 @@
     "deleteSet": "セットを削除",
     "editWords": "単語を追加・編集",
     "finishEditingWords": "単語の編集を終了",
-    "learnedCount": "学習済みの単語：",
+    "learnedCount": "学習済みの単語",
     "practice": "翻訳の練習",
     "practiceHint": "文を翻訳して、答えを確認してください",
     "setLanguages": "セットの言語",
     "visPrivateLabel": "自分だけ",
     "visPrivateHint": "自分にのみ表示されます",
-    "visPrivateConfirm": "セットを非公開のままにしますか？",
     "visUnlistedLabel": "リンクのみ",
     "visUnlistedHint": "リンクから開けますが、ホームページには表示されません",
-    "visUnlistedConfirm": "リンクからアクセスできるようにしますか？",
     "visPublicLabel": "ホームページに表示",
     "visPublicHint": "ホームページの一覧に表示されます",
-    "visPublicConfirm": "ホームページにセットを表示しますか？",
     "visibilityTooltip": "{{label}}。{{hint}}",
     "visibilityAria": "セットの公開設定：{{label}}",
     "cardWordsInSet": "セット内 {{count}} 語",
     "searchByName": "セット名で検索",
     "loadListError": "セットの読み込みに失敗しました。ページを更新してください",
-    "notFound": "セットが見つかりません",
     "unsave": "保存から削除",
     "saveToProfile": "セットをプロフィールに保存",
     "sourceLocaleLocked": "単語が含まれている間は、セットの言語を変更できません",
@@ -159,7 +155,11 @@
     "pageTitle": "単語セット",
     "moveUp": "上へ移動",
     "moveDown": "下へ移動",
-    "sourceLocaleHint": "(セットの言語)"
+    "sourceLocaleHint": "(セットの言語)",
+    "emptyHome": "公開セットはまだありません",
+    "emptyOwn": "セットはまだありません",
+    "emptySaved": "保存したセットはまだありません",
+    "searchNotFound": "検索に一致するセットはありません"
   },
   "word": {
     "learned": "学習済み",
@@ -270,7 +270,6 @@
     "tabOverview": "概要",
     "tabFeedback": "フィードバック",
     "tabUsers": "ユーザー",
-    "overviewDesc": "サービスの状態の概要です。",
     "statSetsSuffix": "語",
     "feedback": "フィードバック",
     "msgQueued": "待機中",
@@ -315,7 +314,10 @@
     "user_one": "人のユーザー",
     "user_other": "人のユーザー",
     "set_one": "セット",
-    "set_other": "セット"
+    "set_other": "セット",
+    "deleteMessageConfirm": "このメッセージを削除しますか？",
+    "messageDeleted": "メッセージを削除しました",
+    "deleteMessageError": "メッセージを削除できませんでした"
   },
   "about": {
     "title": "このサービスについて",
@@ -374,14 +376,16 @@
     "panelTitle": "このセットへの指摘",
     "markDone": "対応済みにする",
     "markedDone": "対応済みにしました",
-    "updateError": "指摘を更新できませんでした",
+    "deleteError": "指摘を削除できませんでした",
     "openSet": "セットを開く"
   },
   "learning": {
-    "dueToday": "今日のカード: {{count}}",
-    "streak": "連続: {{count}}",
-    "nextReview": "次の復習: {{when}}",
-    "nextReviewNow": "今",
+    "dueToday": "今トレーニング中: {{count}}",
+    "dueTodayHint": "今すぐ練習できる単語数です。正解すると先送り、不正解だとこの待ちに残ります。まだトレーニングで開いていない単語は含まれません。",
+    "streak": "連続日数: {{count}}",
+    "streakHint": "トレーニングを1回以上した連続日数です。休んだ翌日は1からになります。",
+    "nextReview": "次の先送り: {{when}}",
+    "nextReviewHint": "先送りした単語がトレーニングに戻る最も近い日時です。今日分は「今トレーニング中」です。",
     "nextReviewNone": "なし"
   }
 }

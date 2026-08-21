@@ -63,6 +63,7 @@ export default function ProfileSavedWordSets() {
             limit={limit}
             searchValue={searchInput}
             onSearchChange={setSearchInput}
+            emptyKey="wordSet.emptySaved"
           />
         )}
       </CircularLoading>

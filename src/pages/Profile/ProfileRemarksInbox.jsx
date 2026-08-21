@@ -3,35 +3,33 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import {
-  Accordion, AccordionDetails, AccordionSummary, Box, Button, MenuItem, TextField, Typography,
+  Accordion, AccordionDetails, AccordionSummary, Box, Button, Typography,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-import { fetchMyWordSetRemarks, updateWordSetRemark } from '../../redux/slices/word-set-remarks';
+import { fetchMyWordSetRemarks, deleteWordSetRemark } from '../../redux/slices/word-set-remarks';
 import { formatFeedbackDate } from '../../components/utils/feedback';
 import CircularLoading from '../../components/wrappers/CircularLoading';
 import { Toast } from '../../components/utils/messages';
-import InfoHint from '../../components/InfoHint';
 
 export default function ProfileRemarksInbox() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const inbox = useSelector((state) => state.wordSetRemarks.inbox);
-  const [statusFilter, setStatusFilter] = useState('queued');
   const [toast, setToast] = useState({ open: false, message: '', severity: 'info' });
 
   useEffect(() => {
-    dispatch(fetchMyWordSetRemarks({ status: statusFilter, page: 1, limit: 50 }));
-  }, [dispatch, statusFilter]);
+    dispatch(fetchMyWordSetRemarks({ page: 1, limit: 50 }));
+  }, [dispatch]);
 
   const onMarkDone = async (id) => {
     try {
-      await dispatch(updateWordSetRemark({ id, status: 'done' })).unwrap();
+      await dispatch(deleteWordSetRemark(id)).unwrap();
       setToast({ open: true, message: t('setRemark.markedDone'), severity: 'success' });
     } catch (error) {
       setToast({
         open: true,
-        message: error?.message?.message || error?.message || t('setRemark.updateError'),
+        message: error?.message?.message || error?.message || t('setRemark.deleteError'),
         severity: 'error',
       });
     }
@@ -39,24 +37,6 @@ export default function ProfileRemarksInbox() {
 
   return (
     <Box className="profile-remarks-inbox">
-      <Box className="search-card content-block profile-remarks-inbox__toolbar">
-        <Box className="heading-with-info profile-remarks-inbox__filter-row">
-          <TextField
-            select
-            size="small"
-            label={t('admin.status')}
-            value={statusFilter}
-            onChange={(event) => setStatusFilter(event.target.value)}
-            className="profile-remarks-inbox__filter"
-          >
-            <MenuItem value="queued">{t('feedback.statusQueued')}</MenuItem>
-            <MenuItem value="done">{t('feedback.statusDone')}</MenuItem>
-            <MenuItem value="all">{t('feedback.statusAll')}</MenuItem>
-          </TextField>
-          <InfoHint title={t('setRemark.inboxIntro')} />
-        </Box>
-      </Box>
-
       <CircularLoading isLoading={inbox.status === 'loading'}>
         {inbox.items.length === 0 ? (
           <Typography className="admin-empty">{t('setRemark.empty')}</Typography>
@@ -83,11 +63,9 @@ export default function ProfileRemarksInbox() {
                     <Button component={Link} to={`/word-set/${item.word_set_id}`} size="small">
                       {t('setRemark.openSet')}
                     </Button>
-                    {item.status !== 'done' && (
-                      <Button size="small" variant="contained" onClick={() => onMarkDone(item.id)}>
-                        {t('setRemark.markDone')}
-                      </Button>
-                    )}
+                    <Button size="small" variant="contained" onClick={() => onMarkDone(item.id)}>
+                      {t('setRemark.markDone')}
+                    </Button>
                   </Box>
                 </AccordionDetails>
               </Accordion>

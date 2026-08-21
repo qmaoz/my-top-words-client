@@ -132,25 +132,21 @@
     "deleteSet": "Hapus set",
     "editWords": "Tambah atau edit kata",
     "finishEditingWords": "Selesai mengedit kata",
-    "learnedCount": "Kata dipelajari:",
+    "learnedCount": "Kata dipelajari",
     "practice": "Latihan terjemahan",
     "practiceHint": "Terjemahkan kalimat dan periksa jawaban Anda",
     "setLanguages": "Bahasa set",
     "visPrivateLabel": "Hanya saya",
     "visPrivateHint": "Hanya terlihat oleh Anda",
-    "visPrivateConfirm": "Jaga set tetap privat?",
     "visUnlistedLabel": "Melalui tautan",
     "visUnlistedHint": "Terbuka melalui tautan, tetapi tidak di halaman beranda",
-    "visUnlistedConfirm": "Jadikan set tersedia melalui tautan?",
     "visPublicLabel": "Di halaman beranda",
     "visPublicHint": "Akan muncul di daftar halaman beranda",
-    "visPublicConfirm": "Tampilkan set di halaman beranda?",
     "visibilityTooltip": "{{label}}. {{hint}}",
     "visibilityAria": "Visibilitas set: {{label}}",
     "cardWordsInSet": "{{count}} di set",
     "searchByName": "Cari berdasarkan nama set",
     "loadListError": "Gagal memuat set. Silakan muat ulang halaman",
-    "notFound": "Tidak ada set ditemukan",
     "unsave": "Hapus dari tersimpan",
     "saveToProfile": "Simpan set ke profil Anda",
     "sourceLocaleLocked": "Bahasa set tidak dapat diubah selama masih ada kata",
@@ -159,7 +155,11 @@
     "pageTitle": "Set kata",
     "moveUp": "Pindah ke atas",
     "moveDown": "Pindah ke bawah",
-    "sourceLocaleHint": "(Bahasa set)"
+    "sourceLocaleHint": "(Bahasa set)",
+    "emptyHome": "Belum ada set publik",
+    "emptyOwn": "Anda belum punya set",
+    "emptySaved": "Anda belum punya set tersimpan",
+    "searchNotFound": "Tidak ada set yang cocok dengan pencarian"
   },
   "word": {
     "learned": "Dipelajari",
@@ -270,7 +270,6 @@
     "tabOverview": "Ringkasan",
     "tabFeedback": "Umpan balik",
     "tabUsers": "Pengguna",
-    "overviewDesc": "Ringkasan singkat kondisi layanan.",
     "statSetsSuffix": "kata",
     "feedback": "Umpan balik",
     "msgQueued": "antrian",
@@ -315,7 +314,10 @@
     "user_one": "pengguna",
     "user_other": "pengguna",
     "set_one": "set",
-    "set_other": "set"
+    "set_other": "set",
+    "deleteMessageConfirm": "Hapus pesan ini?",
+    "messageDeleted": "Pesan dihapus",
+    "deleteMessageError": "Gagal menghapus pesan"
   },
   "about": {
     "title": "Tentang layanan",
@@ -374,14 +376,16 @@
     "panelTitle": "Catatan tentang set ini",
     "markDone": "Tandai selesai",
     "markedDone": "Ditandai selesai",
-    "updateError": "Gagal memperbarui catatan",
+    "deleteError": "Gagal menghapus catatan",
     "openSet": "Buka set"
   },
   "learning": {
-    "dueToday": "Kartu hari ini: {{count}}",
-    "streak": "Rentetan: {{count}}",
-    "nextReview": "Ulangan berikutnya: {{when}}",
-    "nextReviewNow": "sekarang",
+    "dueToday": "Di pelatih sekarang: {{count}}",
+    "dueTodayHint": "Kata yang bisa dilatih sekarang. Jawaban benar menunda kata; yang salah tetap di antrean ini. Kata yang belum dibuka di pelatih tidak dihitung.",
+    "streak": "Hari beruntun: {{count}}",
+    "streakHint": "Hari berturut-turut dengan setidaknya satu sesi di pelatih. Setelah hari terlewat, sesi berikutnya mulai dari 1.",
+    "nextReview": "Penundaan berikutnya: {{when}}",
+    "nextReviewHint": "Kapan kata tertunda terdekat kembali ke pelatih. Yang hari ini ada di «Di pelatih sekarang».",
     "nextReviewNone": "tidak ada"
   }
 }

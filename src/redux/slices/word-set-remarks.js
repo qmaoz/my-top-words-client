@@ -38,12 +38,12 @@ export const fetchWordSetRemarks = createAsyncThunk(
   },
 );
 
-export const updateWordSetRemark = createAsyncThunk(
-  'wordSetRemarks/update',
-  async ({ id, ...body }, { rejectWithValue }) => {
+export const deleteWordSetRemark = createAsyncThunk(
+  'wordSetRemarks/delete',
+  async (id, { rejectWithValue }) => {
     try {
-      const { data } = await axios.patch(`/word-set-remarks/${id}`, body);
-      return data;
+      const { data } = await axios.delete(`/word-set-remarks/${id}`);
+      return { id, ...data };
     } catch (error) {
       return rejectWithValue({ message: error?.response?.data || tr('common.serverError') });
     }
@@ -84,9 +84,7 @@ const wordSetRemarksSlice = createSlice({
           totalItems: action.payload.totalItems ?? 0,
           status: 'loaded',
         };
-        if (action.meta.arg?.status === 'queued') {
-          state.queuedTotal = action.payload.totalItems ?? 0;
-        }
+        state.queuedTotal = action.payload.totalItems ?? 0;
       })
       .addCase(fetchMyWordSetRemarks.rejected, (state) => {
         state.inbox.status = 'error';
@@ -107,24 +105,10 @@ const wordSetRemarksSlice = createSlice({
       .addCase(fetchWordSetRemarks.rejected, (state) => {
         state.forSet.status = 'error';
       })
-      .addCase(updateWordSetRemark.fulfilled, (state, action) => {
-        const updated = action.payload?.item;
-        if (!updated) return;
-
-        if (updated.status === 'done') {
-          removeFromList(state.inbox, updated.id);
-          removeFromList(state.forSet, updated.id);
-          state.queuedTotal = Math.max(0, state.queuedTotal - 1);
-          return;
-        }
-
-        const patchList = (list) => {
-          const index = list.items.findIndex((item) => Number(item.id) === Number(updated.id));
-          if (index >= 0) list.items[index] = updated;
-        };
-
-        patchList(state.inbox);
-        patchList(state.forSet);
+      .addCase(deleteWordSetRemark.fulfilled, (state, action) => {
+        removeFromList(state.inbox, action.payload.id);
+        removeFromList(state.forSet, action.payload.id);
+        state.queuedTotal = Math.max(0, state.queuedTotal - 1);
       });
   },
 });

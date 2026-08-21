@@ -937,15 +937,6 @@ input::placeholder {
   font-weight: 600 !important;
 }
 
-.profile-remarks-inbox__filter-row {
-  width: 100%;
-}
-
-.profile-remarks-inbox__filter {
-  flex: 1 1 auto;
-  max-width: 14em;
-}
-
 .profile-remarks-inbox__list,
 .word-set-remarks__list {
   display: flex;
@@ -1967,6 +1958,10 @@ input::placeholder {
 }
 
 .profile-learning-summary__item {
+  margin: 0;
+}
+
+.profile-learning-summary__value {
   margin: 0;
   font-size: 0.72em;
   line-height: 1.4;

@@ -132,25 +132,21 @@
     "deleteSet": "Delete set",
     "editWords": "Edit words",
     "finishEditingWords": "Finish editing words",
-    "learnedCount": "Words learned:",
+    "learnedCount": "Words learned",
     "practice": "Practice translation",
     "practiceHint": "Translate the sentence and check your answer",
     "setLanguages": "Set languages",
     "visPrivateLabel": "Only me",
     "visPrivateHint": "Visible only to you",
-    "visPrivateConfirm": "Keep the set private?",
     "visUnlistedLabel": "By link",
     "visUnlistedHint": "Opens via link, but not on the home page",
-    "visUnlistedConfirm": "Make the set available by link?",
     "visPublicLabel": "On home page",
     "visPublicHint": "Will appear in the list on the home page",
-    "visPublicConfirm": "Show the set on the home page?",
     "visibilityTooltip": "{{label}}. {{hint}}",
     "visibilityAria": "Set visibility: {{label}}",
     "cardWordsInSet": "{{count}} in the set",
     "searchByName": "Search by set name",
     "loadListError": "Failed to load sets. Please refresh the page",
-    "notFound": "No sets found",
     "unsave": "Remove from saved",
     "saveToProfile": "Save the set to your profile",
     "sourceLocaleLocked": "The set language cannot be changed while it has words",
@@ -159,7 +155,11 @@
     "pageTitle": "Word set",
     "sourceLocaleHint": "(Set language)",
     "moveUp": "Move up",
-    "moveDown": "Move down"
+    "moveDown": "Move down",
+    "emptyHome": "No public sets yet",
+    "emptyOwn": "You have no sets yet",
+    "emptySaved": "You have no saved sets yet",
+    "searchNotFound": "No sets match your search"
   },
   "word": {
     "learned": "Learned",
@@ -270,7 +270,6 @@
     "tabOverview": "Overview",
     "tabFeedback": "Feedback",
     "tabUsers": "Users",
-    "overviewDesc": "A brief overview of the service state.",
     "statSetsSuffix": "words",
     "feedback": "Feedback",
     "msgQueued": "queued",
@@ -315,7 +314,10 @@
     "user_one": "user",
     "user_other": "users",
     "set_one": "set",
-    "set_other": "sets"
+    "set_other": "sets",
+    "deleteMessageConfirm": "Delete this message?",
+    "messageDeleted": "Message deleted",
+    "deleteMessageError": "Failed to delete the message"
   },
   "about": {
     "title": "About",
@@ -374,14 +376,16 @@
     "panelTitle": "Remarks on this set",
     "markDone": "Mark as done",
     "markedDone": "Marked as done",
-    "updateError": "Failed to update the remark",
+    "deleteError": "Failed to delete the remark",
     "openSet": "Open set"
   },
   "learning": {
-    "dueToday": "Due today: {{count}}",
-    "streak": "Streak: {{count}}",
-    "nextReview": "Next review: {{when}}",
-    "nextReviewNow": "now",
+    "dueToday": "In the trainer now: {{count}}",
+    "dueTodayHint": "Words you can practice right now. A correct answer postpones the word; an incorrect one keeps it in this queue. Words you have not opened in the trainer yet are not counted.",
+    "streak": "Days in a row: {{count}}",
+    "streakHint": "Consecutive days with at least one session in the trainer. After a missed day the next session starts the count from 1.",
+    "nextReview": "Next postponed: {{when}}",
+    "nextReviewHint": "When the nearest postponed word returns to the trainer. Words for today are counted in \"In the trainer now\".",
     "nextReviewNone": "none"
   }
 }

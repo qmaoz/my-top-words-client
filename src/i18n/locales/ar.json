@@ -136,25 +136,21 @@
     "deleteSet": "حذف المجموعة",
     "editWords": "إضافة أو تعديل الكلمات",
     "finishEditingWords": "إنهاء تعديل الكلمات",
-    "learnedCount": "الكلمات المتعلَّمة:",
+    "learnedCount": "الكلمات المتعلَّمة",
     "practice": "تدرّب على الترجمة",
     "practiceHint": "ترجم الجملة وتحقق من الإجابة",
     "setLanguages": "لغات المجموعة",
     "visPrivateLabel": "أنا فقط",
     "visPrivateHint": "مرئية لك فقط",
-    "visPrivateConfirm": "إبقاء المجموعة خاصة؟",
     "visUnlistedLabel": "عبر الرابط",
     "visUnlistedHint": "تُفتح عبر الرابط، لكنها ليست في الصفحة الرئيسية",
-    "visUnlistedConfirm": "جعل المجموعة متاحة عبر الرابط؟",
     "visPublicLabel": "في الصفحة الرئيسية",
     "visPublicHint": "ستظهر في القائمة على الصفحة الرئيسية",
-    "visPublicConfirm": "إظهار المجموعة في الصفحة الرئيسية؟",
     "visibilityTooltip": "{{label}}. {{hint}}",
     "visibilityAria": "ظهور المجموعة: {{label}}",
     "cardWordsInSet": "{{count}} في المجموعة",
     "searchByName": "البحث باسم المجموعة",
     "loadListError": "تعذّر تحميل المجموعات. حدّث الصفحة",
-    "notFound": "لم يتم العثور على مجموعات",
     "unsave": "إزالة من المحفوظات",
     "saveToProfile": "حفظ المجموعة في الملف الشخصي",
     "sourceLocaleLocked": "لا يمكن تغيير لغة المجموعة ما دامت تحتوي على كلمات",
@@ -163,7 +159,11 @@
     "pageTitle": "مجموعة كلمات",
     "sourceLocaleHint": "(لغة المجموعة)",
     "moveUp": "تحريك لأعلى",
-    "moveDown": "تحريك لأسفل"
+    "moveDown": "تحريك لأسفل",
+    "emptyHome": "لا توجد مجموعات عامة بعد",
+    "emptyOwn": "ليس لديك مجموعات بعد",
+    "emptySaved": "ليس لديك مجموعات محفوظة بعد",
+    "searchNotFound": "لا توجد مجموعات تطابق البحث"
   },
   "word": {
     "learned": "متعلَّمة",
@@ -274,7 +274,6 @@
     "tabOverview": "نظرة عامة",
     "tabFeedback": "الملاحظات",
     "tabUsers": "المستخدمون",
-    "overviewDesc": "نظرة عامة موجزة على حالة الخدمة.",
     "statSetsSuffix": "كلمات",
     "feedback": "الملاحظات",
     "msgQueued": "في الانتظار",
@@ -331,7 +330,10 @@
     "colWordSets": "المجموعات",
     "colWords": "الكلمات",
     "colRegistered": "تاريخ التسجيل",
-    "colLastSeen": "آخر ظهور"
+    "colLastSeen": "آخر ظهور",
+    "deleteMessageConfirm": "حذف هذه الرسالة؟",
+    "messageDeleted": "تم حذف الرسالة",
+    "deleteMessageError": "تعذر حذف الرسالة"
   },
   "about": {
     "title": "عن الخدمة",
@@ -393,14 +395,16 @@
     "panelTitle": "ملاحظات حول هذه المجموعة",
     "markDone": "وضع علامة مكتمل",
     "markedDone": "وُضعت علامة مكتمل",
-    "updateError": "تعذّر تحديث الملاحظة",
+    "deleteError": "تعذّر حذف الملاحظة",
     "openSet": "فتح المجموعة"
   },
   "learning": {
-    "dueToday": "بطاقات اليوم: {{count}}",
-    "streak": "سلسلة: {{count}}",
-    "nextReview": "المراجعة التالية: {{when}}",
-    "nextReviewNow": "الآن",
-    "nextReviewNone": "لا يوجد"
+    "dueToday": "الآن في المدرّب: {{count}}",
+    "dueTodayHint": "الكلمات التي يمكنك التمرين عليها الآن. الإجابة الصحيحة تؤجّل الكلمة؛ والخاطئة تبقيها في هذا الصف. الكلمات التي لم تُفتح بعد في المدرّب لا تُحسب.",
+    "streak": "أيام متتالية: {{count}}",
+    "streakHint": "الأيام المتتالية التي تمرّنت فيها مرة واحدة على الأقل. بعد يوم فائت تبدأ الجلسة التالية من 1.",
+    "nextReview": "أقرب تأجيل: {{when}}",
+    "nextReviewHint": "متى تعود أقرب كلمة مؤجّلة إلى المدرّب. كلمات اليوم في «الآن في المدرّب».",
+    "nextReviewNone": "لا شيء"
   }
 }

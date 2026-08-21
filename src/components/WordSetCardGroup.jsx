@@ -23,28 +23,34 @@ export default function WordSetCardGroup({
   showSave = true,
   canDelete = false,
   onDeleted,
+  emptyKey = 'wordSet.emptyHome',
 }) {
   const { t } = useTranslation();
   const userId = useSelector(selectUserData)?.id;
   const rootClassName = ['word-set-list', className].filter(Boolean).join(' ');
+  const hasQuery = Boolean(searchValue.trim());
+  const showSearch = hasQuery || Boolean(wordSets?.length);
+  const emptyMessage = hasQuery ? t('wordSet.searchNotFound') : t(emptyKey);
 
   return (
     <>
       <Box className={rootClassName}>
         {title && title.trim() != '' && <h3>{title}</h3>}
 
-        <Box className="search-card content-block">
-          <TextField
-            name={searchInputName}
-            label={t('wordSet.searchByName')}
-            value={searchValue}
-            onChange={(event) => onSearchChange?.(event.target.value)}
-            fullWidth
-            size="small"
-            autoComplete="off"
-            slotProps={{ htmlInput: { maxLength: 255 } }}
-          />
-        </Box>
+        {showSearch && (
+          <Box className="search-card content-block">
+            <TextField
+              name={searchInputName}
+              label={t('wordSet.searchByName')}
+              value={searchValue}
+              onChange={(event) => onSearchChange?.(event.target.value)}
+              fullWidth
+              size="small"
+              autoComplete="off"
+              slotProps={{ htmlInput: { maxLength: 255 } }}
+            />
+          </Box>
+        )}
 
         {status === 'loaded' && count > 1 &&
           <Stack spacing={2} className='aic'>
@@ -66,7 +72,7 @@ export default function WordSetCardGroup({
           )}
 
           {status === 'loaded' && (!wordSets || wordSets?.length === 0) && (
-            <WarningMessage message={t('wordSet.notFound')} className='m-0' />
+            <WarningMessage message={emptyMessage} className='m-0' />
           )}
 
           {(status === 'loading' ? [...Array(limit)] : wordSets)?.map((obj, index) => (

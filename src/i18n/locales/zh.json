@@ -132,25 +132,21 @@
     "deleteSet": "删除词集",
     "editWords": "添加或编辑单词",
     "finishEditingWords": "完成编辑单词",
-    "learnedCount": "已学单词：",
+    "learnedCount": "已学单词",
     "practice": "翻译练习",
     "practiceHint": "翻译句子并检查您的答案",
     "setLanguages": "词集语言",
     "visPrivateLabel": "仅自己",
     "visPrivateHint": "仅对您可见",
-    "visPrivateConfirm": "保持词集为私有？",
     "visUnlistedLabel": "通过链接",
     "visUnlistedHint": "可通过链接访问，但不在首页显示",
-    "visUnlistedConfirm": "通过链接开放该词集？",
     "visPublicLabel": "在首页",
     "visPublicHint": "将显示在首页列表中",
-    "visPublicConfirm": "在首页显示该词集？",
     "visibilityTooltip": "{{label}}。{{hint}}",
     "visibilityAria": "词集可见性：{{label}}",
     "cardWordsInSet": "词集中共 {{count}} 个",
     "searchByName": "按词集名称搜索",
     "loadListError": "加载词集失败，请刷新页面",
-    "notFound": "未找到词集",
     "unsave": "从已保存中移除",
     "saveToProfile": "将词集保存到个人资料",
     "sourceLocaleLocked": "词集中有单词时无法更改词集语言",
@@ -159,7 +155,11 @@
     "pageTitle": "词集",
     "moveUp": "上移",
     "moveDown": "下移",
-    "sourceLocaleHint": "(词集语言)"
+    "sourceLocaleHint": "(词集语言)",
+    "emptyHome": "暂无公开词集",
+    "emptyOwn": "你还没有词集",
+    "emptySaved": "你还没有保存的词集",
+    "searchNotFound": "没有符合搜索的词集"
   },
   "word": {
     "learned": "已学",
@@ -270,7 +270,6 @@
     "tabOverview": "概览",
     "tabFeedback": "反馈",
     "tabUsers": "用户",
-    "overviewDesc": "服务状态的简要概览。",
     "statSetsSuffix": "单词",
     "feedback": "反馈",
     "msgQueued": "排队中",
@@ -315,7 +314,10 @@
     "user_one": "位用户",
     "user_other": "位用户",
     "set_one": "个词集",
-    "set_other": "个词集"
+    "set_other": "个词集",
+    "deleteMessageConfirm": "删除这条消息？",
+    "messageDeleted": "消息已删除",
+    "deleteMessageError": "无法删除消息"
   },
   "about": {
     "title": "关于本服务",
@@ -374,14 +376,16 @@
     "panelTitle": "关于此词集的备注",
     "markDone": "标为已处理",
     "markedDone": "已标为已处理",
-    "updateError": "更新备注失败",
+    "deleteError": "无法删除备注",
     "openSet": "打开词集"
   },
   "learning": {
-    "dueToday": "今日卡片：{{count}}",
-    "streak": "连续：{{count}}",
-    "nextReview": "下次复习：{{when}}",
-    "nextReviewNow": "现在",
+    "dueToday": "训练中现在: {{count}}",
+    "dueTodayHint": "现在可以练习的词数。答对会推迟该词；答错则留在此队列。尚未在训练中打开过的词不计入。",
+    "streak": "连续天数: {{count}}",
+    "streakHint": "连续至少训练一次的天数。中断一天后，下次训练从 1 开始。",
+    "nextReview": "下次推迟: {{when}}",
+    "nextReviewHint": "最近一个被推迟的词何时回到训练。「训练中现在」是今天的词。",
     "nextReviewNone": "无"
   }
 }

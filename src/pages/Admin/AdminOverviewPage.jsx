@@ -39,10 +39,6 @@ export default function AdminOverviewPage() {
   return (
     <CircularLoading isLoading={overviewStatus === 'loading'}>
       <Box className="admin-overview">
-        <Typography className="admin-section__intro">
-          {t('admin.overviewDesc')}
-        </Typography>
-
         <Box className="admin-stat-grid">
           <StatCard
             value={overview?.usersCount}

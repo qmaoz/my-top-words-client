@@ -132,25 +132,21 @@
     "deleteSet": "Usuń zestaw",
     "editWords": "Dodaj lub edytuj słowa",
     "finishEditingWords": "Zakończ edycję słów",
-    "learnedCount": "Nauczone słowa:",
+    "learnedCount": "Nauczone słowa",
     "practice": "Ćwiczenie tłumaczenia",
     "practiceHint": "Przetłumacz zdanie i sprawdź swoją odpowiedź",
     "setLanguages": "Języki zestawu",
     "visPrivateLabel": "Tylko ja",
     "visPrivateHint": "Widoczny tylko dla Państwa",
-    "visPrivateConfirm": "Zachować zestaw jako prywatny?",
     "visUnlistedLabel": "Przez link",
     "visUnlistedHint": "Otwiera się przez link, ale nie na stronie głównej",
-    "visUnlistedConfirm": "Udostępnić zestaw przez link?",
     "visPublicLabel": "Na stronie głównej",
     "visPublicHint": "Pojawi się na liście na stronie głównej",
-    "visPublicConfirm": "Pokazać zestaw na stronie głównej?",
     "visibilityTooltip": "{{label}}. {{hint}}",
     "visibilityAria": "Widoczność zestawu: {{label}}",
     "cardWordsInSet": "{{count}} w zestawie",
     "searchByName": "Szukaj po nazwie zestawu",
     "loadListError": "Nie udało się załadować zestawów. Odśwież stronę",
-    "notFound": "Nie znaleziono zestawów",
     "unsave": "Usuń z zapisanych",
     "saveToProfile": "Zapisz zestaw w profilu",
     "sourceLocaleLocked": "Języka zestawu nie można zmienić, gdy zawiera on słowa",
@@ -159,7 +155,11 @@
     "pageTitle": "Zestaw słów",
     "moveUp": "Przenieś w górę",
     "moveDown": "Przenieś w dół",
-    "sourceLocaleHint": "(Język zestawu)"
+    "sourceLocaleHint": "(Język zestawu)",
+    "emptyHome": "Nie ma jeszcze publicznych zestawów",
+    "emptyOwn": "Nie masz jeszcze zestawów",
+    "emptySaved": "Nie masz jeszcze zapisanych zestawów",
+    "searchNotFound": "Brak zestawów pasujących do wyszukiwania"
   },
   "word": {
     "learned": "Nauczone",
@@ -270,7 +270,6 @@
     "tabOverview": "Przegląd",
     "tabFeedback": "Opinie",
     "tabUsers": "Użytkownicy",
-    "overviewDesc": "Krótki przegląd stanu serwisu.",
     "statSetsSuffix": "słów",
     "feedback": "Opinie",
     "msgQueued": "w kolejce",
@@ -315,7 +314,10 @@
     "user_one": "użytkownik",
     "user_other": "użytkowników",
     "set_one": "zestaw",
-    "set_other": "zestawów"
+    "set_other": "zestawów",
+    "deleteMessageConfirm": "Usunąć tę wiadomość?",
+    "messageDeleted": "Wiadomość usunięta",
+    "deleteMessageError": "Nie udało się usunąć wiadomości"
   },
   "about": {
     "title": "O serwisie",
@@ -374,14 +376,16 @@
     "panelTitle": "Uwagi do tego zestawu",
     "markDone": "Oznacz jako wykonane",
     "markedDone": "Oznaczono jako wykonane",
-    "updateError": "Nie udało się zaktualizować uwagi",
+    "deleteError": "Nie udało się usunąć uwagi",
     "openSet": "Otwórz zestaw"
   },
   "learning": {
-    "dueToday": "Karty na dziś: {{count}}",
-    "streak": "Seria: {{count}}",
-    "nextReview": "Następna powtórka: {{when}}",
-    "nextReviewNow": "teraz",
+    "dueToday": "Teraz w trenerze: {{count}}",
+    "dueTodayHint": "Słowa, które możesz ćwiczyć teraz. Poprawna odpowiedź odkłada słowo; błędna zostawia je w tej kolejce. Słów jeszcze nieotwartych w trenerze tu nie ma.",
+    "streak": "Dni z rzędu: {{count}}",
+    "streakHint": "Kolejne dni z przynajmniej jedną sesją w trenerze. Po pominiętym dniu następna sesja zaczyna licznik od 1.",
+    "nextReview": "Następne odłożenie: {{when}}",
+    "nextReviewHint": "Kiedy najbliższe odłożone słowo wróci do trenera. Słowa na dziś są w «Teraz w trenerze».",
     "nextReviewNone": "brak"
   }
 }

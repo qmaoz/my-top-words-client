@@ -132,25 +132,21 @@
     "deleteSet": "Elimina set",
     "editWords": "Aggiungi o modifica parole",
     "finishEditingWords": "Termina modifica parole",
-    "learnedCount": "Parole apprese:",
+    "learnedCount": "Parole apprese",
     "practice": "Esercizio di traduzione",
     "practiceHint": "Traduca la frase e verifichi la Sua risposta",
     "setLanguages": "Lingue del set",
     "visPrivateLabel": "Solo io",
     "visPrivateHint": "Visibile solo a te",
-    "visPrivateConfirm": "Mantenere il set privato?",
     "visUnlistedLabel": "Tramite link",
     "visUnlistedHint": "Si apre tramite link, ma non nella home page",
-    "visUnlistedConfirm": "Rendere il set disponibile tramite link?",
     "visPublicLabel": "In home page",
     "visPublicHint": "Apparirà nell'elenco della home page",
-    "visPublicConfirm": "Mostrare il set nella home page?",
     "visibilityTooltip": "{{label}}. {{hint}}",
     "visibilityAria": "Visibilità del set: {{label}}",
     "cardWordsInSet": "{{count}} nel set",
     "searchByName": "Cerca per nome del set",
     "loadListError": "Impossibile caricare i set. Aggiorna la pagina",
-    "notFound": "Nessun set trovato",
     "unsave": "Rimuovi dai salvati",
     "saveToProfile": "Salva il set nel profilo",
     "sourceLocaleLocked": "La lingua del set non può essere modificata finché contiene parole",
@@ -159,7 +155,11 @@
     "pageTitle": "Set di parole",
     "moveUp": "Sposta su",
     "moveDown": "Sposta giù",
-    "sourceLocaleHint": "(Lingua del set)"
+    "sourceLocaleHint": "(Lingua del set)",
+    "emptyHome": "Nessun set pubblico per ora",
+    "emptyOwn": "Non hai ancora set",
+    "emptySaved": "Non hai ancora set salvati",
+    "searchNotFound": "Nessun set corrisponde alla ricerca"
   },
   "word": {
     "learned": "Appresa",
@@ -270,7 +270,6 @@
     "tabOverview": "Panoramica",
     "tabFeedback": "Feedback",
     "tabUsers": "Utenti",
-    "overviewDesc": "Breve panoramica dello stato del servizio.",
     "statSetsSuffix": "parole",
     "feedback": "Feedback",
     "msgQueued": "in coda",
@@ -315,7 +314,10 @@
     "user_one": "utente",
     "user_other": "utenti",
     "set_one": "set",
-    "set_other": "set"
+    "set_other": "set",
+    "deleteMessageConfirm": "Eliminare questo messaggio?",
+    "messageDeleted": "Messaggio eliminato",
+    "deleteMessageError": "Impossibile eliminare il messaggio"
   },
   "about": {
     "title": "Informazioni",
@@ -374,14 +376,16 @@
     "panelTitle": "Osservazioni su questo set",
     "markDone": "Segna come fatto",
     "markedDone": "Segnato come fatto",
-    "updateError": "Aggiornamento dell’osservazione non riuscito",
+    "deleteError": "Impossibile eliminare l’osservazione",
     "openSet": "Apri set"
   },
   "learning": {
-    "dueToday": "Schede per oggi: {{count}}",
-    "streak": "Serie: {{count}}",
-    "nextReview": "Prossima ripetizione: {{when}}",
-    "nextReviewNow": "ora",
-    "nextReviewNone": "nessuna"
+    "dueToday": "Ora nel trainer: {{count}}",
+    "dueTodayHint": "Parole che puoi esercitare adesso. Una risposta corretta rinvia la parola; una sbagliata la lascia in questa coda. Le parole non ancora aperte nel trainer non contano.",
+    "streak": "Giorni di fila: {{count}}",
+    "streakHint": "Giorni consecutivi con almeno una sessione nel trainer. Dopo un giorno saltato, la sessione successiva riparte da 1.",
+    "nextReview": "Prossimo rinvio: {{when}}",
+    "nextReviewHint": "Quando la parola rinviata più vicina torna nel trainer. Quelle di oggi sono in «Ora nel trainer».",
+    "nextReviewNone": "nessuno"
   }
 }

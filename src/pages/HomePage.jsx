@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import HomeAbout from '../components/HomeAbout';
 import WordSetCardGroup from '../components/WordSetCardGroup';
+import CircularLoading from '../components/wrappers/CircularLoading';
 import { fetchWordSets } from '../redux/slices/word-sets';
 import { selectIsAuth } from '../redux/slices/auth';
 import useDebouncedValue from '../components/utils/useDebouncedValue';
@@ -38,24 +39,29 @@ export default function HomePage() {
     })();
   }, [dispatch, page, limit, searchQuery, t]);
 
+  const isInitialLoad = status === 'loading' && !searchQuery && !wordSets?.length;
+
   return (
     <>
       <Box className="container home-page">
         {!isAuth && <HomeAbout />}
-        <h2 id="home-sets">{t('home.title')}</h2>
+        <CircularLoading isLoading={isInitialLoad}>
+          <h2 id="home-sets">{t('home.title')}</h2>
 
-        <WordSetCardGroup
-          status={status}
-          wordSets={wordSets}
-          count={totalPages}
-          page={page}
-          onChange={(_event, value) => setPage(value)}
-          limit={limit}
-          searchInputName="topWordSetNameToSearch"
-          searchValue={searchInput}
-          onSearchChange={setSearchInput}
-          showSave={isAuth}
-        />
+          <WordSetCardGroup
+            status={status}
+            wordSets={wordSets}
+            count={totalPages}
+            page={page}
+            onChange={(_event, value) => setPage(value)}
+            limit={limit}
+            searchInputName="topWordSetNameToSearch"
+            searchValue={searchInput}
+            onSearchChange={setSearchInput}
+            showSave={isAuth}
+            emptyKey="wordSet.emptyHome"
+          />
+        </CircularLoading>
 
         <Toast {...toast} handleClose={handleCloseToast} />
       </Box>
