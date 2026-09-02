@@ -1,18 +1,13 @@
 import { Link } from 'react-router-dom';
 
-export default function WordSetName({ name: fullName, maxLength, link }) {
-  const isNameVeryLong = fullName?.length > maxLength;
-  const wordSetName = isNameVeryLong ? fullName?.substring(0, maxLength) : fullName;
-  
+export default function WordSetName({ name, link }) {
   const nameTextContent = link
-    ? <Link to={link}>{wordSetName}{isNameVeryLong ? '...' : ''}</Link>
-    : <>{wordSetName}{isNameVeryLong ? '...' : ''}</>;
+    ? <Link to={link}>{name}</Link>
+    : name;
 
   return (
-    <>
-      <h2 className='word-set-title' title={isNameVeryLong ? fullName : undefined} aria-label={fullName}>
-        <pre>{nameTextContent}</pre>
-      </h2>
-    </>
+    <h2 className="word-set-title" aria-label={name}>
+      {nameTextContent}
+    </h2>
   );
 }

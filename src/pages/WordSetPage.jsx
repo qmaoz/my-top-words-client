@@ -271,7 +271,7 @@ export default function WordSetPage() {
                 <Box className="word-set-page-header__title">
                   {!isNameEditing ? (
                     <>
-                      <WordSetName name={activeItem?.name} maxLength={24} />
+                      <WordSetName name={activeItem?.name} />
                       {isOwnWordSet && (
                         <IconButton
                           onClick={() => setIsNameEditing(true)}

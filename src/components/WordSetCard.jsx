@@ -10,7 +10,7 @@ import { selectIsAuth } from '../redux/slices/auth';
 import WordSetName from './wrappers/WordSetName';
 import CircularLoading from './wrappers/CircularLoading';
 import SaveForLearningButton from './wrappers/SaveForLearningButton';
-import { formatSetLocalesLine } from './utils/locales';
+import { getSetLocalesParts } from './utils/locales';
 import { Toast } from './utils/messages';
 import { useConfirm } from './utils/useConfirm';
 
@@ -28,7 +28,7 @@ export default function WordSetCard({
   canDelete = false,
   onDeleted,
 }) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const confirm = useConfirm();
   const isAuth = useSelector(selectIsAuth);
@@ -75,7 +75,7 @@ export default function WordSetCard({
     }
   };
 
-  const localesLine = formatSetLocalesLine(sourceLocale, translationLocales, i18n.language);
+  const localesParts = getSetLocalesParts(sourceLocale, translationLocales);
   const numberOfWords = t('wordSet.cardWordsInSet', { count: totalWords });
 
   const wordSetCardBottomContent = isAuth ? <>
@@ -112,9 +112,17 @@ export default function WordSetCard({
         <Paper elevation={0} className='word-set-card content-block p-3'>
           <CircularLoading isLoading={isLoading}>
             <Box className="word-set-card__top">
-              <WordSetName name={title} maxLength={30} link={link} />
-              {localesLine && (
-                <p className="word-set-card__locales">{localesLine}</p>
+              <WordSetName name={title} link={link} />
+              {localesParts && (
+                <p className="word-set-card__locales">
+                  <span>{localesParts.source}</span>
+                  {localesParts.targets ? (
+                    <>
+                      <span className="word-set-card__locales-arrow" aria-hidden="true">→</span>
+                      <span>{localesParts.targets}</span>
+                    </>
+                  ) : null}
+                </p>
               )}
             </Box>
             <Box className="word-set-card__bottom">

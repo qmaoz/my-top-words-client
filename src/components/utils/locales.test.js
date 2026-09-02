@@ -6,7 +6,7 @@ import {
   getLocaleLabel,
   getLocaleDir,
   buildDefaultSetLocales,
-  formatSetLocalesLine,
+  getSetLocalesParts,
 } from './locales';
 
 describe('client locales', () => {
@@ -28,10 +28,11 @@ describe('client locales', () => {
     expect(buildDefaultSetLocales()).toEqual(['de', 'en']);
   });
 
-  it('formatSetLocalesLine flips the arrow in RTL UI', () => {
-    expect(formatSetLocalesLine('de', ['en'], 'en')).toBe('Deutsch → English');
-    expect(formatSetLocalesLine('de', ['en'], 'ar')).toBe('Deutsch ← English');
-    expect(formatSetLocalesLine('de', [], 'ar')).toBe('Deutsch');
+  it('getSetLocalesParts returns source and translation labels', () => {
+    expect(getSetLocalesParts('de', ['en'])).toEqual({ source: 'Deutsch', targets: 'English' });
+    expect(getSetLocalesParts('de', ['uk', 'en'])).toEqual({ source: 'Deutsch', targets: 'Українська, English' });
+    expect(getSetLocalesParts('de', [])).toEqual({ source: 'Deutsch', targets: '' });
+    expect(getSetLocalesParts(null, ['en'])).toBeNull();
   });
 
   it('getLocaleLabel/getLocaleDir', () => {

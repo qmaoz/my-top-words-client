@@ -429,10 +429,23 @@ input::placeholder {
 }
 
 .word-set-card__locales {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-tight);
   margin: 0;
   font-size: 0.72em;
   line-height: 1.4;
   color: var(--text-body);
+}
+
+.word-set-card__locales-arrow {
+  display: inline-block;
+}
+
+[dir="rtl"] .word-set-card__locales-arrow {
+  transform: scaleX(-1);
 }
 
 .word-set-card__bottom {
@@ -1015,12 +1028,9 @@ input::placeholder {
 
 .word-set-title {
   margin: 0;
-}
-
-.word-set-title pre {
-  font: inherit;
-  margin: 0;
-  overflow: hidden;
+  overflow: visible;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
 
