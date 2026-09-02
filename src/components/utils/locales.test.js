@@ -1,7 +1,8 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, afterEach } from 'vitest';
 import {
   normalizeSourceLocale,
   normalizeTranslationLocales,
+  detectSystemUiLocale,
   getLocaleLabel,
   getLocaleDir,
 } from './locales';
@@ -14,7 +15,7 @@ describe('client locales', () => {
 
   it('normalizeTranslationLocales removes duplicates and unsupported locales', () => {
     expect(normalizeTranslationLocales(['uk', 'uk', 'zz', 'ru'])).toEqual(['uk', 'ru']);
-    expect(normalizeTranslationLocales([])).toEqual(['uk']);
+    expect(normalizeTranslationLocales([])).toEqual(['en']);
   });
 
   it('getLocaleLabel/getLocaleDir', () => {
@@ -28,5 +29,32 @@ describe('client locales', () => {
     const names = SUPPORTED_LOCALES.map((locale) => locale.en);
     const sorted = [...names].sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'base' }));
     expect(names).toEqual(sorted);
+  });
+});
+
+describe('detectSystemUiLocale', () => {
+  const originalNavigator = globalThis.navigator;
+
+  afterEach(() => {
+    Object.defineProperty(globalThis, 'navigator', {
+      configurable: true,
+      value: originalNavigator,
+    });
+  });
+
+  it('uses the first supported system language', () => {
+    Object.defineProperty(globalThis, 'navigator', {
+      configurable: true,
+      value: { language: 'uk-UA', languages: ['uk-UA', 'en-US'] },
+    });
+    expect(detectSystemUiLocale('en')).toBe('uk');
+  });
+
+  it('falls back when the system language is unsupported', () => {
+    Object.defineProperty(globalThis, 'navigator', {
+      configurable: true,
+      value: { language: 'xx-XX', languages: ['xx-XX'] },
+    });
+    expect(detectSystemUiLocale('en')).toBe('en');
   });
 });

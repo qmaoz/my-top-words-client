@@ -114,8 +114,23 @@
         };
         var stored = '';
         try { stored = localStorage.getItem('ui_locale') || ''; } catch (e) {}
-        var browser = (navigator.language || '').slice(0, 2);
-        var locale = messages[stored] ? stored : (messages[browser] ? browser : 'en');
+        var locale = 'en';
+        if (messages[stored]) {
+          locale = stored;
+        } else {
+          var candidates = [];
+          if (navigator.language) candidates.push(navigator.language);
+          if (navigator.languages) {
+            for (var i = 0; i < navigator.languages.length; i++) candidates.push(navigator.languages[i]);
+          }
+          for (var j = 0; j < candidates.length; j++) {
+            var code = String(candidates[j] || '').slice(0, 2).toLowerCase();
+            if (messages[code]) {
+              locale = code;
+              break;
+            }
+          }
+        }
         var node = document.getElementById('boot-screen-text');
         if (node) node.textContent = messages[locale];
         document.documentElement.setAttribute('lang', locale);

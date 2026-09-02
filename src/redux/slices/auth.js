@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk, isAnyOf } from '@reduxjs/toolkit';
 import axios from '../../axios';
 import { tr } from '../../components/utils/translate';
+import i18n from '../../i18n';
 
 export const fetchLogin = createAsyncThunk('auth/fetchLogin', async (params, { rejectWithValue }) => {
   try {
@@ -25,7 +26,12 @@ export const fetchUserInfo = createAsyncThunk('auth/fetchUserInfo', async (param
 
 export const fetchRegister = createAsyncThunk('auth/fetchRegister', async ({ username, password, confirm_password }, { rejectWithValue }) => {
   try {
-    const { data } = await axios.post('/auth/register', { username, password, confirm_password });
+    const { data } = await axios.post('/auth/register', {
+      username,
+      password,
+      confirm_password,
+      ui_locale: i18n.language,
+    });
     if (data?.token) {
       window.localStorage.setItem('token', data.token);
     }

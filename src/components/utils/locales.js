@@ -29,7 +29,7 @@ export const SUPPORTED_LOCALES = [...LOCALE_DEFINITIONS].sort((left, right) => (
 const LOCALE_BY_CODE = new Map(LOCALE_DEFINITIONS.map((locale) => [locale.code, locale]));
 
 export const DEFAULT_SOURCE_LOCALE = 'de';
-export const DEFAULT_TRANSLATION_LOCALES = ['uk'];
+export const DEFAULT_TRANSLATION_LOCALES = ['en'];
 export const MIN_SET_LOCALES = 2;
 export const DEFAULT_SET_LOCALES = [DEFAULT_SOURCE_LOCALE, ...DEFAULT_TRANSLATION_LOCALES];
 
@@ -66,6 +66,24 @@ export function normalizeSetLocales(locales) {
 
 export function isSupportedLocale(code) {
   return LOCALE_BY_CODE.has(code);
+}
+
+export function detectSystemUiLocale(fallback = 'en') {
+  if (typeof navigator === 'undefined') return fallback;
+
+  const candidates = [];
+  if (navigator.language) candidates.push(navigator.language);
+  if (Array.isArray(navigator.languages)) candidates.push(...navigator.languages);
+
+  const seen = new Set();
+  for (const raw of candidates) {
+    const code = String(raw || '').slice(0, 2).toLowerCase();
+    if (!code || seen.has(code)) continue;
+    seen.add(code);
+    if (isSupportedLocale(code)) return code;
+  }
+
+  return fallback;
 }
 
 export function getLocale(code) {

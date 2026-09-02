@@ -1,7 +1,7 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
-import { SUPPORTED_LOCALES, getLocaleDir, isSupportedLocale } from '../components/utils/locales';
+import { SUPPORTED_LOCALES, detectSystemUiLocale, getLocaleDir, isSupportedLocale } from '../components/utils/locales';
 
 import en from './locales/en.json';
 import uk from './locales/uk.json';
@@ -42,12 +42,7 @@ export function resolveInitialUiLocale() {
     return stored;
   }
 
-  const browser = (window.navigator.language || '').slice(0, 2);
-  if (isSupportedLocale(browser)) {
-    return browser;
-  }
-
-  return DEFAULT_UI_LOCALE;
+  return detectSystemUiLocale(DEFAULT_UI_LOCALE);
 }
 
 // Keeps the <html> lang/dir attributes in sync so RTL languages (Arabic) render correctly.
