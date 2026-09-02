@@ -40,11 +40,7 @@
     "nothingToUpdate": "Không có gì để cập nhật",
     "invalidVisibility": "Quyền hiển thị bộ không hợp lệ",
     "unsupportedLanguage": "Ngôn ngữ này không được hỗ trợ",
-    "remarkRequired": "Cần văn bản đã chọn hoặc một bình luận",
-    "invalidEmail": "Nhập email hợp lệ",
-    "emailTaken": "Email này đã được sử dụng",
-    "resetInvalidToken": "Liên kết không hợp lệ hoặc đã hết hạn",
-    "currentPasswordWrong": "Mật khẩu hiện tại không đúng"
+    "remarkRequired": "Cần văn bản đã chọn hoặc một bình luận"
   },
   "layout": {
     "logoutConfirm": "Đăng xuất?",
@@ -70,17 +66,7 @@
     "registerSubmit": "Đăng ký",
     "loginError": "Đăng nhập thất bại. Kiểm tra tên người dùng và mật khẩu.",
     "registerError": "Đăng ký thất bại. Hãy thử tên khác.",
-    "passwordMismatch": "Mật khẩu không khớp",
-    "email": "Email",
-    "forgotPassword": "Quên mật khẩu?",
-    "forgotPasswordTitle": "Đặt lại mật khẩu",
-    "forgotPasswordHint": "Nhập email tài khoản. Nếu tồn tại, chúng tôi sẽ gửi liên kết.",
-    "forgotPasswordSubmit": "Gửi liên kết",
-    "forgotPasswordSent": "Nếu tài khoản với email này tồn tại, chúng tôi đã gửi liên kết.",
-    "resetPasswordTitle": "Mật khẩu mới",
-    "resetPasswordSubmit": "Lưu mật khẩu",
-    "resetPasswordSuccess": "Đã cập nhật mật khẩu. Bạn có thể đăng nhập.",
-    "backToLogin": "Quay lại đăng nhập"
+    "passwordMismatch": "Mật khẩu không khớp"
   },
   "home": {
     "title": "Bộ từ công khai phổ biến",
@@ -108,13 +94,7 @@
     "createSetSubmit": "Tạo",
     "createSetSuccess": "Đã tạo bộ từ thành công",
     "createSetError": "Không tạo được bộ từ",
-    "tabRemarks": "Nhận xét",
-    "emailTitle": "Email",
-    "emailHint": "Cần để khôi phục mật khẩu. Xác nhận mật khẩu hiện tại để đổi email.",
-    "emailSave": "Lưu email",
-    "emailSaved": "Đã lưu email",
-    "emailSaveError": "Không thể lưu email",
-    "currentPassword": "Mật khẩu hiện tại"
+    "tabRemarks": "Nhận xét"
   },
   "wordSet": {
     "savedToggleError": "Không thay đổi được trạng thái lưu",
@@ -338,7 +318,7 @@
     "title": "Điều khoản",
     "intro": "Ghi chú ngắn về tài khoản, dữ liệu và tài liệu.",
     "dataTitle": "Những gì được lưu",
-    "dataText": "Tên người dùng, email, mã băm mật khẩu, bộ từ và tiến độ học; tin phản hồi nếu bạn gửi. Dữ liệu này không được bán và không dùng cho quảng cáo.",
+    "dataText": "Tên người dùng, mã băm mật khẩu, bộ từ và tiến độ học; tin phản hồi nếu bạn gửi. Dữ liệu này không được bán và không dùng cho quảng cáo.",
     "accountTitle": "Tài khoản của bạn",
     "accountText": "Đừng chia sẻ mật khẩu. Hành động dưới phiên đăng nhập của bạn được coi là của bạn.",
     "materialsTitle": "Tài liệu",

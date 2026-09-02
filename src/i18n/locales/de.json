@@ -40,11 +40,7 @@
     "nothingToUpdate": "Nichts zu aktualisieren",
     "invalidVisibility": "Ungültige Set-Sichtbarkeit",
     "unsupportedLanguage": "Diese Sprache wird nicht unterstützt",
-    "remarkRequired": "Markierter Text oder ein Kommentar ist erforderlich",
-    "invalidEmail": "Geben Sie eine gültige E-Mail ein",
-    "emailTaken": "Diese E-Mail wird bereits verwendet",
-    "resetInvalidToken": "Dieser Link ist ungültig oder abgelaufen",
-    "currentPasswordWrong": "Das aktuelle Passwort ist falsch"
+    "remarkRequired": "Markierter Text oder ein Kommentar ist erforderlich"
   },
   "layout": {
     "logoutConfirm": "Abmelden?",
@@ -70,17 +66,7 @@
     "registerSubmit": "Registrieren",
     "loginError": "Anmeldung fehlgeschlagen. Prüfen Sie Benutzername und Passwort.",
     "registerError": "Registrierung fehlgeschlagen. Versuchen Sie einen anderen Namen.",
-    "passwordMismatch": "Passwörter stimmen nicht überein",
-    "email": "E-Mail",
-    "forgotPassword": "Passwort vergessen?",
-    "forgotPasswordTitle": "Passwort zurücksetzen",
-    "forgotPasswordHint": "Geben Sie die E-Mail Ihres Kontos ein. Falls sie existiert, senden wir einen Link.",
-    "forgotPasswordSubmit": "Link senden",
-    "forgotPasswordSent": "Falls ein Konto mit dieser E-Mail existiert, haben wir einen Link gesendet.",
-    "resetPasswordTitle": "Neues Passwort",
-    "resetPasswordSubmit": "Passwort speichern",
-    "resetPasswordSuccess": "Passwort geändert. Sie können sich jetzt anmelden.",
-    "backToLogin": "Zur Anmeldung"
+    "passwordMismatch": "Passwörter stimmen nicht überein"
   },
   "home": {
     "title": "Beliebte öffentliche Wortsets",
@@ -108,13 +94,7 @@
     "createSetSubmit": "Erstellen",
     "createSetSuccess": "Set erfolgreich erstellt",
     "createSetError": "Set konnte nicht erstellt werden",
-    "tabRemarks": "Hinweise",
-    "emailTitle": "E-Mail",
-    "emailHint": "Wird zum Zurücksetzen des Passworts benötigt. Bestätigen Sie das aktuelle Passwort, um die E-Mail zu ändern.",
-    "emailSave": "E-Mail speichern",
-    "emailSaved": "E-Mail gespeichert",
-    "emailSaveError": "E-Mail konnte nicht gespeichert werden",
-    "currentPassword": "Aktuelles Passwort"
+    "tabRemarks": "Hinweise"
   },
   "wordSet": {
     "savedToggleError": "Gespeichert-Status konnte nicht geändert werden",
@@ -338,7 +318,7 @@
     "title": "Nutzung",
     "intro": "Kurz zu Konto, Daten und Materialien.",
     "dataTitle": "Was gespeichert wird",
-    "dataText": "Benutzername, E-Mail, Passwort-Hash, Ihre Sets und Lernfortschritt; Feedback-Nachrichten, wenn Sie welche senden. Diese Daten werden nicht verkauft und nicht für Werbung verwendet.",
+    "dataText": "Benutzername, Passwort-Hash, Ihre Sets und Lernfortschritt; Feedback-Nachrichten, wenn Sie welche senden. Diese Daten werden nicht verkauft und nicht für Werbung verwendet.",
     "accountTitle": "Ihr Konto",
     "accountText": "Geben Sie Ihr Passwort nicht weiter. Aktionen unter Ihrem Login gelten als Ihre.",
     "materialsTitle": "Materialien",

@@ -40,11 +40,7 @@
     "nothingToUpdate": "No hay nada que actualizar",
     "invalidVisibility": "Visibilidad del conjunto no válida",
     "unsupportedLanguage": "Este idioma no es compatible",
-    "remarkRequired": "Se requiere texto seleccionado o un comentario",
-    "invalidEmail": "Introduce un correo válido",
-    "emailTaken": "Este correo ya está en uso",
-    "resetInvalidToken": "Este enlace no es válido o ha caducado",
-    "currentPasswordWrong": "La contraseña actual es incorrecta"
+    "remarkRequired": "Se requiere texto seleccionado o un comentario"
   },
   "layout": {
     "logoutConfirm": "¿Cerrar sesión?",
@@ -70,17 +66,7 @@
     "registerSubmit": "Registrarse",
     "loginError": "No se pudo iniciar sesión. Comprueba el usuario y la contraseña.",
     "registerError": "No se pudo registrar. Prueba con otro nombre.",
-    "passwordMismatch": "Las contraseñas no coinciden",
-    "email": "Correo electrónico",
-    "forgotPassword": "¿Olvidaste la contraseña?",
-    "forgotPasswordTitle": "Restablecer contraseña",
-    "forgotPasswordHint": "Introduce el correo de tu cuenta. Si existe, enviaremos un enlace.",
-    "forgotPasswordSubmit": "Enviar enlace",
-    "forgotPasswordSent": "Si existe una cuenta con este correo, hemos enviado un enlace.",
-    "resetPasswordTitle": "Nueva contraseña",
-    "resetPasswordSubmit": "Guardar contraseña",
-    "resetPasswordSuccess": "Contraseña actualizada. Ya puedes iniciar sesión.",
-    "backToLogin": "Volver al inicio de sesión"
+    "passwordMismatch": "Las contraseñas no coinciden"
   },
   "home": {
     "title": "Conjuntos públicos populares",
@@ -108,13 +94,7 @@
     "createSetSubmit": "Crear",
     "createSetSuccess": "Conjunto creado correctamente",
     "createSetError": "No se pudo crear el conjunto",
-    "tabRemarks": "Observaciones",
-    "emailTitle": "Correo electrónico",
-    "emailHint": "Hace falta para recuperar la contraseña. Confirma la contraseña actual para cambiar el correo.",
-    "emailSave": "Guardar correo",
-    "emailSaved": "Correo guardado",
-    "emailSaveError": "No se pudo guardar el correo",
-    "currentPassword": "Contraseña actual"
+    "tabRemarks": "Observaciones"
   },
   "wordSet": {
     "savedToggleError": "No se pudo cambiar el estado guardado",
@@ -338,7 +318,7 @@
     "title": "Condiciones",
     "intro": "Una nota breve sobre la cuenta, los datos y los materiales.",
     "dataTitle": "Qué se guarda",
-    "dataText": "Nombre de usuario, correo electrónico, hash de la contraseña, sus conjuntos y progreso; mensajes de comentarios si los envía. Estos datos no se venden ni se usan para publicidad.",
+    "dataText": "Nombre de usuario, hash de la contraseña, sus conjuntos y progreso; mensajes de comentarios si los envía. Estos datos no se venden ni se usan para publicidad.",
     "accountTitle": "Tu cuenta",
     "accountText": "No comparta su contraseña. Las acciones bajo su acceso se consideran suyas.",
     "materialsTitle": "Materiales",

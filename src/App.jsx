@@ -12,8 +12,6 @@ import { registerSpeechNotifier, initSpeechVoices } from './components/utils/fun
 import HomePage from './pages/HomePage.jsx';
 import LoginFormPage from './pages/LoginFormPage.jsx';
 import RegistrationFormPage from './pages/RegistrationFormPage.jsx';
-import ForgotPasswordPage from './pages/ForgotPasswordPage.jsx';
-import ResetPasswordPage from './pages/ResetPasswordPage.jsx';
 import TranslationExercisePage from './pages/TranslationExercisePage.jsx';
 import TermsAndConditionsPage from './pages/TermsAndConditionsPage.jsx';
 import WordSetPage from './pages/WordSetPage.jsx';
@@ -88,8 +86,6 @@ export default function App() {
             <Route path="main" element={<><HomePage /></>} />
             <Route path="/sign-up" element={<><RegistrationFormPage /></>} />
             <Route path="/login" element={<><LoginFormPage /></>} />
-            <Route path="/forgot-password" element={<><ForgotPasswordPage /></>} />
-            <Route path="/reset-password" element={<><ResetPasswordPage /></>} />
             
             <Route path="/profile" element={<ProfileLayout />}>
               <Route index element={<ProfileOwnWordSets />} />

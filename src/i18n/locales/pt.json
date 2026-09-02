@@ -40,11 +40,7 @@
     "nothingToUpdate": "Nada para atualizar",
     "invalidVisibility": "Visibilidade do conjunto inválida",
     "unsupportedLanguage": "Este idioma não é suportado",
-    "remarkRequired": "É necessário texto selecionado ou um comentário",
-    "invalidEmail": "Digite um e-mail válido",
-    "emailTaken": "Este e-mail já está em uso",
-    "resetInvalidToken": "Este link é inválido ou expirou",
-    "currentPasswordWrong": "A senha atual está incorreta"
+    "remarkRequired": "É necessário texto selecionado ou um comentário"
   },
   "layout": {
     "logoutConfirm": "Terminar sessão?",
@@ -70,17 +66,7 @@
     "registerSubmit": "Registar",
     "loginError": "Falha ao iniciar sessão. Verifique o nome de utilizador e a palavra-passe.",
     "registerError": "Falha ao registar. Tente outro nome.",
-    "passwordMismatch": "As palavras-passe não coincidem",
-    "email": "E-mail",
-    "forgotPassword": "Esqueceu a senha?",
-    "forgotPasswordTitle": "Redefinir senha",
-    "forgotPasswordHint": "Digite o e-mail da conta. Se existir, enviaremos um link.",
-    "forgotPasswordSubmit": "Enviar link",
-    "forgotPasswordSent": "Se existir uma conta com este e-mail, enviamos um link.",
-    "resetPasswordTitle": "Nova senha",
-    "resetPasswordSubmit": "Salvar senha",
-    "resetPasswordSuccess": "Senha atualizada. Você já pode entrar.",
-    "backToLogin": "Voltar ao login"
+    "passwordMismatch": "As palavras-passe não coincidem"
   },
   "home": {
     "title": "Conjuntos públicos populares",
@@ -108,13 +94,7 @@
     "createSetSubmit": "Criar",
     "createSetSuccess": "Conjunto criado com sucesso",
     "createSetError": "Falha ao criar o conjunto",
-    "tabRemarks": "Observações",
-    "emailTitle": "E-mail",
-    "emailHint": "Necessário para recuperar a senha. Confirme a senha atual para alterar o e-mail.",
-    "emailSave": "Salvar e-mail",
-    "emailSaved": "E-mail salvo",
-    "emailSaveError": "Não foi possível salvar o e-mail",
-    "currentPassword": "Senha atual"
+    "tabRemarks": "Observações"
   },
   "wordSet": {
     "savedToggleError": "Falha ao alterar o estado de guardado",
@@ -338,7 +318,7 @@
     "title": "Condições",
     "intro": "Uma nota breve sobre conta, dados e materiais.",
     "dataTitle": "O que é guardado",
-    "dataText": "Nome de utilizador, e-mail, hash da palavra-passe, os seus conjuntos e progresso; mensagens de feedback se as enviar. Estes dados não são vendidos nem usados para publicidade.",
+    "dataText": "Nome de utilizador, hash da palavra-passe, os seus conjuntos e progresso; mensagens de feedback se as enviar. Estes dados não são vendidos nem usados para publicidade.",
     "accountTitle": "A sua conta",
     "accountText": "Não partilhe a palavra-passe. As ações sob o seu acesso consideram-se suas.",
     "materialsTitle": "Materiais",

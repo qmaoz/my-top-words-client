@@ -40,11 +40,7 @@
     "nothingToUpdate": "Güncellenecek bir şey yok",
     "invalidVisibility": "Geçersiz set görünürlüğü",
     "unsupportedLanguage": "Bu dil desteklenmiyor",
-    "remarkRequired": "Seçili metin veya bir yorum gerekli",
-    "invalidEmail": "Geçerli bir e-posta girin",
-    "emailTaken": "Bu e-posta zaten kullanılıyor",
-    "resetInvalidToken": "Bu bağlantı geçersiz veya süresi dolmuş",
-    "currentPasswordWrong": "Mevcut şifre yanlış"
+    "remarkRequired": "Seçili metin veya bir yorum gerekli"
   },
   "layout": {
     "logoutConfirm": "Çıkış yapılsın mı?",
@@ -70,17 +66,7 @@
     "registerSubmit": "Kayıt ol",
     "loginError": "Giriş yapılamadı. Kullanıcı adınızı ve parolanızı kontrol edin.",
     "registerError": "Kayıt olunamadı. Farklı bir ad deneyin.",
-    "passwordMismatch": "Parolalar eşleşmiyor",
-    "email": "E-posta",
-    "forgotPassword": "Şifrenizi mi unuttunuz?",
-    "forgotPasswordTitle": "Şifreyi sıfırla",
-    "forgotPasswordHint": "Hesabın e-postasını girin. Varsa bir bağlantı göndeririz.",
-    "forgotPasswordSubmit": "Bağlantı gönder",
-    "forgotPasswordSent": "Bu e-postayla bir hesap varsa sıfırlama bağlantısı gönderildi.",
-    "resetPasswordTitle": "Yeni şifre",
-    "resetPasswordSubmit": "Şifreyi kaydet",
-    "resetPasswordSuccess": "Şifre güncellendi. Şimdi giriş yapabilirsiniz.",
-    "backToLogin": "Girişe dön"
+    "passwordMismatch": "Parolalar eşleşmiyor"
   },
   "home": {
     "title": "Popüler herkese açık kelime setleri",
@@ -108,13 +94,7 @@
     "createSetSubmit": "Oluştur",
     "createSetSuccess": "Set başarıyla oluşturuldu",
     "createSetError": "Set oluşturulamadı",
-    "tabRemarks": "Notlar",
-    "emailTitle": "E-posta",
-    "emailHint": "Şifre kurtarma için gerekir. E-postayı değiştirmek için mevcut şifreyi doğrulayın.",
-    "emailSave": "E-postayı kaydet",
-    "emailSaved": "E-posta kaydedildi",
-    "emailSaveError": "E-posta kaydedilemedi",
-    "currentPassword": "Mevcut şifre"
+    "tabRemarks": "Notlar"
   },
   "wordSet": {
     "savedToggleError": "Kaydedilme durumu değiştirilemedi",
@@ -338,7 +318,7 @@
     "title": "Koşullar",
     "intro": "Hesap, veri ve materyaller hakkında kısa not.",
     "dataTitle": "Neler saklanır",
-    "dataText": "Kullanıcı adı, e-posta, parola özeti, setleriniz ve ilerleme; gönderirseniz geri bildirim mesajları. Bu veriler satılmaz ve reklam için kullanılmaz.",
+    "dataText": "Kullanıcı adı, parola özeti, setleriniz ve ilerleme; gönderirseniz geri bildirim mesajları. Bu veriler satılmaz ve reklam için kullanılmaz.",
     "accountTitle": "Hesabınız",
     "accountText": "Parolanızı başkalarıyla paylaşmayın. Girişiniz altındaki işlemler size aittir.",
     "materialsTitle": "Materyaller",

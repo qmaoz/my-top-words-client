@@ -40,11 +40,7 @@
     "nothingToUpdate": "更新するものがありません",
     "invalidVisibility": "セットの公開設定が無効です",
     "unsupportedLanguage": "この言語はサポートされていません",
-    "remarkRequired": "選択したテキストまたはコメントが必要です",
-    "invalidEmail": "有効なメールを入力してください",
-    "emailTaken": "このメールは既に使われています",
-    "resetInvalidToken": "このリンクは無効か期限切れです",
-    "currentPasswordWrong": "現在のパスワードが正しくありません"
+    "remarkRequired": "選択したテキストまたはコメントが必要です"
   },
   "layout": {
     "logoutConfirm": "ログアウトしますか？",
@@ -70,17 +66,7 @@
     "registerSubmit": "新規登録",
     "loginError": "ログインに失敗しました。ユーザー名とパスワードを確認してください。",
     "registerError": "登録に失敗しました。別の名前をお試しください。",
-    "passwordMismatch": "パスワードが一致しません",
-    "email": "メール",
-    "forgotPassword": "パスワードをお忘れですか？",
-    "forgotPasswordTitle": "パスワードの再設定",
-    "forgotPasswordHint": "アカウントのメールを入力してください。存在すればリンクを送ります。",
-    "forgotPasswordSubmit": "リンクを送る",
-    "forgotPasswordSent": "このメールのアカウントがあれば、再設定リンクを送りました。",
-    "resetPasswordTitle": "新しいパスワード",
-    "resetPasswordSubmit": "パスワードを保存",
-    "resetPasswordSuccess": "パスワードを更新しました。ログインできます。",
-    "backToLogin": "ログインに戻る"
+    "passwordMismatch": "パスワードが一致しません"
   },
   "home": {
     "title": "人気の公開単語セット",
@@ -108,13 +94,7 @@
     "createSetSubmit": "作成",
     "createSetSuccess": "セットを作成しました",
     "createSetError": "セットの作成に失敗しました",
-    "tabRemarks": "指摘",
-    "emailTitle": "メール",
-    "emailHint": "パスワード再設定に必要です。メールを変更するには現在のパスワードを確認してください。",
-    "emailSave": "メールを保存",
-    "emailSaved": "メールを保存しました",
-    "emailSaveError": "メールを保存できませんでした",
-    "currentPassword": "現在のパスワード"
+    "tabRemarks": "指摘"
   },
   "wordSet": {
     "savedToggleError": "保存状態の変更に失敗しました",
@@ -338,7 +318,7 @@
     "title": "利用について",
     "intro": "アカウント・データ・教材についての短い案内です。",
     "dataTitle": "保存されるデータ",
-    "dataText": "ユーザー名、メール、パスワードのハッシュ、セットと学習の進捗。フィードバックを送った場合はその内容も。これらのデータは販売されず、広告にも使われません。",
+    "dataText": "ユーザー名、パスワードのハッシュ、セットと学習の進捗。フィードバックを送った場合はその内容も。これらのデータは販売されず、広告にも使われません。",
     "accountTitle": "アカウント",
     "accountText": "パスワードを他人に渡さないでください。ログイン後の操作はあなたのものと考えます。",
     "materialsTitle": "教材",

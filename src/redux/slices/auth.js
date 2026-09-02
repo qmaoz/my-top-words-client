@@ -23,9 +23,9 @@ export const fetchUserInfo = createAsyncThunk('auth/fetchUserInfo', async (param
   }
 });
 
-export const fetchRegister = createAsyncThunk('auth/fetchRegister', async ({ username, password, email, confirm_password }, { rejectWithValue }) => {
+export const fetchRegister = createAsyncThunk('auth/fetchRegister', async ({ username, password, confirm_password }, { rejectWithValue }) => {
   try {
-    const { data } = await axios.post('/auth/register', { username, password, email, confirm_password });
+    const { data } = await axios.post('/auth/register', { username, password, confirm_password });
     if (data?.token) {
       window.localStorage.setItem('token', data.token);
     }
@@ -43,18 +43,6 @@ export const updateUserPreferences = createAsyncThunk(
       return data;
     } catch (error) {
       return rejectWithValue({ message: error?.response?.data || tr('profile.settingsSaveError') });
-    }
-  }
-);
-
-export const updateUserEmail = createAsyncThunk(
-  'auth/updateUserEmail',
-  async ({ email, current_password }, { rejectWithValue }) => {
-    try {
-      const { data } = await axios.patch('/user/email', { email, current_password });
-      return data;
-    } catch (error) {
-      return rejectWithValue({ message: error?.response?.data || tr('profile.emailSaveError') });
     }
   }
 );
@@ -83,11 +71,6 @@ const authSlice = createSlice({
         if (state.data?.userData) {
           state.data.userData.preferred_translation_locale = action.payload.preferred_translation_locale;
           state.data.userData.ui_locale = action.payload.ui_locale;
-        }
-      })
-      .addCase(updateUserEmail.fulfilled, (state, action) => {
-        if (state.data?.userData) {
-          state.data.userData.email = action.payload.email;
         }
       })
       .addMatcher(

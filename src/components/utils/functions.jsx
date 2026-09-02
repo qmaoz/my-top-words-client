@@ -59,11 +59,6 @@ const API_MESSAGE_KEYS = {
   'unsupported set language': 'errors.unsupportedLanguage',
   'selected text or a comment is required': 'errors.remarkRequired',
   'only an internal path is allowed, e.g. /about': 'feedback.onlyInternalPath',
-  'enter a valid email': 'errors.invalidEmail',
-  'this email is already in use': 'errors.emailTaken',
-  'this reset link is invalid or has expired': 'errors.resetInvalidToken',
-  'current password is incorrect': 'errors.currentPasswordWrong',
-  'current password is required': 'errors.currentPasswordWrong',
 };
 
 function extractErrorMessage(error) {

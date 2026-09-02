@@ -40,11 +40,7 @@
     "nothingToUpdate": "Niente da aggiornare",
     "invalidVisibility": "Visibilità del set non valida",
     "unsupportedLanguage": "Questa lingua non è supportata",
-    "remarkRequired": "È richiesto un testo selezionato o un commento",
-    "invalidEmail": "Inserisci un’email valida",
-    "emailTaken": "Questa email è già in uso",
-    "resetInvalidToken": "Questo link non è valido o è scaduto",
-    "currentPasswordWrong": "La password attuale non è corretta"
+    "remarkRequired": "È richiesto un testo selezionato o un commento"
   },
   "layout": {
     "logoutConfirm": "Uscire?",
@@ -70,17 +66,7 @@
     "registerSubmit": "Registrati",
     "loginError": "Accesso non riuscito. Controlla nome utente e password.",
     "registerError": "Registrazione non riuscita. Prova un altro nome.",
-    "passwordMismatch": "Le password non coincidono",
-    "email": "Email",
-    "forgotPassword": "Password dimenticata?",
-    "forgotPasswordTitle": "Reimposta password",
-    "forgotPasswordHint": "Inserisci l’email dell’account. Se esiste, invieremo un link.",
-    "forgotPasswordSubmit": "Invia link",
-    "forgotPasswordSent": "Se esiste un account con questa email, abbiamo inviato un link.",
-    "resetPasswordTitle": "Nuova password",
-    "resetPasswordSubmit": "Salva password",
-    "resetPasswordSuccess": "Password aggiornata. Ora puoi accedere.",
-    "backToLogin": "Torna all’accesso"
+    "passwordMismatch": "Le password non coincidono"
   },
   "home": {
     "title": "Set di parole pubblici popolari",
@@ -108,13 +94,7 @@
     "createSetSubmit": "Crea",
     "createSetSuccess": "Set creato con successo",
     "createSetError": "Impossibile creare il set",
-    "tabRemarks": "Osservazioni",
-    "emailTitle": "Email",
-    "emailHint": "Serve per recuperare la password. Conferma la password attuale per cambiare l’email.",
-    "emailSave": "Salva email",
-    "emailSaved": "Email salvata",
-    "emailSaveError": "Impossibile salvare l’email",
-    "currentPassword": "Password attuale"
+    "tabRemarks": "Osservazioni"
   },
   "wordSet": {
     "savedToggleError": "Impossibile modificare lo stato salvato",
@@ -338,7 +318,7 @@
     "title": "Condizioni",
     "intro": "Una nota breve su account, dati e materiali.",
     "dataTitle": "Cosa viene memorizzato",
-    "dataText": "Nome utente, email, hash della password, i Suoi set e i progressi; i messaggi di feedback se li invia. Questi dati non vengono venduti né usati per la pubblicità.",
+    "dataText": "Nome utente, hash della password, i Suoi set e i progressi; i messaggi di feedback se li invia. Questi dati non vengono venduti né usati per la pubblicità.",
     "accountTitle": "Il Suo account",
     "accountText": "Non condivida la password. Le azioni con il Suo accesso si considerano Sue.",
     "materialsTitle": "Materiali",

@@ -40,11 +40,7 @@
     "nothingToUpdate": "Nie ma nic do zaktualizowania",
     "invalidVisibility": "Nieprawidłowa widoczność zestawu",
     "unsupportedLanguage": "Ten język nie jest obsługiwany",
-    "remarkRequired": "Wymagany jest zaznaczony tekst lub komentarz",
-    "invalidEmail": "Podaj poprawny e-mail",
-    "emailTaken": "Ten e-mail jest już używany",
-    "resetInvalidToken": "Ten link jest nieprawidłowy lub wygasł",
-    "currentPasswordWrong": "Bieżące hasło jest nieprawidłowe"
+    "remarkRequired": "Wymagany jest zaznaczony tekst lub komentarz"
   },
   "layout": {
     "logoutConfirm": "Wylogować się?",
@@ -70,17 +66,7 @@
     "registerSubmit": "Zarejestruj się",
     "loginError": "Nie udało się zalogować. Sprawdź nazwę użytkownika i hasło.",
     "registerError": "Nie udało się zarejestrować. Spróbuj innej nazwy.",
-    "passwordMismatch": "Hasła nie są zgodne",
-    "email": "E-mail",
-    "forgotPassword": "Nie pamiętasz hasła?",
-    "forgotPasswordTitle": "Reset hasła",
-    "forgotPasswordHint": "Podaj e-mail konta. Jeśli istnieje, wyślemy link.",
-    "forgotPasswordSubmit": "Wyślij link",
-    "forgotPasswordSent": "Jeśli konto z tym e-mailem istnieje, wysłaliśmy link.",
-    "resetPasswordTitle": "Nowe hasło",
-    "resetPasswordSubmit": "Zapisz hasło",
-    "resetPasswordSuccess": "Hasło zmienione. Możesz się zalogować.",
-    "backToLogin": "Wróć do logowania"
+    "passwordMismatch": "Hasła nie są zgodne"
   },
   "home": {
     "title": "Popularne publiczne zestawy słów",
@@ -108,13 +94,7 @@
     "createSetSubmit": "Utwórz",
     "createSetSuccess": "Zestaw utworzony pomyślnie",
     "createSetError": "Nie udało się utworzyć zestawu",
-    "tabRemarks": "Uwagi",
-    "emailTitle": "E-mail",
-    "emailHint": "Potrzebny do odzyskania hasła. Potwierdź bieżące hasło, aby zmienić e-mail.",
-    "emailSave": "Zapisz e-mail",
-    "emailSaved": "E-mail zapisany",
-    "emailSaveError": "Nie udało się zapisać e-maila",
-    "currentPassword": "Bieżące hasło"
+    "tabRemarks": "Uwagi"
   },
   "wordSet": {
     "savedToggleError": "Nie udało się zmienić statusu zapisania",
@@ -338,7 +318,7 @@
     "title": "Warunki",
     "intro": "Krótko o koncie, danych i materiałach.",
     "dataTitle": "Co jest przechowywane",
-    "dataText": "Nazwa użytkownika, e-mail, hash hasła, Państwa zestawy i postęp; wiadomości opinii, jeśli je Państwo wyślą. Te dane nie są sprzedawane ani wykorzystywane do reklam.",
+    "dataText": "Nazwa użytkownika, hash hasła, Państwa zestawy i postęp; wiadomości opinii, jeśli je Państwo wyślą. Te dane nie są sprzedawane ani wykorzystywane do reklam.",
     "accountTitle": "Państwa konto",
     "accountText": "Nie udostępniajcie hasła. Działania po zalogowaniu uważane są za Państwa.",
     "materialsTitle": "Materiały",

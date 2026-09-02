@@ -20,7 +20,6 @@ export default function SignupFormPage() {
   const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
       username: '',
-      email: '',
       password: '',
       confirm_password: '',
     },
@@ -37,7 +36,6 @@ export default function SignupFormPage() {
       const data = await dispatch(fetchRegister({
         username,
         password,
-        email: values.email,
         confirm_password: confirmPassword,
       })).unwrap();
 
@@ -74,15 +72,6 @@ export default function SignupFormPage() {
               required fullWidth
               maxLength={20}
               autoComplete="username"
-            />
-            <FormInput
-              name="email"
-              type="email"
-              label={t('auth.email')}
-              register={register}
-              errors={errors}
-              required fullWidth
-              autoComplete="email"
             />
             <FormInput
               name="password"

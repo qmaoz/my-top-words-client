@@ -362,24 +362,6 @@ footer .container {
   text-align: center;
 }
 
-.form-block__hint {
-  margin: 0;
-  font-size: 0.72em;
-  line-height: 1.45;
-  color: var(--text-body);
-}
-
-.form-block__extra {
-  margin: 0;
-  text-align: center;
-  font-size: 0.72em;
-}
-
-.form-block__extra a {
-  color: var(--primary-color);
-  font-weight: 600;
-}
-
 .heading-with-info {
   display: flex;
   align-items: center;
@@ -723,12 +705,6 @@ input::placeholder {
 
 .profile-settings-card__control {
   margin: 0;
-}
-
-.profile-settings-card form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-tight);
 }
 
 .profile-settings-card--danger {

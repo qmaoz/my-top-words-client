@@ -40,11 +40,7 @@
     "nothingToUpdate": "Rien à mettre à jour",
     "invalidVisibility": "Visibilité de l’ensemble non valide",
     "unsupportedLanguage": "Cette langue n’est pas prise en charge",
-    "remarkRequired": "Un texte sélectionné ou un commentaire est requis",
-    "invalidEmail": "Saisissez un e-mail valide",
-    "emailTaken": "Cet e-mail est déjà utilisé",
-    "resetInvalidToken": "Ce lien est invalide ou a expiré",
-    "currentPasswordWrong": "Le mot de passe actuel est incorrect"
+    "remarkRequired": "Un texte sélectionné ou un commentaire est requis"
   },
   "layout": {
     "logoutConfirm": "Se déconnecter ?",
@@ -70,17 +66,7 @@
     "registerSubmit": "S'inscrire",
     "loginError": "Échec de la connexion. Vérifiez le nom d'utilisateur et le mot de passe.",
     "registerError": "Échec de l'inscription. Essayez un autre nom.",
-    "passwordMismatch": "Les mots de passe ne correspondent pas",
-    "email": "E-mail",
-    "forgotPassword": "Mot de passe oublié ?",
-    "forgotPasswordTitle": "Réinitialiser le mot de passe",
-    "forgotPasswordHint": "Saisissez l’e-mail du compte. S’il existe, nous enverrons un lien.",
-    "forgotPasswordSubmit": "Envoyer le lien",
-    "forgotPasswordSent": "Si un compte avec cet e-mail existe, nous avons envoyé un lien.",
-    "resetPasswordTitle": "Nouveau mot de passe",
-    "resetPasswordSubmit": "Enregistrer le mot de passe",
-    "resetPasswordSuccess": "Mot de passe mis à jour. Vous pouvez vous connecter.",
-    "backToLogin": "Retour à la connexion"
+    "passwordMismatch": "Les mots de passe ne correspondent pas"
   },
   "home": {
     "title": "Ensembles publics populaires",
@@ -108,13 +94,7 @@
     "createSetSubmit": "Créer",
     "createSetSuccess": "Ensemble créé avec succès",
     "createSetError": "Impossible de créer l'ensemble",
-    "tabRemarks": "Remarques",
-    "emailTitle": "E-mail",
-    "emailHint": "Nécessaire pour récupérer le mot de passe. Confirmez le mot de passe actuel pour changer l’e-mail.",
-    "emailSave": "Enregistrer l’e-mail",
-    "emailSaved": "E-mail enregistré",
-    "emailSaveError": "Impossible d’enregistrer l’e-mail",
-    "currentPassword": "Mot de passe actuel"
+    "tabRemarks": "Remarques"
   },
   "wordSet": {
     "savedToggleError": "Impossible de modifier le statut enregistré",
@@ -338,7 +318,7 @@
     "title": "Conditions",
     "intro": "Quelques notes sur le compte, les données et les contenus.",
     "dataTitle": "Ce qui est stocké",
-    "dataText": "Nom d’utilisateur, e-mail, hash du mot de passe, vos ensembles et votre progression ; les messages de commentaires si vous en envoyez. Ces données ne sont ni vendues ni utilisées à des fins publicitaires.",
+    "dataText": "Nom d’utilisateur, hash du mot de passe, vos ensembles et votre progression ; les messages de commentaires si vous en envoyez. Ces données ne sont ni vendues ni utilisées à des fins publicitaires.",
     "accountTitle": "Votre compte",
     "accountText": "Ne partagez pas votre mot de passe. Les actions sous votre connexion sont considérées comme vôtres.",
     "materialsTitle": "Contenus",

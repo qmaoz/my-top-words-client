@@ -40,11 +40,7 @@
     "nothingToUpdate": "没有可更新的内容",
     "invalidVisibility": "词集可见性无效",
     "unsupportedLanguage": "不支持该语言",
-    "remarkRequired": "需要选中的文本或评论",
-    "invalidEmail": "请输入有效的电子邮箱",
-    "emailTaken": "该邮箱已被使用",
-    "resetInvalidToken": "该链接无效或已过期",
-    "currentPasswordWrong": "当前密码不正确"
+    "remarkRequired": "需要选中的文本或评论"
   },
   "layout": {
     "logoutConfirm": "退出登录？",
@@ -70,17 +66,7 @@
     "registerSubmit": "注册",
     "loginError": "登录失败，请检查用户名和密码。",
     "registerError": "注册失败，请尝试其他名称。",
-    "passwordMismatch": "两次输入的密码不一致",
-    "email": "电子邮箱",
-    "forgotPassword": "忘记密码？",
-    "forgotPasswordTitle": "重置密码",
-    "forgotPasswordHint": "请输入账号邮箱。如果存在，我们将发送重置链接。",
-    "forgotPasswordSubmit": "发送链接",
-    "forgotPasswordSent": "如果该邮箱对应账号存在，我们已发送重置链接。",
-    "resetPasswordTitle": "新密码",
-    "resetPasswordSubmit": "保存密码",
-    "resetPasswordSuccess": "密码已更新。现在可以登录。",
-    "backToLogin": "返回登录"
+    "passwordMismatch": "两次输入的密码不一致"
   },
   "home": {
     "title": "热门公开词集",
@@ -108,13 +94,7 @@
     "createSetSubmit": "创建",
     "createSetSuccess": "词集创建成功",
     "createSetError": "创建词集失败",
-    "tabRemarks": "备注",
-    "emailTitle": "电子邮箱",
-    "emailHint": "用于找回密码。更改邮箱需确认当前密码。",
-    "emailSave": "保存邮箱",
-    "emailSaved": "邮箱已保存",
-    "emailSaveError": "无法保存邮箱",
-    "currentPassword": "当前密码"
+    "tabRemarks": "备注"
   },
   "wordSet": {
     "savedToggleError": "更改保存状态失败",
@@ -338,7 +318,7 @@
     "title": "使用说明",
     "intro": "关于账号、数据与内容的简要说明。",
     "dataTitle": "存储的内容",
-    "dataText": "用户名、电子邮箱、密码哈希、你的词集与学习进度；若发送反馈，也会保存反馈内容。这些数据不会被出售，也不会用于广告。",
+    "dataText": "用户名、密码哈希、你的词集与学习进度；若发送反馈，也会保存反馈内容。这些数据不会被出售，也不会用于广告。",
     "accountTitle": "你的账号",
     "accountText": "请勿分享密码。以你的登录身份进行的操作视为你的操作。",
     "materialsTitle": "学习材料",
