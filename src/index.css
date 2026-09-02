@@ -1020,6 +1020,7 @@ input::placeholder {
 .word-set-title pre {
   font: inherit;
   margin: 0;
+  overflow: hidden;
 }
 
 

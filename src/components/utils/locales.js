@@ -116,6 +116,18 @@ export function getLocaleDir(code) {
   return LOCALE_BY_CODE.get(code)?.dir ?? 'ltr';
 }
 
+export function formatSetLocalesLine(sourceLocale, translationLocales, uiLocale) {
+  if (!sourceLocale) return '';
+  const source = getLocaleLabel(sourceLocale);
+  const targets = (Array.isArray(translationLocales) ? translationLocales : [])
+    .map((code) => getLocaleLabel(code))
+    .filter(Boolean)
+    .join(', ');
+  if (!targets) return source;
+  const arrow = getLocaleDir(uiLocale) === 'rtl' ? '←' : '→';
+  return `${source} ${arrow} ${targets}`;
+}
+
 export function normalizeSourceLocale(code) {
   return isSupportedLocale(code) ? code : DEFAULT_SOURCE_LOCALE;
 }

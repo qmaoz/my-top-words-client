@@ -6,6 +6,7 @@ import {
   getLocaleLabel,
   getLocaleDir,
   buildDefaultSetLocales,
+  formatSetLocalesLine,
 } from './locales';
 
 describe('client locales', () => {
@@ -25,6 +26,12 @@ describe('client locales', () => {
     expect(buildDefaultSetLocales('de')).toEqual(['de', 'en']);
     expect(buildDefaultSetLocales('zz')).toEqual(['de', 'en']);
     expect(buildDefaultSetLocales()).toEqual(['de', 'en']);
+  });
+
+  it('formatSetLocalesLine flips the arrow in RTL UI', () => {
+    expect(formatSetLocalesLine('de', ['en'], 'en')).toBe('Deutsch → English');
+    expect(formatSetLocalesLine('de', ['en'], 'ar')).toBe('Deutsch ← English');
+    expect(formatSetLocalesLine('de', [], 'ar')).toBe('Deutsch');
   });
 
   it('getLocaleLabel/getLocaleDir', () => {

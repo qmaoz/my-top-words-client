@@ -10,19 +10,9 @@ import { selectIsAuth } from '../redux/slices/auth';
 import WordSetName from './wrappers/WordSetName';
 import CircularLoading from './wrappers/CircularLoading';
 import SaveForLearningButton from './wrappers/SaveForLearningButton';
-import { getLocaleLabel } from './utils/locales';
+import { formatSetLocalesLine } from './utils/locales';
 import { Toast } from './utils/messages';
 import { useConfirm } from './utils/useConfirm';
-
-function formatSetLocales(sourceLocale, translationLocales) {
-  if (!sourceLocale) return '';
-  const source = getLocaleLabel(sourceLocale);
-  const targets = (Array.isArray(translationLocales) ? translationLocales : [])
-    .map((code) => getLocaleLabel(code))
-    .filter(Boolean)
-    .join(', ');
-  return targets ? `${source} → ${targets}` : source;
-}
 
 export default function WordSetCard({
   id,
@@ -38,7 +28,7 @@ export default function WordSetCard({
   canDelete = false,
   onDeleted,
 }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
   const confirm = useConfirm();
   const isAuth = useSelector(selectIsAuth);
@@ -85,7 +75,7 @@ export default function WordSetCard({
     }
   };
 
-  const localesLine = formatSetLocales(sourceLocale, translationLocales);
+  const localesLine = formatSetLocalesLine(sourceLocale, translationLocales, i18n.language);
   const numberOfWords = t('wordSet.cardWordsInSet', { count: totalWords });
 
   const wordSetCardBottomContent = isAuth ? <>
