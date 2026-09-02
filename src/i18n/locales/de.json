@@ -366,6 +366,7 @@
     "streakHint": "Aufeinanderfolgende Tage mit mindestens einer Übung im Trainer. Nach einem ausgelassenen Tag beginnt die nächste Sitzung bei 1.",
     "nextReview": "Nächste Verschiebung: {{when}}",
     "nextReviewHint": "Wann das nächste aufgeschobene Wort in den Trainer zurückkehrt. Heutige Wörter stehen unter „Jetzt im Trainer“.",
-    "nextReviewNone": "keine"
+    "nextReviewNone": "keine",
+    "loadError": "Ihre Lernstatistik konnte nicht geladen werden."
   }
 }

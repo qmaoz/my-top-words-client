@@ -366,6 +366,7 @@
     "streakHint": "Số ngày liên tiếp bạn luyện ít nhất một lần. Sau ngày bỏ lỡ, buổi sau bắt đầu lại từ 1.",
     "nextReview": "Lần hoãn tới: {{when}}",
     "nextReviewHint": "Khi từ bị hoãn gần nhất quay lại luyện tập. Từ hôm nay nằm ở «Trong luyện tập ngay».",
-    "nextReviewNone": "không"
+    "nextReviewNone": "không",
+    "loadError": "Không tải được thống kê học tập."
   }
 }

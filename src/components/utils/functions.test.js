@@ -6,6 +6,7 @@ import {
   hasWordFieldsChanged,
   hasWordEntryChanged,
 } from './functions.jsx';
+import { tr } from './translate';
 
 describe('getUserFacingError', () => {
   it('hides technical English messages', () => {
@@ -15,15 +16,22 @@ describe('getUserFacingError', () => {
     expect(result).not.toMatch(/cannot read propert/i);
   });
 
-  it('passes through a user-facing Cyrillic message', () => {
-    expect(getUserFacingError({ message: 'Неправильні дані для входу' }))
-      .toBe('Неправильні дані для входу');
+  it('hides an unmapped API message behind the generic error', () => {
+    const result = getUserFacingError({ message: 'Set #12 not found' });
+    expect(result).toBe(tr('common.genericError'));
+    expect(result).not.toBe('Set #12 not found');
   });
 
-  it('passes through an already translated client message', () => {
+  it('hides a user-facing message from another language', () => {
+    expect(getUserFacingError({ message: 'Неправильні дані для входу' }))
+      .toBe(tr('common.genericError'));
+  });
+
+  it('passes through a message that is already current UI copy', () => {
+    const loginError = tr('auth.loginError');
     expect(getUserFacingError({
-      message: 'Anmeldung fehlgeschlagen. Prüfen Sie Benutzername und Passwort.',
-    })).toBe('Anmeldung fehlgeschlagen. Prüfen Sie Benutzername und Passwort.');
+      message: loginError,
+    })).toBe(loginError);
   });
 
   it('maps a known English API message to the UI translation', () => {

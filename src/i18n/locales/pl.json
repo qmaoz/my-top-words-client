@@ -366,6 +366,7 @@
     "streakHint": "Kolejne dni z przynajmniej jedną sesją w trenerze. Po pominiętym dniu następna sesja zaczyna licznik od 1.",
     "nextReview": "Następne odłożenie: {{when}}",
     "nextReviewHint": "Kiedy najbliższe odłożone słowo wróci do trenera. Słowa na dziś są w «Teraz w trenerze».",
-    "nextReviewNone": "brak"
+    "nextReviewNone": "brak",
+    "loadError": "Nie udało się wczytać statystyk nauki."
   }
 }

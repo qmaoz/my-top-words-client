@@ -366,6 +366,7 @@
     "streakHint": "Rojên li pey hev ku te kêmî carekê rahêner bikar anî. Piştî rojekê ya winda, danişîna pêş 1 dest pê dike.",
     "nextReview": "Paşxistina pêş: {{when}}",
     "nextReviewHint": "Kengê peyva paşxistî ya herî nêzîk vedigere rahênerê. Yên îro di «Niha di rahênerê de» ne.",
-    "nextReviewNone": "tune"
+    "nextReviewNone": "tune",
+    "loadError": "Statîstîkên fêrbûnê nehatin barkirin."
   }
 }

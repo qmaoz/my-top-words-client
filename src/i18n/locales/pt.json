@@ -366,6 +366,7 @@
     "streakHint": "Dias consecutivos com pelo menos uma sessão no treino. Depois de um dia falhado, a sessão seguinte começa em 1.",
     "nextReview": "Próximo adiamento: {{when}}",
     "nextReviewHint": "Quando a palavra adiada mais próxima volta ao treino. As de hoje estão em «Agora no treino».",
-    "nextReviewNone": "nenhum"
+    "nextReviewNone": "nenhum",
+    "loadError": "Não foi possível carregar as estatísticas de aprendizagem."
   }
 }

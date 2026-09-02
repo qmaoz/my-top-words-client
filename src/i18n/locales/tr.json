@@ -366,6 +366,7 @@
     "streakHint": "Antrenörde en az bir kez çalıştığın ardışık günler. Atlanan günden sonra sonraki seans 1’den başlar.",
     "nextReview": "Sonraki erteleme: {{when}}",
     "nextReviewHint": "En yakın ertelenen kelimenin antrenöre ne zaman döneceği. Bugünküler «Antrenörde şimdi» içinde.",
-    "nextReviewNone": "yok"
+    "nextReviewNone": "yok",
+    "loadError": "Öğrenme istatistikleriniz yüklenemedi."
   }
 }

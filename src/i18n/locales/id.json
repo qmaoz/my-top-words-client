@@ -366,6 +366,7 @@
     "streakHint": "Hari berturut-turut dengan setidaknya satu sesi di pelatih. Setelah hari terlewat, sesi berikutnya mulai dari 1.",
     "nextReview": "Penundaan berikutnya: {{when}}",
     "nextReviewHint": "Kapan kata tertunda terdekat kembali ke pelatih. Yang hari ini ada di «Di pelatih sekarang».",
-    "nextReviewNone": "tidak ada"
+    "nextReviewNone": "tidak ada",
+    "loadError": "Tidak dapat memuat statistik belajar Anda."
   }
 }

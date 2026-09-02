@@ -5,6 +5,7 @@ import {
   detectSystemUiLocale,
   getLocaleLabel,
   getLocaleDir,
+  buildDefaultSetLocales,
 } from './locales';
 
 describe('client locales', () => {
@@ -16,6 +17,14 @@ describe('client locales', () => {
   it('normalizeTranslationLocales removes duplicates and unsupported locales', () => {
     expect(normalizeTranslationLocales(['uk', 'uk', 'zz', 'ru'])).toEqual(['uk', 'ru']);
     expect(normalizeTranslationLocales([])).toEqual(['en']);
+  });
+
+  it('buildDefaultSetLocales uses the preferred translation language', () => {
+    expect(buildDefaultSetLocales('uk')).toEqual(['de', 'uk']);
+    expect(buildDefaultSetLocales('en')).toEqual(['de', 'en']);
+    expect(buildDefaultSetLocales('de')).toEqual(['de', 'en']);
+    expect(buildDefaultSetLocales('zz')).toEqual(['de', 'en']);
+    expect(buildDefaultSetLocales()).toEqual(['de', 'en']);
   });
 
   it('getLocaleLabel/getLocaleDir', () => {

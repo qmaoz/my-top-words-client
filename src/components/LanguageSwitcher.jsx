@@ -8,11 +8,13 @@ import CheckIcon from '@mui/icons-material/Check';
 import { selectIsAuth, updateUserPreferences } from '../redux/slices/auth';
 import { SUPPORTED_LOCALES, getLocaleLabel } from './utils/locales';
 import { changeUiLocale, DEFAULT_UI_LOCALE } from '../i18n';
+import { useInlineEnd } from '../theme/useInlineEnd';
 
 export default function LanguageSwitcher() {
   const dispatch = useDispatch();
   const isAuth = useSelector(selectIsAuth);
   const { t, i18n } = useTranslation();
+  const inlineEnd = useInlineEnd();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -61,8 +63,8 @@ export default function LanguageSwitcher() {
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        anchorOrigin={{ vertical: 'bottom', horizontal: inlineEnd }}
+        transformOrigin={{ vertical: 'top', horizontal: inlineEnd }}
       >
         {SUPPORTED_LOCALES.map((locale) => (
           <MenuItem

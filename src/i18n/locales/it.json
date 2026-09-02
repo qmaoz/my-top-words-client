@@ -366,6 +366,7 @@
     "streakHint": "Giorni consecutivi con almeno una sessione nel trainer. Dopo un giorno saltato, la sessione successiva riparte da 1.",
     "nextReview": "Prossimo rinvio: {{when}}",
     "nextReviewHint": "Quando la parola rinviata più vicina torna nel trainer. Quelle di oggi sono in «Ora nel trainer».",
-    "nextReviewNone": "nessuno"
+    "nextReviewNone": "nessuno",
+    "loadError": "Impossibile caricare le statistiche di apprendimento."
   }
 }

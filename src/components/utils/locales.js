@@ -33,6 +33,16 @@ export const DEFAULT_TRANSLATION_LOCALES = ['en'];
 export const MIN_SET_LOCALES = 2;
 export const DEFAULT_SET_LOCALES = [DEFAULT_SOURCE_LOCALE, ...DEFAULT_TRANSLATION_LOCALES];
 
+export function buildDefaultSetLocales(preferredTranslationLocale) {
+  const preferred = isSupportedLocale(preferredTranslationLocale)
+    ? preferredTranslationLocale
+    : DEFAULT_TRANSLATION_LOCALES[0];
+  const translation = preferred === DEFAULT_SOURCE_LOCALE
+    ? DEFAULT_TRANSLATION_LOCALES[0]
+    : preferred;
+  return [DEFAULT_SOURCE_LOCALE, translation];
+}
+
 export function splitSetLocales(locales) {
   const list = normalizeSetLocales(locales);
   return {

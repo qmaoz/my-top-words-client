@@ -4,6 +4,7 @@ import { Box, Typography } from '@mui/material';
 
 import axios from '../../axios';
 import InfoHint from '../../components/InfoHint';
+import { WarningMessage } from '../../components/utils/messages';
 
 function formatNextReview(nextReviewAt, t, locale) {
   if (!nextReviewAt) return t('learning.nextReviewNone');
@@ -18,6 +19,7 @@ function formatNextReview(nextReviewAt, t, locale) {
 export default function ProfileLearningSummary() {
   const { t, i18n } = useTranslation();
   const [summary, setSummary] = useState(null);
+  const [loadError, setLoadError] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -25,9 +27,15 @@ export default function ProfileLearningSummary() {
     (async () => {
       try {
         const { data } = await axios.get('/me/learning-summary');
-        if (!cancelled) setSummary(data);
+        if (!cancelled) {
+          setSummary(data);
+          setLoadError(false);
+        }
       } catch {
-        if (!cancelled) setSummary(null);
+        if (!cancelled) {
+          setSummary(null);
+          setLoadError(true);
+        }
       }
     })();
 
@@ -40,6 +48,14 @@ export default function ProfileLearningSummary() {
     () => formatNextReview(summary?.nextReviewAt, t, i18n.language),
     [summary, t, i18n.language],
   );
+
+  if (loadError) {
+    return (
+      <div className="profile-learning-summary">
+        <WarningMessage message={t('learning.loadError')} />
+      </div>
+    );
+  }
 
   if (!summary) return null;
 

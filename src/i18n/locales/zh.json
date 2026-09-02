@@ -366,6 +366,7 @@
     "streakHint": "连续至少训练一次的天数。中断一天后，下次训练从 1 开始。",
     "nextReview": "下次推迟: {{when}}",
     "nextReviewHint": "最近一个被推迟的词何时回到训练。「训练中现在」是今天的词。",
-    "nextReviewNone": "无"
+    "nextReviewNone": "无",
+    "loadError": "无法加载学习统计。"
   }
 }

@@ -366,6 +366,7 @@
     "streakHint": "トレーニングを1回以上した連続日数です。休んだ翌日は1からになります。",
     "nextReview": "次の先送り: {{when}}",
     "nextReviewHint": "先送りした単語がトレーニングに戻る最も近い日時です。今日分は「今トレーニング中」です。",
-    "nextReviewNone": "なし"
+    "nextReviewNone": "なし",
+    "loadError": "学習統計を読み込めませんでした。"
   }
 }

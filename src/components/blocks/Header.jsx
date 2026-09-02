@@ -10,6 +10,7 @@ import {
   Tooltip,
   useMediaQuery,
 } from '@mui/material';
+import { useInlineEnd } from '../../theme/useInlineEnd';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -28,6 +29,7 @@ export default function Header() {
   const dispatch = useDispatch();
   const confirm = useConfirm();
   const { t } = useTranslation();
+  const inlineEnd = useInlineEnd();
   const isCompactHeader = useMediaQuery('(max-width:600px)');
   const isAuth = useSelector(selectIsAuth);
   const isAdmin = useSelector(selectIsAdmin);
@@ -118,8 +120,8 @@ export default function Header() {
                     anchorEl={anchorEl}
                     open={open}
                     onClose={handleClose}
-                    transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-                    anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                    transformOrigin={{ horizontal: inlineEnd, vertical: 'top' }}
+                    anchorOrigin={{ horizontal: inlineEnd, vertical: 'bottom' }}
                   >
                     <MenuItem disabled className="header__menu-user">
                       {userData?.username}
@@ -161,8 +163,8 @@ export default function Header() {
                         anchorEl={anchorEl}
                         open={open}
                         onClose={handleClose}
-                        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-                        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                        transformOrigin={{ horizontal: inlineEnd, vertical: 'top' }}
+                        anchorOrigin={{ horizontal: inlineEnd, vertical: 'bottom' }}
                       >
                         <MenuItem component={Link} to="/sign-up" onClick={handleClose}>
                           {t('layout.signUp')}

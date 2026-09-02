@@ -1,18 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Box, Button } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
-import { selectIsAuth, selectAuthStatus } from '../../../redux/slices/auth';
+import { selectIsAuth, selectAuthStatus, selectPreferredTranslationLocale } from '../../../redux/slices/auth';
 import { createNewWordSet } from '../../../redux/slices/word-sets';
 import FormInput from '../../../components/form/FormInput';
 import { Toast } from '../../../components/utils/messages';
 import CircularLoading from '../../../components/wrappers/CircularLoading';
 import LanguageSettings from '../../../components/LanguageSettings';
 import {
-  DEFAULT_SET_LOCALES,
+  buildDefaultSetLocales,
   splitSetLocales,
 } from '../../../components/utils/locales';
 
@@ -22,6 +22,11 @@ export default function CreateNewWordSetForm({ className }) {
   const { t } = useTranslation();
   const isAuth = useSelector(selectIsAuth);
   const authStatus = useSelector(selectAuthStatus);
+  const preferredTranslationLocale = useSelector(selectPreferredTranslationLocale);
+  const defaultSetLocales = useMemo(
+    () => buildDefaultSetLocales(preferredTranslationLocale),
+    [preferredTranslationLocale],
+  );
   const rootClassName = ['create-word-set-form', 'content-block', className].filter(Boolean).join(' ');
 
   useEffect(() => {
@@ -34,7 +39,7 @@ export default function CreateNewWordSetForm({ className }) {
   const handleCloseToast = () => setToast({ ...toast, open: false });
   const [isOpen, setIsOpen] = useState(false);
 
-  const [setLocales, setSetLocales] = useState([...DEFAULT_SET_LOCALES]);
+  const [setLocales, setSetLocales] = useState(() => buildDefaultSetLocales(preferredTranslationLocale));
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm({
     defaultValues: {
@@ -54,7 +59,7 @@ export default function CreateNewWordSetForm({ className }) {
       })).unwrap();
       setToast({ open: true, message: t('profile.createSetSuccess'), severity: 'success' });
       reset();
-      setSetLocales([...DEFAULT_SET_LOCALES]);
+      setSetLocales([...defaultSetLocales]);
       setIsOpen(false);
       navigate(`/word-set/${payload.id}`);
     } catch (error) {
@@ -73,7 +78,10 @@ export default function CreateNewWordSetForm({ className }) {
           type="button"
           color="primary"
           variant="contained"
-          onClick={() => setIsOpen(true)}
+          onClick={() => {
+            setSetLocales([...defaultSetLocales]);
+            setIsOpen(true);
+          }}
           disabled={!isAuth}
           className="create-word-set-form__open"
         >
@@ -109,7 +117,7 @@ export default function CreateNewWordSetForm({ className }) {
                 onClick={() => {
                   setIsOpen(false);
                   reset();
-                  setSetLocales([...DEFAULT_SET_LOCALES]);
+                  setSetLocales([...defaultSetLocales]);
                 }}
               >
                 {t('common.cancel')}

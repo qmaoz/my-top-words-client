@@ -245,7 +245,7 @@ header .container.df {
   align-items: center;
   justify-content: flex-end;
   gap: var(--space-block);
-  margin-left: auto;
+  margin-inline-start: auto;
   flex: 0 0 auto;
 }
 
@@ -645,7 +645,7 @@ input::placeholder {
 }
 
 .word-set-table__head-cell {
-  text-align: left;
+  text-align: start;
   padding: 0.4em 0.6em;
   font-size: 0.78em;
   font-weight: 700;
@@ -852,7 +852,7 @@ input::placeholder {
 
 .global-feedback-fab {
   position: fixed !important;
-  right: 1rem;
+  inset-inline-end: 1rem;
   bottom: 1rem;
   z-index: 1200;
   width: 2.125rem !important;
@@ -1128,7 +1128,7 @@ input::placeholder {
 
 .word-set-table thead th {
   padding: 1em 0.75em;
-  text-align: left;
+  text-align: start;
   font-weight: 500;
   text-transform: uppercase;
   font-size: 0.875rem;
@@ -1145,7 +1145,7 @@ input::placeholder {
 
 .word-set-table tbody td {
   padding: 1em 0.75em;
-  text-align: left;
+  text-align: start;
   border-bottom: none;
   word-break: break-word;
   overflow-wrap: break-word;
@@ -2424,7 +2424,7 @@ input::placeholder {
 .admin-table th,
 .admin-table td {
   padding: 0.75em 0.65em;
-  text-align: left;
+  text-align: start;
   vertical-align: top;
   border-bottom: 1px solid var(--border-light-color);
 }
@@ -2451,7 +2451,7 @@ input::placeholder {
 }
 
 .admin-table__actions {
-  text-align: right;
+  text-align: end;
   white-space: nowrap;
 }
 

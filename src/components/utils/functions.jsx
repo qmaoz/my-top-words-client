@@ -1,4 +1,5 @@
 import { tr } from './translate';
+import i18n from '../../i18n';
 
 export { speakText, stopSpeech, registerSpeechNotifier, initSpeechVoices } from './speech';
 
@@ -73,6 +74,25 @@ function extractErrorMessage(error) {
   return '';
 }
 
+function collectStringLeaves(value, out = []) {
+  if (typeof value === 'string') {
+    out.push(value);
+    return out;
+  }
+  if (value && typeof value === 'object') {
+    for (const child of Object.values(value)) collectStringLeaves(child, out);
+  }
+  return out;
+}
+
+function isCurrentUiCopy(raw) {
+  const lng = i18n.resolvedLanguage || i18n.language;
+  const bundle = i18n.getResourceBundle(lng, 'translation')
+    || i18n.getResourceBundle(i18n.language, 'translation');
+  if (!bundle) return false;
+  return collectStringLeaves(bundle).includes(raw);
+}
+
 export function getUserFacingError(error, fallback) {
   if (isThunkSkipped(error)) return null;
 
@@ -86,7 +106,9 @@ export function getUserFacingError(error, fallback) {
   const looksTechnical = TECHNICAL_PATTERNS.some((pattern) => pattern.test(raw));
   if (looksTechnical) return fb;
 
-  return raw;
+  if (isCurrentUiCopy(raw)) return raw;
+
+  return fb;
 }
 
 export const correctNounCase = (number, one, few, many) => {

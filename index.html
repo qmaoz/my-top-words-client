@@ -134,6 +134,7 @@
         var node = document.getElementById('boot-screen-text');
         if (node) node.textContent = messages[locale];
         document.documentElement.setAttribute('lang', locale);
+        document.documentElement.setAttribute('dir', locale === 'ar' ? 'rtl' : 'ltr');
       })();
     </script>
     <script type="module" src="/src/main.jsx"></script>

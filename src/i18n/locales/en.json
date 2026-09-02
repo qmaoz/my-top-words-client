@@ -366,6 +366,7 @@
     "streakHint": "Consecutive days with at least one session in the trainer. After a missed day the next session starts the count from 1.",
     "nextReview": "Next postponed: {{when}}",
     "nextReviewHint": "When the nearest postponed word returns to the trainer. Words for today are counted in \"In the trainer now\".",
-    "nextReviewNone": "none"
+    "nextReviewNone": "none",
+    "loadError": "Could not load your learning stats."
   }
 }

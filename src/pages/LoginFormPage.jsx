@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Box, Button, Paper } from '@mui/material';
 import FormInput from '../components/form/FormInput.jsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Toast } from '../components/utils/messages.jsx';
 
 export default function LoginFormPage() {
@@ -40,9 +40,11 @@ export default function LoginFormPage() {
     }
   };
 
-  if (isAuth) {
-    navigate('/');
-  }
+  useEffect(() => {
+    if (isAuth) {
+      navigate('/');
+    }
+  }, [isAuth, navigate]);
 
   return (
     <>

@@ -366,6 +366,7 @@
     "streakHint": "Días consecutivos con al menos una sesión en el entrenador. Tras un día perdido, la siguiente sesión empieza en 1.",
     "nextReview": "Próximo aplazamiento: {{when}}",
     "nextReviewHint": "Cuándo vuelve al entrenador la palabra aplazada más cercana. Las de hoy están en «Ahora en el entrenador».",
-    "nextReviewNone": "ninguno"
+    "nextReviewNone": "ninguno",
+    "loadError": "No se pudieron cargar tus estadísticas de aprendizaje."
   }
 }

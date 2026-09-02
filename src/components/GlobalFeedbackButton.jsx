@@ -6,15 +6,17 @@ import { Dialog, DialogContent, DialogTitle, Fab, IconButton, Tooltip } from '@m
 import CloseIcon from '@mui/icons-material/Close';
 
 import FeedbackForm from './FeedbackForm';
+import { useInlineStart } from '../theme/useInlineEnd';
 
 export default function GlobalFeedbackButton() {
   const { t } = useTranslation();
   const location = useLocation();
+  const tooltipPlacement = useInlineStart();
   const [open, setOpen] = useState(false);
 
   return (
     <>
-      <Tooltip title={t('feedback.fabTooltip')} placement="left">
+      <Tooltip title={t('feedback.fabTooltip')} placement={tooltipPlacement}>
         <Fab
           color="primary"
           size="medium"

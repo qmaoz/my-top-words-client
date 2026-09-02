@@ -366,6 +366,7 @@
     "streakHint": "Jours consécutifs avec au moins une session dans le trainer. Après un jour manqué, la session suivante repart de 1.",
     "nextReview": "Prochain report : {{when}}",
     "nextReviewHint": "Quand le mot reporté le plus proche revient dans le trainer. Les mots du jour sont dans « Dans le trainer maintenant ».",
-    "nextReviewNone": "aucun"
+    "nextReviewNone": "aucun",
+    "loadError": "Impossible de charger vos statistiques d’apprentissage."
   }
 }
