@@ -95,6 +95,7 @@ export default function Header() {
           <Box className="container df">
             <h1
               ref={logoRef}
+              dir="ltr"
               className="typewriter-animation"
               style={logoWidth ? { '--typewriter-width': `${logoWidth}px` } : {}}
             >

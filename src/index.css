@@ -1708,6 +1708,10 @@ input::placeholder {
 /* CURSOR ANIMATION */
 .typewriter-animation {
   position: relative;
+  /* Brand name is English: keep LTR clipping so new glyphs appear at the cursor
+     even when the page is RTL (Arabic). Otherwise width grows away from :after. */
+  direction: ltr;
+  unicode-bidi: isolate;
   white-space: nowrap;
   overflow: hidden;
   font-family: consolas, monaco, monospace;
@@ -1718,7 +1722,7 @@ input::placeholder {
     content: '';
     position: absolute;
     top: 0;
-    right: 0;
+    inset-inline-end: 0;
     display: block;
     width: 2px;
     height: 100%;
