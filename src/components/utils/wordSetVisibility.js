@@ -29,6 +29,3 @@ export function getWordSetVisibility(wordSet) {
   }
   return wordSet.is_public ? 'public' : 'private';
 }
-
-/** @deprecated Use getWordSetVisibilityOptions() — kept for gradual migration */
-export const WORD_SET_VISIBILITY = getWordSetVisibilityOptions();

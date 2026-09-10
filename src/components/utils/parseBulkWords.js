@@ -295,5 +295,3 @@ export function buildBulkPlaceholder(translationLocales = DEFAULT_TRANSLATION_LO
 
   return `${joinPipeCells(example)}\n...`;
 }
-
-export const BULK_WORDS_PLACEHOLDER = buildBulkPlaceholder(DEFAULT_TRANSLATION_LOCALES);

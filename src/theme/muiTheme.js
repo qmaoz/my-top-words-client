@@ -130,7 +130,3 @@ export function createAppTheme(direction = 'ltr') {
     },
   });
 }
-
-export const theme = createAppTheme('ltr');
-
-export default theme;

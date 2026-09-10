@@ -96,10 +96,6 @@ export function detectSystemUiLocale(fallback = 'en') {
   return fallback;
 }
 
-export function getLocale(code) {
-  return LOCALE_BY_CODE.get(code) ?? null;
-}
-
 // Primary display name: the language's own (native) name, universal for any user.
 export function getLocaleLabel(code) {
   return LOCALE_BY_CODE.get(code)?.native ?? code;

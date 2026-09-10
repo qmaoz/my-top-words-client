@@ -111,7 +111,7 @@ export function getUserFacingError(error, fallback) {
   return fb;
 }
 
-export const correctNounCase = (number, one, few, many) => {
+const correctNounCase = (number, one, few, many) => {
   const ukCardinalRules = new Intl.PluralRules('uk-UK');
   if (ukCardinalRules.select(number) == 'one') return one;
   else if (ukCardinalRules.select(number) == 'few') return few;
