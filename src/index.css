@@ -763,6 +763,10 @@ input::placeholder {
   font-family: Consolas, 'Courier New', monospace;
   font-size: 0.72em;
   line-height: 1.45;
+  white-space: pre;
+  overflow-wrap: normal;
+  word-break: normal;
+  overflow-x: auto;
 }
 
 .bulk-import-words__errors {
@@ -834,6 +838,10 @@ input::placeholder {
   font-family: Consolas, 'Courier New', monospace;
   font-size: 0.72em;
   line-height: 1.45;
+  white-space: pre;
+  overflow-wrap: normal;
+  word-break: normal;
+  overflow-x: auto;
 }
 
 .word-set-text-editor__errors {

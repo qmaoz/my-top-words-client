@@ -168,6 +168,7 @@ export default function WordSetWordsEditor({
         onChange={(event) => setText(event.target.value)}
         className="word-set-text-editor__textarea"
         autoComplete="off"
+        slotProps={{ htmlInput: { wrap: 'off' } }}
       />
 
       {errors.length > 0 && (
