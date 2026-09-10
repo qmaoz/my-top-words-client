@@ -7,7 +7,7 @@ import rtlPlugin from 'stylis-plugin-rtl';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 
-import { getLocaleDir } from '../components/utils/locales';
+import { getLocaleDir } from '../utils/locales';
 import { createAppTheme } from './muiTheme';
 
 const ltrCache = createCache({ key: 'mui', prepend: true });

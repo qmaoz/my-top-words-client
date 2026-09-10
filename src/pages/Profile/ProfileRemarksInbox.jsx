@@ -8,9 +8,9 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import { fetchMyWordSetRemarks, deleteWordSetRemark } from '../../redux/slices/word-set-remarks';
-import { formatFeedbackDate } from '../../components/utils/feedback';
-import CircularLoading from '../../components/wrappers/CircularLoading';
-import { Toast } from '../../components/utils/messages';
+import { formatFeedbackDate } from '../../utils/feedback';
+import CircularLoading from '../../components/CircularLoading';
+import { Toast } from '../../components/messages';
 
 export default function ProfileRemarksInbox() {
   const { t } = useTranslation();

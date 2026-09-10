@@ -1,4 +1,4 @@
-import i18n from '../../i18n';
+import i18n from '../i18n';
 
 /** Translate outside React components (redux, parsers, validators). */
 export function tr(key, options) {

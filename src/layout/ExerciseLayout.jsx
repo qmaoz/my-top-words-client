@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router';
-import GlobalFeedbackButton from '../GlobalFeedbackButton';
+import GlobalFeedbackButton from '../components/GlobalFeedbackButton';
 
 export default function ExerciseLayout() {
   return (

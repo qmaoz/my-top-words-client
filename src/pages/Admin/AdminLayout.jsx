@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Box, Tab, Tabs } from '@mui/material';
 
 import { selectAuthStatus, selectIsAdmin, selectIsAuth } from '../../redux/slices/auth';
-import CircularLoading from '../../components/wrappers/CircularLoading';
+import CircularLoading from '../../components/CircularLoading';
 
 export default function AdminLayout() {
   const { t } = useTranslation();

@@ -2,8 +2,8 @@ import { useTranslation } from 'react-i18next';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { IconButton } from '@mui/material';
 
-import { formatWordSetAsBulkText } from './utils/parseBulkWords';
-import { DEFAULT_TRANSLATION_LOCALES } from './utils/locales';
+import { formatWordSetAsBulkText } from '../utils/parseBulkWords';
+import { DEFAULT_TRANSLATION_LOCALES } from '../utils/locales';
 
 export default function CopyWordSetContentButton({ words, translationLocales = DEFAULT_TRANSLATION_LOCALES, onNotify }) {
   const { t } = useTranslation();

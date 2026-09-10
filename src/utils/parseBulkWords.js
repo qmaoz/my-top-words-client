@@ -286,6 +286,7 @@ export function buildBulkPlaceholder(translationLocales = DEFAULT_TRANSLATION_LO
     id: ['rumah', 'Rumah itu besar.'],
     ja: ['家', '家は大きい。'],
     vi: ['nhà', 'Ngôi nhà rất lớn.'],
+    th: ['บ้าน', 'บ้านหลังนี้ใหญ่.'],
   };
 
   for (const locale of locales) {

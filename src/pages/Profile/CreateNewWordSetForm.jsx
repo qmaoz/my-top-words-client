@@ -5,16 +5,16 @@ import { Box, Button } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
-import { selectIsAuth, selectAuthStatus, selectPreferredTranslationLocale } from '../../../redux/slices/auth';
-import { createNewWordSet } from '../../../redux/slices/word-sets';
-import FormInput from '../../../components/form/FormInput';
-import { Toast } from '../../../components/utils/messages';
-import CircularLoading from '../../../components/wrappers/CircularLoading';
-import LanguageSettings from '../../../components/LanguageSettings';
+import { selectIsAuth, selectAuthStatus, selectPreferredTranslationLocale } from '../../redux/slices/auth';
+import { createNewWordSet } from '../../redux/slices/word-sets';
+import FormInput from '../../components/FormInput';
+import { Toast } from '../../components/messages';
+import CircularLoading from '../../components/CircularLoading';
+import LanguageSettings from '../../components/LanguageSettings';
 import {
   buildDefaultSetLocales,
   splitSetLocales,
-} from '../../../components/utils/locales';
+} from '../../utils/locales';
 
 export default function CreateNewWordSetForm({ className }) {
   const dispatch = useDispatch();

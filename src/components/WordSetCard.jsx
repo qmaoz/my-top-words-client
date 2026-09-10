@@ -7,12 +7,12 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ProgressBar from './ProgressBar';
 import { deleteWordSet, toggleWordSetSave } from '../redux/slices/word-sets';
 import { selectIsAuth } from '../redux/slices/auth';
-import WordSetName from './wrappers/WordSetName';
-import CircularLoading from './wrappers/CircularLoading';
-import SaveForLearningButton from './wrappers/SaveForLearningButton';
-import { getSetLocalesParts } from './utils/locales';
-import { Toast } from './utils/messages';
-import { useConfirm } from './utils/useConfirm';
+import WordSetName from './WordSetName';
+import CircularLoading from './CircularLoading';
+import SaveForLearningButton from './SaveForLearningButton';
+import { getSetLocalesParts } from '../utils/locales';
+import { Toast } from './messages';
+import { useConfirm } from '../hooks/useConfirm';
 
 export default function WordSetCard({
   id,

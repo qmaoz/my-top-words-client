@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router';
 import Footer from './Footer';
 import Header from './Header';
-import GlobalFeedbackButton from '../GlobalFeedbackButton';
+import GlobalFeedbackButton from '../components/GlobalFeedbackButton';
 import { Box } from '@mui/material';
 
 export default function DefaultLayout() {

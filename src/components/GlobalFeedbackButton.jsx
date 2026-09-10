@@ -6,7 +6,7 @@ import { Dialog, DialogContent, DialogTitle, Fab, IconButton, Tooltip } from '@m
 import CloseIcon from '@mui/icons-material/Close';
 
 import FeedbackForm from './FeedbackForm';
-import { useInlineStart } from '../theme/useInlineEnd';
+import { useInlineStart } from '../hooks/useInlineEnd';
 
 export default function GlobalFeedbackButton() {
   const { t } = useTranslation();

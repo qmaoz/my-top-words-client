@@ -3,8 +3,8 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { IconButton, Checkbox, Tooltip, Box } from '@mui/material';
 import { Edit, Delete, Save, Close } from '@mui/icons-material';
-import PronounceButton from './wrappers/PronounceButton';
-import { DEFAULT_SOURCE_LOCALE, DEFAULT_TRANSLATION_LOCALES, getLocaleDir, getLocaleLabel } from './utils/locales';
+import PronounceButton from './PronounceButton';
+import { DEFAULT_SOURCE_LOCALE, DEFAULT_TRANSLATION_LOCALES, getLocaleDir, getLocaleLabel } from '../utils/locales';
 
 function getWordFormValues(word, locales) {
   const values = {

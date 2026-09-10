@@ -4,9 +4,9 @@ import { fetchLogin, selectIsAuth } from '../redux/slices/auth.js';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Box, Button, Paper } from '@mui/material';
-import FormInput from '../components/form/FormInput.jsx';
+import FormInput from '../components/FormInput.jsx';
 import { useEffect, useState } from 'react';
-import { Toast } from '../components/utils/messages.jsx';
+import { Toast } from '../components/messages.jsx';
 
 export default function LoginFormPage() {
   const isAuth = useSelector(selectIsAuth);

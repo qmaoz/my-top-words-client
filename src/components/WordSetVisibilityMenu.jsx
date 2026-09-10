@@ -7,7 +7,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import LinkIcon from '@mui/icons-material/Link';
 import PublicIcon from '@mui/icons-material/Public';
 
-import { getWordSetVisibility, getWordSetVisibilityOptions } from './utils/wordSetVisibility';
+import { getWordSetVisibility, getWordSetVisibilityOptions } from '../utils/wordSetVisibility';
 
 const ICONS = {
   private: LockIcon,

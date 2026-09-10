@@ -11,12 +11,12 @@ import {
   diffWordsForSync,
   formatWordSetAsBulkText,
   parseBulkWords,
-} from './utils/parseBulkWords';
-import { useConfirm } from './utils/useConfirm';
+} from '../utils/parseBulkWords';
+import { useConfirm } from '../hooks/useConfirm';
 import {
   DEFAULT_TRANSLATION_LOCALES,
   getLocaleLabel,
-} from './utils/locales';
+} from '../utils/locales';
 import InfoHint from './InfoHint';
 
 export default function WordSetWordsEditor({

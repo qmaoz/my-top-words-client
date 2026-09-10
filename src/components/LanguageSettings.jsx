@@ -18,7 +18,7 @@ import {
   SUPPORTED_LOCALES,
   getLocaleLabel,
   getLocaleDisplay,
-} from './utils/locales';
+} from '../utils/locales';
 
 export default function LanguageSettings({
   locales,

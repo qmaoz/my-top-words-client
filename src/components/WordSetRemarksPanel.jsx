@@ -7,8 +7,8 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import { fetchWordSetRemarks, deleteWordSetRemark } from '../redux/slices/word-set-remarks';
-import { formatFeedbackDate } from './utils/feedback';
-import { Toast } from './utils/messages';
+import { formatFeedbackDate } from '../utils/feedback';
+import { Toast } from './messages';
 
 export default function WordSetRemarksPanel({ wordSetId }) {
   const { t } = useTranslation();

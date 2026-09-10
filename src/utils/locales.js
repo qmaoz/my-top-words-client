@@ -19,6 +19,7 @@ const LOCALE_DEFINITIONS = [
   { code: 'id', en: 'Indonesian', native: 'Bahasa Indonesia', dir: 'ltr' },
   { code: 'ja', en: 'Japanese', native: '日本語', dir: 'ltr' },
   { code: 'vi', en: 'Vietnamese', native: 'Tiếng Việt', dir: 'ltr' },
+  { code: 'th', en: 'Thai', native: 'ไทย', dir: 'ltr' },
 ];
 
 /** UI lists: alphabetical by English name for a uniform order across scripts. */

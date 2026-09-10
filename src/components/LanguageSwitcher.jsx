@@ -6,9 +6,9 @@ import TranslateIcon from '@mui/icons-material/Translate';
 import CheckIcon from '@mui/icons-material/Check';
 
 import { selectIsAuth, updateUserPreferences } from '../redux/slices/auth';
-import { SUPPORTED_LOCALES, getLocaleLabel } from './utils/locales';
+import { SUPPORTED_LOCALES, getLocaleLabel } from '../utils/locales';
 import { changeUiLocale, DEFAULT_UI_LOCALE } from '../i18n';
-import { useInlineEnd } from '../theme/useInlineEnd';
+import { useInlineEnd } from '../hooks/useInlineEnd';
 
 export default function LanguageSwitcher() {
   const dispatch = useDispatch();

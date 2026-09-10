@@ -6,7 +6,7 @@ import { Box, Tab, Tabs } from '@mui/material';
 
 import { selectIsAuth, selectAuthStatus } from '../../redux/slices/auth';
 import { selectQueuedRemarksTotal } from '../../redux/slices/word-set-remarks';
-import CircularLoading from '../../components/wrappers/CircularLoading';
+import CircularLoading from '../../components/CircularLoading';
 import InfoHint from '../../components/InfoHint';
 import ProfileLearningSummary from './ProfileLearningSummary';
 

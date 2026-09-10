@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import WordTableRow from './WordTableRow';
-import { DEFAULT_SOURCE_LOCALE, DEFAULT_TRANSLATION_LOCALES, getLocaleLabel } from './utils/locales';
+import { DEFAULT_SOURCE_LOCALE, DEFAULT_TRANSLATION_LOCALES, getLocaleLabel } from '../utils/locales';
 
 export default function WordSetTable({
   words,

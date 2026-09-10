@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-import axios from '../../axios';
-import { tr } from '../../components/utils/translate';
+import axios from '../../api/axios';
+import { tr } from '../../utils/translate';
 
 export const updateWord = createAsyncThunk('words/updateWord',
   async ({ id, word_text, sentence_text, translations }, { rejectWithValue }) => {

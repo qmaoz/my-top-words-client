@@ -1,8 +1,8 @@
 import { Typography } from '@mui/material';
 import { Snackbar, Alert } from '@mui/material';
-import { getUserFacingError } from './functions';
-import { useInlineEnd } from '../../theme/useInlineEnd';
-import { tr } from './translate';
+import { getUserFacingError } from '../utils/functions';
+import { useInlineEnd } from '../hooks/useInlineEnd';
+import { tr } from '../utils/translate';
 
 export function getWordSetLoadError() {
   return tr('common.wordSetLoadError');

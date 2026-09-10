@@ -13,12 +13,12 @@ import {
   getFeedbackStatuses,
   getFeedbackStatusLabel,
   getFeedbackTypeLabel,
-} from '../../components/utils/feedback';
+} from '../../utils/feedback';
 import { fetchAdminFeedback, updateAdminFeedback, deleteAdminFeedback } from '../../redux/slices/admin';
-import CircularLoading from '../../components/wrappers/CircularLoading';
-import { Toast } from '../../components/utils/messages';
-import { useConfirm } from '../../components/utils/useConfirm';
-import useDebouncedValue from '../../components/utils/useDebouncedValue';
+import CircularLoading from '../../components/CircularLoading';
+import { Toast } from '../../components/messages';
+import { useConfirm } from '../../hooks/useConfirm';
+import useDebouncedValue from '../../hooks/useDebouncedValue';
 
 export default function AdminFeedbackPage() {
   const { t } = useTranslation();

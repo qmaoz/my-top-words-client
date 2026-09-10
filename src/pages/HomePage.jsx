@@ -5,11 +5,11 @@ import { useTranslation } from 'react-i18next';
 
 import HomeAbout from '../components/HomeAbout';
 import WordSetCardGroup from '../components/WordSetCardGroup';
-import CircularLoading from '../components/wrappers/CircularLoading';
+import CircularLoading from '../components/CircularLoading';
 import { fetchWordSets } from '../redux/slices/word-sets';
 import { selectIsAuth } from '../redux/slices/auth';
-import useDebouncedValue from '../components/utils/useDebouncedValue';
-import { Toast } from '../components/utils/messages';
+import useDebouncedValue from '../hooks/useDebouncedValue';
+import { Toast } from '../components/messages';
 
 export default function HomePage() {
   const { items: wordSets, totalPages, status } = useSelector(state => state.wordSets.top);

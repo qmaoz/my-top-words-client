@@ -2,9 +2,9 @@ import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Box, Typography } from '@mui/material';
 
-import axios from '../../axios';
+import axios from '../../api/axios';
 import InfoHint from '../../components/InfoHint';
-import { WarningMessage } from '../../components/utils/messages';
+import { WarningMessage } from '../../components/messages';
 
 function formatNextReview(nextReviewAt, t, locale) {
   if (!nextReviewAt) return t('learning.nextReviewNone');

@@ -5,8 +5,8 @@ import { useTranslation } from 'react-i18next';
 import { Box, Paper, Typography } from '@mui/material';
 
 import { fetchAdminOverview } from '../../redux/slices/admin';
-import { formatLocaleCount } from '../../components/utils/functions';
-import CircularLoading from '../../components/wrappers/CircularLoading';
+import { formatLocaleCount } from '../../utils/functions';
+import CircularLoading from '../../components/CircularLoading';
 
 function StatCard({ value, i18nKey, suffixKey, to }) {
   const { t } = useTranslation();

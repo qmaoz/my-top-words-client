@@ -5,15 +5,15 @@ import { useTranslation } from 'react-i18next';
 import { Box, Button, MenuItem, Paper, Select, Typography } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
-import axios from '../../axios';
+import axios from '../../api/axios';
 import {
   logout,
   selectPreferredTranslationLocale,
   updateUserPreferences,
 } from '../../redux/slices/auth';
-import { SUPPORTED_LOCALES, getLocaleDisplay } from '../../components/utils/locales';
-import { Toast } from '../../components/utils/messages';
-import { useConfirm } from '../../components/utils/useConfirm';
+import { SUPPORTED_LOCALES, getLocaleDisplay } from '../../utils/locales';
+import { Toast } from '../../components/messages';
+import { useConfirm } from '../../hooks/useConfirm';
 import InfoHint from '../../components/InfoHint';
 
 export default function ProfileSettings() {

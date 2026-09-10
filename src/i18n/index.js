@@ -1,7 +1,7 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
-import { SUPPORTED_LOCALES, detectSystemUiLocale, getLocaleDir, isSupportedLocale } from '../components/utils/locales';
+import { SUPPORTED_LOCALES, detectSystemUiLocale, getLocaleDir, isSupportedLocale } from '../utils/locales';
 
 import en from './locales/en.json';
 import uk from './locales/uk.json';
@@ -23,13 +23,14 @@ import bn from './locales/bn.json';
 import id from './locales/id.json';
 import ja from './locales/ja.json';
 import vi from './locales/vi.json';
+import th from './locales/th.json';
 
 export const UI_LOCALE_STORAGE_KEY = 'ui_locale';
 export const DEFAULT_UI_LOCALE = 'en';
 
 const dictionaries = {
   en, uk, ru, ar, ku, el, es, de, fr, hi, ml, tr, zh, it, pl,
-  pt, bn, id, ja, vi,
+  pt, bn, id, ja, vi, th,
 };
 
 const resources = Object.fromEntries(

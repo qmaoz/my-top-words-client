@@ -5,9 +5,9 @@ import { useTranslation } from 'react-i18next';
 import { Box, Button, Paper } from '@mui/material';
 
 import { fetchRegister, selectIsAuth } from '../redux/slices/auth.js';
-import FormInput from '../components/form/FormInput.jsx';
+import FormInput from '../components/FormInput.jsx';
 import { useEffect, useState } from 'react';
-import { Toast } from '../components/utils/messages.jsx';
+import { Toast } from '../components/messages.jsx';
 
 export default function SignupFormPage() {
   const isAuth = useSelector(selectIsAuth);

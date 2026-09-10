@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, isAnyOf } from '@reduxjs/toolkit';
-import axios from '../../axios';
-import { tr } from '../../components/utils/translate';
+import axios from '../../api/axios';
+import { tr } from '../../utils/translate';
 import i18n from '../../i18n';
 
 export const fetchLogin = createAsyncThunk('auth/fetchLogin', async (params, { rejectWithValue }) => {

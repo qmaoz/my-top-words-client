@@ -22,6 +22,7 @@ const SPEECH_LANG_TAGS = {
   id: 'id-ID',
   ja: 'ja-JP',
   vi: 'vi-VN',
+  th: 'th-TH',
 };
 
 const SPEECH_NOTICE_KEY = 'mtw-speech-notice-shown';

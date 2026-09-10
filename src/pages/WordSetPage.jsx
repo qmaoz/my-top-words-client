@@ -16,23 +16,23 @@ import WordSetVisibilityMenu from '../components/WordSetVisibilityMenu';
 import WordSetRemarksPanel from '../components/WordSetRemarksPanel';
 import { selectIsAuth, selectUserData } from '../redux/slices/auth';
 import { deleteWordSet, fetchWordSet, toggleWordSetSave, updateWordSet } from '../redux/slices/word-sets';
-import { ErrorMessage, Toast, getWordSetLoadError } from '../components/utils/messages';
-import FormInput from '../components/form/FormInput';
-import WordSetName from '../components/wrappers/WordSetName';
-import CircularLoading from '../components/wrappers/CircularLoading';
-import SaveForLearningButton from '../components/wrappers/SaveForLearningButton';
+import { ErrorMessage, Toast, getWordSetLoadError } from '../components/messages';
+import FormInput from '../components/FormInput';
+import WordSetName from '../components/WordSetName';
+import CircularLoading from '../components/CircularLoading';
+import SaveForLearningButton from '../components/SaveForLearningButton';
 import ProgressBar from '../components/ProgressBar';
 import { Box, Tooltip, Typography } from '@mui/material';
 import LanguageSettings from '../components/LanguageSettings';
 import WordSetWordsEditor from '../components/WordSetWordsEditor';
-import { useConfirm } from '../components/utils/useConfirm';
-import { useDocumentTitle } from '../components/utils/useDocumentTitle';
-import { isThunkSkipped } from '../components/utils/functions';
+import { useConfirm } from '../hooks/useConfirm';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
+import { isThunkSkipped } from '../utils/functions';
 import {
   DEFAULT_SOURCE_LOCALE,
   DEFAULT_TRANSLATION_LOCALES,
   getLocaleLabel,
-} from '../components/utils/locales';
+} from '../utils/locales';
 
 export default function WordSetPage() {
   const { t } = useTranslation();

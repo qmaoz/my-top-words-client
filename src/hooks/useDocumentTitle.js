@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { setDocumentTitle } from './DocumentTitle';
+import { setDocumentTitle } from '../components/DocumentTitle';
 
 export function useDocumentTitle(pageLabel) {
   const { t, i18n } = useTranslation();

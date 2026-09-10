@@ -6,9 +6,9 @@ import {
   Box, Button, MenuItem, Paper, TextField,
 } from '@mui/material';
 
-import { getFeedbackTypes } from './utils/feedback';
+import { getFeedbackTypes } from '../utils/feedback';
 import { resetSubmitStatus, submitFeedback } from '../redux/slices/admin';
-import { Toast } from './utils/messages';
+import { Toast } from './messages';
 
 export default function FeedbackForm({ defaultPageUrl = '', onSubmitted, embedded = false }) {
   const { t } = useTranslation();

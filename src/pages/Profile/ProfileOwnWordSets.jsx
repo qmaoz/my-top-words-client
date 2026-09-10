@@ -7,10 +7,10 @@ import { selectIsAuth, selectAuthStatus } from '../../redux/slices/auth';
 import { fetchWordSets } from '../../redux/slices/word-sets';
 
 import WordSetCardGroup from '../../components/WordSetCardGroup';
-import CircularLoading from '../../components/wrappers/CircularLoading';
-import CreateNewWordSetForm from './components/CreateNewWordSetForm';
-import useDebouncedValue from '../../components/utils/useDebouncedValue';
-import { Toast } from '../../components/utils/messages';
+import CircularLoading from '../../components/CircularLoading';
+import CreateNewWordSetForm from './CreateNewWordSetForm';
+import useDebouncedValue from '../../hooks/useDebouncedValue';
+import { Toast } from '../../components/messages';
 
 export default function ProfileOwnWordSets() {
   const dispatch = useDispatch();

@@ -37,6 +37,7 @@ describe('client locales', () => {
 
   it('getLocaleLabel/getLocaleDir', () => {
     expect(getLocaleLabel('uk')).toBe('Українська');
+    expect(getLocaleLabel('th')).toBe('ไทย');
     expect(getLocaleDir('ar')).toBe('rtl');
     expect(getLocaleDir('de')).toBe('ltr');
   });

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import axios from '../axios';
+import axios from '../api/axios';
 
 const BOOT_SCREEN_ID = 'boot-screen';
 

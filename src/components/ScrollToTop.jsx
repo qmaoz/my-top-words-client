@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { stopSpeech } from './functions';
+import { stopSpeech } from '../utils/functions';
 
 export default function ScrollToTop() {
   const { pathname } = useLocation();

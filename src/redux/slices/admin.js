@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from '../../axios';
-import { tr } from '../../components/utils/translate';
+import axios from '../../api/axios';
+import { tr } from '../../utils/translate';
 import { logout } from './auth';
 
 export const submitFeedback = createAsyncThunk('admin/submitFeedback', async (params, { rejectWithValue }) => {

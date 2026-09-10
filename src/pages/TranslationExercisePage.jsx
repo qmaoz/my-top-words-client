@@ -14,14 +14,14 @@ import ReportSetIssueDialog from '../components/ReportSetIssueDialog';
 import { fetchWordSet, reviewWordProgress, toggleWordLearned } from '../redux/slices/word-sets';
 import { selectIsAuth, selectPreferredTranslationLocale } from '../redux/slices/auth';
 import ProgressBar from '../components/ProgressBar';
-import PronounceButton from '../components/wrappers/PronounceButton';
-import { speakText, stopSpeech, isThunkSkipped } from '../components/utils/functions';
-import CircularLoading from '../components/wrappers/CircularLoading';
-import { ErrorMessage, Toast } from '../components/utils/messages';
-import useFitText from '../components/utils/useFitText';
-import { useDocumentTitle } from '../components/utils/useDocumentTitle';
-import { DEFAULT_SOURCE_LOCALE, DEFAULT_TRANSLATION_LOCALES, getLocaleDir, getLocaleLabel } from '../components/utils/locales';
-import useVisualViewportBottomInset from '../components/utils/useVisualViewportBottomInset';
+import PronounceButton from '../components/PronounceButton';
+import { speakText, stopSpeech, isThunkSkipped } from '../utils/functions';
+import CircularLoading from '../components/CircularLoading';
+import { ErrorMessage, Toast } from '../components/messages';
+import useFitText from '../hooks/useFitText';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
+import { DEFAULT_SOURCE_LOCALE, DEFAULT_TRANSLATION_LOCALES, getLocaleDir, getLocaleLabel } from '../utils/locales';
+import useVisualViewportBottomInset from '../hooks/useVisualViewportBottomInset';
 
 function displayText(value) {
   return String(value ?? '').trim();

@@ -5,10 +5,10 @@ import { useTranslation } from 'react-i18next';
 
 import { fetchUserInfo, setAuthStatusError, selectUiLocale } from './redux/slices/auth';
 import { changeUiLocale } from './i18n';
-import { Toast } from './components/utils/messages.jsx';
-import ScrollToTop from './components/utils/ScrollToTop.jsx';
-import DocumentTitle from './components/utils/DocumentTitle.jsx';
-import { registerSpeechNotifier, initSpeechVoices } from './components/utils/functions.jsx';
+import { Toast } from './components/messages.jsx';
+import ScrollToTop from './components/ScrollToTop.jsx';
+import DocumentTitle from './components/DocumentTitle.jsx';
+import { registerSpeechNotifier, initSpeechVoices } from './utils/functions.jsx';
 import HomePage from './pages/HomePage.jsx';
 import LoginFormPage from './pages/LoginFormPage.jsx';
 import RegistrationFormPage from './pages/RegistrationFormPage.jsx';
@@ -21,13 +21,13 @@ import ProfileOwnWordSets from './pages/Profile/ProfileOwnWordSets.jsx';
 import ProfileSavedWordSets from './pages/Profile/ProfileSavedWordSets.jsx';
 import ProfileSettings from './pages/Profile/ProfileSettings.jsx';
 import ProfileRemarksInbox from './pages/Profile/ProfileRemarksInbox.jsx';
-import DefaultLayout from './components/blocks/DefaultLayout.jsx';
-import ExerciseLayout from './components/blocks/ExerciseLayout.jsx';
+import DefaultLayout from './layout/DefaultLayout.jsx';
+import ExerciseLayout from './layout/ExerciseLayout.jsx';
 import AdminLayout from './pages/Admin/AdminLayout.jsx';
 import AdminOverviewPage from './pages/Admin/AdminOverviewPage.jsx';
 import AdminFeedbackPage from './pages/Admin/AdminFeedbackPage.jsx';
 import AdminUsersPage from './pages/Admin/AdminUsersPage.jsx';
-import { ConfirmProvider } from './components/utils/useConfirm.jsx';
+import { ConfirmProvider } from './hooks/useConfirm.jsx';
 import BootScreen from './components/BootScreen.jsx';
 
 export default function App() {

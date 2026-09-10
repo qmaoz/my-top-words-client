@@ -6,7 +6,7 @@ import {
 } from '@mui/material';
 
 import { submitWordSetRemark } from '../redux/slices/word-set-remarks';
-import { Toast } from './utils/messages';
+import { Toast } from './messages';
 import InfoHint from './InfoHint';
 
 export default function ReportSetIssueDialog({

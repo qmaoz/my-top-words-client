@@ -8,11 +8,11 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 import { deleteAdminUser, fetchAdminUsers } from '../../redux/slices/admin';
 import { selectUserData } from '../../redux/slices/auth';
-import CircularLoading from '../../components/wrappers/CircularLoading';
-import { Toast } from '../../components/utils/messages';
-import { useConfirm } from '../../components/utils/useConfirm';
-import { formatFeedbackDate } from '../../components/utils/feedback';
-import useDebouncedValue from '../../components/utils/useDebouncedValue';
+import CircularLoading from '../../components/CircularLoading';
+import { Toast } from '../../components/messages';
+import { useConfirm } from '../../hooks/useConfirm';
+import { formatFeedbackDate } from '../../utils/feedback';
+import useDebouncedValue from '../../hooks/useDebouncedValue';
 
 const SORTABLE_COLUMNS = [
   { key: 'id', labelKey: 'admin.colId' },

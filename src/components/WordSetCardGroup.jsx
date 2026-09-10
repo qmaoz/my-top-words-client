@@ -4,7 +4,7 @@ import Stack from '@mui/material/Stack';
 import { Box, TextField } from '@mui/material';
 
 import WordSetCard from '../components/WordSetCard';
-import { ErrorMessage, WarningMessage } from './utils/messages';
+import { ErrorMessage, WarningMessage } from './messages';
 import { selectUserData } from '../redux/slices/auth';
 import { useSelector } from 'react-redux';
 

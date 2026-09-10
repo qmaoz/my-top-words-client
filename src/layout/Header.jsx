@@ -10,20 +10,20 @@ import {
   Tooltip,
   useMediaQuery,
 } from '@mui/material';
-import { useInlineEnd } from '../../theme/useInlineEnd';
+import { useInlineEnd } from '../hooks/useInlineEnd';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import { logout, selectAuthStatus, selectIsAdmin, selectIsAuth, selectUserData } from '../../redux/slices/auth';
+import { logout, selectAuthStatus, selectIsAdmin, selectIsAuth, selectUserData } from '../redux/slices/auth';
 import {
   clearWordSetRemarks,
   fetchMyWordSetRemarks,
   selectQueuedRemarksTotal,
-} from '../../redux/slices/word-set-remarks';
-import { useConfirm } from '../utils/useConfirm';
-import LanguageSwitcher from '../LanguageSwitcher';
+} from '../redux/slices/word-set-remarks';
+import { useConfirm } from '../hooks/useConfirm';
+import LanguageSwitcher from '../components/LanguageSwitcher';
 
 export default function Header() {
   const dispatch = useDispatch();

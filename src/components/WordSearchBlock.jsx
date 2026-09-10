@@ -3,16 +3,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Box, Pagination, Stack, TextField, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
 
-import { WarningMessage, Toast } from './utils/messages';
+import { WarningMessage, Toast } from './messages';
 import WordSetTable from './WordSetTable';
 import { selectIsAuth } from '../redux/slices/auth';
 import { deleteWord, updateWord } from '../redux/slices/words';
 import { toggleWordLearned } from '../redux/slices/word-sets';
-import { formatLocaleCount, hasWordEntryChanged } from './utils/functions';
-import { tCount } from './utils/translate';
-import { findDuplicateWordEntry } from './utils/parseBulkWords';
-import { DEFAULT_SOURCE_LOCALE, DEFAULT_TRANSLATION_LOCALES } from './utils/locales';
-import { useConfirm } from './utils/useConfirm';
+import { formatLocaleCount, hasWordEntryChanged } from '../utils/functions';
+import { tCount } from '../utils/translate';
+import { findDuplicateWordEntry } from '../utils/parseBulkWords';
+import { DEFAULT_SOURCE_LOCALE, DEFAULT_TRANSLATION_LOCALES } from '../utils/locales';
+import { useConfirm } from '../hooks/useConfirm';
 
 const WORDS_PER_PAGE = 10;
 

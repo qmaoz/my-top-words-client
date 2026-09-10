@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { WarningMessage } from '../components/utils/messages';
+import { WarningMessage } from '../components/messages';
 import { Box } from '@mui/material';
 
 export default function NotFoundPage() {
