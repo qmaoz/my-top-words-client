@@ -11,6 +11,7 @@
   --space-page: 1em;
   --space-block: 0.75em;
   --space-tight: 0.5em;
+  --font-mono: "Noto Sans Mono", ui-monospace, "Cascadia Mono", Consolas, "Courier New", monospace;
 }
 
 /* CUSTOM SCROLLBAR */
@@ -760,7 +761,7 @@ input::placeholder {
 }
 
 .bulk-import-words__textarea .MuiInputBase-input {
-  font-family: Consolas, 'Courier New', monospace;
+  font-family: var(--font-mono);
   font-size: 0.72em;
   line-height: 1.45;
   white-space: pre;
@@ -835,7 +836,7 @@ input::placeholder {
 }
 
 .word-set-text-editor__textarea .MuiInputBase-input {
-  font-family: Consolas, 'Courier New', monospace;
+  font-family: var(--font-mono);
   font-size: 0.72em;
   line-height: 1.45;
   white-space: pre;
