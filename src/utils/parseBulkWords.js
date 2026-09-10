@@ -267,6 +267,7 @@ export function buildBulkPlaceholder(translationLocales = DEFAULT_TRANSLATION_LO
   const locales = normalizeTranslationLocales(translationLocales);
   const example = ['Haus', 'Das Haus ist groß.'];
   const samples = {
+    de: ['Haus', 'Das Haus ist groß.'],
     uk: ['дім', 'Дім великий.'],
     ru: ['дом', 'Дом большой.'],
     en: ['house', 'The house is big.'],

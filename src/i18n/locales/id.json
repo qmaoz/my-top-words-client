@@ -14,7 +14,6 @@
     "notFoundTitle": "Halaman tidak ditemukan",
     "notFoundText": "Anda mungkin salah mengetik alamat, atau halaman sudah tidak ada.",
     "goHome": "Ke beranda",
-    "word_one": "kata",
     "word_other": "kata",
     "speechFailed": "Pengucapan tidak dapat diputar. Jika masalah berlanjut, periksa pengaturan text-to-speech di perangkat Anda.",
     "firstLoadHint": "Situs ini gratis, jadi pemuatan halaman pertama bisa memakan waktu sekitar satu menit."
@@ -168,7 +167,7 @@
     "filterUnlearned": "Belum dipelajari",
     "filterLearnedTitle": "Kata yang Anda tandai sudah dipelajari",
     "filterLearned": "Dipelajari",
-    "total": "Total: {{count}}",
+    "total": "Jumlah: {{count}}",
     "found": "Ditemukan: {{found}} dari {{total}}",
     "page": " · halaman {{current}} dari {{total}}",
     "nothingFound": "Tidak ada hasil untuk pencarian Anda",
@@ -289,11 +288,8 @@
     "labelPage": "Halaman:",
     "labelDate": "Tanggal:",
     "adminNote": "Catatan administrator",
-    "message_one": "pesan",
     "message_other": "pesan",
-    "user_one": "pengguna",
     "user_other": "pengguna",
-    "set_one": "set",
     "set_other": "set",
     "deleteMessageConfirm": "Hapus pesan ini?",
     "messageDeleted": "Pesan dihapus",
@@ -311,7 +307,6 @@
     "step3Text": "Di pelatih, terjemahkan kalimat, periksa jawaban, dan tandai kata yang sudah dipelajari — antrean lalu fokus pada yang masih kurang.",
     "viewSets": "Ke set",
     "signUp": "Daftar",
-    "words_one": "kata di basis data",
     "words_other": "kata di basis data"
   },
   "terms": {

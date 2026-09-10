@@ -14,7 +14,6 @@
     "notFoundTitle": "ページが見つかりません",
     "notFoundText": "アドレスの入力ミスの可能性があります。または、このページは存在しません。",
     "goHome": "ホームへ",
-    "word_one": "語",
     "word_other": "語",
     "speechFailed": "発音を再生できませんでした。繰り返し発生する場合は、端末の読み上げ設定を確認してください。",
     "firstLoadHint": "このサイトは無料で運営しているため、初回の読み込みに約1分かかることがあります。"
@@ -289,11 +288,8 @@
     "labelPage": "ページ：",
     "labelDate": "日付：",
     "adminNote": "管理者メモ",
-    "message_one": "件のメッセージ",
     "message_other": "件のメッセージ",
-    "user_one": "人のユーザー",
     "user_other": "人のユーザー",
-    "set_one": "セット",
     "set_other": "セット",
     "deleteMessageConfirm": "このメッセージを削除しますか？",
     "messageDeleted": "メッセージを削除しました",
@@ -311,7 +307,6 @@
     "step3Text": "トレーナーで文を訳し、答えを確認し、覚えた語をチェックします。その後はまだ覚えていない語が優先されます。",
     "viewSets": "セットを見る",
     "signUp": "登録する",
-    "words_one": "語（データベース内）",
     "words_other": "語（データベース内）"
   },
   "terms": {

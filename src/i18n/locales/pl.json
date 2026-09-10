@@ -15,7 +15,9 @@
     "notFoundText": "Możliwe, że wpisałeś zły adres lub strona już nie istnieje.",
     "goHome": "Strona główna",
     "word_one": "słowo",
-    "word_other": "słów",
+    "word_few": "słowa",
+    "word_many": "słów",
+    "word_other": "słowa",
     "speechFailed": "Nie udało się odtworzyć wymowy. Jeśli problem się powtarza, sprawdź ustawienia syntezy mowy na urządzeniu.",
     "firstLoadHint": "Strona działa bezpłatnie, dlatego pierwsze wczytanie może zająć około minuty."
   },
@@ -290,11 +292,17 @@
     "labelDate": "Data:",
     "adminNote": "Notatka administratora",
     "message_one": "wiadomość",
+    "message_few": "wiadomości",
+    "message_many": "wiadomości",
     "message_other": "wiadomości",
     "user_one": "użytkownik",
-    "user_other": "użytkowników",
+    "user_few": "użytkownicy",
+    "user_many": "użytkowników",
+    "user_other": "użytkownicy",
     "set_one": "zestaw",
-    "set_other": "zestawów",
+    "set_few": "zestawy",
+    "set_many": "zestawów",
+    "set_other": "zestawy",
     "deleteMessageConfirm": "Usunąć tę wiadomość?",
     "messageDeleted": "Wiadomość usunięta",
     "deleteMessageError": "Nie udało się usunąć wiadomości"
@@ -312,7 +320,9 @@
     "viewSets": "Do zestawów",
     "signUp": "Zarejestruj się",
     "words_one": "słowo w bazie danych",
-    "words_other": "słów w bazie danych"
+    "words_few": "słowa w bazie danych",
+    "words_many": "słów w bazie danych",
+    "words_other": "słowa w bazie danych"
   },
   "terms": {
     "title": "Warunki",

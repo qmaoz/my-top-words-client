@@ -14,7 +14,6 @@
     "notFoundTitle": "Không tìm thấy trang",
     "notFoundText": "Bạn có thể đã nhập sai địa chỉ hoặc trang này không còn tồn tại.",
     "goHome": "Về trang chủ",
-    "word_one": "từ",
     "word_other": "từ",
     "speechFailed": "Không thể phát âm. Nếu lỗi lặp lại, hãy kiểm tra cài đặt chuyển văn bản thành giọng nói trên thiết bị.",
     "firstLoadHint": "Trang web chạy miễn phí, nên lần tải đầu tiên có thể mất khoảng một phút."
@@ -289,11 +288,8 @@
     "labelPage": "Trang:",
     "labelDate": "Ngày:",
     "adminNote": "Ghi chú quản trị viên",
-    "message_one": "tin nhắn",
     "message_other": "tin nhắn",
-    "user_one": "người dùng",
     "user_other": "người dùng",
-    "set_one": "bộ từ",
     "set_other": "bộ từ",
     "deleteMessageConfirm": "Xóa tin nhắn này?",
     "messageDeleted": "Đã xóa tin nhắn",
@@ -311,7 +307,6 @@
     "step3Text": "Trong bài luyện, dịch câu, đối chiếu đáp án và đánh dấu từ đã học — sau đó hàng đợi ưu tiên những từ chưa nắm.",
     "viewSets": "Đến bộ từ",
     "signUp": "Đăng ký",
-    "words_one": "từ trong cơ sở dữ liệu",
     "words_other": "từ trong cơ sở dữ liệu"
   },
   "terms": {

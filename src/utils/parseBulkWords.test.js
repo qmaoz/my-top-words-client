@@ -16,6 +16,11 @@ describe('buildBulkPlaceholder', () => {
     expect(text).toContain('rumah');
     expect(text).not.toMatch(/\(ja\)|\(vi\)|\(id\)/);
   });
+
+  it('uses a German sample when German is a translation language', () => {
+    expect(buildBulkPlaceholder(['de'])).toContain('Das Haus ist groß.');
+    expect(buildBulkPlaceholder(['de'])).not.toContain('The house is big.');
+  });
 });
 
 describe('parseBulkWords', () => {

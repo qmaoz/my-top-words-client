@@ -14,7 +14,6 @@
     "notFoundTitle": "页面未找到",
     "notFoundText": "您可能输入了错误的地址，或该页面已不存在。",
     "goHome": "返回首页",
-    "word_one": "个词",
     "word_other": "个词",
     "speechFailed": "无法播放发音。如果问题持续出现，请检查设备上的文字转语音设置。",
     "firstLoadHint": "本站免费运行，首次打开页面大约需要一分钟。"
@@ -289,11 +288,8 @@
     "labelPage": "页面：",
     "labelDate": "日期：",
     "adminNote": "管理员备注",
-    "message_one": "条消息",
     "message_other": "条消息",
-    "user_one": "位用户",
     "user_other": "位用户",
-    "set_one": "个词集",
     "set_other": "个词集",
     "deleteMessageConfirm": "删除这条消息？",
     "messageDeleted": "消息已删除",
@@ -311,7 +307,6 @@
     "step3Text": "在练习中翻译句子、核对答案，并标记已学会的词——之后会更常出现尚未掌握的内容。",
     "viewSets": "查看词集",
     "signUp": "注册",
-    "words_one": "数据库中的单词",
     "words_other": "数据库中的单词"
   },
   "terms": {
