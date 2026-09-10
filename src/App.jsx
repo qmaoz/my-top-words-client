@@ -8,10 +8,10 @@ import { changeUiLocale } from './i18n';
 import { Toast } from './components/messages.jsx';
 import ScrollToTop from './components/ScrollToTop.jsx';
 import DocumentTitle from './components/DocumentTitle.jsx';
-import { registerSpeechNotifier, initSpeechVoices } from './utils/functions.jsx';
+import { registerSpeechNotifier, initSpeechVoices } from './utils/functions';
 import HomePage from './pages/HomePage.jsx';
-import LoginFormPage from './pages/LoginFormPage.jsx';
-import RegistrationFormPage from './pages/RegistrationFormPage.jsx';
+import LoginFormPage from './pages/auth/LoginFormPage.jsx';
+import SignupFormPage from './pages/auth/SignupFormPage.jsx';
 import TranslationExercisePage from './pages/TranslationExercisePage.jsx';
 import TermsAndConditionsPage from './pages/TermsAndConditionsPage.jsx';
 import WordSetPage from './pages/WordSetPage.jsx';
@@ -84,7 +84,7 @@ export default function App() {
             <Route path="/" element={<><HomePage /></>} />
             <Route path="home" element={<><HomePage /></>} />
             <Route path="main" element={<><HomePage /></>} />
-            <Route path="/sign-up" element={<><RegistrationFormPage /></>} />
+            <Route path="/sign-up" element={<><SignupFormPage /></>} />
             <Route path="/login" element={<><LoginFormPage /></>} />
             
             <Route path="/profile" element={<ProfileLayout />}>

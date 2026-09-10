@@ -25,7 +25,7 @@ The app is at `http://localhost:5173`. The API (`my-top-words-server`) must be r
 
 ## Layout
 
-- `src/pages` — routes
+- `src/pages` — routes (`auth/`, `Profile/`, `Admin/`)
 - `src/components` — UI
 - `src/layout` — header, footer, shells
 - `src/hooks` / `src/utils` — hooks and helpers

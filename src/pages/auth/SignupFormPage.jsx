@@ -4,10 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Box, Button, Paper } from '@mui/material';
 
-import { fetchRegister, selectIsAuth } from '../redux/slices/auth.js';
-import FormInput from '../components/FormInput.jsx';
+import { fetchRegister, selectIsAuth } from '../../redux/slices/auth.js';
+import FormInput from '../../components/FormInput.jsx';
 import { useEffect, useState } from 'react';
-import { Toast } from '../components/messages.jsx';
+import { Toast } from '../../components/messages.jsx';
 
 export default function SignupFormPage() {
   const isAuth = useSelector(selectIsAuth);

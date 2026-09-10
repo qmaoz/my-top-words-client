@@ -5,7 +5,7 @@ import {
   formatLocaleCount,
   hasWordFieldsChanged,
   hasWordEntryChanged,
-} from './functions.jsx';
+} from './functions';
 import { tr } from './translate';
 
 describe('getUserFacingError', () => {
