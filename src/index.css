@@ -997,14 +997,16 @@ input::placeholder {
   padding: var(--space-page) var(--space-block);
   text-align: start;
   border-bottom: none;
-  word-break: break-word;
-  overflow-wrap: break-word;
+  /* word-break: break-word; */
+  /* overflow-wrap: break-word; */
+  white-space: nowrap;
 }
 
 .word-set-table .sentence-text,
 .word-set-table .sentence-translation {
-  word-break: break-word;
-  overflow-wrap: break-word;
+  /* word-break: break-word; */
+  /* overflow-wrap: break-word; */
+  white-space: nowrap;
 }
 
 .word-set-table .table-input {
@@ -1096,7 +1098,9 @@ input::placeholder {
   font-size: 1em;
   font-weight: 500;
   line-height: 1.45;
-  word-break: break-word;
+  /* word-break: break-word; */
+  /* overflow-wrap: break-word; */
+  white-space: nowrap;
 }
 
 .word-search-pagination {
@@ -1475,8 +1479,9 @@ input::placeholder {
 .exercise-fit-text__line {
   font-size: inherit !important;
   line-height: inherit !important;
-  word-break: break-word;
-  overflow-wrap: break-word;
+  /* word-break: break-word; */
+  /* overflow-wrap: break-word; */
+  white-space: nowrap;
   margin: 0 !important;
   width: 100%;
   max-width: 100%;
@@ -1542,8 +1547,9 @@ input::placeholder {
 
 /* WORD-SET PAGE */
 .word-set-page .exercise-card h3 {
-  word-break: break-word;
-  overflow-wrap: break-word;
+  /* word-break: break-word; */
+  /* overflow-wrap: break-word; */
+  white-space: nowrap;
   margin: 0;
 }
 
@@ -2278,8 +2284,10 @@ input::placeholder {
 
 .admin-table__message {
   max-width: 18em;
-  white-space: pre-wrap;
-  word-break: break-word;
+  /* white-space: pre-wrap; */
+  /* word-break: break-word; */
+  /* overflow-wrap: break-word; */
+  white-space: nowrap;
 }
 
 .admin-table__actions {
@@ -2342,8 +2350,9 @@ input::placeholder {
   padding: var(--space-block);
   border-radius: var(--radius);
   background: rgba(0, 0, 0, 0.03);
-  white-space: pre-wrap;
-  word-break: break-word;
+  /* white-space: pre-wrap; */
+  /* word-break: break-word; */
+  white-space: nowrap;
   font-size: 0.58em;
   line-height: 1.55;
 }
