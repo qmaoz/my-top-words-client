@@ -165,6 +165,7 @@ export default function TranslationExercisePage() {
   );
   const sourceLocale = activeItem?.source_locale ?? DEFAULT_SOURCE_LOCALE;
   const [exerciseLocale, setExerciseLocale] = useState(translationLocales[0]);
+  const [localeMenuOpen, setLocaleMenuOpen] = useState(false);
 
   useEffect(() => {
     setExerciseLocale(
@@ -448,12 +449,16 @@ export default function TranslationExercisePage() {
               </Tooltip>
             )}
             {showTrainer && translationLocales.length > 1 && (
-              <Tooltip title={t('exercise.localeTooltip')}>
+              <Tooltip title={localeMenuOpen ? '' : t('exercise.localeTooltip')}>
                 <Select
                   size="small"
                   value={exerciseLocale}
+                  open={localeMenuOpen}
+                  onOpen={() => setLocaleMenuOpen(true)}
+                  onClose={() => setLocaleMenuOpen(false)}
                   onChange={(event) => setExerciseLocale(event.target.value)}
                   className="exercise-locale-select"
+                  aria-label={t('exercise.localeTooltip')}
                 >
                   {translationLocales.map((locale) => (
                     <MenuItem key={locale} value={locale}>{getLocaleLabel(locale)}</MenuItem>
